@@ -1,0 +1,86 @@
+<div class="info-box">
+  <div class="row padding-10-x">
+    <h3 class="text-center">Verify Customer Code</h3>
+    <div class="col-sm-12">
+      <form ng-submit="">
+        <div class="row">
+          <div class="col-md-10 col-sm-12">
+            <div class="form-group">
+              <input 
+                type="text"
+                class="form-control"
+                placeholder="Type in code to be verified.."
+                ng-model="pin"
+                />
+            </div>
+          </div>
+          <div class="col-md-2 col-sm-12">
+            <button 
+              class="btn btn-success btn-full"
+              type="submit"
+              ng-click="verify(pin)"
+              ng-disabled="loading"
+              >Verify <i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 padding-10-all" ng-if="empty">
+      <h2 class="text-center">This Coupon does not exist or has been used.</h2>
+    </div>
+    <div class="col-md-12 padding-10-all text-center" ng-if="loading">
+      <h3><i class="fa fa-3x fa-spin fa-spinner"></i></h3>
+    </div>
+  </div>
+  <div class="row">
+      <h3 class="text-center">Coupon Details</h3>
+      <div class="col-md-12 col-xs-12">
+        <div class="row text-center margin-y-sm" id="user-details" ng-if="showTable()">
+          <h4>User Details</h4>
+          <h5>Ask for verifiction of one of the following:</h5>
+          <div class="col-md-4 col-sm-4">
+            <i class="fa fa-2x fa-user"></i>
+            <h4>Name:</h4>
+            <h4 class="light">{{booking.userId.name}}</h4>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <i class="fa fa-3x fa-at"></i>
+            <h4>Email:</h4>
+            <h4 class="light">{{booking.userId.email}}</h4>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <i class="fa fa-3x fa-mobile"></i>
+            <h4>Mobile Number:</h4>
+            <h4 class="light">{{booking.userId.mobileNumber}}</h4>
+          </div>
+          <hr>
+        </div>
+        <br>
+        <h4 class="text-center">Rewards</h4>
+        <br>
+        <table class="table" ng-if="showTable()">
+          <thead>
+              <tr>
+                  <th>S/N</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Expired</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="(index, reward) in rewards">
+                <th scope="row">{{ index + 1 }}</td>
+                <td class="icon" >{{ reward.name }}</td>
+                <td class="icon" >{{ reward.description }}</td>
+                <td>{{ hasUsed(index) ? 'Used' : 'Unused' }}</td>
+                <td>{{ expired(reward.endDate) ? 'Yes' : 'No' }}</td>
+                <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward._id, index)" ng-disabled="updating">Redeem</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+</div>
