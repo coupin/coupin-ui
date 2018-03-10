@@ -2,7 +2,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope,
     $alert,
     $state,
-    RewardsService
+    RewardsService,
+    Upload,
+    UtilService
 ) {
     const id = $state.params.id;
     const errTitle = 'Error!';
@@ -11,12 +13,29 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     var selectAll = false;
     var weekDays = false;
     var weekEnds = false;
+
+    $scope.bounds = {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
+    };
+    $scope.files = [];
+    $scope.image = {
+        src: null,
+        dst: null
+    };
+    $scope.photos = [];
+    $scope.deletePhotos = [];
     $scope.update = false;
+    $scope.loading = false;
+    $scope.uploading = false;
 
     if (id) {
         $scope.categories = {};
         $scope.update = true;
         RewardsService.getReward(id).then(function(result) {
+            console.log(result.data);
             $scope.newReward = result.data;
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
             $scope.newReward.startDate = new Date($scope.newReward.startDate);
@@ -27,6 +46,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.newReward.categories.forEach(function(category) {
                 $scope.categories[category] = true;
             });
+            $scope.newReward.pictures = 'pictures' in $scope.newReward ? $scope.newReward.pictures : [];
+            $scope.photos = $scope.newReward.pictures;
         }).catch(function(error) {
             console.log(error);
             showError(errTitle, errMsg);
@@ -35,7 +56,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.newReward = {
             applicableDays: [],
             categories: [],
-            multiple: {}
+            multiple: {},
+            pictures: []
         };
     }
 
@@ -64,6 +86,109 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             console.log(error);
             showError(errTitle, error.data.message);
         });
+    };
+
+    $scope.displayRewardPhotos = function() {
+        return $scope.photos.length > 0;
+    };
+
+    /**
+     * Check file and make upload
+     * @param {*} image 
+     */
+    $scope.fileCheck = function(image, isLogo) {
+        var limit = 200000;
+
+        if ($scope.photos.length === 4) {
+            $('#croppingModal').modal('hide');
+            showError('Uh Oh!', 'You can only have 4 Reward Pictures at a time.');
+        } else if (UtilService.isDefined(image.src)) {
+            isuploading = true;
+            var dataurl = image.dst;
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            
+            var file = new File([u8arr], `${$scope.photos.length}`, {type:mime});
+
+            if (file.size > limit) {
+                limit = limit / 100;
+                showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+            } else {
+                $scope.files.push(file);
+                $scope.photos.push(dataurl);
+                $scope.image = {
+                    src: null,
+                    dst: null
+                };
+                $('#croppingModal').modal('hide');
+            }
+        }
+    };
+
+    $scope.removeImage = function(index) {
+        if ($scope.photos[index].includes('cloudinary')) {
+            $scope.deletePhotos.push($scope.photos[index]);
+        }
+
+        $scope.files.splice(index, 1);
+        $scope.photos.splice(index, 1);
+    };
+
+    $scope.upload = function(id, redirect) {
+        if ($scope.files.length > 0) {
+            $scope.uploading = true;
+
+            Upload.upload({
+                url: '/uploads',
+                method: 'POST',
+                arrayKey: '',
+                data: {
+                    photos: $scope.files,
+                    public_id: id
+                }
+            }).then(function(resp) {
+                resp.data.forEach(function(url) {
+                    var found = false;
+                    var count = 0;
+                    var total = $scope.photos.length;
+                    
+                    while(!found && count < total) {
+                        if ($scope.photos[count].includes('data')) {
+                            $scope.photos[count] = url;
+                            found = true;
+                        }
+                        count++;
+                    }
+                });
+
+                $scope.newReward.pictures = $scope.photos;
+
+                $alert({
+                    'title' : 'Success',
+                    'content' : 'Your Reward was created successfully.',
+                    'type' : 'success',
+                    'duration' : 5,
+                    'placement' : 'top-right',
+                    'show' : true
+                });
+                setTimeout(function() {
+                    $scope.uploading = false;
+                    $scope.updateReward($scope.newReward);
+                }, 2000);
+            }, function(err) {
+                $scope.uploading = false;
+                showError('Uh Oh!', 'Your reward images failed to upload. Please try again.');
+            }, function(evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.progress = progressPercentage;
+            }).catch(function(err) {
+                $scope.uploading = false;
+                showError('Uh Oh!', 'Your reward images failed to save. Please try again.')
+            });
+        }
     };
 
     // Check all the days of the week
@@ -155,31 +280,45 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Submit form for a new Reward
      */
     $scope.createReward = function (reward) {
+        $scope.loading = true;
         RewardsService.create(reward).then(function (result) {
-            if (result.status === 200) {
-                // $location.url('/');
-            } else if (result.status === 500) {
-                $alert({
-                    'title' : errTitle,
-                    'content' : errMsg,
-                    'type' : 'danger',
-                    'duration' : 5,
-                    'placement' : 'top-right',
-                    'show' : true
-                });
-            } else {
-                showError(errTitle, errMsg);
-            }
+            $alert({
+                'title' : 'Success',
+                'content' : 'Reward Created Successfully',
+                'type' : 'success',
+                'duration' : 5,
+                'placement' : 'top-right',
+                'show' : true
+            });
+            $scope.newReward = result.data;
+            $scope.loading = false;
+            $scope.upload(result.data._id, true);
         }).catch(function (err) {
+            $scope.loading = false;
             showError(errTitle, errMsg);
         })
     };
 
-    $scope.updateReward = function (reward) {
+    $scope.updateReward = function (reward, upload) {
+        $scope.loading = true;
         RewardsService.update(reward._id, reward).then(function(response) {
-            console.log(response);
+            if ($scope.deletePhotos.length > 0) {
+                UtilService.deletePhotos($scope.deletePhotos);
+            }
+
+            $alert({
+                'title' : 'Success',
+                'content' : 'Your Reward updated successfully.',
+                'type' : 'success',
+                'duration' : 5,
+                'placement' : 'top-right',
+                'show' : true
+            });
+            $scope.loading = false;
         }).catch(function(error) {
             console.log(error);
+            showError('Uh Oh!', error.message);
+            $scope.loading = false;
         });
     };
 

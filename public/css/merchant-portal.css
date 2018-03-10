@@ -185,10 +185,10 @@ fieldset[disabled] .btn-outline-primary.focus {
 .loading {
   background: rgba(255, 255, 255, .8);
   color: #337ab7;
-  height: 90%;
+  height: 93%;
   padding-top: 30%;
   position: absolute;
-  width: 93%;
+  width: 95%;
   z-index: 10000;
 }
 

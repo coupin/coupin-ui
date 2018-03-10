@@ -41,6 +41,11 @@ function (
             templateUrl: '/views/merchant/view.html',
             controller: 'RewardsController'
         })
+        .state('dashboard.reward-add', {
+            url: '/merchant/rewards',
+            templateUrl: '/views/merchant/rewards.html',
+            controller: 'RewardsController'
+        })
         .state('dashboard.reward-add-edit', {
             url: '/merchant/rewards/:id',
             templateUrl: '/views/merchant/rewards.html',

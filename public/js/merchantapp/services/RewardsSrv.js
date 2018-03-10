@@ -16,7 +16,9 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
                 return $http.post(baseV1Url + '/reward/activate/' + id);
             },
             create: function (details) {
-                return $http.post(baseV1Url + '/reward', details);
+                return $http.post(baseV1Url + '/reward', details, {
+                    headers: authHeader
+                });
             },
             deactivate: function (id) {
                 return $http.post(baseV1Url + '/reward/deactivate/' + id);
@@ -36,7 +38,9 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
                 return $http.get(baseV1Url + '/reward/' + id);
             },
             update: function(id, details) {
-                return $http.put(baseV1Url + '/reward/' + id, details);
+                return $http.put(baseV1Url + '/reward/' + id, details,  {
+                    headers: authHeader
+                });
             }
         }
     }

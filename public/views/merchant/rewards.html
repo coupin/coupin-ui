@@ -45,8 +45,9 @@
         <div class="form-group">
             <label>Reward Categories: </label><br/>
             <input type="checkbox" name="category" id="entertainment" ng-checked="categories.entertainment" ng-click="addCat('entertainment')"> <label for="entertainment">Entertainment </label>
-            <input type="checkbox" name="category" id="foodndrinks" ng-checked="categories.foodndrinks" ng-click="addCat('foodndrinks')"> <label for="foodndrinks">Food and Drink </label>
+            <input type="checkbox" name="category" id="foodndrinks" ng-checked="categories.foodndrink" ng-click="addCat('foodndrink')"> <label for="foodndrinks">Food and Drink </label>
             <input type="checkbox" name="category" id="gadgets" ng-checked="categories.gadgets" ng-click="addCat('gadgets')"> <label for="gadgets">Gadgets </label>
+            <input type="checkbox" name="category" id="groceries" ng-checked="categories.groceries" ng-click="addCat('groceries')"> <label for="groceries">Groceries </label>
             <input type="checkbox" name="category" id="healthnbeauty" ng-checked="categories.healthnbeauty" ng-click="addCat('healthnbeauty')"> <label for="healthnbeauty">Health &amp; Beauty </label>
             <input type="checkbox" name="category" id="shopping" ng-checked="categories.shopping" ng-click="addCat('shopping')"> <label for="shopping">Shopping </label>
             <input type="checkbox" name="category" id="tickets" ng-checked="categories.tickets" ng-click="addCat('tickets')"> <label for="tickets">Tickets </label>
@@ -96,14 +97,65 @@
             <small id="appDaysHelp" class="form-text text-muted">Pick the days of the week that apply to you.</small>
         </div>
         <div class="form-group">
-            <label for="end">Reward Picture: </label><br/>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fa fa-file"></i></div>
-                <input class="form-control" id="end" type="file"/>
-            </div>
+            <label for="end">Reward Pictures: </label><br/>
+            <div class="btn btn-success" ng-disabled="loading || uploading" data-toggle="modal" data-target="#croppingModal">Select Files</div>
             <small id="endHelp" class="form-text text-muted">Sample Picture of Reward.</small>
         </div>
-        <Button class="btn btn-primary btn-full" ng-click="createReward(newReward)" ng-hide="update">Create Reward</Button>
-        <Button class="btn btn-primary btn-full" ng-click="updateReward(newReward)" ng-show="update">Update Reward</Button>
+        <div class="row" ng-if="displayRewardPhotos()">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                    <span class="text-center">{{progress + '%'}}</span>
+                </div>
+            </div>
+            <div class="preview-box" ng-repeat="(index, photo) in photos">
+                <h5 class="text-center clickable" ng-click="removeImage(index)"><i class="fa fa-2x fa-times-circle"></i></h5>
+                <img ng-src="{{photo}}" height="200" width="200"/>
+            </div>
+            <br>
+            <button class="btn btn-success" ng-if="update" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
+        </div>
+        <br>
+        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="createReward(newReward)" ng-hide="update">Create Reward</button>
+        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="updateReward(newReward)" ng-show="update">Update Reward</button>
     </form>
 </div>
+
+<!-- Croppig Modal -->
+<div class="modal fade" id="croppingModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Image Crop</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div>
+                        <h4>Images Must all be cropped to a 200x200 square.</h4>
+                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="cropArea">
+                                <canvas
+                                    height="350"
+                                    width="500"
+                                    image="image.src"
+                                    image-cropper
+                                    cropped-image="image.dst"
+                                    crop-height="200"
+                                    crop-width="200"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-success" ng-click="fileCheck(image)">Add Image</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>

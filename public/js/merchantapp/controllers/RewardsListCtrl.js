@@ -48,6 +48,10 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
     }
   }
 
+  $scope.goToNewReward = function() {
+    $state.go('dashboard.reward-add', {}, {});
+  };
+
   /**
    * Edit Reward
    * @param {rewardId} id 

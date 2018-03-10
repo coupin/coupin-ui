@@ -162,8 +162,6 @@
                     <h4>Images Must all be cropped to a 200x200 square.</h4>
                     <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                     <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                    <!-- <button class="btn btn-primary" ngf-select="fileCheck(file1, true)" ng-model="file1" name="file1" ngf-pattern="'image/*'"
-                        ngf-accept="'image/*'" ngf-max-size="500KB">Select File</button> -->
                     <br>
                     <br>
                     <div class="row">
@@ -187,9 +185,6 @@
                     <h4>Images Must all be cropped to a 950x323 square.</h4>
                     <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                     <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                    <!-- <div class="btn btn-primary" ngf-select="fileCheck(file, false)" ng-model="file" name="file" ngf-pattern="'image/*'"
-                        ngf-accept="'image/*'" ngf-max-size="1MB">Select File</div>
-                    <br> -->
                     <br>
                     <div class="row">
                         <div class="cropArea-banner">
@@ -206,6 +201,12 @@
                                 crop-area-bounds="bounds"
                                 ></canvas>
                         </div>
+                    </div>
+                </div>
+                <br>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                        <span class="text-center">{{progress + '%'}}</span>
                     </div>
                 </div>
             </div>

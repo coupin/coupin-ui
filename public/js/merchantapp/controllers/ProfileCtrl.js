@@ -8,7 +8,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   Upload
 ) {
   $scope.loadingPosition = false;
-  $scope.logoPer = 0;
+  $scope.progress = 0;
   $scope.uploadingLogo = false;
   $scope.updating = false;
   $scope.editable = false;
@@ -36,7 +36,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   };
 
   $scope.user = StorageService.getUser();
-  console.log($scope.user);
 
   $scope.bannerStyle = {
     "background-image": `url("${banner}")`
@@ -103,7 +102,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   }
 
   function resetUploads() {
-    $scope.logoPer = 0;
+    $scope.progress = 0;
     $scope.uploadingLogo = false;
     $scope.uploadingBanner = false;
   }
@@ -192,9 +191,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
             showError('oops!', err);
         }, function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            if (isLogo) {
-                $scope.logoPer = progressPercentage;
-            }
+            $scope.progress = progressPercentage;
         }).catch(function(err) {
             console.log(err);
             resetUploads();
@@ -220,17 +217,11 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
     $scope.editable = !$scope.editable;
   };
 
-  $scope.log = function(x) {
-      console.log('Logging');
-      console.log(x);
-  };
-
   /**
    * Update user profile
    */
   $scope.update = function () {
     if (validateUser($scope.user)) {
-        console.log($scope.user);
       $scope.updating = true;
       if ($scope.position && 'lat' in $scope.position && 'long' in $scope.position) {
         $scope.user.merchantInfo.location = [
@@ -280,7 +271,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
      * @param {*} isLogo 
      */
     $scope.fileCheck = function(image, isLogo) {
-        const limit = isLogo ? 500000 : 900000;
+        var limit = isLogo ? 500000 : 900000;
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
             var dataurl = image.dst;
@@ -291,10 +282,10 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
             }
             
             var file = new File([u8arr], 'testing', {type:mime});
-            console.log(file);
-            console.log(limit);
+
             if (file.size > limit) {
-                showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+                limit = limit / 100;
+                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
             } else {
                 $scope.upload(file, $scope.user.id, isLogo);
             }

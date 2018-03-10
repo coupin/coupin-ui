@@ -21,6 +21,8 @@ dotenv.config();
 // set our port
 var port = process.env.PORT || 5031;
 
+app.use(cors());
+
 /**
  * get all data of the body parameters
  * parse application/json
@@ -61,6 +63,24 @@ app.get('/signup', function(req, res) {
   res.sendfile('./public/views/signup.html', {message: req.flash('SignUpMessage')});
 });
 
+app.post('/destroy', function(req, res) {
+  const data = req.body.data;
+  var counter = 0;
+
+  data.forEach(function(url) {
+    console.log(url);
+    cloudinary.v2.uploader.destroy(url, {
+      invalidate: true
+    }, function(err, result) {
+      if (err) {
+        console.log(err);
+      }
+    });
+  });
+
+  res.status(200).send('Delete Attempted');
+});
+
 app.post('/upload', upload.single('file'), function (req, res) {
   cloudinary.v2.uploader.upload_stream({
     public_id: req.body.public_id,
@@ -74,6 +94,36 @@ app.post('/upload', upload.single('file'), function (req, res) {
       res.status(200).send(result);
     }
   }).end(req.file.buffer);
+});
+
+app.post('/uploads', upload.array('photos'), function (req, res) {
+  var counter = 0;
+  var error = false;
+  var errorMsg = null;
+  var total = req.files.length;
+  var urls = [];
+
+  req.files.forEach(function(file) {
+    if (!error) {
+      cloudinary.v2.uploader.upload_stream({
+        overwrite: true,
+        resource_type: 'image',
+        timeout: 120000
+      }, function(err, result) {
+        if (err) {
+          error = true;
+          errorMsg = err;
+          res.status(500).send({ error: errorMsg.message });
+        } else {
+          counter++;
+          urls.push(result.url);
+          if (counter === total) {
+            res.status(200).send(urls);
+          }
+        }
+      }).end(file.buffer);
+    }
+  });
 });
 
 app.get('/homepage', function(req, res) {

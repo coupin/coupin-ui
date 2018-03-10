@@ -1,4 +1,20 @@
-angular.module('UtilSrv', []).service('UtilService', function() {
+angular.module('UtilSrv', []).service('UtilService', [
+  '$http',
+function(
+  $http
+) {
+  this.deletePhotos = function(urls) {
+    console.log(urls);
+    $http.post('/destroy', {
+      'data': urls
+    }).then(function(res) {
+      console.log(res);
+      console.log('Delete attempted');
+    }).catch(function(err) {
+      console.log('Deleting Failed');
+    });
+  };
+
   /**
    * Check if number is decimal
    * @param {String} number 
@@ -49,4 +65,4 @@ angular.module('UtilSrv', []).service('UtilService', function() {
     
     return false;
   };
-});
+}]);

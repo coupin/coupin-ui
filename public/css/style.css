@@ -61,6 +61,10 @@
     padding: 100px;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 .cropArea {
     background: #E4E4E4;
     overflow: hidden;
@@ -362,4 +366,11 @@
 
 .modal-banner {
     width: 1040;
+}
+
+.preview-box {
+    display: inline-block;
+    height: 250px;
+    margin: auto 10px;
+    width: 200px;
 }
