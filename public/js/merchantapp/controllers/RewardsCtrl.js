@@ -35,7 +35,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.categories = {};
         $scope.update = true;
         RewardsService.getReward(id).then(function(result) {
-            console.log(result.data);
             $scope.newReward = result.data;
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
             $scope.newReward.startDate = new Date($scope.newReward.startDate);
@@ -118,7 +117,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
             } else {
                 $scope.files.push(file);
-                $scope.photos.push(dataurl);
+                $scope.photos.push({
+                    url: dataurl
+                });
                 $scope.image = {
                     src: null,
                     dst: null
@@ -129,8 +130,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.removeImage = function(index) {
-        if ($scope.photos[index].includes('cloudinary')) {
-            $scope.deletePhotos.push($scope.photos[index]);
+        if ('id' in $scope.photos[index]) {
+            $scope.deletePhotos.push($scope.photos[index].id);
         }
 
         $scope.files.splice(index, 1);
@@ -150,25 +151,24 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     public_id: id
                 }
             }).then(function(resp) {
-                resp.data.forEach(function(url) {
-                    var found = false;
+                resp.data.forEach(function(data) {
                     var count = 0;
                     var total = $scope.photos.length;
                     
-                    while(!found && count < total) {
-                        if ($scope.photos[count].includes('data')) {
-                            $scope.photos[count] = url;
-                            found = true;
+                    while(count < total) {
+                        if ($scope.photos[count].url.includes('data')) {
+                            $scope.photos[count] = data;
                         }
                         count++;
                     }
                 });
+                console.log($scope.photos);
 
                 $scope.newReward.pictures = $scope.photos;
 
                 $alert({
                     'title' : 'Success',
-                    'content' : 'Your Reward was created successfully.',
+                    'content' : 'Your Pictures were uploaded successfully.',
                     'type' : 'success',
                     'duration' : 5,
                     'placement' : 'top-right',
@@ -186,7 +186,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.progress = progressPercentage;
             }).catch(function(err) {
                 $scope.uploading = false;
-                showError('Uh Oh!', 'Your reward images failed to save. Please try again.')
+                showError('Uh Oh!', 'Your pictures failed to upload. Please try again.')
             });
         }
     };

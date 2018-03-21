@@ -293,3 +293,8 @@ fieldset[disabled] .btn-outline-primary.focus {
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
+.selected {
+  background: #2e6da4;
+  color: white;
+}

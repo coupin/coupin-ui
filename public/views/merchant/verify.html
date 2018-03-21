@@ -71,7 +71,7 @@
               </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="(index, reward) in rewards">
+            <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}" ng-click="toggleRedeem(index)">
                 <th scope="row">{{ index + 1 }}</td>
                 <td class="icon" >{{ reward.name }}</td>
                 <td class="icon" >{{ reward.description }}</td>

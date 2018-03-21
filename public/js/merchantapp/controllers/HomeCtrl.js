@@ -10,28 +10,36 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   $scope.empty = false;
   $scope.loading = false;
   $scope.updating = false;
-  $scope.used = [];
+  var redeem = [];
 
   $scope.expired = function(date) {
     return new Date(date) < new Date();
-  };
-
-  $scope.hasUsed = function(index) {
-    console.log(index);
-    return $scope.used.includes(index);
   };
 
   $scope.redeem = function(id, index) {
     $scope.updating = true;
 
     CoupinService.redeem($scope.booking._id, [id]).then(function(err, response) {
-      console.log(response);
-      $scope.used.push(index);
       $scope.updating = false;
     }).catch(function(err) {
       console.log(err);
       $scope.updating = false;
     });
+  };
+
+  $scope.toggleRedeem = function(index) {
+    const location = redeem.indexOf(index);
+
+    if(location > -1) {
+      redeem.splice(location, 1);
+    } else{
+      redeem.push(index);
+    }
+    $('#'+index).toggleClass('selected');
+  };
+
+  $scope.remove = function(index) {
+    redeem.push(index);
   };
 
   $scope.showTable = function() {

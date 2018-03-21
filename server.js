@@ -110,13 +110,17 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
         resource_type: 'image',
         timeout: 120000
       }, function(err, result) {
+        console.log(result);
         if (err) {
           error = true;
           errorMsg = err;
           res.status(500).send({ error: errorMsg.message });
         } else {
           counter++;
-          urls.push(result.url);
+          urls.push({
+            id: result.public_id,
+            url: result.url
+          });
           if (counter === total) {
             res.status(200).send(urls);
           }
@@ -129,6 +133,25 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
 app.get('/homepage', function(req, res) {
   // load the home page
   res.sendfile('./public/views/base.html');
+});
+
+app.get('/merchant/register', function(req, res) {
+  res.sendfile('./public/shared/views/merchantReg.html');
+});
+
+app.get('/merchant/:id/confirm', function(req, res) {
+  // load the merchant registration page
+  // Merchant.findById(req.params.id, function(err, merchant){
+  //     if(err)
+  //     res.sendfile('./public/views/error.html');
+
+  //     if('activated' in merchant && merchant.activated) {
+  //     res.sendfile('./public/shared/views/merchantReg.html');
+  //     } else {
+  //     res.sendfile('./public/shared/views/merchantCon.html');
+  //     }
+  // });
+  res.sendfile('./public/shared/views/merchantReg.html');
 });
 
 app.get('*', function(req, res) {

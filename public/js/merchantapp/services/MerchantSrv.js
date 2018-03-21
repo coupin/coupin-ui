@@ -13,7 +13,9 @@ angular.module('MerchantSrv', []).factory('MerchantService', function(
             return $http.post(baseV1Url + '/merchant/override', data);
         },
         changePassword : function (password) {
-            return $http.post(baseV1Url + '/auth/password', {password: password});
+            return $http.post(baseV1Url + '/auth/password', {password: password}, {
+                headers: authHeader
+            });
         }
         ,
         // Complete Registration
@@ -37,6 +39,7 @@ angular.module('MerchantSrv', []).factory('MerchantService', function(
             return $http.get(baseV1Url + '/merchant/' + id);
         },
         update: function (id, user) {
+            console.log(authHeader);
             return $http.put(baseV1Url + '/merchant/' + id, user, {
                 headers: authHeader
             });

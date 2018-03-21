@@ -35,7 +35,9 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
                 });
             },
             getReward: function (id) {
-                return $http.get(baseV1Url + '/reward/' + id);
+                return $http.get(baseV1Url + '/reward/' + id, {
+                    headers: authHeader
+                });
             },
             update: function(id, details) {
                 return $http.put(baseV1Url + '/reward/' + id, details,  {
