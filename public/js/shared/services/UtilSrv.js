@@ -1,7 +1,9 @@
 angular.module('UtilSrv', []).service('UtilService', [
   '$http',
+  '$alert',
 function(
-  $http
+  $http,
+  $alert
 ) {
   this.deletePhotos = function(urls) {
     console.log(urls);
@@ -64,5 +66,37 @@ function(
     }
     
     return false;
+  };
+
+  /**
+     * Show error alert dialog.
+     * @param {String} title 
+     * @param {String} msg 
+     */
+    this.showError = function (title, msg) {
+      $alert({
+          'title': title,
+          'content': msg,
+          'duration': 5,
+          'placement': 'top-right',
+          'show' : true ,
+          'type' : 'danger'
+      });
+  };
+
+  /**
+     * Show success alert dialog.
+     * @param {String} title 
+     * @param {String} msg 
+     */
+    this.showSuccess = function (title, msg) {
+      $alert({
+          'title': title,
+          'content': msg,
+          'duration': 5,
+          'placement': 'top-right',
+          'show' : true ,
+          'type' : 'success'
+      });
   };
 }]);

@@ -151,18 +151,20 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     public_id: id
                 }
             }).then(function(resp) {
+                var count = 0;
+
                 resp.data.forEach(function(data) {
-                    var count = 0;
                     var total = $scope.photos.length;
+                    var found = false;
                     
-                    while(count < total) {
+                    while(count < total && !found) {
                         if ($scope.photos[count].url.includes('data')) {
                             $scope.photos[count] = data;
+                            found = true;
                         }
                         count++;
                     }
                 });
-                console.log($scope.photos);
 
                 $scope.newReward.pictures = $scope.photos;
 

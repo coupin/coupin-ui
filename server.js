@@ -68,7 +68,6 @@ app.post('/destroy', function(req, res) {
   var counter = 0;
 
   data.forEach(function(url) {
-    console.log(url);
     cloudinary.v2.uploader.destroy(url, {
       invalidate: true
     }, function(err, result) {
@@ -110,7 +109,6 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
         resource_type: 'image',
         timeout: 120000
       }, function(err, result) {
-        console.log(result);
         if (err) {
           error = true;
           errorMsg = err;

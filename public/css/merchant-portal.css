@@ -47,6 +47,10 @@ body {
   box-shadow: 0 0 5px rgba(0, 0, 0, .6);
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 .logo-box {
   background-position: center;
   background-size: cover;

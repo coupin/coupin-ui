@@ -59,28 +59,41 @@
         </div>
         <br>
         <h4 class="text-center">Rewards</h4>
+        <div>
+          <h4 style="display:inline-block">Redeem: {{use.length + ' rewards'}}</h4>
+          <button class="btn btn-success" ng-disabled="disableButton()" style="float:right; margin-right:10px;" ng-click="redeem()">Redeem Selected</button>
+        </div>
         <br>
-        <table class="table" ng-if="showTable()">
-          <thead>
-              <tr>
-                  <th>S/N</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Expired</th>
+        <div ng-if="showTable()">
+          <label><input type="checkbox" ng-model="select.all"> Select All</label>
+          <br>
+          <small><b>Note:</b> Select rewards to redeem by simply clicking on them to select/deselect</small>
+          <br>
+          <table class="table">
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Expires On</th>
+                    <th>Status</th>
+                    <th>Expired</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}" ng-click="toggleReward(index, reward.status)">
+                  <th scope="row">{{ index + 1 }}</td>
+                  <td class="icon" >{{ reward.id.name }}</td>
+                  <td class="icon" >{{ reward.id.description }}</td>
+                  <td class="icon" >{{ reward.id.endDate | date: 'longDate' }}</td>
+                  <td class="capitalize">{{ reward.status }}</td>
+                  <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
+                  <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
               </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}" ng-click="toggleRedeem(index)">
-                <th scope="row">{{ index + 1 }}</td>
-                <td class="icon" >{{ reward.name }}</td>
-                <td class="icon" >{{ reward.description }}</td>
-                <td>{{ hasUsed(index) ? 'Used' : 'Unused' }}</td>
-                <td>{{ expired(reward.endDate) ? 'Yes' : 'No' }}</td>
-                <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward._id, index)" ng-disabled="updating">Redeem</button></td>
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+        <br>
       </div>
   </div>
 </div>
