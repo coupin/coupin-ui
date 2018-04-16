@@ -1,58 +1,52 @@
 <div>
     <!-- Request Counter -->
-    <div class="jumbotron no-space-below">
+    <div class="jumbotron padding-20-y no-space-below dashboard-request">
         <div class="row text-center">
-            <div class="col-md-3 col-xs-12">
-                <a data-toggle="tab" href="#requests"><h2>{{totalReq.length}}<br/> Requests</h2></a>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <a data-toggle="tab" href="#pending"><h2>{{totalPen.length}}<br/> Pending</h2></a>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <a data-toggle="tab" href="#completed"><h2>{{totalCom.length}}<br/> Completed</h2></a>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <a data-toggle="tab" href="#declined"><h2>{{totalDec.length}}<br/> Declined</h2></a>
+            <div class="col-sm-12 text-center">
+                <h3>What type of requests would you like to see?</h3>
             </div>
         </div>
     </div>
     <!-- End Request Counter -->
     <div class="row">
-        <div class="loading-screen text-center" ng-show="loading"><i class="fa fa-spinner fa-spin fa-4x fa-fw"></i></div>
-
-        <div class="tab-content">
-            <div id="requests" class="tab-pane fade in active">
-                <div class="row admin-list-view" ng-repeat="(index, request) in totalReq" data-toggle="modal" data-target="#selectedMerch" ng-click="selectMerch(index)">
-                    <div class="col-xs-1">{{index + 1}}</div>
-                    <div class="col-xs-6">{{request.companyName}}</div>
-                    <div class="col-xs-5">{{request.email}}</div>
-                </div>
-                <h1 ng-show="totalReq.length == 0">There are no current requests</h1>
+        <div class="home-nav" ng-init="getRequests('pending', 0)">
+            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'pending'}" ng-click="getRequests('pending', 0)">
+                <h3>Pending <i class="fas fa-hand-paper"></i></h3>
             </div>
-            <div id="pending" class="tab-pane fade">
-                <div class="row admin-list-view" ng-repeat="(index, pending) in totalPen">
-                    <div class="col-xs-1">{{index + 1}}</div>
-                    <div class="col-xs-6">{{pending.companyName}}</div>
-                    <div class="col-xs-5">{{pending.email}}</div>
-                </div>
-                <h1 ng-show="totalPen.length == 0">There are no pending requests</h1>
+            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'accepted'}"ng-click="getRequests('accepted', 0)">
+                <h3>Accepted <i class="fas fa-check"></i></h3>
             </div>
-            <div id="completed" class="tab-pane fade">
-                <div class="row admin-list-view" ng-repeat="(index, complete) in totalCom">
-                    <div class="col-xs-1">{{index + 1}}</div>
-                    <div class="col-xs-6">{{complete.companyName}}</div>
-                    <div class="col-xs-5">{{complete.email}}</div>
-                </div>
-                <h1 ng-show="totalCom.length == 0">There are no completed requests</h1>
+            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'rejected'}" ng-click="getRequests('rejected', 0)">
+                <h3>Declined <i class="fas fa-times"></i></h3>
             </div>
-            <div id="declined" class="tab-pane fade">
-                <div class="row admin-list-view" ng-repeat="(index, complete) in totalDec">
-                    <div class="col-xs-1">{{index + 1}}</div>
-                    <div class="col-xs-6">{{complete.companyName}}</div>
-                    <div class="col-xs-5">{{complete.email}}</div>
-                </div>
-                <h1 ng-show="totalDec.length == 0">There are no completed requests</h1>
+            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'completed'}" ng-click="getRequests('completed', 0)">
+                <h3>Completed <i class="fas fa-handshake"></i></h3>
             </div>
+        </div>
+        <div class="col-sm-12" ng-if="loading">
+            <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
+        </div>
+        <div class="table-holder" ng-if="!loading">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S/N</th>
+                        <th>Name</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="(index, request) in totalReq">
+                        <th>{{index+1}}</th>
+                        <td>{{request.name}}</td>
+                        <td>{{request.details}}</td>
+                        <td class="clickable" data-toggle="modal" data-target="#selectedMerch" ng-click="selectMerch(request)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
+                        <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')"><i class="fas fa-check" data-title="Accept Offer" bs-tooltip></i></td>
+                        <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')"><i class="fas fa-times" data-title="Decline Offer" bs-tooltip></i></td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4 ng-show="totalReq.length === 0">There are no current requests</h4>
         </div>
     </div>
 
@@ -65,21 +59,35 @@
                 </div>
                 <div class="modal-body modal-space-text">
                     <label for="companyName">Company Name: </label>
-                    <span id="companyName"> {{currentRequest.companyName}} </span>
+                    <span id="companyName"> {{currentRequest.name}} </span>
                     <br/>
                     <label for="companyEmail">Email: </label>
                     <span id="companyEmail"> {{currentRequest.email}} </span>
                     <br/>
                     <label for="phoneNumber">Mobile Number: </label>
-                    <span id="companyEmail"> {{currentRequest.mobileNumber}} </span>
+                    <span id="companyEmail"> {{currentRequest.mobile}} </span>
                     <!--<div style="display: inline-block;" id="categories" ng-init="x = currentRequest.categories.length - 1" ng-repeat="(index, category) in currentRequest.categories">
                         <span>{{ (index == x) ? category : (category + ", ") }}</span>
                     </div>-->
                     <br/>
                     <label for="companyDetails">Company Details: </label>
-                    <span id="companyDetails"> {{currentRequest.companyDetails}} </span>
+                    <span id="companyDetails"> {{currentRequest.details}} </span>
                     <br/>
-                    <button class="btn btn-success" data-dismiss="modal" ng-click="confirm(true)">Approve</button> <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewMerch">Decline</button>
+                    <br/>
+                    <label for="regisered">Registered on: </label>
+                    <span id="Registered"> {{currentRequest.createdDate | date: 'medium'}} </span>
+                    <br/>
+                    <div ng-if="isPending()">
+                        <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')">Approve</button>
+                        <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')">Decline</button>
+                    </div>
+                    <div ng-if="isRejected()">
+                        <label for="companyDetails">Reason: </label>
+                        <span id="companyDetails"> {{currentRequest.extra.reason}} </span>
+                        <br/>
+                        <button class="btn btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'pending')">Revert To Pending</button>
+                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,21 +95,30 @@
     <!-- End Selected Merchant Modal -->
 
     <!-- Review Modal -->
-    <div class="modal fade" id="reviewMerch" role="dialog">
+    <div class="modal fade" id="reviewStatus" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h3>Reasons for Rejection</h3>
+                    <h3>Accept Merchant</h3>
                 </div>
                 <div class="modal-body" ng-init="action = true">
-                    <form>
-                        <div class="form-group">
+                    <h4>Are you sure you want to {{ currentRequest.status.display + ' ' + currentRequest.name}}?</h4>
+                    <form name="confirm">
+                        <div class="form-group" ng-if="status.value">
+                            <label for="rating">Rating:</label>
+                            <input id="rating" name="rating" ng-class="{'form-control': true, 'error-input': isError(confirm.rating, 'rating')}" type="number" ng-min="1" ng-max="5" placeholder="Rate here..." ng-model="status.rating" required></textarea>
+                            <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
+                        </div>
+                        <div class="form-group" ng-if="!status.value">
                             <label for="reason">Why was this review rejected: </label>
-                            <textarea class="form-control" id="reason" minlength="20" maxlength="80" placeholder="My company is into..." ng-model="currentRequest.reason" required></textarea>
+                            <textarea class="form-control" id="reason" maxlength="80" placeholder="My company is into..." ng-model="status.reason" required></textarea>
                             <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
                         </div>
-                        <button class="btn btn-danger" data-dismiss="modal" ng-if="currentRequest.reason.length > 20" ng-click="confirm(false, currentRequest.reason)">Confirm Decline</button>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-disabled="!canConfirm()" data-dismiss="modal" ng-click="proceed()">Confirm</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

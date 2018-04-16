@@ -1,6 +1,6 @@
 <div class="info-box">
     <div class="loading text-center" ng-if="loading">
-        <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i><span> Submiting</span>
+        <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i><span> Submiting</span>
     </div>
     <div class="text-center">
         <h2>Reward Creation</h2>
@@ -9,7 +9,7 @@
         <div class="form-group">
             <label for="name">Reward Name: </label><span>*</span>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fa fa-tags"></i></div>
+                <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                 <input type="name" class="form-control" id="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name"/>
             </div>
             <small id="categoryHelp" class="form-text text-muted">The name of the reward.</small>
@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="oldPrice">Old Price: </label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon icons-input"><i class="fa fa-tags"></i></div>
+                        <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                         <input type="oldPrice" class="form-control" id="oldPrice" placeholder="0" ng-model="newReward.price.old"/>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="newPrice">New Price: </label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon icons-input"><i class="fa fa-tags"></i></div>
+                        <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                         <input type="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="newReward.price.new"/>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
         <div class="form-group">
             <label for="start">Start Date: </label><br/>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fa fa-calendar"></i></div>
+                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                 <input class="form-control" id="start" type="date" ng-model="newReward.startDate"/>
             </div>
             <small id="startHelp" class="form-text text-muted">Start date for the reward.</small>
@@ -77,7 +77,7 @@
         <div class="form-group">
             <label for="end">End Date: </label><br/>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fa fa-calendar"></i></div>
+                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                 <input class="form-control" id="end" type="date" ng-model="newReward.endDate"/>
             </div>
             <small id="endHelp" class="form-text text-muted">End date for the reward.</small>
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="preview-box" ng-repeat="(index, photo) in photos">
-                <h5 class="text-center clickable" ng-click="removeImage(index)"><i class="fa fa-2x fa-times-circle"></i></h5>
+                <h5 class="text-center clickable" ng-click="removeImage(index)"><i class="fas fa-2x fa-times-circle"></i></h5>
                 <img ng-src="{{photo.url}}" height="200" width="200"/>
             </div>
             <br>

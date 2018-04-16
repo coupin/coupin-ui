@@ -16,13 +16,11 @@
           <div class="collapse navbar-collapse" id="menu-collection">
               <ul class="nav nav-admin navbar-nav">
                   <li>
-                      <a ui-sref=".">Home</a>
+                      <a ui-sref=".home">Home</a>
                   </li>
                   <li class="dropdown" ng-show="user.isSuper">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                          <!-- <li><a href="/viewAdmin">View Admins</a></li>
-                          <li><a href="/addAdmin">Add New Admin</a></li> -->
                           <li><a ui-sref=".view-admins">View Admins</a></li>
                           <li><a ui-sref=".add-admins">Add New Admin</a></li>
                       </ul>
@@ -30,7 +28,7 @@
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Merchants <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                          <li><a ui-sref=".view-requests">View Requests</a></li>
+                          <!-- <li><a ui-sref=".view-requests">View Requests</a></li> -->
                           <li><a ui-sref=".view-merchs">View Merchants</a></li>
                       </ul>
                   </li>

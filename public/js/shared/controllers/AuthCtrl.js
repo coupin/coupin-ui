@@ -94,7 +94,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             AuthService.signinA($scope.formData)
             .then(function(response){
                 setUserInfo(response.data);
-                $state.go('portal', {});
+                $state.go('portal.home', {});
             }, function(err) {
                 $scope.loading[0] = false;
                 $scope.loginError = 'Email or Password is invalid.'
@@ -159,7 +159,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         };
 
         AuthService.signinM(details).then(function(response) {
-            console.log(response);
             setUserInfo(response.data);
             $state.go('dashboard.home', {});
         }).catch(function(err) {

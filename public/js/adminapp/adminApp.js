@@ -18,7 +18,9 @@ angular.module('adminApp', [
   'RequestSrv',
   'StorageSrv',
   'UtilSrv'
-]).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
+]).constant('config', {
+  baseUrl: 'http://localhost:5030/api/v1'
+}).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
 

@@ -22,10 +22,6 @@ angular.module('MerchantSrv', []).factory('MerchantService', function (
         complete : function(id, details) {
             return $http.post(baseV1Url + '/merchant/' + id + '/confirm/', details);
         },
-        // Use to approve or decline
-        confirm : function(id, details) {
-            return $http.put(baseV1Url + '/merchant' + id + '/confirm/', details);
-        },
         get : function() {
             return $http.get(baseV1Url + '/merchant');
         },

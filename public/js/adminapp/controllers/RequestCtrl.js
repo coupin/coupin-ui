@@ -7,6 +7,11 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
 ){
     $scope.requests = [];
     $scope.currentRequest = {};
+    $scope.status = {
+        display: 'decline',
+        reason: '',
+        value: null
+    };
 
     // loading value
     $scope.loading = false;
@@ -17,62 +22,102 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope.totalCom = [];
     $scope.totalDec = [];
 
-    var status = 'pending';
+    $scope.getRequests = function(status, page) {
+        $scope.loading = true;
+        $scope.group = status;
+        RequestService.getRequests(status).then(function(response){
+            // $scope.requests = response.data;
+            console.log(response.data);
+    
+            switch(status) {
+                case 'pending':
+                    $scope.totalReq = response.data;
+                    break;
+                case 'accepted':
+                    $scope.totalReq = response.data;
+                    break;
+                case 'rejected':
+                    $scope.totalReq = response.data;
+                    break;
+                case 'completed':
+                    $scope.totalReq = response.data;
+                    break;
+            }
+            $scope.loading = false;
+            // for(var i = 0; i < $scope.requests.length; i+=1) {
+            //     if($scope.requests[i].activated) {
+            //         $scope.totalCom.push($scope.requests[i]);
+            //     } else if($scope.requests[i].rejected) {
+            //         $scope.totalDec.push($scope.requests[i]);
+            //     } else if($scope.requests[i].isPending) {
+            //         $scope.totalPen.push($scope.requests[i]);
+            //     } else {
+            //         $scope.totalReq.push($scope.requests[i]);
+            //     }
+            // }
+        }).catch(function(err) {
+            $scope.loading = false;
+            Util.showError(err.data);
+        });
+    }
 
-    RequestService.getRequests(status).then(function(response){
-        console.log(response);
-        $scope.requests = response.data;
+    $scope.isError = function(e, type) {
+        if (type === 'rating') {
+            return e.$error.max;
+        } else {
+            return false;
+        }
+    }
 
-        // for(var i = 0; i < $scope.requests.length; i+=1) {
-        //     if($scope.requests[i].activated) {
-        //         $scope.totalCom.push($scope.requests[i]);
-        //     } else if($scope.requests[i].rejected) {
-        //         $scope.totalDec.push($scope.requests[i]);
-        //     } else if($scope.requests[i].isPending) {
-        //         $scope.totalPen.push($scope.requests[i]);
-        //     } else {
-        //         $scope.totalReq.push($scope.requests[i]);
-        //     }
-        // }
-    });
+    $scope.selectMerch = (x, status) => {
+        $scope.currentRequest = x;
+        $scope.status.value = status;
+    };
 
-    $scope.selectMerch = (x) => {
-        $scope.currentRequest = $scope.totalReq[x];
+    $scope.canConfirm = function () {
+        const validate = !$scope.status.value ? ($scope.status.reason && $scope.status.reason.length > 10) : ($scope.status.rating < 6 && $scope.status.rating > 0);
+        return validate;
+    };
+
+    $scope.isPending = function() {
+        return $scope.group === 'pending';
+    };
+
+    $scope.isRejected = function() {
+        // extra = {
+        //     reason: merchant.reason,
+        //     isActive: merchant.isActive,
+        //     rating: merchant.merchantInfo.rating.value
+        // };
+        return $scope.group === 'rejected';
     };
     
-    $scope.confirm = (id, approve, details) => {
+    $scope.proceed = function() {
         // Show loading screen and add details for decline
         $scope.loading = true;
-        var reason = {
-            reason : details
-        };
+        let data = {};
 
-        MerchantService.confirm($scope.currentRequest._id, reason).then(function(data) {
+        if (group === 'pending') {
+            data = {
+                status: $scope.status.value,
+                rating: $scope.status.rating,
+                reason: $scope.status.reason
+            };
+        } else {
+            data = {
+                status: $scope.status.value
+            };
+        }
+
+        RequestService.updateStatus($scope.currentRequest.id, data).then(function(data) {
             $scope.loading = false;
-            if(data.data.success) {
-                if(!data.data.rejected) {
-                    // Send an alert that approval has been successful
-                    UtilService.showSuccess('Success', `${$scope.currentRequest.companyName} has been accepted and email has been sent`);
-                } else {
-                    // Send an alert that approval has been successful
-                    UtilService.showSuccess('Success', `${$scope.currentRequest.companyName} has been declined and email has been sent`);
-                }
+            // Send an alert that approval has been successful
+            UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.display} and email has been sent`);
 
-                // Change it in the data being shown
-                $scope.requests = $scope.requests.filter(function(request) {
-                    if(request._id == $scope.currentRequest._id) {
-                        if(approve === true) {
-                            request.isPending = true;
-                        } else {
-                            request.rejected = true;
-                        }
-                    }
-                    return request;
-                });
-            } else {
-                // Send an alert that approval failed
-                UtilService.showError('Activation Failed', data.data.message);
-            }
+            // Change it in the data being shown
+            $scope.totalReq = $scope.totalReq.filter(function(request) {
+                return request.id !== $scope.currentRequest.id;
+            });
         }).catch(function(err) {
             $scope.loading = false;
             UtilService.showError('Activation Failed', err);

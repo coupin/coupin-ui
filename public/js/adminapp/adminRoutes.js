@@ -41,8 +41,8 @@ function(
       templateUrl: 'views/admin/addMerch.html',
       controller: 'MerchantController'
     })
-    .state('portal.view-requests', {
-      url: '/a/dashboard/requests',
+    .state('portal.home', {
+      url: '/a/dashboard/home',
       templateUrl: 'views/admin/viewRequests.html',
       controller: 'RequestController'
     });
