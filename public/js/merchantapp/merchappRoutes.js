@@ -1,10 +1,8 @@
 angular.module('merchappRoutes', []).config([
-    '$routeProvider',
     '$locationProvider',
     '$stateProvider',
     '$urlRouterProvider',
 function (
-    $routeProvider,
     $locationProvider,
     $stateProvider,
     $urlRouterProvider

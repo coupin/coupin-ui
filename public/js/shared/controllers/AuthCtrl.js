@@ -16,6 +16,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     // to show error and loading
     $scope.showError = false;
     $scope.loading = [false, false];
+    // console.log('Inside controller');
+    // $state.go('a', {});
 
     // Get merchant id
     const merchId = $location.$$absUrl.match(/(\w)*$/g);
@@ -33,8 +35,13 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     }
 
     if (StorageService.isLoggedIn()) {
+        console.log('Inside');
         $scope.user = StorageService.getUser();
-        $state.go('dashboard.home', {});
+        if ($scope.user.role > 1) {
+            $state.go('dashboard.home', {});
+        } else {
+            $state.go('portal', {});
+        }
     }
 
     // to hold categories
@@ -68,8 +75,14 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
+    function setUserInfo(data) {
+        StorageService.setToken(data.token);
+        StorageService.setUser(data.user);
+        $scope.user = data.user;
+    }
+
     // For Admin Login
-    $scope.check = () => {
+    $scope.signInA = () => {
         // show loading
         $scope.loading[0] = true;
         // reset show error back to false
@@ -78,10 +91,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         // only go through if the object has 2 keys
         if(Object.keys($scope.formData).length == 2) {
             // check if the login details are correct, if so log in and redirect else show error
-            AuthService.check($scope.formData)
-            .then(function(data){
-                console.log(data);
-                $window.location.href = '/homepage';
+            AuthService.signinA($scope.formData)
+            .then(function(response){
+                setUserInfo(response.data);
+                $state.go('portal', {});
             }, function(err) {
                 $scope.loading[0] = false;
                 $scope.loginError = 'Email or Password is invalid.'
@@ -147,9 +160,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
         AuthService.signinM(details).then(function(response) {
             console.log(response);
-            StorageService.setToken(response.data.token);
-            StorageService.setUser(response.data.user);
-            $scope.user = response.data.user;
+            setUserInfo(response.data);
             $state.go('dashboard.home', {});
         }).catch(function(err) {
             $scope.loading[1] = false;
@@ -178,41 +189,32 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         // User service to register merchant
         AuthService.registerMerch($scope.formData)
         .then(function(response) {
-            if(response.data.success) {
-                // Hide loading icon
-                $scope.loading[1] = false;
+            // Hide loading icon
+            $scope.loading[1] = false;
 
-                // Reset form data
-                $scope.formData = {};
-                $scope.categories = {
-                    foodndrinks : false,
-                    shopping : false,
-                    entertainment : false,
-                    healthnbeauty : false, 
-                    gadgets : false, 
-                    tickets : false, 
-                    travel : false
-                }
-
-                // Send out success alert
-                $alert({
-                    'title': 'Success',
-                    'content': response.data.message,
-                    'placement': 'top-right',
-                    'show' : true ,
-                    'type' : 'success'
-                });
-            } else {
-                // hide loading icon
-                $scope.loading[1] = false;
-
-                // display errors using alerts
-                $scope.showErrors('Request Failed', response);
+            // Reset form data
+            $scope.formData = {};
+            $scope.categories = {
+                foodndrinks : false,
+                shopping : false,
+                entertainment : false,
+                healthnbeauty : false, 
+                gadgets : false, 
+                tickets : false, 
+                travel : false
             }
+
+            // Send out success alert
+            UtilService.showSuccess('Success', response.data.message);
         })
         .catch(function(err) {
+            console.log(err);
             $scope.loading[1] = false;
-            $scope.showErrors('Request Failed', err);
+            if (err.data.code && err.data.code == 11000) {
+                UtilService.showError('Request Failed', 'A merchant with that email address already exists.');
+            } else {
+                UtilService.showError('Request Failed', err.data.message);
+            }
         });
     };
 

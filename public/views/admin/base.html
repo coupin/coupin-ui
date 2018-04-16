@@ -1,0 +1,50 @@
+<div>
+   <!-- Header -->
+   <nav class="navbar navbar-admin no-space-below">
+      <div class="container-fluid">
+          <!-- Mobile Dislpay -->
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-collection" aria-expanded="false">
+              <span class="sr-only">Toggle Navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" ui-sref=".">LOGO</a>
+          <!-- Mobile Dislpay End-->
+
+          <!-- Nav links -->
+          <div class="collapse navbar-collapse" id="menu-collection">
+              <ul class="nav nav-admin navbar-nav">
+                  <li>
+                      <a ui-sref=".">Home</a>
+                  </li>
+                  <li class="dropdown" ng-show="user.isSuper">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admins <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <!-- <li><a href="/viewAdmin">View Admins</a></li>
+                          <li><a href="/addAdmin">Add New Admin</a></li> -->
+                          <li><a ui-sref=".view-admins">View Admins</a></li>
+                          <li><a ui-sref=".add-admins">Add New Admin</a></li>
+                      </ul>
+                  </li>
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Merchants <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a ui-sref=".view-requests">View Requests</a></li>
+                          <li><a ui-sref=".view-merchs">View Merchants</a></li>
+                      </ul>
+                  </li>
+              </ul>
+              <ul class="nav nav-admin navbar-right">
+                  <li>
+                      <a ng-click="logout()">Sign Out</a>
+                  </li>
+              </ul>
+          </div>
+          <!-- Nav links End-->
+      </div>
+  </nav>
+  <!-- Header End -->
+  <!-- Dynamic Angular Content -->
+  <div ui-view></div>
+</div>

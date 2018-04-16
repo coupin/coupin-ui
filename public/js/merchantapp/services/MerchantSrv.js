@@ -1,4 +1,4 @@
-angular.module('MerchantSrv', []).factory('MerchantService', function(
+angular.module('MerchantSrv', []).factory('MerchantService', function (
     $http,
     StorageService
 ) {
@@ -29,17 +29,18 @@ angular.module('MerchantSrv', []).factory('MerchantService', function(
         get : function() {
             return $http.get(baseV1Url + '/merchant');
         },
-        getAllMerchants : function () {
-            return $http.get(baseV1Url + '/merchant/all');
+        getAllMerchants : function (page) {
+            return $http.get(baseV1Url + '/merchant?page=' + page, {
+                headers: authHeader
+            });
         },
         login : function(details) {
-            return $http.post(baseV1Url + '/auth/signin/m', details);
+            return $http.post(baseV1Url + '/auth/signin/m', details, );
         },
         retrieve : function(id) {
             return $http.get(baseV1Url + '/merchant/' + id);
         },
         update: function (id, user) {
-            console.log(authHeader);
             return $http.put(baseV1Url + '/merchant/' + id, user, {
                 headers: authHeader
             });

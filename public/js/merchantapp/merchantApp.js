@@ -22,6 +22,7 @@ angular.module('coupinApp', [
 ]).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
+
   $transitions.onBefore( {to: 'dashboard.**' }, function(trans) {
     if (!StorageService.isLoggedIn()) {
       return trans.router.stateService.target('auth', trans.targetState().params());
@@ -29,4 +30,4 @@ angular.module('coupinApp', [
       $rootScope['user'] = StorageService.getUser();
     }
   });
-});;
+});

@@ -1,4 +1,11 @@
-angular.module('AdminMerchantCtrl', []).controller('AdminMerchantController', function ($alert, $scope, $location, MerchantService) {
+angular.module('MerchantCtrl', []).controller('MerchantController', function (
+    $alert,
+    $scope,
+    $state,
+    MerchantService
+) {
+    var page = 0;
+
     $scope.loading = false;
     $scope.formData = {};
     $scope.merchants = [];
@@ -7,19 +14,11 @@ angular.module('AdminMerchantCtrl', []).controller('AdminMerchantController', fu
     $scope.uncropped = '';
 
     $scope.goToNewMerch = function() {
-        $location.url('/newMerch');
-    };
-
-    $scope.logOut = function() {
-        MerchantService.logOut().then(function(response){
-            $location.url('/merchant');
-        }).catch(function(error) {
-            console.log(error);
-        });
+        $state.go('portal.add-merchs', {});
     };
 
     $scope.loadMerchants = function() {
-        MerchantService.getAllMerchants()
+        MerchantService.getAllMerchants(page)
         .then(function (res) {
             $scope.merchants = res.data;
         })

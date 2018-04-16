@@ -128,6 +128,10 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
   });
 });
 
+app.get(['/a', '/a/*'], function(req, res) {
+  res.sendfile('./public/views/admin/index.html');
+});
+
 app.get('/homepage', function(req, res) {
   // load the home page
   res.sendfile('./public/views/base.html');
