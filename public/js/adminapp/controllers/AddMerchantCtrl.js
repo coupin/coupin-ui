@@ -1,0 +1,200 @@
+angular.module('AddMerchantCtrl', []).controller('AddMerchantController', function(
+  $scope,
+  merchantId,
+  Upload,
+  MerchantService,
+  UtilService
+) {
+    var isEdit = false;
+    var upload = true;
+    $scope.bounds = {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
+    };
+    $scope.formData = {};
+    $scope.image = {
+        src: null,
+        dst: null
+    };
+    $scope.loading = false;
+    $scope.proceeding = false;
+    $scope.uploading = false;
+
+    if (UtilService.isDefined(merchantId)) {
+        $scope.loading = true;
+        MerchantService.retrieve(merchantId).then(function(response) {
+            var merchant = response.data;
+            isEdit = true;
+            $scope.formData = {
+                companyName: merchant.merchantInfo.companyName,
+                companyDetails: merchant.merchantInfo.companyDetails,
+                address: merchant.merchantInfo.address,
+                city: merchant.merchantInfo.city,
+                email: merchant.email,
+                mobileNumber: merchant.merchantInfo.mobileNumber,
+                longitude: merchant.merchantInfo.location[0],
+                latitude: merchant.merchantInfo.location[1],
+                logo: merchant.merchantInfo.logo
+            };
+            $scope.preview = merchant.merchantInfo.logo.url;
+            $scope.loading = false;
+        }).catch(function(err) {
+            $scope.loading = false;
+            UtilService.showError(err.data.message);
+        });
+    }
+
+    /**
+     * Upload logos
+     * @param {*} data 
+     * @param {*} callback 
+     */
+    function uploadLogo(data, callback) {
+        Upload.upload({
+            url: '/upload',
+            method: 'POST',
+            arrayKey: '',
+            data: data
+        })
+        .then(function (response) {
+            UtilService.showSuccess('Success', 'Photo uploaded successfully.');
+            callback(true, response);
+        }).catch(function (error) {
+            UtilService.showError('Error', error.data.message);
+            callback(false, error);
+        });
+    };
+
+    /**
+     * Create New Merchant
+     * @param {Object} data which holds the information such as name, address and so on.
+     */
+    function createMerchant(data) {
+        if (data.password === data.password2) {
+            $scope.proceeding = true;
+
+            MerchantService.adminCreate(data)
+                .then(function (res) {
+                    $scope.proceeding = false;
+                    $scope.image.src = null;
+                    UtilService.showSuccess('Success', 'Merchant created successfully.');
+                    var merchant = res.data;
+                    uploadLogo({
+                        file: $scope.file,
+                        public_id: merchant._id + '-logo'
+                    }, function(uploaded, res) {
+                        $scope.proceeding = false;
+                        if (uploaded) {
+                            $scope.updateMerchant(res.data._id, {
+                                logo: {
+                                    id: response.data.public_id,
+                                    url: response.data.url
+                                }
+                            });
+                        }
+                    });
+                })
+                .catch(function (error) {
+                    $scope.proceeding = false;
+                    UtilService.showError('Error', error.data.message);
+                });
+        } else {
+            UtilService.showError('Error', 'Passwords do not match');
+        }
+    };
+
+    /**
+     * Check if file meets requirements
+     */
+    $scope.fileCheck = function() {
+        var image = $scope.image;
+        var limit = 200000;
+        
+        if (UtilService.isDefined(image.src)) {
+            isuploading = true;
+            var dataurl = image.dst;
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            
+            var file = new File([u8arr], `${image.src.length}`, {type:mime});
+
+            if (file.size > limit) {
+                limit = limit / 100;
+                showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+            } else {
+                upload = true;
+                $scope.file = file;
+                $scope.preview = $scope.image.dst;
+                $('#croppingModal').modal('hide');
+            }
+        } else {
+            $('#croppingModal').modal('hide');
+            UtilService.showError('Uh Oh!', 'Something went wrong while uploading.');
+        }
+    };
+
+    /**
+     * Returns true when editing a merchant
+     * and false otherwise
+     */
+    $scope.isEdit = function() {
+        return isEdit;
+    };
+
+    /**
+     * Find out if the form field and form are valid
+     * @param {FormElement} element 
+     */
+    $scope.isError = function(element) {
+        return UtilService.isError(element);
+    };
+
+    /**
+     * Update Merchant Information
+     * @param {String} id merchant's unique id
+     * @param {Object} data holding the data you would like to change
+     */
+    function updateMerchant (id, data) {
+        $scope.proceeding = true;
+        MerchantService.update(id, data).then(function(res) {
+            $scope.proceeding = false;
+            UtilService.showSuccess('Success', 'Merchant updated successfully.');
+        }).catch(function(err) {
+            $scope.proceeding = false;
+            UtilService.showError('Error on Updates', err.data.message);
+        });
+    };
+
+    /**
+     * Procced to next saving step
+     */
+    $scope.proceed = function () {
+        if (upload && isEdit) {
+            $scope.proceeding = true;
+            uploadLogo({
+                file: $scope.file,
+                public_id: merchantId + '-logo'
+            }, function(uploaded, response) {
+                $scope.proceeding = false;
+                if (uploaded) {
+                    $scope.formData.logo = {
+                        id: response.data.public_id,
+                        url: response.data.url
+                    };
+                    updateMerchant(merchantId, $scope.formData);
+                } else {
+                    $scope.proceeding = false;
+                }
+            });
+        } else if (isEdit) {
+            updateMerchant(merchantId, $scope.formData);
+        } else {
+            createMerchant($scope.formData);
+        }
+    };
+});

@@ -1,19 +1,35 @@
 <div class="form-page">
     <h3 class="text-center">Add New Merchant</h3>
-    <form ng-submit="createMerchant(formData)" ng-submit="createMerchant(formData)">
-        <div>
-            <div>Select an image file: <input type="file" id="fileInput" required/></div>
-            <div class="cropArea">
-                <img-crop data-height="300" data-width="300" data-shape="square" data-step="imageCropStep" image="uncropped" result-image="cropped"></img-crop>
-            </div>
-            <div>Cropped Image:</div>
-            <div><img ng-src="{{cropped}}" /></div>
+    <div class="row" ng-if="loading">
+        <div class="col-sm-12 text-center">
+            <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
         </div>
+    </div>
+    <form name="merchantForm" ng-submit="proceed()" ng-if="!loading">
+        <div>
+            <h4 class="text-center">Cropped Image</h4>
+            <div class="crop-area-modal">
+                <img ng-src="{{preview}}" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="end">Select Merchant Logo</label><br/>
+            <div class="btn btn-success" ng-disabled="proceeding || uploading" data-toggle="modal" data-target="#croppingModal">Select Files</div>
+            <small id="endHelp" class="form-text text-muted">Logo the user will see.</small>
+        </div>
+        <div class="btn btn-danger clickable" ng-disabled="proceeding">Change Password <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></div>
         <div class="form-group">
             <label for="companyName">Business Name:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-building"></i></div>
-                <input type="text" class="form-control" id="companyName" aria-describedby="nameHelp" placeholder="e.g. Chisco's Burgers'" ng-model="formData.merchantInfo.companyName" required>
+                <input type="text"
+                    name="companyName"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.companyName)}"
+                    id="companyName"
+                    aria-describedby="nameHelp"
+                    placeholder="e.g. Chisco's Burgers"
+                    ng-model="formData.companyName"
+                    required>
             </div>
             <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
         </div>
@@ -21,7 +37,14 @@
             <label for="email">Email:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-at"></i></div>
-                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com" ng-model="formData.email" required>
+                <input type="email"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.email)}"
+                    id="email"
+                    name="email"
+                    aria-describedby="emailHelp"
+                    placeholder="example@example.com"
+                    ng-model="formData.email"
+                    required>
             </div>
             <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
         </div>
@@ -29,28 +52,59 @@
             <label for="mobileNumber">Mobile Number:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-phone"></i></div>
-                <input type="tel" class="form-control" id="mobileNumber" aria-describedby="mobileNumberHelp" placeholder="e.g. 08056748930" maxlength="11" ng-model="formData.merchantInfo.mobileNumber" required>
+                <input type="tel"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.mobileNumber)}"
+                    id="mobileNumber"
+                    name="mobileNumber"
+                    aria-describedby="mobileNumberHelp"
+                    placeholder="e.g. 08056748930"
+                    maxlength="11"
+                    ng-model="formData.mobileNumber"
+                    required>
             </div>
             <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
         </div>
         <div class="form-group">
             <label for="descr">Description of Business:</label>
-            <textarea class="form-control" id="descr" maxlength="80" placeholder="My company is into..." ng-model="formData.companyDetails" required></textarea>
+            <textarea
+                ng-class="{'form-control': true, 'error-input': isError(merchantForm.descr)}"
+                id="descr"
+                name="descr"
+                maxlength="80"
+                placeholder="My company is into..."
+                ng-model="formData.companyDetails"
+                required></textarea>
             <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="!isEdit()">
             <label for="password">Password:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Please put in password" ng-model="formData.password" required>
+                <input
+                    type="password"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.password)}"
+                    id="password"
+                    name="password"
+                    aria-describedby="passwordHelp"
+                    placeholder="Please put in password"
+                    ng-model="formData.password"
+                    required>
             </div>
             <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="!isEdit()">
             <label for="password2">Confirm Password:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                <input type="password" class="form-control" id="password2" aria-describedby="password2lHelp" placeholder="Confirm Password.." ng-model="formData.password2" required>
+                <input
+                    type="password"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.password2)}"
+                    id="password2"
+                    name="password2"
+                    aria-describedby="password2lHelp"
+                    placeholder="Confirm Password.."
+                    ng-model="formData.password2"
+                    required>
             </div>
             <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
         </div>
@@ -58,7 +112,17 @@
             <label for="address">Address:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-home"></i></div>
-                <input type="text" class="form-control" id="address" minlength="10" maxlength="40" aria-describedby="addressHelp" placeholder="e.g. 2 bank road, ikoyi" ng-model="formData.merchantInfo.address" required>
+                <input
+                    type="text"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.address)}"
+                    id="address"
+                    name="address"
+                    minlength="10"
+                    maxlength="80"
+                    aria-describedby="addressHelp"
+                    placeholder="e.g. 2 bank road, ikoyi"
+                    ng-model="formData.address"
+                    required>
             </div>
             <small id="addressHelp" class="form-text text-muted">Street address with area</small>
         </div>
@@ -66,9 +130,88 @@
             <label for="city">City:</label>
             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                 <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="formData.merchantInfo.city" required>
+                <input
+                    type="text"
+                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.city)}"
+                    id="city"
+                    name="city"
+                    minlength="3"
+                    maxlength="15"
+                    aria-describedby="cityHelp"
+                    placeholder="e.g. Benin"
+                    ng-model="formData.city" required>
             </div>
         </div>
-        <button class="btn btn-default" ng-disabled="loading === true">Submit Form <i class="fas fa-circle-o-notch fa-spin" ng-if="loading === true"></i></button>
+        <div class="form-row">
+            <div class="form-group col-sm-6">
+                <label for="latitude">Latitude:</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                    <input
+                        type="number"
+                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.latitude)}"
+                        id="latitude"
+                        name="latitude"
+                        placeholder="e.g. 6.342345"
+                        step="any"
+                        ng-model="formData.latitude" required>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="longitude">Longitude:</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                    <input
+                        type="number"
+                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.longitude)}"
+                        id="longitude"
+                        name="longitude"
+                        placeholder="e.g. 3.433345"
+                        step="any"
+                        ng-model="formData.longitude" required>
+                </div>
+            </div>
+        </div>
+        <button ng-if="!isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Submit Form <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
+        <button ng-if="isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Update Details <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
     </form>
+</div>
+<!-- Croppig Modal -->
+<div class="modal fade" id="croppingModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h3>Image Crop</h3>
+            </div>
+            <div class="modal-body text-center">
+                <div>
+                    <h4>Images Must all be cropped to a 200x200 square.</h4>
+                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="crop-area-modal center-img">
+                            <canvas
+                                height="200"
+                                width="200"
+                                image="image.src"
+                                image-cropper
+                                cropped-image="image.dst"
+                                crop-height="200"
+                                crop-width="200"
+                                keep-aspect="true"
+                                touch-radiue="30"
+                                crop-area-bounds="bounds"
+                                ></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-success" ng-click="fileCheck(image)">Done</button>
+                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>

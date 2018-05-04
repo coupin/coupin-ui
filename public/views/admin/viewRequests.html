@@ -104,12 +104,12 @@
                 <div class="modal-body" ng-init="action = true">
                     <h4>Are you sure you want to {{ currentRequest.status.display + ' ' + currentRequest.name}}?</h4>
                     <form name="confirm">
-                        <div class="form-group" ng-if="status.value">
+                        <div class="form-group" ng-if="status.value === 'accepted'">
                             <label for="rating">Rating:</label>
                             <input id="rating" name="rating" ng-class="{'form-control': true, 'error-input': isError(confirm.rating, 'rating')}" type="number" ng-min="1" ng-max="5" placeholder="Rate here..." ng-model="status.rating" required></textarea>
                             <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
                         </div>
-                        <div class="form-group" ng-if="!status.value">
+                        <div class="form-group" ng-if="status.value === 'rejected'">
                             <label for="reason">Why was this review rejected: </label>
                             <textarea class="form-control" id="reason" maxlength="80" placeholder="My company is into..." ng-model="status.reason" required></textarea>
                             <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>

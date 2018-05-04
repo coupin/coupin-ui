@@ -22,27 +22,32 @@ function(
       controller: 'AdminController'
     })
     .state('portal.view-admins', {
-      url: '/a/dashboard/admins',
+      url: '/admins',
       templateUrl: 'views/admin/viewAdmin.html',
       controller: 'SuperAdminController'
     })
     .state('portal.add-admins', {
-      url: '/a/dashboard/admins/add',
+      url: '/admins/add',
       templateUrl: 'views/admin/addAdmin.html',
       controller: 'AdminController'
     })
     .state('portal.view-merchs', {
-      url: '/a/dashboard/merchs',
+      url: '/merchs',
       templateUrl: 'views/admin/viewMerch.html',
       controller: 'MerchantController'
     })
     .state('portal.add-merchs', {
-      url: '/a/dashboard/merchs/add',
+      url: '/merchs/add/:id',
       templateUrl: 'views/admin/addMerch.html',
-      controller: 'MerchantController'
+      controller: 'AddMerchantController',
+      resolve: {
+        merchantId: function($stateParams) {
+          return $stateParams.id;
+        }
+      }
     })
     .state('portal.home', {
-      url: '/a/dashboard/home',
+      url: '/home',
       templateUrl: 'views/admin/viewRequests.html',
       controller: 'RequestController'
     });

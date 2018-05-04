@@ -75,7 +75,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.canConfirm = function () {
-        const validate = !$scope.status.value ? ($scope.status.reason && $scope.status.reason.length > 10) : ($scope.status.rating < 6 && $scope.status.rating > 0);
+        const validate = $scope.status.value === 'rejected' ? ($scope.status.reason && $scope.status.reason.length > 10) : ($scope.status.rating < 6 && $scope.status.rating > 0);
         return validate;
     };
 

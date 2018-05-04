@@ -1,16 +1,20 @@
 angular.module('UtilSrv', []).service('UtilService', [
   '$http',
   '$alert',
+  'Upload',
 function(
   $http,
-  $alert
+  $alert,
+  Upload
 ) {
-  this.deletePhotos = function(urls) {
-    console.log(urls);
+  /**
+   * Delete photos on cloudinary using their public ids
+   * @param {*} urls 
+   */
+  this.deletePhotos = function(ids) {
     $http.post('/destroy', {
-      'data': urls
+      'data': ids
     }).then(function(res) {
-      console.log(res);
       console.log('Delete attempted');
     }).catch(function(err) {
       console.log('Deleting Failed');
@@ -25,7 +29,7 @@ function(
     if (/^\d\.{1}\d+$/mg.test(number) && number.length >= 8) {
         return true;
     }
-    
+
     return false;
   };
 
@@ -57,6 +61,14 @@ function(
   };
 
   /**
+   * Check if a Form or any of it's Elements are valid
+   * @param {Object} element 
+   */
+  this.isError = function(element) {
+    return element.$dirty && Object.keys(element.$error).length > 0;
+  };
+
+  /**
    * Check if mobile nuber is valid
    * @param {String} number 
    */
@@ -84,19 +96,52 @@ function(
       });
   };
 
-  /**
-     * Show success alert dialog.
+   /**
+     * Show error alert dialog.
      * @param {String} title 
      * @param {String} msg 
      */
-    this.showSuccess = function (title, msg) {
+    this.showInfo = function (title, msg) {
       $alert({
           'title': title,
           'content': msg,
           'duration': 5,
           'placement': 'top-right',
           'show' : true ,
-          'type' : 'success'
+          'type' : 'info'
       });
+  };
+
+  /**
+   * Show success alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
+  this.showSuccess = function (title, msg) {
+    $alert({
+        'title': title,
+        'content': msg,
+        'duration': 5,
+        'placement': 'top-right',
+        'show' : true ,
+        'type' : 'success'
+    });
+  };
+
+  this.upload = function(data) {
+    return new Promise(function(resolve, reject) {
+      Upload.upload({
+        url: '/upload',
+        method: 'POST',
+        arrayKey: '',
+          data: {
+              data
+          }
+      }).then(function(res) {
+        resolve(res);
+      }).catch(function(error) {
+        reject(error);
+      });
+    });
   };
 }]);

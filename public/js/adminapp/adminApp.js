@@ -1,12 +1,16 @@
 
 angular.module('adminApp', [
   'ngRoute',
+  'ngFileUpload',
   'ui.router',
   'ui.router.state.events',
   'mgcrea.ngStrap',
+  'ngImgCrop',
+  'angular-img-cropper',
   'ngSessionStorage',
   'adminRoutes',
   'AdminCtrl',
+  'AddMerchantCtrl',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',

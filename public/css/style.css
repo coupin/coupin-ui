@@ -79,8 +79,16 @@ td::first-letter {
 .cropArea {
     background: #E4E4E4;
     overflow: hidden;
-    width:100px;
-    height:100px;
+    width:200px;
+    height:200px;
+}
+
+.crop-area-modal {
+    background: #E4E4E4;
+    display: block;
+    /* overflow: hidden; */
+    width:200px;
+    height:200px;
 }
 
 /* .cropArea canvas {
@@ -211,6 +219,10 @@ td::first-letter {
     min-height: 100%;
     min-width: 100%;
     position: absolute;
+}
+
+.right {
+    float: right;
 }
 
 .left-divider {
