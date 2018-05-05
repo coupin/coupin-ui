@@ -6,14 +6,16 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
   UtilService
 ) {
     var isEdit = false;
-    var upload = true;
+    var upload = false;
     $scope.bounds = {
         left: 0,
         right: 0,
         top: 0,
         bottom: 0
     };
-    $scope.formData = {};
+    $scope.formData = {
+        categories: []
+    };
     $scope.image = {
         src: null,
         dst: null
@@ -36,7 +38,8 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 mobileNumber: merchant.merchantInfo.mobileNumber,
                 longitude: merchant.merchantInfo.location[0],
                 latitude: merchant.merchantInfo.location[1],
-                logo: merchant.merchantInfo.logo
+                logo: merchant.merchantInfo.logo,
+                categories: merchant.merchantInfo.categories || []
             };
             $scope.preview = merchant.merchantInfo.logo.url;
             $scope.loading = false;
@@ -154,6 +157,10 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         return UtilService.isError(element);
     };
 
+    $scope.isSelected = function(category) {
+        return $scope.formData.categories.indexOf(category) > -1;
+    };
+
     /**
      * Update Merchant Information
      * @param {String} id merchant's unique id
@@ -168,6 +175,19 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
             $scope.proceeding = false;
             UtilService.showError('Error on Updates', err.data.message);
         });
+    };
+
+    /**
+     * Add or remove category from array of categories
+     * @param {*} category 
+     */
+    $scope.toggleCategory = function(category) {
+        var index = $scope.formData.categories.indexOf(category);
+        if (index > -1) {
+            $scope.formData.categories.splice(index, 1);
+        } else {
+            $scope.formData.categories.push(category);
+        }
     };
 
     /**

@@ -13,7 +13,9 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     $scope.merchants = [];
 
     $scope.addMerch = function() {
-        $state.go('portal.add-merchs', {});
+        $state.go('portal.add-merchs', {
+            id: null
+        });
     };
 
     $scope.editMerch = function(id) {
