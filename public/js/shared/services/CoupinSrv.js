@@ -5,7 +5,7 @@ angular.module('CoupinSrv', []).factory('CoupinService', [
   $http,
   StorageService
 ) {
-  var baseV1Url = 'http://localhost:5030/api/v1';
+  var baseV1Url = config.baseUrl;
   var token = StorageService.getToken();
   var authHeader = {
       'x-access-token': token

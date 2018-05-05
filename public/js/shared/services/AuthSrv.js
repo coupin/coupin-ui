@@ -3,7 +3,7 @@ angular.module('AuthSrv', []).factory('AuthService', [
 function(
   $http
 ) {
-  var baseV1Url = 'http://localhost:5030/api/v1';
+  var baseV1Url = config.baseUrl;
 
   return {
     check : function(adminData) {

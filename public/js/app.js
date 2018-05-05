@@ -19,4 +19,6 @@ angular.module('coupinApp', [
   'MerchantSrv',
   'AdminMerchantCtrl',
   'AuthCtrl'
-]);
+]).constant('config', {
+  baseUrl: 'http://localhost:5030/api/v1'
+});

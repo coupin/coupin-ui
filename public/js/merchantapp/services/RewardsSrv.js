@@ -9,7 +9,7 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
         var authHeader = {
             'x-access-token': token
         };
-        var baseV1Url = 'http://localhost:5030/api/v1';
+        var baseV1Url = config.baseUrl;
 
         return {
             activate: function (id) {
