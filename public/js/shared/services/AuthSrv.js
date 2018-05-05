@@ -1,7 +1,9 @@
 angular.module('AuthSrv', []).factory('AuthService', [
   '$http',
+  'config',
 function(
-  $http
+  $http,
+  config
 ) {
   var baseV1Url = config.baseUrl;
 

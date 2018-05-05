@@ -1,4 +1,9 @@
-angular.module('MerchantSrv', []).factory('MerchantService', function (
+angular.module('MerchantSrv', []).factory('MerchantService', [
+    'config',
+    '$http',
+    'StorageService',
+function (
+    config,
     $http,
     StorageService
 ) {
@@ -48,4 +53,4 @@ angular.module('MerchantSrv', []).factory('MerchantService', function (
             });
         }
     }
-});
+}]);

@@ -1,8 +1,10 @@
 angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
     '$http',
+    'config',
     'StorageService',
     function (
         $http,
+        config,
         StorageService
     ) {
         var token = StorageService.getToken();

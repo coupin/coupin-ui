@@ -1,8 +1,10 @@
 angular.module('CoupinSrv', []).factory('CoupinService', [
   '$http',
+  'config',
   'StorageService'
 , function(
   $http,
+  config,
   StorageService
 ) {
   var baseV1Url = config.baseUrl;
