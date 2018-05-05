@@ -23,7 +23,7 @@ angular.module('adminApp', [
   'StorageSrv',
   'UtilSrv'
 ]).constant('config', {
-  baseUrl: process.env.API_URL
+  baseUrl: 'https://coupin-staging.herokuapp.com/api/v1'
 }).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;

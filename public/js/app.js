@@ -20,5 +20,5 @@ angular.module('coupinApp', [
   'AdminMerchantCtrl',
   'AuthCtrl'
 ]).constant('config', {
-  baseUrl: 'http://localhost:5030/api/v1'
+  baseUrl: 'https://coupin-staging.herokuapp.com/api/v1'
 });
