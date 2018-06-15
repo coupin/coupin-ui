@@ -11,6 +11,7 @@ angular.module('adminApp', [
   'adminRoutes',
   'AdminCtrl',
   'AddMerchantCtrl',
+  'AddRewardCtrl',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',
@@ -18,12 +19,13 @@ angular.module('adminApp', [
   'AuthSrv',
   'AuthCtrl',
   'MerchantSrv',
-  // 'RewardsSrv',
+  'RewardsSrv',
+  'RewardsCtrl',
   'RequestSrv',
   'StorageSrv',
   'UtilSrv'
 ]).constant('config', {
-  baseUrl: process.env.API_URL
+  baseUrl: 'http://localhost:5030/api/v1'
 }).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;

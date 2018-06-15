@@ -1,5 +1,6 @@
 angular.module('AddMerchantCtrl', []).controller('AddMerchantController', function(
   $scope,
+  $state,
   merchantId,
   Upload,
   MerchantService,
@@ -14,7 +15,11 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         bottom: 0
     };
     $scope.formData = {
-        categories: []
+        categories: [],
+        rating: {
+            value: 0,
+            raters: 1
+        }
     };
     $scope.image = {
         src: null,
@@ -39,11 +44,13 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 longitude: merchant.merchantInfo.location[0],
                 latitude: merchant.merchantInfo.location[1],
                 logo: merchant.merchantInfo.logo,
-                categories: merchant.merchantInfo.categories || []
+                categories: merchant.merchantInfo.categories || [],
+                rating: merchant.merchantInfo.rating
             };
-            $scope.preview = merchant.merchantInfo.logo.url;
+            $scope.preview = merchant.merchantInfo.logo ? merchant.merchantInfo.logo.url : '';
             $scope.loading = false;
         }).catch(function(err) {
+            console.log(err);
             $scope.loading = false;
             UtilService.showError(err.data.message);
         });
@@ -159,6 +166,13 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
 
     $scope.isSelected = function(category) {
         return $scope.formData.categories.indexOf(category) > -1;
+    };
+
+    /**
+     * Go back to list of merchants
+     */
+    $scope.navigateToList = function() {
+        $state.go('portal.view-merchs', {});
     };
 
     /**

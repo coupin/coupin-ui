@@ -3,7 +3,7 @@ angular.module('AdminCtrl', []).controller('AdminController', function(
     $scope,
     $state,
     $window,
-    AdminSrv,
+    AdminService,
     StorageService,
     UtilService
 ){
@@ -17,7 +17,7 @@ angular.module('AdminCtrl', []).controller('AdminController', function(
     // Add New Admin
     $scope.addAdmin = () => {
         $scope.errorMessages = {};
-        AdminSrv.create($scope.newAdminData).then(function(data) {
+        AdminService.create($scope.newAdminData).then(function(data) {
             var response = data.data;
             UtilService.showSuccess('Success!', `${$scope.newAdminData.email} was added successfully.`);
             $scope.newAdminData = {};

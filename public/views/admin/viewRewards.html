@@ -1,0 +1,77 @@
+<div class="inline-body">
+  <div class="jumbotron jumbotron-box padding-5-all">
+      <form>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <select
+                ng-options="merchant.merchantInfo.companyName for merchant in merchants"
+                ng-model="selectedMerch"
+                class="form-control">
+                <option value="">Select Merchant</option>
+              </select>
+            </div>
+        </div>
+        <div class="col-sm-2">
+        <div class="form-group">
+            <select
+            ng-options="status.value as status.display for status in statuses"
+            ng-model="selectedStatus"
+            class="form-control">
+            <option value="">Select Status</option>
+            </select>
+        </div>
+        </div>
+        <div class="col-sm-4">
+            <button class="btn btn-success" ng-disabled="disableSearch()" ng-click="resetPage();loadRewards()"><i class="fas fa-search"></i> Find Rewards</button>
+            <button class="btn btn-default" ng-click="addReward()"><i class="fas fa-plus"></i> Add reward</button>
+        </div>
+        </div>
+      </form>
+  </div>
+  <div class="jumbotron jumbotron-box padding-10-all">
+      <div class="row" ng-if="loading">
+          <div class="col-sm-12 text-center">
+              <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+          </div>
+      </div>
+      <table class="table table-striped" ng-if="!loading">
+          <thead>
+              <th>S/N</th>
+              <th>Name</th>
+              <th>Merchant</th>
+              <th>Start Date</th>
+              <th>Status</th>
+              <th>Created Date</th>
+          </thead>
+          <tbody>
+              <tr ng-repeat="(index, reward) in rewards">
+                  <td>{{index + 1}}</td>
+                  <td>{{reward.name}}</td>
+                  <td>{{reward.merchantID.merchantInfo.companyName}}</td>
+                  <td>{{reward.startDate | date: 'longDate'}}</td>
+                  <td>{{reward.status}}</td>
+                  <td>{{reward.createdDate | date: 'longDate'}}</td>
+                  <td><div class="clickable" data-toggle="tooltip" title="Review Reward" ng-click="editMerch(merchant._id)"><i class="fa fa-clipboard-check"></i></div></td>
+                  <td><div class="clickable" data-toggle="tooltip" title="Activate/Deactivate Merchant" ng-click="toggleStatus(merchant._id)"><i ng-class="{'fas fa-eye-slash icon': merchant.isActive, 'fas fa-eye icon': !merchant.isActive}"></i></div></td>
+                  <td><div class="clickable" data-toggle="tooltip" title="Archive" ng-click="toggleStatus(merchant._id)"><i class="fa fa-archive"></i></div></td>
+                  <!-- <td><button class="btn btn-default" ng-show="merchant.isActive === true">DeActivate</button></td>
+                  <td><button class="btn btn-default" ng-show="merchant.isActive === false">Activate</button></td> -->
+              </tr>
+          </tbody>
+      </table>
+      <div class="row">
+          <div class="col-sm-5 clickable" ng-click="previousPage()">
+              <span class="right">
+                  <i class="fa fa-angle-double-left"></i> Back
+              </span>
+          </div>
+          <div class="col-sm-2 text-center">
+              <span>{{ getPage() }}</span>
+          </div>
+          <div class="col-sm-5 clickable" ng-click="nextPage()">
+              Next <i class="fa fa-angle-double-right"></i>
+          </div>
+      </div>
+  </div>
+</div>

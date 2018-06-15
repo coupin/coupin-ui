@@ -16,7 +16,8 @@
     "angular-ui-router": "^1.0.15",
     "angular-sessionstorage": "^1.1.5",
     "angular-bootstrap": "^2.5.0",
-    "angular-img-cropper": "^1.1.0"
+    "angular-img-cropper": "^1.1.0",
+    "angular-daterangepicker": "^0.2.2"
   },
   "resolutions": {
     "angular": "1.6.8"

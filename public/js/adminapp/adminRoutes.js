@@ -36,6 +36,18 @@ function(
       templateUrl: 'views/admin/viewMerch.html',
       controller: 'MerchantController'
     })
+    .state('portal.view-rewards', {
+      url: '/rewards',
+      templateUrl: 'views/admin/viewRewards.html',
+      controller: 'RewardsController',
+      resolve: {
+        merchants: function(AdminService) {
+          return AdminService.getMerchNames().then(function(response) {
+            return response.data;
+          });
+        }
+      }
+    })
     .state('portal.add-merchs', {
       url: '/merchs/add/:id',
       templateUrl: 'views/admin/addMerch.html',
@@ -43,6 +55,21 @@ function(
       resolve: {
         merchantId: function($stateParams) {
           return $stateParams.id;
+        }
+      }
+    })
+    .state('portal.add-rewards', {
+      url: '/rewards/add/:id',
+      templateUrl: 'views/admin/addReward.html',
+      controller: 'AddRewardController',
+      resolve: {
+        rewardId: function($stateParams) {
+          return $stateParams.id;
+        },
+        merchants: function(AdminService) {
+          return AdminService.getMerchNames().then(function(response) {
+            return response.data;
+          });
         }
       }
     })

@@ -1,7 +1,7 @@
 angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function(
     $scope,
     $alert,
-    AdminSrv,
+    AdminService,
     UtilService
 ) {
     $scope.admins = [];
@@ -13,7 +13,7 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
 
     var counter = 0;
 
-    AdminSrv.get().then(function(data) {
+    AdminService.get().then(function(data) {
         $scope.admins = data.data;
         if($scope.admins.length == 0) {
             $scope.empty = true;
@@ -24,7 +24,7 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     });
 
     $scope.toggleStatus = function(id) {
-        AdminSrv.toggleStatus(id)
+        AdminService.toggleStatus(id)
         .then(function(data) {
             $scope.admins = $scope.admins.filter(function(admin) {
                 if(admin._id == $scope.currentAdmin._id) {
@@ -41,7 +41,7 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     };
 
     $scope.delete = function(id) {
-        AdminSrv.delete(id)
+        AdminService.delete(id)
         .then(function(data) {
             console.log(data);
             if(data.data.success) {

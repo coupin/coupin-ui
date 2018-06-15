@@ -12,6 +12,10 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope.uploadingLogo = false;
   $scope.updating = false;
   $scope.editable = false;
+  $scope.billing = {
+      plan: null,
+      reference: null
+    };
   $scope.position = {};
   $scope.states = ['lagos'];
   $scope.settings = 'personal';
@@ -213,6 +217,13 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
     });
   };
 
+  $scope.setPlan = function(plan) {
+      $scope.billing = {
+        plan: plan,
+        reference: `${plan}-testing`
+      };
+  };
+
   $scope.toggleEditable = function() {
     $scope.editable = !$scope.editable;
   };
@@ -230,7 +241,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
         ];
       }
 
-      MerchantService.update($scope.user.id, $scope.user).then(function (response) {
+      MerchantService.update($scope.user.id, $scope.user.merchantInfo).then(function (response) {
         StorageService.setUser(response.data);
         $('#cropModal').modal('hide');
         $alert({
@@ -252,6 +263,19 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
         }
       });
     }
+  };
+
+  $scope.updateBilling = function() {
+      MerchantService.updateBilling($scope.user.id, $scope.billing)
+        .then(function(response) {
+            console.log(response);
+            StorageService.setUser(response.data);
+            UtilService.showSuccess('Success', `Billing successfully changed to ${billing.plan} plan!`);
+        })
+        .catch(function(err) {
+            console.log(err);
+            UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
+        });
   };
 
     function showError(title, msg) {

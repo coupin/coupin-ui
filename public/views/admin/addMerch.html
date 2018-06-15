@@ -1,4 +1,5 @@
 <div class="form-page">
+    <h4 class="clickable" ng-click="navigateToList()"><i class="fa fa-angle-double-left"></i> Go Back</h4>
     <h3 class="text-center">Add New Merchant</h3>
     <div class="row" ng-if="loading">
         <div class="col-sm-12 text-center">
@@ -32,6 +33,19 @@
                     required>
             </div>
             <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating:</label>
+            <input id="rating"
+                name="rating"
+                ng-class="{'form-control': true, 'error-input': isError(merchantForm.rating)}"
+                type="number"
+                ng-min="1"
+                ng-max="5"
+                placeholder="Rate here..."
+                ng-model="formData.rating.value"
+                required></textarea>
+            <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
         </div>
         <div class="form-group">
             <label for="email">Email:</label>
