@@ -51,6 +51,40 @@ body {
   text-transform: capitalize;
 }
 
+.card {
+  border: 1px solid gray;
+  box-sizing: border-box;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, .6);
+  margin: 10px auto;
+  padding-bottom: 10px;
+}
+
+.card-head {
+  background: #23527c;
+  color: white;
+  padding: 10px;
+  min-height: 30px;
+}
+
+.card-head > h4 {
+  letter-spacing: 0.5em;
+}
+
+.card-body {
+  min-height: 200px;
+  padding: 5px;
+}
+
+.card-body > ul {
+  line-height: 2em;
+}
+
+.card-footer {
+  bottom: 20px;
+  padding: 10px   5px;
+  width: 100%;
+}
+
 .logo-box {
   background-position: center;
   background-size: cover;
@@ -160,6 +194,11 @@ fieldset[disabled] .btn-outline-primary.focus {
   background-color: #fff;
 }
 
+.center-item {
+  display: block;
+  margin: auto;
+}
+
 .container-fluid {
     padding-left: 0px;
 }
@@ -232,7 +271,8 @@ fieldset[disabled] .btn-outline-primary.focus {
     text-transform: capitalize;
 }
 
-.nav-merch:hover {
+.nav-merch:hover,
+.nav-active {
     background: #000F3B !important;
     color: white !important;
 }
@@ -278,7 +318,7 @@ fieldset[disabled] .btn-outline-primary.focus {
 
 .active {
   color: #fff;
-  background-color: #204d74;
+  background-color: #337ab7;
   border-color: #204d74;
 }
 

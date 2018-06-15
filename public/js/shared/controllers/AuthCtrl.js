@@ -14,10 +14,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.formData = {};
     
     // to show error and loading
-    $scope.showError = false;
+    var plan = 'payAsYouGo';
     $scope.loading = [false, false];
-    // console.log('Inside controller');
-    // $state.go('a', {});
+    $scope.planIndex = 0;
+    $scope.showError = false;
 
     // Get merchant id
     const merchId = $location.$$absUrl.match(/(\w)*$/g);
@@ -35,7 +35,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     }
 
     if (StorageService.isLoggedIn()) {
-        console.log('Inside');
         $scope.user = StorageService.getUser();
         if ($scope.user.role > 1) {
             $state.go('dashboard.home', {});
@@ -107,6 +106,23 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
+    $scope.planCheck = function(index) {
+        return $scope.planIndex === index;
+    };
+
+    $scope.planSelect = function(index) {
+        if (index === 0) {
+            $scope.planIndex = 0;
+            plan = 'payAsYouGo';
+        } else if (index === 1) {
+            $scope.planIndex = 1;
+            plan = 'monthly';
+        } else if (index === 2) {
+            $scope.planIndex = 2;
+            plan = 'yearly';
+        }
+     }
+
     /**
      * Used to complete merchants registration
      */
@@ -122,30 +138,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
             // Handle service response
             if(data.success === true) {
-                $alert({
-                    'title': 'Confirmation Success',
-                    'content': data.message,
-                    'placement': 'top-right',
-                    'show' : true ,
-                    'type' : 'success'
-                });
+                UtilService.showSuccess('Confirmation Success', data.message);
                 $window.location.href = '/merchant/register';
             } else {
                 // hide loading icon
                 $scope.loading[1] = false;
-
                 $scope.showErrors('Confirmation Failed', response);
             }
         }).catch(function(err){
             $scope.loading[1] = false;
-            $alert({
-                'title': 'Confirmation Failed',
-                'content': err,
-                'duration': 5,
-                'placement': 'top-right',
-                'show' : true ,
-                'type' : 'danger'
-            });
+            UtilService.showSuccess('Confirmation Failed', err.data);
         });
     };
 

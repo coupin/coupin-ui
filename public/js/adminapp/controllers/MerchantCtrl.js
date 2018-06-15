@@ -24,6 +24,12 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
         });
     };
 
+    $scope.getPageCount = function() {
+        const start = page * 10;
+        const end = start + $scope.merchants.length;
+        return `${start} - ${end}`;
+    };
+
     $scope.loadMerchants = function() {
         $scope.loading = true;
         MerchantService.getAllMerchants(page)
@@ -39,10 +45,13 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
         });
     };
 
-    $scope.getPageCount = function() {
-        const start = page * 10;
-        const end = start + $scope.merchants.length;
-        return `${start} - ${end}`;
+    $scope.nextPage = function() {
+        if ($scope.merchants.length === 10) {
+            page++;
+            $scope.loadMerchants();
+        } else {
+            UtilService.showInfo('Uh Oh', 'There are no more merchants');
+        }
     };
 
     $scope.previousPage = function() {
@@ -54,13 +63,8 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
         }
     };
 
-    $scope.nextPage = function() {
-        if ($scope.merchants.length === 10) {
-            page++;
-            $scope.loadMerchants();
-        } else {
-            UtilService.showInfo('Uh Oh', 'There are no more merchants');
-        }
+    $scope.toggleStatus = function(id) {
+
     };
 
     const handleFileSelect = function (evt) {

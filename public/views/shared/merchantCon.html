@@ -6,79 +6,161 @@
 
         <title> Register with us for premier discount marketing </title>
         <!-- CSS -->
-        <link rel="stylesheet" href="../../libs/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../libs/font-awesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../../libs/angular-motion/dist/angular-motion.css">
+        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/libs/font-awesome/web-fonts-with-css/css/fontawesome-all.css">
+        <link rel="stylesheet" href="/libs/angular-motion/dist/angular-motion.css">
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/style.css">
 
         <!-- JS -->
-        <script src="../../libs/angular/angular.js"></script>
-        <script src="../../libs/angular-route/angular-route.js"></script>
-        <script src="../../libs/angular-strap/dist/angular-strap.min.js"></script>
-        <script src="../../libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
+        <script src="/libs/angular/angular.js"></script>
+        <script src="/libs/angular-route/angular-route.js"></script>
+        <script src="/libs/angular-sessionstorage/angular-sessionstorage.js"></script>
+        <script src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/libs/angular-ui-router/release/stateEvents.min.js"></script>
+        <script src="/libs/angular-strap/dist/angular-strap.min.js"></script>
+        <script src="/libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
+        <script src="/libs/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+        <script src="/libs/ng-file-upload/ng-file-upload.min.js"></script>
+        <script src="/libs/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+        <script src="/libs/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
 
         <!-- ANGULAR CUSTOM -->
-        <script src="../../js/shared/controllers/AuthCtrl.js"></script>
-        <script src="../../js/services/LoginSrv.js"></script>
-        <script src="../../js/services/MerchantSrv.js"></script>
-        <script src="../../js/shared/authapp.js"></script>
+        <script src="/js/shared/controllers/AuthCtrl.js"></script>
+        <script src="/js/shared/services/AuthSrv.js"></script>
+        <script src="/js/shared/services/StorageSrv.js"></script>
+        <script src="/js/merchantapp/services/MerchantSrv.js"></script>
+        <script src="/js/shared/services/RewardsSrv.js"></script>
+        <script src="/js/shared/services/UtilSrv.js"></script>
+        <script src="/js/shared/authapp.js"></script>
     </head>
-    <body ng-app="authapp" ng-controller="AuthController" class="registration">
-        <div class="row text-center">
-            <h1 class="light"> <b>Merchant</b> Confirmation Form </h1>
-            <h4 class="light"> Just one more step to become <b>active</b></h4>
-            <h3 class="light no-space-below">Hi <b>{{ merchant.companyName }}</b> Fill the form below to complete your registration</h3>
-        </div>
-        <div class="row">
-            <div class="col-md-12 col-xs-12">
-                <div class="merchantRegBox">
-                    <form>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                                <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Please put in password" ng-model="formData.password" required>
+    <body ng-app="authapp" ng-controller="AuthController">
+        <div class="registration">
+            <div class="row text-center">
+                <h1 class="light"> <b>Merchant</b> Confirmation Form </h1>
+                <h4 class="light"> Just one more step to become <b>active</b></h4>
+                <h3 class="light no-space-below">Hi <b>{{ merchant.companyName }}</b> Fill the form below to complete your registration</h3>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="merchantRegBox">
+                        <form>
+                            <div class="row">
+                                <h3 class="text-center">Select Plan</h3>
+                                <h3 class="light text-center">Read description about plans below</h3>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="plan">
+                                        <div class="plan-inner">
+                                            <div id="plan-1" class="plan-header text-center">
+                                                <span class="plan-title">Pay As You Go</span>
+                                            </div>
+                                            <div class="plan-price price-1 text-center">
+                                                <span>&#8358;500</span>
+                                                <small class="price-1">per Day</small>
+                                            </div>
+                                            <div class="plan-body price-1">
+                                                <span>&#8358;15% off any reward that exceeds 7 days</span>
+                                            </div>
+                                            <div class="plan-footer plan-1 text-center" ng-click="planSelect(0)">
+                                                <i ng-if="planCheck(0)" class="fa fa-check"></i>
+                                                <span ng-if="!planCheck(0)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="plan">
+                                        <div class="plan-inner">
+                                            <div id="plan-2" class="plan-header text-center">
+                                                <span class="plan-title">Start Up</span>
+                                            </div>
+                                            <div class="plan-price price-2 text-center">
+                                                <span>&#8358;29,500</span>
+                                            </div>
+                                            <div class="plan-body price-2">
+                                                <span>Unlimited Rewards within Month of Payment</span>
+                                                <hr>
+                                                <span>Dedicated Tech Support</span>
+                                            </div>
+                                            <div class="plan-footer plan-2 text-center" ng-click="planSelect(1)">
+                                                <i ng-if="planCheck(1)" class="fa fa-check"></i>
+                                                <span ng-if="!planCheck(1)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="plan">
+                                        <div class="plan-inner">
+                                            <div id="plan-3" class="plan-header text-center">
+                                                <span class="plan-title">Corporate</span>
+                                            </div>
+                                            <div class="plan-price price-3 text-center">
+                                                <span>&#8358;200,000</span>
+                                            </div>
+                                            <div class="plan-body price-3">
+                                                <span>Unlimited Rewards within Year of Payment</span>
+                                                <hr>
+                                                <span>Dedicated Tech Support</span>
+                                                <hr>
+                                                <span>Coupin Concierge at Merchant Location</span>
+                                            </div>
+                                            <div class="plan-footer plan-3 text-center" ng-click="planSelect(2)">
+                                                <i ng-if="planCheck(2)" class="fa fa-check"></i>
+                                                <span ng-if="!planCheck(2)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="password2">Confirm Password:</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                                <input type="password" class="form-control" id="password2" aria-describedby="password2lHelp" placeholder="Confirm Password.." ng-model="formData.password2" required>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-key"></i></div>
+                                    <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Please put in password" ng-model="formData.password" required>
+                                </div>
+                                <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
                             </div>
-                            <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address:</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon"><i class="fas fa-home"></i></div>
-                                <input type="text" class="form-control" id="address" minlength="20" maxlength="40" aria-describedby="addressHelp" placeholder="e.g. 2 bank road, ikoyi" ng-model="formData.address" required>
+                            <div class="form-group">
+                                <label for="password2">Confirm Password:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-key"></i></div>
+                                    <input type="password" class="form-control" id="password2" aria-describedby="password2lHelp" placeholder="Confirm Password.." ng-model="formData.password2" required>
+                                </div>
+                                <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
                             </div>
-                            <small id="addressHelp" class="form-text text-muted">Street address with area</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="city">City:</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                                <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="formData.city" required>
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-home"></i></div>
+                                    <input type="text" class="form-control" id="address" minlength="20" maxlength="40" aria-describedby="addressHelp" placeholder="e.g. 2 bank road, ikoyi" ng-model="formData.address" required>
+                                </div>
+                                <small id="addressHelp" class="form-text text-muted">Street address with area</small>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State:</label>
-                            <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="formData.state" ng-options="state for state in states" required></select>
-                            <small id="addressHelp" class="form-text text-muted">Street address with area</small>
-                        </div>
-                        
-                        <button class="btn btn-default" type="submit" ng-click="completeMerch()">Complete Registration</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-                    </form>
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                                    <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="formData.city" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="state">State:</label>
+                                <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="formData.state" ng-options="state for state in states" required>
+                                    <option value="">Select State</option>
+                                </select>
+                                <small id="addressHelp" class="form-text text-muted">Street address with area</small>
+                            </div>
+                            
+                            <button class="btn btn-default" type="submit" ng-click="completeMerch()">Complete Registration</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row footer">
-            <div class="row text-center">
-                <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
+            <div class="row footer">
+                <div class="row text-center">
+                    <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
+                </div>
             </div>
         </div>
     </body>

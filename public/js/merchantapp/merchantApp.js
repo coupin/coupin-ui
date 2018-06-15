@@ -6,6 +6,7 @@ angular.module('coupinApp', [
   'mgcrea.ngStrap',
   'ngImgCrop',
   'angular-img-cropper',
+  'daterangepicker',
   'merchappRoutes',
   'AuthCtrl',
   'HomeCtrl',

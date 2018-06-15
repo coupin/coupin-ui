@@ -19,6 +19,11 @@ angular.module('RequestSrv', []).factory('RequestService', [
           headers: authHeader
       });
     },
+    getMerchantsRewards: function(id) {
+      return $http.get(`${baseV1Url}/merchant/${id}/rewards`, {
+          headers: authHeader
+      });
+    },
     // Use to approve or decline
     updateStatus : function(id, details) {
       return $http.put(`${baseV1Url}/merchant/${id}/status/`, details, {

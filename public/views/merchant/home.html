@@ -16,9 +16,9 @@
                     <div class="collapse navbar-collapse" id="merchant-menu">
                         <ul class="nav navbar-nav">
                             <li><a class="nav-merch text-center" href="" ng-disabled="true"><b>{{user.merchantInfo.companyName}}</b></a></li>
-                            <li><a class="nav-merch text-center" ui-sref=".home">Home</a></li>
-                            <li><a class="nav-merch text-center" ui-sref=".rewards">Rewards</a></li>
-                            <li><a class="nav-merch text-center" ui-sref=".profile">Profile</a></li>
+                            <li><a id="home" class="nav-merch text-center" ui-sref=".home">Home</a></li>
+                            <li><a id="rewards" class="nav-merch text-center" ui-sref=".rewards">Rewards</a></li>
+                            <li><a id="profile" class="nav-merch text-center" ui-sref=".profile">Profile</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class="nav-merch text-center" ng-click="logOut()">Sign Out</a></li>

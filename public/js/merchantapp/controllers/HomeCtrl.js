@@ -1,5 +1,6 @@
 angular.module('HomeCtrl', []).controller('HomeController', function(
   $alert,
+  $location,
   $scope,
   StorageService,
   CoupinService,
@@ -116,6 +117,17 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
       }
     });
   };
+
+  // $scope.$watch(function() {
+  //   $location.path();
+  // }, function() {
+  //   console.log('Change');
+  //   var pathArray = $location.path().split("/");
+  //   var page = pathArray[pathArray.length - 1];
+  //   if (page === 'home' || page === 'rewards' || page === 'profile') {
+  //     $(`#${page}`).toggleClass('nav-active');
+  //   }
+  // });
 
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);

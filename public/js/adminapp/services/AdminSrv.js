@@ -1,4 +1,4 @@
-angular.module('AdminSrv', []).factory('AdminSrv', [
+angular.module('AdminSrv', []).factory('AdminService', [
     '$http',
     'config',
     'StorageService',
@@ -28,6 +28,11 @@ function(
         },
         getAdmin : function(id) {
             return $http.delete('/admin/' + id);
+        },
+        getMerchNames : function() {
+            return $http.get(`${baseV1Url}/merchant/names`, {
+                headers: authHeader
+            });
         },
         // Call to DE-Activate admin
         toggleStatus: function(id) {

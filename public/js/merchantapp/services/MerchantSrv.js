@@ -51,6 +51,11 @@ function (
             return $http.put(baseV1Url + '/merchant/' + id, user, {
                 headers: authHeader
             });
+        },
+        updateBilling: function (id, billing) {
+            return $http.post(baseV1Url + '/merchant/' + id, billing, {
+                headers: authHeader
+            });
         }
     }
 }]);

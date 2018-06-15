@@ -47,11 +47,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET
 });
 
-
-// app.use('/admin', function (req, res) {
-//   res.sendfile('public/views/index.html');
-// });
-
 // frontend routers
 // app.get('/', function(req, res) {
 //   res.sendfile('./public/views/welcome.html');
@@ -142,18 +137,7 @@ app.get('/merchant/register', function(req, res) {
 });
 
 app.get('/merchant/:id/confirm', function(req, res) {
-  // load the merchant registration page
-  // Merchant.findById(req.params.id, function(err, merchant){
-  //     if(err)
-  //     res.sendfile('./public/views/error.html');
-
-  //     if('activated' in merchant && merchant.activated) {
-  //     res.sendfile('./public/shared/views/merchantReg.html');
-  //     } else {
-  //     res.sendfile('./public/shared/views/merchantCon.html');
-  //     }
-  // });
-  res.sendfile('./public/shared/views/merchantReg.html');
+  res.sendfile('./public/views/shared/merchantCon.html');
 });
 
 app.get('*', function(req, res) {
@@ -166,7 +150,7 @@ app.listen(port).on('error', function (err) {
 });
 
 // confirmation
-console.log('Too Cool for port ' + port);
+console.log('Coupin UI started on ' + port);
 
 // expose app
 module.exports = app;

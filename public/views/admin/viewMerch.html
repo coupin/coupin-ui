@@ -28,9 +28,10 @@
                     <td>{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
                     <td>{{merchant.email}}</td>
                     <td>{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
-                    <td><div class="clickable" data-toggle="tooltip" title="Edit Merchant" ng-click="editMerch(merchant._id)"><i class="fa fa-pen-square"></i></div></td>
-                    <td><button class="btn btn-default" ng-show="merchant.isActive === true">DeActivate</button></td>
-                    <td><button class="btn btn-default" ng-show="merchant.isActive === false">Activate</button></td>
+                    <td><div class="clickable" data-toggle="tooltip" title="Edit Merchant" ng-click="editMerch(merchant._id)"><i class="fa fa-pencil-alt"></i></div></td>
+                    <td><div class="clickable" data-toggle="tooltip" title="Activate/Deactivate Merchant" ng-click="toggleStatus(merchant._id)"><i ng-class="merchant.isActive ? 'fas fa-eye-slash icon' : 'fas fa-eye icon'"></i></div></td>
+                    <!-- <td><button class="btn btn-default" ng-show="merchant.isActive === true">DeActivate</button></td>
+                    <td><button class="btn btn-default" ng-show="merchant.isActive === false">Activate</button></td> -->
                 </tr>
             </tbody>
         </table>

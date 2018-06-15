@@ -69,6 +69,14 @@ function(
   };
 
   /**
+   * Check if a Form is valid
+   * @param {Object} form 
+   */
+  this.isFormError = function(form) {
+    return Object.keys(form.$error).length > 0;
+  };
+
+  /**
    * Check if mobile nuber is valid
    * @param {String} number 
    */
