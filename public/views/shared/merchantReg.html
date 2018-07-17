@@ -68,7 +68,7 @@
             <div class="col-md-7 col-xs-12">
                 <h3 class="light bottom-space"><b>Sign up</b> with us to start now...</h3>
                 <div class="merchantRegBox">
-                    <form>
+                    <form ng-submit="registerMerch()">
                         <div class="form-group">
                             <label for="companyName">Business Name:</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -99,7 +99,7 @@
                             <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
                         </div>
                         
-                        <button class="btn btn-default" type="submit" ng-click="registerMerch()">Submit Request</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                        <button class="btn btn-default" type="submit">Submit Request</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
                     </form>
                 </div>
             </div>

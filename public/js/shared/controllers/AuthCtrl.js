@@ -165,7 +165,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             $state.go('dashboard.home', {});
         }).catch(function(err) {
             $scope.loading[1] = false;
-            $scope.showErrors('Request Failed', err);
+            UtilService.showError('Request Failed', err.data);
         });
     }
 

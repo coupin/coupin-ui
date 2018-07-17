@@ -218,10 +218,7 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
   };
 
   $scope.setEndDate = function(days) {
-    console.log(days);
-    console.log($scope.newReward.startDate);
     $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
-    console.log($scope.newReward.endDate);
   };
 
   /**

@@ -24,7 +24,7 @@
         </div>
         <div class="col-sm-4">
             <button class="btn btn-success" ng-disabled="disableSearch()" ng-click="resetPage();loadRewards()"><i class="fas fa-search"></i> Find Rewards</button>
-            <button class="btn btn-default" ng-click="addReward()"><i class="fas fa-plus"></i> Add reward</button>
+            <!-- <button class="btn btn-default" ng-click="addReward()"><i class="fas fa-plus"></i> Add reward</button> -->
         </div>
         </div>
       </form>
@@ -52,7 +52,7 @@
                   <td>{{reward.startDate | date: 'longDate'}}</td>
                   <td>{{reward.status}}</td>
                   <td>{{reward.createdDate | date: 'longDate'}}</td>
-                  <td><div class="clickable" data-toggle="tooltip" title="Review Reward" ng-click="editMerch(merchant._id)"><i class="fa fa-clipboard-check"></i></div></td>
+                  <!-- <td><div class="clickable" data-toggle="tooltip" title="Review Reward" ng-click="editMerch(merchant._id)"><i class="fa fa-clipboard-check"></i></div></td> -->
                   <td><div class="clickable" data-toggle="tooltip" title="Activate/Deactivate Merchant" ng-click="toggleStatus(merchant._id)"><i ng-class="{'fas fa-eye-slash icon': merchant.isActive, 'fas fa-eye icon': !merchant.isActive}"></i></div></td>
                   <td><div class="clickable" data-toggle="tooltip" title="Archive" ng-click="toggleStatus(merchant._id)"><i class="fa fa-archive"></i></div></td>
                   <!-- <td><button class="btn btn-default" ng-show="merchant.isActive === true">DeActivate</button></td>
