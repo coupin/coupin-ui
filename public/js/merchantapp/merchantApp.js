@@ -21,7 +21,7 @@ angular.module('coupinApp', [
   'AuthSrv',
   'UtilSrv'
 ]).constant('config', {
-  baseUrl: 'https://coupin-staging.herokuapp.com/api/v1'
+  baseUrl: 'https://coupin.herokuapp.com/api/v1'
 }).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
