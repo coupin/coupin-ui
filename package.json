@@ -27,6 +27,6 @@
   },
   "scripts": {
     "start": "nodemon server.js",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install && npm install nodemon -g"
   }
 }
