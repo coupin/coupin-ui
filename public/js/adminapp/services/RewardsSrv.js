@@ -1,4 +1,4 @@
-angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
+angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsService', [
   '$http',
   'config',
   'StorageService',
@@ -23,6 +23,7 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
           // },
           getMerchRewards: function (id, query) {
               var url = `${baseV1Url}/merchant/${id}/rewards`;
+              console.log(id);
               console.log(query);
               if (UtilService.isDefined(query)) {
                   url = `${url}?status=${query.status}`

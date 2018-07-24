@@ -19,6 +19,7 @@ angular.module('adminApp', [
   'AuthSrv',
   'AuthCtrl',
   'MerchantSrv',
+  'AdminRewardsSrv',
   'RewardsSrv',
   'RewardsCtrl',
   'RequestSrv',

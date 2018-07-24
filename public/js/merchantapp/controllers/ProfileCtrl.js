@@ -254,7 +254,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
         });
         $scope.updating = false;
       }).catch(function (err) {
-        console.log(err);
         $scope.updating = false;
         if (!(err.status === 500) && err.data) {
             showError('oops!', err.data.message);
@@ -268,12 +267,10 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope.updateBilling = function() {
       MerchantService.updateBilling($scope.user.id, $scope.billing)
         .then(function(response) {
-            console.log(response);
             StorageService.setUser(response.data);
             UtilService.showSuccess('Success', `Billing successfully changed to ${billing.plan} plan!`);
         })
         .catch(function(err) {
-            console.log(err);
             UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
         });
   };

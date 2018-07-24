@@ -5,6 +5,7 @@
     <div class="text-center">
         <h2>Reward Creation</h2>
     </div>
+    <button class="btn btn-secondary" ng-click="payWithPayStack()">Testing</button>
     <form>
         <div class="form-group">
             <label for="name">Reward Name: </label><span>*</span>
@@ -19,7 +20,7 @@
             <textarea type="text" class="form-control" id="description" aria-describedby="descriptionHelp" placeholder="Description.." ng-model="newReward.description" required></textarea>
             <small id="descriptionlHelp" class="form-text text-muted">Description of the reward</small>
         </div>
-        <div class="row">
+        <div class="row" ng-if="!payRewardIsActive()">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label for="oldPrice">Old Price: </label>
@@ -39,8 +40,8 @@
                 </div>
             </div>
         </div>
-        <div class="row text-center">
-            <h3>Your Reward Discount is {{ ((newReward.price.old - newReward.price.new)/newReward.price.old) * 100 | number : 2 }}% Off</h3>
+        <div class="row text-center" ng-if="!payRewardIsActive()">
+            <h3>Your Reward Discount is {{ calculatePercentage(newReward.price.old, newReward.price.new) | number : 2 }}% Off</h3>
         </div>
         <div class="form-group">
             <label>Reward Categories: </label><br/>
@@ -55,12 +56,12 @@
             <br/>
             <small id="categoryHelp" class="form-text text-muted">Please tick categories that best describe your business.</small>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="!payRewardIsActive()">
             <label for="multiple">Can this reward be used multiple times: </label><br/>
             <label><input type="radio" name="multiple" id="multiple" ng-model="newReward.multiple.status" ng-value="true"/> Yes </label>
             <label><input type="radio" name="multiple" id="multiple" ng-model="newReward.multiple.status" ng-value="false"> No </label><br/>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="!payRewardIsActive()">
             <label for="delivery">Can this reward be delivered: </label><br/>
             <label><input type="radio" name="delivery" id="delivery" ng-model="newReward.delivery" ng-value="true"/> Yes </label>
             <label><input type="radio" name="delivery" id="delivery" ng-model="newReward.delivery" ng-value="false"> No </label><br/>
@@ -70,29 +71,28 @@
             <input class="form-control" id="capacity" type="number" ng-model="newReward.multiple.capacity"/>
             <small id="startHelp" class="form-text text-muted">Put in 0 for countless times.</small>
         </div> -->
-        <!-- <div class="form-group">
-            <label for="start">Start Date: </label><br/>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                <input class="form-control" id="start" type="date" ng-model="newReward.startDate"/>
+        <div class="row" ng-if="!payRewardIsActive()">
+            <div class="col-md-8 col-sm-12">
+                <div class="form-group">
+                    <label for="startDate">Please pick a start date: </label><br/>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                        <input bs-datepicker class="form-control" id="startDate" name="startDate" type="text" ng-change="setEndDate(noOfDays)" ng-model="newReward.startDate" data-min-date="{{minDate}}" required/>
+                    </div>
+                    <small id="rangeHelp" class="form-text text-muted">This is when the users will start to see the re ward.</small>
+                </div>
             </div>
-            <small id="startHelp" class="form-text text-muted">Start date for the reward.</small>
-        </div>
-        <div class="form-group">
-            <label for="end">End Date: </label><br/>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                <input class="form-control" id="end" type="date" ng-model="newReward.endDate"/>
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                    <label for="endDate">Please select number of days: </label><br/>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                        <input class="form-control" id="endDate" name="startDate" type="number" ng-model="noOfDays" ng-change="setEndDate(noOfDays)" required/>
+                    </div>
+                    <small id="rangeHelp" class="form-text text-muted">It will end on <b>{{newReward.endDate | date: 'longDate'}}</b>.</small>
+                </div>
             </div>
-            <small id="endHelp" class="form-text text-muted">End date for the reward.</small>
-        </div> -->
-        <div class="form-group">
-            <label for="range">Please pick a start and end date: </label><br/>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                <input date-range-picker class="form-control date-picker" id="end" type="text" ng-model="dates" min="minDate"/>
-            </div>
-            <small id="rangeHelp" class="form-text text-muted">This is when the users will start to see the reward and when it will end.</small>
+            <h3 class="text-center">Total: <b>&#8358; {{getTotal(noOfDays)}}</b></h3>
         </div>
         <div class="form-group">
             <label for="appDays">Applicable Days: </label><br/>
@@ -108,27 +108,30 @@
             <button class="btn btn-outline-primary" id="6" ng-click="day(6)">Sunday</button></br>
             <small id="appDaysHelp" class="form-text text-muted">Pick the days of the week that apply to you.</small>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="!payRewardIsActive()">
             <label for="end">Reward Pictures: </label><br/>
             <div class="btn btn-success" ng-disabled="loading || uploading" data-toggle="modal" data-target="#croppingModal">Select Files</div>
             <small id="endHelp" class="form-text text-muted">Sample Picture of Reward.</small>
         </div>
         <div class="row" ng-if="displayRewardPhotos()">
-            <div class="progress">
+            <div class="progress" ng-if="!payRewardIsActive()">
                 <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
                     <span class="text-center">{{progress === 100 ? 'Processing...' : progress + '%'}}</span>
                 </div>
             </div>
             <div class="preview-box" ng-repeat="(index, photo) in photos">
-                <h5 class="text-center clickable" ng-click="removeImage(index)"><i class="fas fa-2x fa-times-circle"></i></h5>
+                <h5 class="text-center clickable" ng-click="removeImage(index)" ng-if="!payRewardIsActive()"><i class="fas fa-2x fa-times-circle"></i></h5>
                 <img ng-src="{{photo.url}}" height="200" width="200"/>
             </div>
             <br>
-            <button class="btn btn-success" ng-if="update" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
+            <span ng-if="!payRewardIsActive()">
+                <button class="btn btn-success" ng-if="update" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
+            </span>
         </div>
         <br>
-        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="createReward(newReward)" ng-hide="update">Create Reward</button>
-        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="updateReward(newReward)" ng-show="update">Update Reward</button>
+        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="createReward(newReward)" ng-if="displayCreateButton()">Create Reward</button>
+        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="updateReward(newReward)" ng-if="displayUpdateButton()">Update Reward</button>
+        <button class="btn btn-primary btn-full" ng-disabled="loading || uploading" ng-click="makePayment(newReward)" ng-if="displayPayAndUpdateButton()">Pay and Update Reward</button>
     </form>
 </div>
 
