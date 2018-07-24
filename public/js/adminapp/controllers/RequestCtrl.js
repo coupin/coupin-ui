@@ -44,20 +44,9 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
                     break;
             }
             $scope.loading = false;
-            // for(var i = 0; i < $scope.requests.length; i+=1) {
-            //     if($scope.requests[i].activated) {
-            //         $scope.totalCom.push($scope.requests[i]);
-            //     } else if($scope.requests[i].rejected) {
-            //         $scope.totalDec.push($scope.requests[i]);
-            //     } else if($scope.requests[i].isPending) {
-            //         $scope.totalPen.push($scope.requests[i]);
-            //     } else {
-            //         $scope.totalReq.push($scope.requests[i]);
-            //     }
-            // }
         }).catch(function(err) {
             $scope.loading = false;
-            Util.showError(err.data);
+            UtilService.showError(err.data);
         });
     }
 
@@ -97,7 +86,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
         let data = {};
 
-        if (group === 'pending') {
+        if ($scope.group === 'pending') {
             data = {
                 status: $scope.status.value,
                 rating: $scope.status.rating,
