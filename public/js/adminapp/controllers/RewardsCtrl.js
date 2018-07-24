@@ -2,13 +2,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   '$scope',
   '$state',
   'merchants',
-  'RewardsService',
+  'AdminRewardsService',
   'UtilService',
   function(
   $scope,
   $state,
   merchants,
-  RewardsService,
+  AdminRewardsService,
   UtilService
 ) {
   var page = 0;
@@ -61,12 +61,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
       query['status'] = $scope.selectedStatus;
     }
 
-    RewardsService.getMerchRewards($scope.selectedMerch._id, query).then(function (result) {
-      $scope.rewards = result.data;
-      if ($scope.rewards)
+    AdminRewardsService.getMerchRewards($scope.selectedMerch._id, query).then(function (result) {
       $scope.loading = false;
+      $scope.rewards = result.data;
     }).catch(function (err) {
-        console.log(err);
         $scope.loading = false;
     });
   };

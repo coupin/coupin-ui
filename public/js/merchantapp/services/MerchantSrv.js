@@ -29,6 +29,9 @@ function (
         complete : function(id, details) {
             return $http.post(baseV1Url + '/merchant/' + id + '/confirm/', details);
         },
+        confirm : function(id) {
+            return $http.get(baseV1Url + '/merchant/' + id + '/confirm/');
+        },
         get : function() {
             return $http.get(baseV1Url + '/merchant', {
                 headers: authHeader

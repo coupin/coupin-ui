@@ -10,7 +10,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     const id = $state.params.id;
     const errTitle = 'Error!';
     const errMsg = 'Something went wrong on our end. Please try again.';
-    console.log($scope.user);
     const plan = $scope.user.merchantInfo.billing.plan;
 
     var amount = 0;
@@ -105,12 +104,12 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     }
                 ]
             },
-            callback: function(response){
+            callback: function(response) {
                 if (cb && typeof cb === 'function') {
                     cb(response.reference);
                 }
             },
-            onClose: function(){
+            onClose: function() {
                 $scope.loading = false;
                 UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
             }

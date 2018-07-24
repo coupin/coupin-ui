@@ -5,6 +5,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $state,
     $window,
     $alert,
+    config,
     MerchantService,
     AuthService,
     StorageService,
@@ -12,25 +13,28 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 ) {
     // scope variable to hold form data
     $scope.formData = {};
+
+    const strings = $location.absUrl().match(/\w+/g);
+    const merchId = strings[strings.length - 2];
+    console.log(merchId);
     
     // to show error and loading
+    var amount = 0;
     var plan = 'payAsYouGo';
     $scope.loading = [false, false];
     $scope.planIndex = 0;
     $scope.showError = false;
 
-    // Get merchant id
-    const merchId = $location.$$absUrl.match(/(\w)*$/g);
-
     // States
     $scope.states = ['lagos'];
 
     // Get current merchant if merchant route called
-    if(($location.$$absUrl).includes('merchant/confirm')) {
-        MerchantService.retrieve(merchId[0]).then(function(response) {
-            $scope.merchant = response.data;
-        }).catch(function() {
-            console.log('The user doesn\'t exist.');
+    if(merchId && merchId.length === 24) {
+        MerchantService.confirm(merchId).then(function(response) {
+            $scope.user = response.data;
+            console.log(response.data);
+        }).catch(function(err) {
+            $scope.showErrors('Retrieval Failed', err.data.message);
         });
     }
 
@@ -116,20 +120,50 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             plan = 'payAsYouGo';
         } else if (index === 1) {
             $scope.planIndex = 1;
+            amount = 57000;
             plan = 'monthly';
         } else if (index === 2) {
             $scope.planIndex = 2;
+            amount = 750000;
             plan = 'yearly';
         }
      }
 
-    /**
-     * Used to complete merchants registration
-     */
-    $scope.completeMerch = () => {
-        $scope.loading[1] = true;
-        
-        MerchantService.complete(merchId[0], $scope.formData).then(function(response){
+     function makePayment() {
+         var date = new Date();
+        var handler = PaystackPop.setup({
+            key: config.paystackId,
+            email: $scope.user.email,
+            amount: amount * 100,
+            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-6`,
+            metadata: {
+                custom_fields: [
+                    {
+                        display_name: "Plan",
+                        variable_name: "Billing_Plan",
+                        value: `${$scope.user.merchantInfo.companyName} - ${plan}-${date.getTime()}`
+                    }
+                ]
+            },
+            callback: function(response){
+                $scope.formData['billing'] = {
+                    plan: plan,
+                    date: date,
+                    reference: response.reference
+                };
+                updateUser();
+            },
+            onClose: function(){
+                $scope.loading = false;
+                UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+            }
+        });
+        handler.openIframe();
+     }
+
+     function updateUser() {
+         $scope.loading[1] = true;
+         MerchantService.complete(merchId, $scope.formData).then(function(response){
             // Get response data
             let data = response.data;
 
@@ -137,18 +171,32 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             $scope.loading[1] = false;
 
             // Handle service response
-            if(data.success === true) {
-                UtilService.showSuccess('Confirmation Success', data.message);
-                $window.location.href = '/merchant/register';
-            } else {
-                // hide loading icon
-                $scope.loading[1] = false;
-                $scope.showErrors('Confirmation Failed', response);
-            }
+            UtilService.showSuccess('Confirmation Success', data.message);
+            $window.location.href = '/merchant/register';
         }).catch(function(err){
             $scope.loading[1] = false;
             UtilService.showSuccess('Confirmation Failed', err.data);
         });
+     }
+
+    /**
+     * Used to complete merchants registration
+     */
+    $scope.completeMerch = () => {
+        switch($scope.planIndex) {
+            case 0:
+                $scope.formData['billing'] = {
+                    plan: plan,
+                    date: new Date(),
+                    reference: 'complete-registration'
+                };
+                updateUser();
+                break;
+            case 1:
+            case 2:
+                makePayment();
+                break;
+        }
     };
 
     /**

@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-md-12 col-xs-12">
                     <div class="merchantRegBox">
-                        <form>
+                        <form ng-submit="completeMerch()">
                             <div class="row">
                                 <h3 class="text-center">Select Plan</h3>
                                 <h3 class="light text-center">Read description about plans below</h3>
@@ -75,7 +75,7 @@
                                                 <span class="plan-title">Start Up</span>
                                             </div>
                                             <div class="plan-price price-2 text-center">
-                                                <span>&#8358;29,500</span>
+                                                <span>&#8358;57,000</span>
                                             </div>
                                             <div class="plan-body price-2">
                                                 <span>Unlimited Rewards within Month of Payment</span>
@@ -96,7 +96,7 @@
                                                 <span class="plan-title">Corporate</span>
                                             </div>
                                             <div class="plan-price price-3 text-center">
-                                                <span>&#8358;200,000</span>
+                                                <span>&#8358;750,000</span>
                                             </div>
                                             <div class="plan-body price-3">
                                                 <span>Unlimited Rewards within Year of Payment</span>
@@ -152,7 +152,7 @@
                                 <small id="addressHelp" class="form-text text-muted">Street address with area</small>
                             </div>
                             
-                            <button class="btn btn-default" type="submit" ng-click="completeMerch()">Complete Registration</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                            <button class="btn btn-default" type="submit">Complete Registration</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
                         </form>
                     </div>
                 </div>
@@ -163,5 +163,7 @@
                 </div>
             </div>
         </div>
+        <script src="/libs/jQuery/dist/jquery.js"></script>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
     </body>
 </html>

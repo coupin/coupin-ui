@@ -88,6 +88,35 @@ function(
     return false;
   };
 
+  this.payWithPayStack = function(user, plan, amount, cb) {
+    var date = new Date();
+    var handler = PaystackPop.setup({
+      key: 'pk_test_e34c598056e00361d0ecceefac6299eef29b7e46',
+      email: user.email,
+      amount: amount * 100,
+      ref: `${plan}-${user.id}-${date.getTime()}`,
+      metadata: {
+          custom_fields: [
+              {
+                  display_name: 'Subscription payment',
+                  variable_name: 'Payer\'s Details',
+                  value: `Made by ${user.merchantInfo.companyName}`
+              }
+          ]
+      },
+      callback: function(response){
+          if (cb && typeof cb === 'function') {
+              cb(response.reference);
+          }
+      },
+      onClose: function(){
+          $scope.loading = false;
+          UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+      }
+  });
+  handler.openIframe();
+};
+
   /**
      * Show error alert dialog.
      * @param {String} title 
