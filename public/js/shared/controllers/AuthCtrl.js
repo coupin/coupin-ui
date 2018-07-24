@@ -14,9 +14,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     // scope variable to hold form data
     $scope.formData = {};
 
-    const strings = $location.absUrl().match(/\w+/g);
-    const merchId = strings[strings.length - 2];
-    console.log(merchId);
     
     // to show error and loading
     var amount = 0;
@@ -29,13 +26,20 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.states = ['lagos'];
 
     // Get current merchant if merchant route called
-    if(merchId && merchId.length === 24) {
-        MerchantService.confirm(merchId).then(function(response) {
-            $scope.user = response.data;
-            console.log(response.data);
-        }).catch(function(err) {
-            $scope.showErrors('Retrieval Failed', err.data.message);
-        });
+    if($location.absUrl().includes('confirm')) {
+        const strings = $location.absUrl().match(/\w+/g);
+        const merchId = strings[strings.length - 2];
+
+        if (merchId && merchId.length === 24) {
+            MerchantService.confirm(merchId).then(function(response) {
+                $scope.user = response.data;
+                console.log(response.data);
+            }).catch(function(err) {
+                $scope.showErrors('Retrieval Failed', err.data.message);
+            });
+        } else {
+            UtilService.showError('Uh Oh', 'Invalid id.');
+        }
     }
 
     if (StorageService.isLoggedIn()) {
@@ -135,7 +139,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             key: config.paystackId,
             email: $scope.user.email,
             amount: amount * 100,
-            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-6`,
+            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
             metadata: {
                 custom_fields: [
                     {
@@ -175,7 +179,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             $window.location.href = '/merchant/register';
         }).catch(function(err){
             $scope.loading[1] = false;
-            UtilService.showSuccess('Confirmation Failed', err.data);
+            UtilService.showError('Confirmation Failed', err.data);
         });
      }
 
