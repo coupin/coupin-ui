@@ -30,9 +30,9 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   };
 
   var selected = false;
-  var logo = UtilService.isDefined($scope.user.merchantInfo.logo) ? $scope.user.merchantInfo.logo 
+  var logo = UtilService.isDefined($scope.user.merchantInfo.logo) ? $scope.user.merchantInfo.logo.url 
   : '../img/logo.jpg';
-  var banner = UtilService.isDefined($scope.user.merchantInfo.banner) ? $scope.user.merchantInfo.banner 
+  var banner = UtilService.isDefined($scope.user.merchantInfo.banner) ? $scope.user.merchantInfo.banner.url 
   : '../img/banner.jpg';
   $scope.image = {
       src: null,
@@ -311,5 +311,5 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
                 $scope.upload(file, $scope.user.id, isLogo);
             }
         }
-    }
+    };
 });
