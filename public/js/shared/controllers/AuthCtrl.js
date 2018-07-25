@@ -14,21 +14,36 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     // scope variable to hold form data
     $scope.formData = {};
 
-    
+    const strings = $location.absUrl().match(/\w+/g);
+
+
     // to show error and loading
     var amount = 0;
+    var merchId = '';
     var plan = 'payAsYouGo';
+    $scope.bounds = {
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0
+    };
+    $scope.image = {
+        src: null,
+        dst: null
+    };
     $scope.loading = [false, false];
     $scope.planIndex = 0;
+    $scope.progress = 0;
     $scope.showError = false;
+    $scope.uploadingBanner = false;
+    $scope.uploadingLogo = false;
 
     // States
     $scope.states = ['lagos'];
 
     // Get current merchant if merchant route called
     if($location.absUrl().includes('confirm')) {
-        const strings = $location.absUrl().match(/\w+/g);
-        const merchId = strings[strings.length - 2];
+        merchId = strings[strings.length - 2];
 
         if (merchId && merchId.length === 24) {
             MerchantService.confirm(merchId).then(function(response) {
@@ -119,6 +134,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     };
 
     $scope.planSelect = function(index) {
+        // if (!UtilService.isDefined($scope.formData.logo) || !UtilService.isDefined($scope.formData.banner)) {
+        //     UtilService.showError('Uh Oh', 'Must have a logo and a banner.');
+        // }
         if (index === 0) {
             $scope.planIndex = 0;
             plan = 'payAsYouGo';
@@ -176,10 +194,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
             // Handle service response
             UtilService.showSuccess('Confirmation Success', data.message);
-            $window.location.href = '/merchant/register';
+            $window.location.href = '/auth';
         }).catch(function(err){
             $scope.loading[1] = false;
-            UtilService.showError('Confirmation Failed', err.data);
+            UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
         });
      }
 
@@ -200,6 +218,77 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             case 2:
                 makePayment();
                 break;
+        }
+    };
+
+    function resetUploads() {
+        $scope.progress = 0;
+        $scope.uploadingLogo = false;
+        $scope.uploadingBanner = false;
+      }
+
+    function upload(image, name, isLogo) {
+        if (isLogo) {
+            $scope.uploadingLogo = true;
+        } else {
+            $scope.uploadingBanner = true;
+        }
+
+        UtilService.uploadProfile(image, name, isLogo, function(response) {
+            if (response.success) {
+                if (isLogo) {
+                    $scope.formData['logo'] = {
+                        id: response.data.public_id,
+                        url: response.data.url
+                    };
+                } else {
+                    $scope.formData['banner'] = {
+                        id: response.data.public_id,
+                        url: response.data.url
+                    };
+                }
+                $('#cropModal').modal('hide');
+                resetUploads();
+            } else {
+                Util.showError('Upload Failed', response.data);
+            }
+        }, function(percentage) {
+            $scope.progress = percentage;
+        });
+    }
+
+    $scope.showBanner = function() {
+        return UtilService.isDefined($scope.formData.banner);
+    };
+
+    $scope.showLogo = function() {
+        return UtilService.isDefined($scope.formData.logo);
+    };
+
+    /**
+     * Check file and make upload
+     * @param {*} image 
+     * @param {*} isLogo 
+     */
+    $scope.fileCheck = function(image, isLogo) {
+        var limit = isLogo ? 500000 : 900000;
+        if (UtilService.isDefined(image.src)) {
+            isuploading = true;
+            var dataurl = image.dst;
+            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while(n--){
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+            
+            var file = new File([u8arr], 'testing', {type:mime});
+
+            if (file.size > limit) {
+                limit = limit / 100;
+                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+            } else {
+                upload(file, $scope.user._id, isLogo);
+            }
         }
     };
 

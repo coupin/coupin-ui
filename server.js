@@ -133,7 +133,7 @@ app.get('/homepage', function(req, res) {
 });
 
 app.get('/merchant/register', function(req, res) {
-  res.sendfile('./public/shared/views/merchantReg.html');
+  res.sendfile('./public/views/shared/merchantReg.html');
 });
 
 app.get('/merchant/:id/confirm', function(req, res) {

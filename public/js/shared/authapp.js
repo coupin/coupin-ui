@@ -4,6 +4,8 @@ angular.module('authapp', [
   'ngSessionStorage',
   'ui.router',
   'ui.router.state.events',
+  'angular-img-cropper',
+  'ngImgCrop',
   'mgcrea.ngStrap',
   'AuthCtrl',
   'AuthSrv',

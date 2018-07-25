@@ -208,6 +208,47 @@ td::first-letter {
     z-index: 23;
 }
 
+.banner-box {
+    background: rgba(0, 0, 0, .5);
+    background-image: url("./../img/photo-camera.png");
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(0, 0, 0, .5);
+    display: flex;
+    height: 200px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.banner-box > img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
+.logo-box {
+    background: rgba(0, 0, 0, .5);
+    background-image: url("./../img/photo-camera.png");
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(0, 0, 0, .5);
+    height: 200px;
+    width: 200px;
+}
+
+.banner-box:hover,
+.logo-box:hover {
+    border: 1px solid white;
+    background: rgba(0, 0, 0, .9);
+    background-image: url("./../img/photo-camera.png");
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
 .modal-space-text {
     font-size: 18px;
     padding: 20px;
@@ -432,7 +473,7 @@ td::first-letter {
 }
 
 .modal-banner {
-    width: 1040;
+    width: 1040px;
 }
 
 .preview-box {
