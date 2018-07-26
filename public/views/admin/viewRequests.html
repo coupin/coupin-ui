@@ -110,6 +110,27 @@
                             <input id="rating" name="rating" ng-class="{'form-control': true, 'error-input': isError(confirm.rating, 'rating')}" type="number" ng-min="1" ng-max="5" placeholder="Rate here..." ng-model="status.rating" required></textarea>
                             <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
                         </div>
+                        <div class="row" ng-if="status.value === 'accepted'">
+                            <h3>Geolocation Details</h3>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="longitude">Longitude: </label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                        <input type="text" maxlength="8" minlength="8" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="location.long" required/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="latitude">Latitude: </label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                        <input type="text" maxlength="8" minlength="8" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="location.lat" required/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group" ng-if="status.value === 'rejected'">
                             <label for="reason">Why was this review rejected: </label>
                             <textarea class="form-control" id="reason" maxlength="80" placeholder="My company is into..." ng-model="status.reason" required></textarea>
@@ -118,7 +139,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-disabled="!canConfirm()" data-dismiss="modal" ng-click="proceed()">Confirm</button>
+                    <button class="btn btn-success" type="submit" ng-disabled="!canConfirm()" data-dismiss="modal" ng-click="proceed()">Confirm</button>
                     <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
