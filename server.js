@@ -14,7 +14,6 @@ const multer = require('multer');
 const upload = multer();
 
 const app = express();
-var port = process.env.PORT || 5030;
 
 dotenv.config();
 

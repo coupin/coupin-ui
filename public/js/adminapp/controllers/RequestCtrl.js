@@ -7,6 +7,10 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
 ){
     $scope.requests = [];
     $scope.currentRequest = {};
+    $scope.location = {
+        lat: 0,
+        long: 0
+    };
     $scope.status = {
         display: 'decline',
         reason: '',
@@ -64,7 +68,10 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.canConfirm = function () {
-        const validate = $scope.status.value === 'rejected' ? ($scope.status.reason && $scope.status.reason.length > 10) : ($scope.status.rating < 6 && $scope.status.rating > 0);
+        const validate = $scope.status.value === 'rejected' ?
+        ($scope.status.reason && $scope.status.reason.length > 10) :
+        ($scope.status.rating < 6 && $scope.status.rating > 0 &&
+            UtilService.isDecimal($scope.location.lat) && UtilService.isDecimal($scope.location.long));
         return validate;
     };
 
@@ -90,7 +97,8 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             data = {
                 status: $scope.status.value,
                 rating: $scope.status.rating,
-                reason: $scope.status.reason
+                reason: $scope.status.reason,
+                location: $scope.location
             };
         } else {
             data = {
