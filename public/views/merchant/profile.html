@@ -121,10 +121,18 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <label>Bill Plan: </label>
-                        <span>Silver Plan</span>
+                        <span>{{user.merchantInfo.billing.plan | capital}}</span>
                         <br>
-                        <label>Last Payment: </label>
-                        <span>10th of September, 2018</span>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <label>Last Payment: </label>
+                                <span>{{user.merchantInfo.billing.history[0].date | date: 'longDate'}}</span>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <label>Expiration Date: </label>
+                                <span>{{user.merchantInfo.billing.history[0].expiration | date: 'longDate'}}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -147,7 +155,7 @@
                                 </ul>
                             </div>
                             <div class="card-footer">
-                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'payAsYouGo'}" ng-click="setPlan('payAsYouGo')">Pay Now</button>
+                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'payAsYouGo'}" ng-click="setPlan('payAsYouGo')">Select Plan</button>
                             </div>
                         </div>
                     </div>
@@ -164,7 +172,7 @@
                                 </ul>
                             </div>
                             <div class="card-footer">
-                                <button  ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'startUp'}" ng-click="setPlan('startUp')">Pay Now</button>
+                                <button  ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'startUp'}" ng-click="setPlan('startUp')">Select Plan</button>
                             </div>
                         </div>
                     </div>
@@ -181,7 +189,7 @@
                                 </ul>
                             </div>
                             <div class="card-footer">
-                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'corporate'}" ng-click="setPlan('corporate')">Pay Now</button>
+                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'corporate'}" ng-click="setPlan('corporate')">Select Plan</button>
                             </div>
                         </div>
                     </div>
