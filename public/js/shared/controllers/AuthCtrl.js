@@ -157,7 +157,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             key: config.paystackId,
             email: $scope.user.email,
             amount: amount * 100,
-            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
             metadata: {
                 custom_fields: [
                     {

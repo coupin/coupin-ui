@@ -14,7 +14,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   var page = 0;
 
   $scope.loading = false;
-  $scope.merchants = merchants;
+  $scope.merchants = [{
+    _id: 0,
+    merchantInfo: {
+      companyName: 'All'
+    }
+  }];
+  $scope.merchants = $scope.merchants.concat(merchants);
   $scope.statuses = [{
     display: 'All',
     value: 'all'

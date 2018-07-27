@@ -1,6 +1,7 @@
 angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope,
     $state,
+    config,
     MerchantService,
     RewardsService,
     StorageService,
@@ -90,17 +91,20 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Make payment with paystack
      */
     function payWithPayStack(reward, cb) {
+        var date = new Date();
+        const reference = `${reward._id}-${$scope.user.merchantInfo.companyName.split(' ')[0]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`;
+
         var handler = PaystackPop.setup({
-            key: 'pk_test_e34c598056e00361d0ecceefac6299eef29b7e46',
+            key: config.paystackId,
             email: $scope.user.email,
             amount: amount * 100,
-            ref: `${reward._id}-${$scope.user.merchantInfo.companyName}.-${$scope.user.id}-2`,
+            ref: reference,
             metadata: {
                 custom_fields: [
                     {
                         display_name: "Reward Name",
                         variable_name: "The name of the reward",
-                        value: "Test Reward"
+                        value: `${reward.name}`
                     }
                 ]
             },
@@ -115,10 +119,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             }
         });
         handler.openIframe();
-    };
-
-    function updateBilling(id, details) {
-
     };
 
     $scope.addCat = function (category) {
@@ -176,18 +176,22 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         const bill = plan ==='payAsYouGo';
         $scope.loading = true;
         RewardsService.create(reward).then(function (result) {
-            UtilService.showSuccess('Success', 'Reward Created Successfully.');
             $scope.newReward = result.data;
             $scope.loading = false;
             if ($scope.files.length > 0) {
                 $scope.upload(result.data._id, function() {
-                    // if (bill) {
-                        payWithPayStack();
-                    // }
+                    if (bill) {
+                        UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
+                        $scope.makePayment(result.data);
+                    } else {
+                        UtilService.showSuccess('Success', 'Reward Created Successfully.');
+                    }
                 });
-            // } else if(plan === 'payAsYouGo') {
+            } else if(plan === 'payAsYouGo') {
+                UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
+                $scope.makePayment(result.data);
             } else {
-                payWithPayStack();
+                UtilService.showSuccess('Success', 'Reward Created Successfully.');
             }
         }).catch(function (err) {
             $scope.loading = false;
@@ -313,6 +317,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             }).then(function(response) {
                 StorageService.setUser(response.data);
                 reward.status = 'isPending';
+                reward.isActive = true;
                 $scope.updateReward(reward);
                 $scope.loading = false;
                 UtilService.showSuccess('Success', `Billing Updated!`);
