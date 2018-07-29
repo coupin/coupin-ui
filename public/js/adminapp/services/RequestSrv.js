@@ -19,6 +19,11 @@ angular.module('RequestSrv', []).factory('RequestService', [
           headers: authHeader
       });
     },
+    getRewards: function() {
+      return $http.get(`${baseV1Url}/rewards/requests`, {
+          headers: authHeader
+      });
+    },
     getMerchantsRewards: function(id) {
       return $http.get(`${baseV1Url}/merchant/${id}/rewards`, {
           headers: authHeader

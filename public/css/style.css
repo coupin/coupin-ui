@@ -68,6 +68,38 @@ td::first-letter {
     width: 80%;
 }
 
+#accordion {
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+
+.success-card-header {
+    background: #67BC57;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: white;
+    padding: 3px;
+    text-align: center;
+}
+
+.success-card-body {
+    border: 2px solid #67BC57;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    padding: 10px;
+}
+
+.success-card-btn,
+.success-card-btn:active,
+.success-card-btn:focus {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 13px;
+    outline: none !important;
+}
+
 .center-buttons {
     padding: 100px;
 }
@@ -163,6 +195,13 @@ td::first-letter {
 .dashboard-request {
     background: #00ace6;
     color: white;
+    padding-bottom: 0 !important;
+}
+
+.home-nav-inv > div {
+    border-bottom: 1px solid #00ace6;
+    transition-duration: 200ms;
+    transition-timing-function: linear;
 }
 
 .home-nav > div {
@@ -170,13 +209,19 @@ td::first-letter {
     transition-timing-function: linear;
 }
 
-.home-active {
-    color: #00ace6;
-}
 
 .home-nav > div:hover {
     background: #00ace6;
     color: white;
+}
+
+.home-active-inv,
+.home-nav-inv > div:hover {
+    text-shadow: 0 0 5px white;
+}
+
+.home-active {
+    color: #00ace6;
 }
 
 .dashboard-request > div > div > a {

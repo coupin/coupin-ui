@@ -35,7 +35,7 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
                   headers: authHeader,
                   data: query
               });
-          },
+          }
       }
   }
 ]);

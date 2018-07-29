@@ -51,7 +51,7 @@ body {
   text-transform: capitalize;
 }
 
-.card {
+.my-card {
   border: 1px solid gray;
   box-sizing: border-box;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, .6);
@@ -59,27 +59,27 @@ body {
   padding-bottom: 10px;
 }
 
-.card-head {
+.my-card-head {
   background: #23527c;
   color: white;
   padding: 10px;
   min-height: 30px;
 }
 
-.card-head > h4 {
+.my-card-head > h4 {
   letter-spacing: 0.5em;
 }
 
-.card-body {
+.my-card-body {
   min-height: 200px;
   padding: 5px;
 }
 
-.card-body > ul {
+.my-card-body > ul {
   line-height: 2em;
 }
 
-.card-footer {
+.my-card-footer {
   bottom: 20px;
   padding: 10px   5px;
   width: 100%;

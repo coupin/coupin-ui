@@ -3,10 +3,12 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     $alert,
     MerchantService,
     RequestService,
+    RewardsService,
     UtilService
 ){
     $scope.requests = [];
     $scope.currentRequest = {};
+    $scope.currentReward = {};
     $scope.location = {
         lat: 0,
         long: 0
@@ -22,37 +24,51 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
 
     // Requests
     $scope.totalReq = [];
-    $scope.totalPen = [];
-    $scope.totalCom = [];
-    $scope.totalDec = [];
+    $scope.totalRewards = [];
+
+    $scope.getDay = function(index) {
+        switch(index) {
+            case 0:
+                return 'Sunday';
+            case 1:
+                return 'Monday';
+            case 2:
+                return 'Tuesday';
+            case 3:
+                return 'Wednesday';
+            case 4:
+                return 'Thursday';
+            case 5:
+                return 'Friday';
+            case 6:
+                return 'Saturday';
+        }
+    };
 
     $scope.getRequests = function(status, page) {
         $scope.loading = true;
         $scope.group = status;
-        RequestService.getRequests(status).then(function(response){
+        RequestService.getRequests(status).then(function(response) {
             // $scope.requests = response.data;
             console.log(response.data);
-    
-            switch(status) {
-                case 'pending':
-                    $scope.totalReq = response.data;
-                    break;
-                case 'accepted':
-                    $scope.totalReq = response.data;
-                    break;
-                case 'rejected':
-                    $scope.totalReq = response.data;
-                    break;
-                case 'completed':
-                    $scope.totalReq = response.data;
-                    break;
-            }
+
+            $scope.totalReq = response.data;
             $scope.loading = false;
         }).catch(function(err) {
             $scope.loading = false;
             UtilService.showError(err.data);
         });
-    }
+    };
+
+    $scope.getRewards = function() {
+        $scope.loading = true;
+
+        RequestService.getRewards().then(function(response) {
+            console.log(response);
+            $scope.totalRewards = response.data;
+            $scope.loading = false;
+        });
+    };
 
     $scope.isError = function(e, type) {
         if (type === 'rating') {
@@ -65,6 +81,15 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope.selectMerch = (x, status) => {
         $scope.currentRequest = x;
         $scope.status.value = status;
+    };
+
+    $scope.selectReward = (x, status) => {
+        $scope.currentReward = x;
+        $scope.status.value = status;
+    };
+
+    $scope.canApprove = function() {
+        return $scope.status.reason && $scope.status.reason.length > 10;
     };
 
     $scope.canConfirm = function () {
@@ -87,6 +112,30 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         // };
         return $scope.group === 'rejected';
     };
+
+    $scope.approve = function() {
+        const status = $scope.status.value === 'accepted' ? 'active' : 'review';
+        let data = {
+            status: status,
+            review : {
+                admin: $scope.user.id,
+                comment: $scope.status.reason
+            }
+        };
+
+        $scope.loading = true;
+        RewardsService.update($scope.currentReward._id, data).then(function() {
+            UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.display} and email has been sent`);
+
+            $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
+                return reward.id !== $scope.currentReward.id;
+            });
+            $scope.loading = false;
+        }).catch(function(err) {
+            $scope.loading = false;
+            UtilService.showError('Activation Failed', err.data);
+        });
+    };
     
     $scope.proceed = function() {
         // Show loading screen and add details for decline
@@ -106,7 +155,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             };
         }
 
-        RequestService.updateStatus($scope.currentRequest.id, data).then(function(data) {
+        RequestService.updateStatus($scope.currentRequest.id, data).then(function() {
             $scope.loading = false;
             // Send an alert that approval has been successful
             UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.display} and email has been sent`);
@@ -117,7 +166,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             });
         }).catch(function(err) {
             $scope.loading = false;
-            UtilService.showError('Activation Failed', err);
+            UtilService.showError('Activation Failed', err.data);
         });
     };
 });

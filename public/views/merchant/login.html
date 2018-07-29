@@ -43,22 +43,6 @@
                       <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
                   </div>
                   <div class="form-group">
-                      <label for="email">Email:</label>
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div class="input-group-addon"><i class="fas fa-at"></i></div>
-                          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com" ng-model="formData.email" required>
-                      </div>
-                      <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
-                  </div>
-                  <div class="form-group">
-                      <label for="mobileNumber">Mobile Number:</label>
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div class="input-group-addon"><i class="fas fa-phone"></i></div>
-                          <input type="tel" class="form-control" id="mobileNumber" aria-describedby="mobileNumberHelp" placeholder="e.g. 08056748930" maxlength="11" ng-model="formData.mobileNumber" required>
-                      </div>
-                      <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
-                  </div>
-                  <div class="form-group">
                         <label for="address">Address:</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon"><i class="fas fa-home"></i></div>
@@ -83,6 +67,22 @@
                             </select>
                             <small id="addressHelp" class="form-text text-muted">Street address with area</small>
                         </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Email:</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon"><i class="fas fa-at"></i></div>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com" ng-model="formData.email" required>
+                        </div>
+                        <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
+                    </div>
+                    <div class="form-group col-md-6 col-sm-12">
+                        <label for="mobileNumber">Mobile Number:</label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon"><i class="fas fa-phone"></i></div>
+                            <input type="tel" class="form-control" id="mobileNumber" aria-describedby="mobileNumberHelp" placeholder="e.g. 08056748930" maxlength="11" ng-model="formData.mobileNumber" required>
+                        </div>
+                        <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
                     </div>
                   
                   <button class="btn btn-default" type="submit" ng-click="registerMerch()">Submit Request</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>

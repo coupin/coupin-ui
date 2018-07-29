@@ -1,53 +1,109 @@
 <div>
     <!-- Request Counter -->
-    <div class="jumbotron padding-20-y no-space-below dashboard-request">
-        <div class="row text-center">
+    <div class="jumbotron no-space-below dashboard-request">
+        <div class="row padding-20-y text-center">
             <div class="col-sm-12 text-center">
                 <h3>Merchant Request Status</h3>
                 <h5 class="light">What type of requests would you like to see?</h5>
             </div>
         </div>
+        <div class="row no-space-below" role="tablist">
+            <div class="home-nav-inv" ng-init="getRequests('pending', 0)">
+                <a data-toggle="tab" href="#merch" role="tab" aria-controls="merch">
+                <div ng-class="{'col-sm-6 text-center clickable': true, 'home-active-inv': tab === 'merch'}" ng-click="getRequests('pending', 0)">
+                    <h3>New Merchant Requests <i class="fas fa-users"></i></h3>
+                </div>
+                </a>
+                <a data-toggle="tab" href="#rewards" role="tab" aria-controls="rewards">
+                <div ng-class="{'col-sm-6 text-center clickable': true, 'home-active-inv': tab === 'rewards'}" ng-click="getRewards()">
+                    <h3>New Reward Requests <i class="fas fa-ticket-alt"></i></h3>
+                </div>
+                </a>
+            </div>
+        </div>
     </div>
     <!-- End Request Counter -->
-    <div class="row">
-        <div class="home-nav" ng-init="getRequests('pending', 0)">
-            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'pending'}" ng-click="getRequests('pending', 0)">
-                <h3>Pending <i class="fas fa-hand-paper"></i></h3>
+    <div class="tab-content">
+        <!-- Merchant Request -->
+        <div class="row tab-pane fade in active" id="merch" role="tabpanel" aria-labelledby="merch">
+            <div class="home-nav" ng-init="getRequests('pending', 0)">
+                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'pending'}" ng-click="getRequests('pending', 0)">
+                    <h3>Pending <i class="fas fa-hand-paper"></i></h3>
+                </div>
+                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'accepted'}"ng-click="getRequests('accepted', 0)">
+                    <h3>Accepted <i class="fas fa-check"></i></h3>
+                </div>
+                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'rejected'}" ng-click="getRequests('rejected', 0)">
+                    <h3>Declined <i class="fas fa-times"></i></h3>
+                </div>
+                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'completed'}" ng-click="getRequests('completed', 0)">
+                    <h3>Completed <i class="fas fa-handshake"></i></h3>
+                </div>
             </div>
-            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'accepted'}"ng-click="getRequests('accepted', 0)">
-                <h3>Accepted <i class="fas fa-check"></i></h3>
+            <div class="col-sm-12" ng-if="loading">
+                <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
             </div>
-            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'rejected'}" ng-click="getRequests('rejected', 0)">
-                <h3>Declined <i class="fas fa-times"></i></h3>
-            </div>
-            <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'completed'}" ng-click="getRequests('completed', 0)">
-                <h3>Completed <i class="fas fa-handshake"></i></h3>
+            <div class="table-holder" ng-if="!loading">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Name</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, request) in totalReq">
+                            <th>{{index+1}}</th>
+                            <td>{{request.name}}</td>
+                            <td>{{request.details}}</td>
+                            <td class="clickable" data-toggle="modal" data-target="#selectedMerch" ng-click="selectMerch(request)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
+                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')"><i class="fas fa-check" data-title="Accept Offer" bs-tooltip></i></td>
+                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')"><i class="fas fa-times" data-title="Decline Offer" bs-tooltip></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4 ng-show="totalReq.length === 0">There are no current requests</h4>
             </div>
         </div>
-        <div class="col-sm-12" ng-if="loading">
-            <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
-        </div>
-        <div class="table-holder" ng-if="!loading">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>S/N</th>
-                        <th>Name</th>
-                        <th>Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="(index, request) in totalReq">
-                        <th>{{index+1}}</th>
-                        <td>{{request.name}}</td>
-                        <td>{{request.details}}</td>
-                        <td class="clickable" data-toggle="modal" data-target="#selectedMerch" ng-click="selectMerch(request)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
-                        <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')"><i class="fas fa-check" data-title="Accept Offer" bs-tooltip></i></td>
-                        <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')"><i class="fas fa-times" data-title="Decline Offer" bs-tooltip></i></td>
-                    </tr>
-                </tbody>
-            </table>
-            <h4 ng-show="totalReq.length === 0">There are no current requests</h4>
+        <!-- Reward Request -->
+        <div class="row tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards">
+            <div class="col-sm-12" ng-if="loading">
+                <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
+            </div>
+            <div class="table-holder" ng-if="!loading">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Starts</th>
+                            <th>Ends</th>
+                            <th>Created</th>
+                            <th>Status</th>
+                            <th>Is Active</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(index, reward) in totalRewards">
+                            <th>{{index+1}}</th>
+                            <td>{{reward.name | capital}}</td>
+                            <td>{{reward.description | capital}}</td>
+                            <td>{{reward.startDate | date:'longDate'}}</td>
+                            <td>{{reward.endDate | date:'longDate'}}</td>
+                            <td>{{reward.createdDate | date:'longDate'}}</td>
+                            <td>{{reward.status | capital}}</td>
+                            <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
+
+                            <td class="clickable" data-toggle="modal" data-target="#selectedReward" ng-click="selectReward(reward)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
+                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'rejected')"><i class="fas fa-times" data-title="Edit Reward" bs-tooltip></i></td>
+                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'accepted')"><i class="fas fa-check" data-title="Accept Reward" bs-tooltip></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4 ng-if="totalRewards.length === 0">There are no current pending rewards</h4>
+            </div>
         </div>
     </div>
 
@@ -95,12 +151,90 @@
     </div>
     <!-- End Selected Merchant Modal -->
 
+    <!-- Selected Rewards Modal -->
+    <div class="modal fade" id="selectedReward" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Reward Info</h3>
+                </div>
+                <div class="modal-body modal-space-text">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="rewardName">Reward Status: </label>
+                            <span id="rewardName"><b> {{currentReward.status}} </b></span>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="rewardName">Reward Name: </label>
+                            <span id="rewardName"> {{currentReward.name}} </span>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <label for="description">Description: </label>
+                            <span id="description"> {{currentReward.description}} </span>
+                            <br/>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>Categories: </label>
+                            <span ng-repeat="(index, category) in currentReward.categories">
+                                {{ index === currentReward.categories.length - 1 ? category : (category + ", ")}}</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>Start Date</label>
+                            <br>
+                            <span>{{currentReward.startDate | date:"longDate"}}</span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>End Date</label>
+                            <br>
+                            <span>{{currentReward.endDate | date:"longDate"}}</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label>Multiple: </label>
+                            <br>
+                            <span>{{currentReward.multiple.status ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>Old Price</label>
+                            <br>
+                            <span>&#x20a6;{{currentReward.price.old}}</span>
+                        </div>
+                        <div class="col-md-3 col-sm-6">
+                            <label>New Price</label>
+                            <br>
+                            <span>&#x20a6;{{currentReward.price.new}}</span>
+                        </div>
+                        <div class="col-sm-12">
+                            <label>Applicable Days: </label>
+                            <span ng-repeat="(index, day) in currentReward.applicableDays">
+                                {{ index === currentReward.applicableDays.length - 1 ? getDay(day) : (getDay(day) + ", ")}}</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label>Deliver: </label>
+                            <br>
+                            <span>{{currentReward.delivery ? 'Yes' : 'No'}}</span>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <label>Created On: </label>
+                            <br>
+                            <span>{{currentReward.createdDate}}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'accepted')">Approve</button>
+                    <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'rejected')">Decline</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Selected Rewards Modal -->
+
     <!-- Review Modal -->
     <div class="modal fade" id="reviewStatus" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h3>Accept Merchant</h3>
+                    <h3>Merchant Response</h3>
                 </div>
                 <div class="modal-body" ng-init="action = true">
                     <h4>Are you sure you want to {{ currentRequest.status.display + ' ' + currentRequest.name}}?</h4>
@@ -146,4 +280,30 @@
         </div>
     </div>
     <!-- End Review Modal -->
+    
+    <!-- Reward Review Modal -->
+    <div class="modal fade" id="reviewRewardStatus" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Reward Response</h3>
+                </div>
+                <div class="modal-body" ng-init="action = true">
+                    <h4>Are you sure you want {{ currentReward.name + ' to be ' + status.value}}?</h4>
+                    <form name="confirm">
+                        <div class="form-group">
+                            <label for="reason">What does the Merchant need to change: </label>
+                            <textarea class="form-control" id="reason" maxlength="80" placeholder="Please leave a comment.." ng-model="status.reason" required></textarea>
+                            <small id="descrHelp" class="form-text text-muted">Please type in all comments based on review.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" ng-disabled="!canApprove()" data-dismiss="modal" ng-click="approve()">Confirm</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Reward Review Modal -->
 </div>
