@@ -15,6 +15,7 @@ angular.module('adminApp', [
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',
+  'FirstCapitalFilter',
   'AdminSrv',
   'AuthSrv',
   'AuthCtrl',

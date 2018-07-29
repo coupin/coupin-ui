@@ -61,6 +61,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.update = true;
         RewardsService.getReward(id).then(function(result) {
             $scope.newReward = result.data;
+            console.log($scope.newReward);
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
             $scope.newReward.startDate = new Date($scope.newReward.startDate);
             $scope.newReward.applicableDays.forEach(function(x) {
@@ -349,6 +350,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
     $scope.setEndDate = function(days) {
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
+    };
+
+    $scope.showReviews = function() {
+        return $scope.newReward.review && $scope.newReward.review.length > 0 && $scope.newReward.status === 'review';
     };
 
     /**
