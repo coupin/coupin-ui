@@ -29,7 +29,7 @@
                         <th scope="row">{{ index + 1 }}</td>
                         <td class="icon" ng-click="goToReward(discount._id)">{{ discount.name }}</td>
                         <td class="icon" ng-click="goToReward(discount._id)">{{ discount.description }}</td>
-                        <td>{{ discount.status | capital }}</td>
+                        <td class="capitalize">{{ discount.status}}</td>
                         <td>{{ discount.isActive ? 'Yes' : 'No' }}</td>
                         <td><i ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" data-toggle="tooltip" data-placement="top" title="Hide/Show" ng-click="changeStatus(index, discount.isActive, 0)"></i></td>
                         <td><i class="fas fa-pencil icon" data-toggle="tooltip" data-placement="top" title="Edit" ng-click="goToEditReward(discount._id)"></i></td>

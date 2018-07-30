@@ -88,12 +88,12 @@
                     <tbody>
                         <tr ng-repeat="(index, reward) in totalRewards">
                             <th>{{index+1}}</th>
-                            <td>{{reward.name | capital}}</td>
-                            <td>{{reward.description | capital}}</td>
+                            <td class="capitalize">{{reward.name}}</td>
+                            <td class="capitalize">{{reward.description}}</td>
                             <td>{{reward.startDate | date:'longDate'}}</td>
                             <td>{{reward.endDate | date:'longDate'}}</td>
                             <td>{{reward.createdDate | date:'longDate'}}</td>
-                            <td>{{reward.status | capital}}</td>
+                            <td class="capitalize">{{reward.status}}</td>
                             <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
 
                             <td class="clickable" data-toggle="modal" data-target="#selectedReward" ng-click="selectReward(reward)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
