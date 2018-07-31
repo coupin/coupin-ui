@@ -123,12 +123,9 @@
                     <br/>
                     <label for="phoneNumber">Mobile Number: </label>
                     <span id="companyEmail"> {{currentRequest.mobile}} </span>
-                    <!--<div style="display: inline-block;" id="categories" ng-init="x = currentRequest.categories.length - 1" ng-repeat="(index, category) in currentRequest.categories">
-                        <span>{{ (index == x) ? category : (category + ", ") }}</span>
-                    </div>-->
                     <br/>
-                    <label for="companyDetails">Company Details: </label>
-                    <span id="companyDetails"> {{currentRequest.details}} </span>
+                    <label for="companyDetails">Company Address: </label>
+                    <span id="companyDetails"> {{currentRequest.address}} </span>
                     <br/>
                     <br/>
                     <label for="regisered">Registered on: </label>
@@ -137,6 +134,7 @@
                     <div ng-if="isPending()">
                         <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')">Approve</button>
                         <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')">Decline</button>
+                        <button class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                     <div ng-if="isRejected()">
                         <label for="companyDetails">Reason: </label>
@@ -223,6 +221,7 @@
                     </div>
                     <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'accepted')">Approve</button>
                     <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'rejected')">Decline</button>
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

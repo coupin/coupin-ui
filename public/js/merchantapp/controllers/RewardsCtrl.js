@@ -8,6 +8,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     Upload,
     UtilService
 ) {
+    const expires = moment($scope.user.merchantInfo.billing.history[0].expiration);
     const id = $state.params.id;
     const errTitle = 'Error!';
     const errMsg = 'Something went wrong on our end. Please try again.';
@@ -15,9 +16,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
     var amount = 0;
     var selectAll = false;
+    var showTotal = true;
     var weekDays = false;
     var weekEnds = false;
-
+    
     $scope.activeRewards = [];
     $scope.inactiveRewards = [];
     $scope.daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -32,6 +34,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         src: null,
         dst: null
     };
+    $scope.maxDays = 30;
     $scope.minDate = new Date();
     $scope.photos = [];
     $scope.deletePhotos = [];
@@ -56,12 +59,19 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         value: 3
     }];
 
+    if ($scope.user.merchantInfo.billing.plan !== 'payAsYouGo') {
+        showTotal = false;
+        $scope.maxDays = expires.diff(new Date(), 'days');
+        $scope.maxDate = expires.toDate();
+    } else {
+        $scope.maxDate = moment().add(365, 'day').toDate();
+    }
+
     if (id) {
         $scope.categories = {};
         $scope.update = true;
         RewardsService.getReward(id).then(function(result) {
             $scope.newReward = result.data;
-            console.log($scope.newReward);
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
             $scope.newReward.startDate = new Date($scope.newReward.startDate);
             $scope.newReward.applicableDays.forEach(function(x) {
@@ -84,7 +94,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             categories: [],
             multiple: {},
             pictures: [],
-            status: 'draft'
+            status: showTotal ? 'draft' : 'isPending'
         };
     }
 
@@ -185,14 +195,14 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                         UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
                         $scope.makePayment(result.data);
                     } else {
-                        UtilService.showSuccess('Success', 'Reward Created Successfully.');
+                        UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
                     }
                 });
             } else if(plan === 'payAsYouGo') {
                 UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
                 $scope.makePayment(result.data);
             } else {
-                UtilService.showSuccess('Success', 'Reward Created Successfully.');
+                UtilService.showSuccess('Success', 'Reward Created Successfully.An admin will review it in the next 24hours or less.');
             }
         }).catch(function (err) {
             $scope.loading = false;
@@ -303,7 +313,16 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             amount = days > 7 ? days * 450 : days * 500;
         }
         return amount;
-    }
+    };
+
+    $scope.isError = function(x) {
+        return UtilService.isError(x);
+    };
+
+
+    $scope.isFormError = function(x) {
+        return UtilService.isFormError(x) || $scope.newReward.applicableDays.length <= 0 || $scope.newReward.categories.length <= 0;
+    };
 
     /**
      * Make payment for the reward
@@ -349,11 +368,18 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.setEndDate = function(days) {
+        if (!showTotal) {
+            $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
+        }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
     };
 
     $scope.showReviews = function() {
         return $scope.newReward.review && $scope.newReward.review.length > 0 && $scope.newReward.status === 'review';
+    };
+
+    $scope.showTotal = function() {
+        return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     };
 
     /**
