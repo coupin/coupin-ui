@@ -113,7 +113,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         return $scope.group === 'rejected';
     };
 
-    $scope.approve = function() {
+    $scope.sendReview = function() {
         const status = $scope.status.value === 'accepted' ? 'active' : 'review';
         let data = {
             status: status,
@@ -124,13 +124,13 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         };
 
         $scope.loading = true;
-        RewardsService.update($scope.currentReward._id, data).then(function() {
+        RewardsService.updateReview($scope.currentReward._id, data).then(function() {
+            $scope.loading = false;
             UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.display} and email has been sent`);
 
             $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
                 return reward.id !== $scope.currentReward.id;
             });
-            $scope.loading = false;
         }).catch(function(err) {
             $scope.loading = false;
             UtilService.showError('Activation Failed', err.data);

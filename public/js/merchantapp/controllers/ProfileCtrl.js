@@ -12,10 +12,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope.uploadingLogo = false;
   $scope.updating = false;
   $scope.editable = false;
-  $scope.billing = {
-      plan: null,
-      reference: null
-    };
   $scope.position = {};
   $scope.states = ['lagos'];
   $scope.settings = 'personal';
@@ -38,8 +34,20 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
       src: null,
       dst: null
   };
+  var amount = 0;
+  var bill = false;
+  var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
 
+if (!$scope.user) {
   $scope.user = StorageService.getUser();
+}
+
+$scope.billing = {
+    plan: $scope.user.merchantInfo.billing.plan,
+    reference: null,
+    date: new Date()
+};
+$scope.history = $scope.user.merchantInfo.billing.history;
 
   $scope.bannerStyle = {
     "background-image": `url("${banner}")`
@@ -218,10 +226,20 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   };
 
   $scope.setPlan = function(plan) {
-      $scope.billing = {
-        plan: plan,
-        reference: `${plan}-testing`
-      };
+    $scope.billing.plan = plan;
+    if (plan === 'monthly') {
+        amount = 57000;
+        bill = true;
+    } else if (plan === 'yearly') {
+        amount = 750000;
+        bill = true;
+    } else {
+        bill = false;
+    }
+  };
+
+  $scope.showHistory = function() {
+      return $scope.history.length > 0;
   };
 
   $scope.toggleEditable = function() {
@@ -264,8 +282,8 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
     }
   };
 
-  $scope.updateBilling = function() {
-      MerchantService.updateBilling($scope.user.id, $scope.billing)
+  function persistBillingInfo() {
+    MerchantService.updateBilling($scope.user.id, $scope.billing)
         .then(function(response) {
             StorageService.setUser(response.data);
             UtilService.showSuccess('Success', `Billing successfully changed to ${billing.plan} plan!`);
@@ -273,6 +291,61 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
         .catch(function(err) {
             UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
         });
+  }
+
+  function makePayment() {
+    var date = new Date();
+    var handler = PaystackPop.setup({
+        key: config.paystackId,
+        email: $scope.user.email,
+        amount: amount * 100,
+        ref: `${plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
+        metadata: {
+            custom_fields: [
+                {
+                    display_name: "Plan",
+                    variable_name: "Billing_Plan",
+                    value: `${$scope.user.merchantInfo.companyName} - ${plan}-${date.getTime()}`
+                }
+            ]
+        },
+        callback: function(response){
+            $scope.billing.date = date;
+            $scope.billing.reference = response.reference
+            persistBillingInfo();
+        },
+        onClose: function(){
+            $scope.loading = false;
+            UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+        }
+    });
+    handler.openIframe();
+    }
+
+  function validBilling() {
+    if (isPayAsYouGo && $scope.billing.plan !== 'payAsYouGo') {
+        return true;
+    } else if (isPayAsYouGo && $scope.billing.plan === 'payAsYouGo') {
+        UtilService.showInfo('Hey!', 'Pay As You Go cannot be renewed.');
+    } else {
+        var isValid = moment(new Date()).isBefore($scope.user.merchantInfo.billing.history[0].expiration);
+        if (isValid) {
+            UtilService.showInfo('Hey!', 'Your current plan is yet to expire. Please wait for it to expire before renewing.');
+            return false;
+        } else {
+            return true;
+        }
+    }
+  }
+
+  $scope.updateBilling = function() {
+    if(validBilling()) {
+        if (bill) {
+            makePayment();
+        } else {
+            persistBillingInfo();
+        }
+    }
   };
 
     function showError(title, msg) {
