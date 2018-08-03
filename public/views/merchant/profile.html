@@ -119,86 +119,153 @@
             </div>
             <div ng-switch-when="billing" class="row margin-y-sm">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <label>Bill Plan: </label>
                         <span class="capitalize">{{user.merchantInfo.billing.plan}}</span>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <label>Last Payment: </label>
-                                <span>{{user.merchantInfo.billing.history[0].date | date: 'longDate'}}</span>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <label>Expiration Date: </label>
-                                <span>{{user.merchantInfo.billing.history[0].expiration | date: 'longDate'}}</span>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <label>Last Payment: </label>
+                        <span>{{user.merchantInfo.billing.history[0].date | date: 'longDate'}}</span>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <label>Expiration Date: </label>
+                        <span>{{user.merchantInfo.billing.history[0].expiration | date: 'longDate'}}</span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <div class="my-card">
-                            <div class="my-card-head">
-                                <h4 class="text-center light">Pay As You Go</h4>
-                            </div>
-                            <div class="my-card-body">
-                                <p>The Pay as you go plan covers: </p>
-                                <ul>
-                                    <li>
-                                        Single Reward Payments at:
-                                        <ul>
-                                            <li><strike>N</strike>500 per day</li>
-                                            <li><strike>N</strike>2500 per week</li>
-                                        </ul>
-                                    </li>
-                                    <li>24/7 Customer Support</li>
-                                </ul>
-                            </div>
-                            <div class="my-card-footer">
-                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'payAsYouGo'}" ng-click="setPlan('payAsYouGo')">Select Plan</button>
-                            </div>
-                        </div>
+                    <div class="col-sm-12">
+                        <button class="btn btn-success" data-toggle="modal" data-target="#billingModal">Change Billing Plan</button>
                     </div>
-                    <div class="col-md-4 col-sm-12">
-                        <div class="my-card">
-                            <div class="my-card-head">
-                                <h4 class="text-center light">Start Up Plan</h4>
-                            </div>
-                            <div class="my-card-body">
-                                <p>The Pay as you go plan covers: </p>
-                                <ul>
-                                    <li>Multiple Rewards under the month paid</li>
-                                    <li>24/7 Customer Support</li>
-                                </ul>
-                            </div>
-                            <div class="my-card-footer">
-                                <button  ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'startUp'}" ng-click="setPlan('startUp')">Select Plan</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <div class="my-card">
-                            <div class="my-card-head">
-                                <h4 class="text-center light">Corporate Plan</h4>
-                            </div>
-                            <div class="my-card-body">
-                                <p>The Pay as you go plan covers: </p>
-                                <ul>
-                                    <li>Multiple Rewards under the year paid</li>
-                                    <li>24/7 Customer Support</li>
-                                </ul>
-                            </div>
-                            <div class="my-card-footer">
-                                <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'corporate'}" ng-click="setPlan('corporate')">Select Plan</button>
-                            </div>
-                        </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h4 class="text-center">Billing History</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <button class="btn btn-success btn-full" ng-click="updateBilling()">Update Billing Info</button>
+                    <div class="col-sm-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>S/N</th>
+                                <th>Plan</th>
+                                <th>Paid On</th>
+                                <th>reference</th>
+                                <th>Expires On</th>
+                            </thead>
+                            <tbody>
+                                <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
+                                    <td>{{index + 1}}</td>
+                                    <td class="capitalize">{{bill.plan}}</td>
+                                    <td>{{bill.date | date: 'longDate'}}</td>
+                                    <td>{{bill.reference}}</td>
+                                    <td>{{bill.expiration | date: 'longDate'}}</td>
+                                </tr>
+                                <tr ng-if="!showHistory()">
+                                    <td colspan="5">
+                                        <div class="row padding-10-all">
+                                            <div class="col-sm-12 text-center">
+                                                <i class="fas fa-box-open fa-3x"></i>
+                                                <h5>Sorry there is no payment history.</h5>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Billing Modal -->
+<div class="modal fade" id="billingModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Billing Change</h3>
+            </div>
+            <div class="modal-body">
+                <form ng-submit="changePassword(password, confirm)">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="my-card">
+                                <div class="my-card-head">
+                                    <h4 class="text-center light">Pay As You Go</h4>
+                                </div>
+                                <div class="my-card-body">
+                                    <p>The Pay as you go plan covers: </p>
+                                    <ul>
+                                        <li>
+                                            Single Reward Payments at:
+                                            <ul>
+                                                <li><strike>N</strike>500 per day</li>
+                                                <li>15% off any reward that exceeds 7 days</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="my-card-footer">
+                                    <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'payAsYouGo'}" ng-click="setPlan('payAsYouGo')">
+                                        <span ng-if="billing.plan !== 'payAsYouGo'">Select Plan</span>
+                                        <i class="fa fa-check" ng-if="billing.plan === 'payAsYouGo'"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="my-card">
+                                <div class="my-card-head">
+                                    <h4 class="text-center light">Start Up Plan: <span>&#8358;57,000</span></h4>
+                                </div>
+                                <div class="my-card-body">
+                                    <p>The Monthly plan covers: </p>
+                                    <ul>
+                                        <li>Unlimited Rewards within Month of Payment</li>
+                                        <li>Dedicated Tech Support</li>
+                                    </ul>
+                                </div>
+                                <div class="my-card-footer">
+                                    <button  ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'monthly'}" ng-click="setPlan('monthly')">
+                                        <span ng-if="billing.plan !== 'monthly'">Select Plan</span>
+                                        <i class="fa fa-check" ng-if="billing.plan === 'monthly'"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="my-card">
+                                <div class="my-card-head">
+                                    <h4 class="text-center light">Corporate Plan: <span>&#8358;750,000</span></h4>
+                                </div>
+                                <div class="my-card-body">
+                                    <p>The Yearly plan covers: </p>
+                                    <ul>
+                                        <li>Unlimited Rewards within Year of Payment</li>
+                                        <li>Dedicated Tech Support</li>
+                                        <li>Coupin Concierge at Merchant Location</li>
+                                    </ul>
+                                </div>
+                                <div class="my-card-footer">
+                                    <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'yearly'}" ng-click="setPlan('yearly')">
+                                        <span ng-if="billing.plan !== 'yearly'">Select Plan</span>
+                                        <i class="fa fa-check" ng-if="billing.plan === 'yearly'"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <button class="btn btn-success btn-full" ng-click="updateBilling()">Update Billing Info</button>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <button class="btn btn-def btn-full" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

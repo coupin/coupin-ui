@@ -184,7 +184,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * @param {Object} reward 
      */
     $scope.createReward = function (reward) {
-        const bill = plan ==='payAsYouGo';
+        const bill = plan === 'payAsYouGo';
         $scope.loading = true;
         RewardsService.create(reward).then(function (result) {
             $scope.newReward = result.data;
@@ -415,13 +415,11 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 });
 
                 $scope.newReward.pictures = $scope.photos;
-                setTimeout(function() {
-                    $scope.uploading = false;
-                    $scope.updateReward($scope.newReward);
-                    if (cb && typeof cb === 'function') {
-                        cb();
-                    }
-                }, 2000);
+                $scope.uploading = false;
+                $scope.updateReward($scope.newReward);
+                if (cb) {
+                    cb();
+                }
             }, function(err) {
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your reward images failed to upload. Please try again.');
@@ -452,8 +450,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             UtilService.showSuccess('Success', 'Your Reward updated successfully.');
             $scope.loading = false;
         }).catch(function(error) {
-            UtilService.showError('Uh Oh!', error.data.message);
             $scope.loading = false;
+            UtilService.showError('Uh Oh!', error.data.message);
         });
     };
 
