@@ -44,13 +44,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     // Get current merchant if merchant route called
     if($location.absUrl().includes('confirm')) {
         merchId = strings[strings.length - 2];
+        console.log(merchId);
+        console.log(strings);
 
         if (merchId && merchId.length === 24) {
             MerchantService.confirm(merchId).then(function(response) {
                 $scope.user = response.data;
                 console.log(response.data);
             }).catch(function(err) {
-                $scope.showErrors('Retrieval Failed', err.data.message);
+                console.log(err);
+                $scope.showErrors('Retrieval Failed', err.data);
             });
         } else {
             UtilService.showError('Uh Oh', 'Invalid id.');
@@ -163,7 +166,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     {
                         display_name: "Plan",
                         variable_name: "Billing_Plan",
-                        value: `${$scope.user.merchantInfo.companyName} - ${plan}-${date.getTime()}`
+                        value: `${$scope.user.merchantInfo.companyName} - registration - ${plan}-${date.getTime()}`
                     }
                 ]
             },
