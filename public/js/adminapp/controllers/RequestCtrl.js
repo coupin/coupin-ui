@@ -158,7 +158,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         RequestService.updateStatus($scope.currentRequest.id, data).then(function() {
             $scope.loading = false;
             // Send an alert that approval has been successful
-            UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.display} and email has been sent`);
+            UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.value} and email has been sent`);
 
             // Change it in the data being shown
             $scope.totalReq = $scope.totalReq.filter(function(request) {
