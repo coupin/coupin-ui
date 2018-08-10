@@ -189,9 +189,15 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             }
         }).then(function(resp) {
             if (isLogo) {
-                $scope.user.merchantInfo.logo = resp.data.url;
+                $scope.user.merchantInfo.logo = {
+                    id: response.data.public_id,
+                    url: resp.data.url
+                };
             } else {
-                $scope.user.merchantInfo.banner = resp.data.url;
+                $scope.user.merchantInfo.banner = {
+                    id: response.data.public_id,
+                    url: resp.data.url
+                };
             }
             
             $scope.update();
