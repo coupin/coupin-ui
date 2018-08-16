@@ -73,6 +73,18 @@ function(
         }
       }
     })
+    .state('portal.featured', {
+      url: '/featured',
+      templateUrl: 'views/admin/hotFeatured.html',
+      controller: 'FeaturedController',
+      resolve: {
+        merchants: function(AdminService) {
+          return AdminService.getMerchNames().then(function(response) {
+            return response.data;
+          });
+        }
+      }
+    })
     .state('portal.home', {
       url: '/home',
       templateUrl: 'views/admin/viewRequests.html',

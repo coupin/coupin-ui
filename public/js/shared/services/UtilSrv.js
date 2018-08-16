@@ -119,19 +119,19 @@ function(
 };
 
   /**
-     * Show error alert dialog.
-     * @param {String} title 
-     * @param {String} msg 
-     */
-    service.showError = function (title, msg) {
-      $alert({
-          'title': title,
-          'content': msg,
-          'duration': 5,
-          'placement': 'top-right',
-          'show' : true ,
-          'type' : 'danger'
-      });
+   * Show error alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
+  service.showError = function (title, msg) {
+    $alert({
+        'title': title,
+        'content': msg,
+        'duration': 5,
+        'placement': 'top-right',
+        'show' : true ,
+        'type' : 'danger'
+    });
   };
 
    /**

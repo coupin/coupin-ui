@@ -78,6 +78,12 @@ td::first-letter {
     width: 80%;
 }
 
+.featured-section {
+    padding: 20px;
+    min-height: 400px;
+    width: 100%;
+}
+
 .success-card-header {
     background: #67BC57;
     border-top-left-radius: 3px;
@@ -125,6 +131,17 @@ td::first-letter {
     /* overflow: hidden; */
     width:200px;
     height:200px;
+}
+
+.crop-area-img {
+    border: 2px solid grey;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+}
+
+.crop-area-small {
+    clear: both;
+    display: block;
 }
 
 /* .cropArea canvas {
@@ -632,6 +649,10 @@ td::first-letter {
     display: block;
     margin: auto;
     width: 40%;
+}
+
+.btn-half{
+    width: 50%;
 }
 
 .btn-full{

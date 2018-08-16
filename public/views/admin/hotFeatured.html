@@ -1,0 +1,65 @@
+<div>
+  <h2 class="text-center">Hot List & Featured</h2>
+  <div class="featured-section">
+    <h3>Hot List</h3>
+    <small>Maximum of 5 slides</small>
+  </div>
+  <div class="featured-section">
+    <h3>Featured</h3>
+    <small>Can only have 3 at any given time.</small>
+    <br><br>
+    <div class="row">
+      <h3 class="crop-area-small light text-center">Please <b>Select</b> 3 Merchants.</h3>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('first')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.first"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>First</b> on the featured list.</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('second')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.second"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>Second</b> on the featured list.</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('third')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.third"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>Third</b> on the featured list.</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+      <button class="btn btn-primary btn-half" ng-click="update(true)" ng-disabled="loading && !canSubmit(true)">
+        <span>Update Featured <i ng-if="loading" class="fa fa-circle-notch fa-spin"></i></span>
+      </button>
+    </div>
+  </div>
+</div>
