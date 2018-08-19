@@ -228,7 +228,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.progress = 0;
         $scope.uploadingLogo = false;
         $scope.uploadingBanner = false;
-      }
+    }
 
     function upload(image, name, isLogo) {
         if (isLogo) {

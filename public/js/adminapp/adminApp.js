@@ -12,6 +12,7 @@ angular.module('adminApp', [
   'AdminCtrl',
   'AddMerchantCtrl',
   'AddRewardCtrl',
+  'FeaturedCtrl',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',

@@ -112,26 +112,36 @@ function(
       },
       onClose: function(){
           $scope.loading = false;
-          UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+          service.showInfo('Payment Cancelled', 'Pay when you are ready.');
       }
   });
   handler.openIframe();
 };
 
   /**
-     * Show error alert dialog.
-     * @param {String} title 
-     * @param {String} msg 
-     */
-    service.showError = function (title, msg) {
-      $alert({
-          'title': title,
-          'content': msg,
-          'duration': 5,
-          'placement': 'top-right',
-          'show' : true ,
-          'type' : 'danger'
-      });
+   * Show error alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
+  service.showError = function (title, msg) {
+    var text;
+
+    if (!service.isDefined(msg)) {
+      text = 'An error occured and error message is not well formatted.';
+    } else if (typeof msg === 'object') {
+      text = msg.message;
+    } else {
+      text = msg;
+    }
+    
+    $alert({
+      'title': title,
+      'content': text,
+      'duration': 5,
+      'placement': 'top-right',
+      'show' : true ,
+      'type' : 'danger'
+    });
   };
 
    /**

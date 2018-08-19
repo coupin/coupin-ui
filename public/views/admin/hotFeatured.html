@@ -1,0 +1,143 @@
+<div>
+  <h2 class="text-center">Hot List & Featured</h2>
+  <div class="featured-section">
+    <h3>Hot List</h3>
+    <h5 class="light">Slides - <b>{{totalSlides + '/5'}}</b></h5>
+    <small>Maximum of 5 slides</small>
+    <div class="row">
+      <div class="col-md-4">
+        <div ng-repeat="(index, element) in slides" class="col-md-6 text-center">
+          <h5 class="light">Slide <b>{{element.index}}</b></h5>
+          <h4 class="capitalize dashed-bottom">{{element.id.merchantInfo.companyName}}</h4>
+          <h5><i class="fa fa-times clickable" ng-click=removeSlide(index)></i></h5>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <h5>Add New Slide</h5>
+        <small>You can only have 5 slides at a time</small>
+        <div class="banner-box" data-toggle="modal" data-target="#cropModal">
+          <img height="200" ng-src="{{slide.url}}"/>
+        </div>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <h5 class="crop-area-small light text-center">This slide belongs to what <b>Merchant</b>?</h5>
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="slide.id"
+            ng-disabled="loading || totalSlides === 5"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+        </div>
+        <div class="row text-center">
+          <button class="btn btn-primary btn-half" ng-click="update(false)" ng-disabled="loading || !canSubmit(false)">
+            <span>Add Slide <i ng-if="loading" class="fa fa-circle-notch fa-spin"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="featured-section">
+    <h3>Featured</h3>
+    <small>Can only have 3 at any given time.</small>
+    <br><br>
+    <div class="row">
+      <h3 class="crop-area-small light text-center">Please <b>Select</b> 3 Merchants.</h3>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('first')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.first"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>First</b> on the featured list.</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('second')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.second"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>Second</b> on the featured list.</h5>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="crop-area-modal center-img">
+          <img class="crop-area-img" height="200" width="200" ng-src="{{getLogo('third')}}"/>
+        </div>
+        <br>
+        <div class="form-group col-md-10 col-md-offset-1">
+          <select 
+            ng-options="merchant.merchantInfo.companyName for merchant in merchants track by merchant._id"
+            ng-model="featured.third"
+            class="form-control">
+            <option value="">Select Merchant</option>
+          </select>
+          <h5 class="crop-area-small light text-center"><b>Third</b> on the featured list.</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row text-center">
+      <button class="btn btn-primary btn-half" ng-click="update(true)" ng-disabled="loading || !canSubmit(true)">
+        <span>Update Featured <i ng-if="loading" class="fa fa-circle-notch fa-spin"></i></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Crop Modal -->
+  <div class="modal fade" id="cropModal">
+      <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
+          <div class="modal-content">
+              <div class="modal-header text-center">
+                  <h3>Image Crop</h3>
+              </div>
+              <div class="modal-body text-center">
+                  <div>
+                      <h4>Images Must all be cropped to a 950x323 square.</h4>
+                      <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                      <input class="form-control" ng-disabled="loading || totalSlides === 5" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
+                      <br>
+                      <div class="row">
+                          <div class="cropArea-banner">
+                              <canvas
+                                  height="400"
+                                  width="1000"
+                                  image-cropper
+                                  image="image.src"
+                                  cropped-image="image.dst"
+                                  crop-height="323"
+                                  crop-width="950"
+                                  keep-aspect="true"
+                                  touch-radiue="30"
+                                  crop-area-bounds="bounds"
+                                  ></canvas>
+                          </div>
+                      </div>
+                  </div>
+                  <br>
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                          <span class="text-center" ng-if="progress < 100">{{progress + '%'}}</span>
+                          <span class="text-center" ng-if="progress === 100">Retrieving image information.....</span>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer text-center">
+                  <button class="btn btn-success" ng-disabled="loading || totalSlides === 5" ng-click="fileCheck(image)">Upload Image</button>
+                  <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

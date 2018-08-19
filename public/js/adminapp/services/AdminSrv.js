@@ -34,6 +34,21 @@ function(
                 headers: authHeader
             });
         },
+        deleteSlide: function(data) {
+            return $http.put(`${baseV1Url}/admin/hotlist`, data, {
+                headers: authHeader
+            });
+        },
+        retrieveHotList: function() {
+            return $http.get(`${baseV1Url}/admin/hotlist`, {}, {
+                headers: authHeader
+            });
+        },
+        setHotList: function(data) {
+            return $http.post(`${baseV1Url}/admin/hotlist`, data, {
+                headers: authHeader
+            });
+        },
         // Call to DE-Activate admin
         toggleStatus: function(id) {
             return $http.put(`${baseV1Url}/admin/${id}`, {}, {

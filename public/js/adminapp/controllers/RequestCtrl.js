@@ -6,6 +6,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     RewardsService,
     UtilService
 ){
+    console.log($scope.user);
     $scope.requests = [];
     $scope.currentRequest = {};
     $scope.currentReward = {};
