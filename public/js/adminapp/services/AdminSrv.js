@@ -34,6 +34,11 @@ function(
                 headers: authHeader
             });
         },
+        deleteSlide: function(data) {
+            return $http.put(`${baseV1Url}/admin/hotlist`, data, {
+                headers: authHeader
+            });
+        },
         retrieveHotList: function() {
             return $http.get(`${baseV1Url}/admin/hotlist`, {}, {
                 headers: authHeader

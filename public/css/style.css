@@ -3,6 +3,10 @@
     margin: 5%;
 }
 
+.dashed-bottom {
+    border-bottom: 1px dashed grey;
+}
+
 .error {
     background: url('../img/error-sm.png') 5px 5px no-repeat,#e40000;
     border: 1px solid #e40000;
