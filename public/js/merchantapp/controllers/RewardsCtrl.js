@@ -196,6 +196,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                         $scope.makePayment(result.data);
                     } else {
                         UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
+                        $state.go('dashboard.reward', {});
                     }
                 });
             } else if(plan === 'payAsYouGo') {
