@@ -289,7 +289,7 @@
                 </div>
                 <div class="modal-body" ng-init="action = true">
                     <h4>Are you sure you want {{ currentReward.name + ' to be ' + status.value}}?</h4>
-                    <form name="confirm">
+                    <form name="confirm" ng-if="status.value !== 'accepted'">
                         <div class="form-group">
                             <label for="reason">What does the Merchant need to change: </label>
                             <textarea class="form-control" id="reason" maxlength="80" placeholder="Please leave a comment.." ng-model="status.reason" required></textarea>

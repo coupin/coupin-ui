@@ -90,7 +90,10 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.canApprove = function() {
-        return $scope.status.reason && $scope.status.reason.length > 10;
+        const validate = $scope.status.value === 'rejected' ? 
+        $scope.status.reason && $scope.status.reason.length > 10 :
+        true;
+        return validate;
     };
 
     $scope.canConfirm = function () {
@@ -115,19 +118,20 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.sendReview = function() {
+        const comment = $scope.status.value === 'accepted' ? 'Good' : $scope.status.reason;
         const status = $scope.status.value === 'accepted' ? 'active' : 'review';
         let data = {
             status: status,
             review : {
                 admin: $scope.user.id,
-                comment: $scope.status.reason
+                comment: comment
             }
         };
 
         $scope.loading = true;
         RewardsService.updateReview($scope.currentReward._id, data).then(function() {
             $scope.loading = false;
-            UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.display} and email has been sent`);
+            UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.value} and email has been sent`);
 
             $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
                 return reward.id !== $scope.currentReward.id;

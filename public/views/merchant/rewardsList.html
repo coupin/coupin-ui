@@ -21,7 +21,7 @@
                         <th>Name</th>
                         <th>Description</th>
                         <th>Status</th>
-                        <th>Is Active</th>
+                        <th>Expires</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,7 +30,7 @@
                         <td class="icon" ng-click="goToReward(discount._id)">{{ discount.name }}</td>
                         <td class="icon" ng-click="goToReward(discount._id)">{{ discount.description }}</td>
                         <td class="capitalize">{{ discount.status}}</td>
-                        <td>{{ discount.isActive ? 'Yes' : 'No' }}</td>
+                        <td>{{ discount.endDate | date: 'longDate'}}</td>
                         <td><i ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" data-toggle="tooltip" data-placement="top" title="Hide/Show" ng-click="changeStatus(index, discount.isActive, 0)"></i></td>
                         <td><i class="fas fa-pencil icon" data-toggle="tooltip" data-placement="top" title="Edit" ng-click="goToEditReward(discount._id)"></i></td>
                         <td><i class="fas fa-trash icon" data-toggle="tooltip" data-placement="top" title="Delete" ng-click="deleteReward(discount._id)"></i></td>
