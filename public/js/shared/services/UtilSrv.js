@@ -129,7 +129,7 @@ function(
     if (!service.isDefined(msg)) {
       text = 'An error occured and error message is not well formatted.';
     } else if (typeof msg === 'object') {
-      text = msg.message;
+      text = msg.message || msg.error;
     } else {
       text = msg;
     }
