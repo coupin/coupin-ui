@@ -1,7 +1,7 @@
 angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope,
   $alert,
-  $modal,
+  $window,
   StorageService,
   MerchantService,
   UtilService,
@@ -65,48 +65,48 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     var error = '';
 
     if (!('email' in user)) {
-        showError('An error occured', 'Email cannot be empty');
+        UtilService.showError('An error occured', 'Email cannot be empty');
         return false;
     } else if (!UtilService.isEmail(user.email)) {
-        showError('An error occured', 'Email is invalid');
+        UtilService.showError('An error occured', 'Email is invalid');
         return false;
     }
 
     if ('companyName' in user.merchantInfo && user.merchantInfo.companyName.length === 0) {
-        showError('An error occured', 'Company name cannot be empty');
+        UtilService.showError('An error occured', 'Company name cannot be empty');
         return false;
     }
 
     if ('companyDetails' in user.merchantInfo && user.merchantInfo.companyDetails.length < 15) {
-        showError('An error occured', 'Company details must be more than 15 characters');
+        UtilService.showError('An error occured', 'Company details must be more than 15 characters');
         return false;
     }
 
     if ('mobileNumber' in user.merchantInfo && !UtilService.isNumber(user.merchantInfo.mobileNumber)) {
-        showError('An error occured', 'Mobile number is invalid');
+        UtilService.showError('An error occured', 'Mobile number is invalid');
         return false;
     }
 
     if ('address' in user.merchantInfo && user.merchantInfo.address.length < 10) {
-        showError('An error occured', 'Address is too vague. Please put more detail.');
+        UtilService.showError('An error occured', 'Address is too vague. Please put more detail.');
         return false;
     }
 
     if ('city' in user.merchantInfo && user.merchantInfo.city.length < 3) {
-        showError('An error occured', 'City name is too short. Please try again');
+        UtilService.showError('An error occured', 'City name is too short. Please try again');
         return false;
     }
 
     if ('state' in user.merchantInfo && user.merchantInfo.state.length < 3) {
-        showError('An error occured', 'State name is too short. Please try again');
+        UtilService.showError('An error occured', 'State name is too short. Please try again');
         return false;
     }
 
     if ('location' in user.merchantInfo && user.merchantInfo.location.lenght < 2) {
-        showError('An error occured', 'Location must have both latitude and longitude');
+        UtilService.showError('An error occured', 'Location must have both latitude and longitude');
         return false;
     } else if ('location' in user.merchantInfo && (!UtilService.isDecimal(user.merchantInfo.location[0].toString()) || !UtilService.isDecimal(user.merchantInfo.location[1].toString()))) {
-        showError('An error occured', 'Location, latitude and longitude, must be decimals');
+        UtilService.showError('An error occured', 'Location, latitude and longitude, must be decimals');
         return false;
     }
 
@@ -138,13 +138,13 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             $('#passwordModal').modal('hide');
         }).catch(function (err) {
             if (err.status === 500) {
-                showError('Oops!', 'An Error Occured, Please Try Again');
+                UtilService.showError('Oops!', 'An Error Occured, Please Try Again');
             } else {
-                showError('oops!', err.data.message);
+                UtilService.showError('oops!', err.data.message);
             }
         });
     } else {
-        showError('Oops', 'The passwords do not match');
+        UtilService.showError('Oops', 'The passwords do not match');
     }
   };
 
@@ -190,30 +190,29 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         }).then(function(resp) {
             if (isLogo) {
                 $scope.user.merchantInfo.logo = {
-                    id: response.data.public_id,
+                    id: resp.data.public_id,
                     url: resp.data.url
                 };
             } else {
                 $scope.user.merchantInfo.banner = {
-                    id: response.data.public_id,
+                    id: resp.data.public_id,
                     url: resp.data.url
                 };
             }
-            
+            $('#cropModal').modal('hide');
             $scope.update();
             setTimeout(function() {
-                resetUploads();
+                $window.location.reload();
             }, 2000);
         }, function(err) {
             resetUploads();
-            showError('oops!', err);
+            UtilService.showError('oops!', err.data);
         }, function(evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             $scope.progress = progressPercentage;
         }).catch(function(err) {
-            console.log(err);
             resetUploads();
-            showError('oops!', err.data.error);
+            UtilService.showError('oops!', err.data);
         });
     }
   };
@@ -280,9 +279,9 @@ $scope.history = $scope.user.merchantInfo.billing.history;
       }).catch(function (err) {
         $scope.updating = false;
         if (!(err.status === 500) && err.data) {
-            showError('oops!', err.data.message);
+            UtilService.showError('oops!', err.data.message);
         } else {
-            showError('Oops!', 'An Error Occured, Please Try Again');
+            UtilService.showError('Oops!', 'An Error Occured, Please Try Again');
         }
       });
     }
@@ -354,17 +353,6 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     }
   };
 
-    function showError(title, msg) {
-        $alert({
-            'title': title,
-            'content': msg,
-            'duration': 5,
-            'placement': 'top-right',
-            'show' : true ,
-            'type' : 'danger'
-        });
-    }
-
     /**
      * Check file and make upload
      * @param {*} image 
@@ -385,7 +373,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
 
             if (file.size > limit) {
                 limit = limit / 100;
-                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                UtilService.showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
             } else {
                 $scope.upload(file, $scope.user.id, isLogo);
             }

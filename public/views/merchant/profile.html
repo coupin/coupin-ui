@@ -39,7 +39,7 @@
                     </div>
                     <button class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">Change Password</button>
                     <br><br>
-                    <btton class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></btton>
+                    <button class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
                 </form>
             </div>
             <div ng-switch-when="company" class="row margin-y-sm">
@@ -201,7 +201,9 @@
                                         <li>
                                             Single Reward Payments at:
                                             <ul>
-                                                <li><strike>N</strike>500 per day</li>
+                                                <li>
+                                                    <del>N</del>500 per day
+                                                </li>
                                                 <li>15% off any reward that exceeds 7 days</li>
                                             </ul>
                                         </li>
