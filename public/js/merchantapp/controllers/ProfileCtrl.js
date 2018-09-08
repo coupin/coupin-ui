@@ -151,8 +151,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   };
 
   $scope.displayRenew = function() {
-    //   return !isPayAsYouGo && hasExpired;
-    return true;
+    return !isPayAsYouGo && hasExpired;
   };
 
   function fileCheck(x, isLogo) {
