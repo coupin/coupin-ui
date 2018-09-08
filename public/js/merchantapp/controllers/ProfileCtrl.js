@@ -2,6 +2,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope,
   $alert,
   $window,
+  config,
   StorageService,
   MerchantService,
   UtilService,
@@ -37,6 +38,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   var amount = 0;
   var bill = false;
   var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+  var hasExpired = moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration);
 
 if (!$scope.user) {
   $scope.user = StorageService.getUser();
@@ -125,7 +127,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
    * @param {*} confirm 
    */
   $scope.changePassword = function (password, confirm) {
-    if (password.match(confirm)) {
+    if (password === confirm) {
         MerchantService.changePassword(password).then(function (response) {
             $alert({
                 'title': 'Success!',
@@ -146,6 +148,11 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     } else {
         UtilService.showError('Oops', 'The passwords do not match');
     }
+  };
+
+  $scope.displayRenew = function() {
+    //   return !isPayAsYouGo && hasExpired;
+    return true;
   };
 
   function fileCheck(x, isLogo) {
@@ -279,7 +286,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
       }).catch(function (err) {
         $scope.updating = false;
         if (!(err.status === 500) && err.data) {
-            UtilService.showError('oops!', err.data.message);
+            UtilService.showError('oops!', err.data);
         } else {
             UtilService.showError('Oops!', 'An Error Occured, Please Try Again');
         }
@@ -291,7 +298,11 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     MerchantService.updateBilling($scope.user.id, $scope.billing)
         .then(function(response) {
             StorageService.setUser(response.data);
-            UtilService.showSuccess('Success', `Billing successfully changed to ${billing.plan} plan!`);
+            if ($scope.billing.plan === $scope.user.merchantInfo.billing.plan) {
+                UtilService.showSuccess('Success', `Subscription successfully renewed!`);
+            } else {
+                UtilService.showSuccess('Success', `Billing successfully changed to ${$scope.billing.plan} plan!`);
+            }
         })
         .catch(function(err) {
             UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
@@ -304,13 +315,13 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         key: config.paystackId,
         email: $scope.user.email,
         amount: amount * 100,
-        ref: `${plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
+        ref: `${$scope.billing.plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
         metadata: {
             custom_fields: [
                 {
                     display_name: "Plan",
                     variable_name: "Billing_Plan",
-                    value: `${$scope.user.merchantInfo.companyName} - ${plan}-${date.getTime()}`
+                    value: `${$scope.user.merchantInfo.companyName} - ${$scope.billing.plan}-${date.getTime()}`
                 }
             ]
         },
@@ -343,13 +354,16 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     }
   }
 
-  $scope.updateBilling = function() {
-    if(validBilling()) {
+  $scope.updateBilling = function(renew) {
+    if(validBilling() && !renew) {
         if (bill) {
             makePayment();
         } else {
             persistBillingInfo();
         }
+    } else {
+        $scope.setPlan($scope.user.merchantInfo.billing.plan);
+        makePayment();
     }
   };
 
