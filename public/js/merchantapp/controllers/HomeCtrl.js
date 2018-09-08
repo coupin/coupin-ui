@@ -38,6 +38,10 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     }
   };
 
+  $scope.displayExpirationMessage = function() {
+    return moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration);
+  };
+
   $scope.expired = function(date) {
     return new Date(date) < new Date();
   };
