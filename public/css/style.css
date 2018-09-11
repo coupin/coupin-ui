@@ -297,6 +297,25 @@ td::first-letter {
     width: 100%;
 }
 
+.banner-box-small {
+    background: rgba(0, 0, 0, .5);
+    background-image: url("./../img/photo-camera.png");
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid rgba(0, 0, 0, .5);
+    display: flex;
+    height: 323px;
+    overflow: hidden;
+    width: 500px;
+}
+
+.banner-box-small > img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+}
+
 .logo-box {
     background: rgba(0, 0, 0, .5);
     background-image: url("./../img/photo-camera.png");
@@ -309,6 +328,7 @@ td::first-letter {
 }
 
 .banner-box:hover,
+.banner-box-small:hover,
 .logo-box:hover {
     border: 1px solid white;
     background: rgba(0, 0, 0, .9);
