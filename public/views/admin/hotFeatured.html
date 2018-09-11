@@ -15,8 +15,8 @@
       <div class="col-md-8">
         <h5>Add New Slide</h5>
         <small>You can only have 5 slides at a time</small>
-        <div class="banner-box" data-toggle="modal" data-target="#cropModal">
-          <img height="200" ng-src="{{slide.url}}"/>
+        <div class="banner-box-small center-img" data-toggle="modal" data-target="#cropModal">
+          <img height="323" ng-src="{{slide.url}}"/>
         </div>
         <div class="form-group col-md-10 col-md-offset-1">
           <h5 class="crop-area-small light text-center">This slide belongs to what <b>Merchant</b>?</h5>
@@ -104,7 +104,7 @@
               </div>
               <div class="modal-body text-center">
                   <div>
-                      <h4>Images Must all be cropped to a 950x323 square.</h4>
+                      <h4>Images Must all be cropped to a 500x323 square.</h4>
                       <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                       <input class="form-control" ng-disabled="loading || totalSlides === 5" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
                       <br>
@@ -117,7 +117,7 @@
                                   image="image.src"
                                   cropped-image="image.dst"
                                   crop-height="323"
-                                  crop-width="950"
+                                  crop-width="500"
                                   keep-aspect="true"
                                   touch-radiue="30"
                                   crop-area-bounds="bounds"

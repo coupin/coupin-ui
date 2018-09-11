@@ -29,8 +29,9 @@ function(
         getAdmin : function(id) {
             return $http.delete('/admin/' + id);
         },
-        getMerchNames : function() {
-            return $http.get(`${baseV1Url}/merchant/names`, {
+        getMerchNames : function(wRewards) {
+            var active = wRewards ? true : false;
+            return $http.get(`${baseV1Url}/merchant/names?active=` + active, {
                 headers: authHeader
             });
         },
