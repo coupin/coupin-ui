@@ -11,6 +11,18 @@ function(
     check : function(adminData) {
       return $http.post(baseV1Url + '/admin', adminData);
     },
+    changePassword: function(id, password, encodedString) {
+      return $http.put(baseV1Url + '/auth/password/c', {
+        id: id,
+        password: password,
+        encoded: encodedString
+      });
+    },
+    confirmEncodedString: function(encodedString) {
+      return $http.put(baseV1Url + '/auth/forgot-password', {
+        encoded: encodedString
+      });
+    },
     registerMerch : function(merchantData) {
       return $http.post(baseV1Url + '/auth/register/m', merchantData);
     },
