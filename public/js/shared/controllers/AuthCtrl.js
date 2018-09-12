@@ -15,11 +15,13 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.formData = {};
 
     const strings = $location.absUrl().match(/\w+/g);
-
-
+    
+    
     // to show error and loading
     var amount = 0;
+    var confirmed = false;
     var merchId = '';
+    var encodedString = '';
     var plan = 'payAsYouGo';
     $scope.bounds = {
         left: 0,
@@ -37,24 +39,40 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
-
+    
     // States
     $scope.states = ['lagos'];
-
+    
     // Get current merchant if merchant route called
     if($location.absUrl().includes('confirm')) {
         merchId = strings[strings.length - 2];
-
+        
         if (merchId && merchId.length === 24) {
             MerchantService.confirm(merchId).then(function(response) {
                 $scope.user = response.data;
-                console.log(response.data);
             }).catch(function(err) {
                 $scope.showErrors('Retrieval Failed', err.data.message);
             });
         } else {
             UtilService.showError('Uh Oh', 'Invalid id.');
         }
+    }
+    
+    // Confirm Id if for change of password
+    if($location.absUrl().includes('forgot-password')) { 
+        var urlStrings = $location.absUrl().match(/[^\/\:]+/g);
+        encodedString = urlStrings[urlStrings.length - 1];
+
+        AuthService.confirmEncodedString(encodedString).then(function(result) {
+            confirmed = true;
+            merchId = result.data.id;
+        }).catch(function(err) {
+            if (err.status === 500) {
+                UtilService.showError('Uh Oh', 'Could not confirm id. Please contact admin at admin@coupin.com');
+            } else {
+                UtilService.showError('Uh Oh', err.data);
+            }
+        });
     }
 
     if (StorageService.isLoggedIn()) {
@@ -88,7 +106,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    // Add selected category to Object
+    /**
+     * Add selected category to object
+     * @param {Number} x index
+     */
     $scope.addCat = (x) => {
         if($scope.categories[x] === false) {
             $scope.categories[x] = true;
@@ -103,7 +124,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.user = data.user;
     }
 
-    // For Admin Login
+    /**
+     * Sign in Admin
+     */
     $scope.signInA = () => {
         // show loading
         $scope.loading[0] = true;
@@ -129,14 +152,19 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
+    /**
+     * Check for plan
+     * @param {Number} index 
+     */
     $scope.planCheck = function(index) {
         return $scope.planIndex === index;
     };
 
+    /**
+     * Select a plan
+     * @param {Number} index 
+     */
     $scope.planSelect = function(index) {
-        // if (!UtilService.isDefined($scope.formData.logo) || !UtilService.isDefined($scope.formData.banner)) {
-        //     UtilService.showError('Uh Oh', 'Must have a logo and a banner.');
-        // }
         if (index === 0) {
             $scope.planIndex = 0;
             plan = 'payAsYouGo';
@@ -151,6 +179,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
      }
 
+     /**
+      * Make payment using paystack
+      */
      function makePayment() {
          var date = new Date();
         var handler = PaystackPop.setup({
@@ -183,6 +214,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         handler.openIframe();
      }
 
+     /**
+      * Update user data
+      */
      function updateUser() {
          $scope.loading[1] = true;
          MerchantService.complete(merchId, $scope.formData).then(function(response){
@@ -204,7 +238,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Used to complete merchants registration
      */
-    $scope.completeMerch = () => {
+    $scope.completeMerch = function() {
         switch($scope.planIndex) {
             case 0:
                 $scope.formData['billing'] = {
@@ -221,12 +255,34 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
+    $scope.submitPassword = function() {
+        $scope.loading[1] = true;
+        if ($scope.formData.password === $scope.formData.password2) {
+            AuthService.changePassword(merchId, $scope.formData.password, encodedString).then(function(result) {
+                UtilService.showSuccess('Success!', 'Password change successful.');
+                $scope.formData = {};
+            }).catch(function(err) {
+                $scope.loading[1] = false;
+                UtilService.showError('Uh Oh', err.data);
+            });
+        } else {
+            $scope.loading[1] = false;
+            UtilService.showError('Uh Oh', 'Passwords do not match. Please try again');
+        }
+    };
+
     function resetUploads() {
         $scope.progress = 0;
         $scope.uploadingLogo = false;
         $scope.uploadingBanner = false;
     }
 
+    /**
+     * Upload image and banner
+     * @param {File} image The image.
+     * @param {String} name The name of the image being uploaded.
+     * @param {Boolean} isLogo true if logo and false if banner.
+     */
     function upload(image, name, isLogo) {
         if (isLogo) {
             $scope.uploadingLogo = true;
@@ -257,10 +313,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         });
     }
 
+    /**
+     * Determine whether to show banner or not
+     */
     $scope.showBanner = function() {
         return UtilService.isDefined($scope.formData.banner);
     };
 
+    /**
+     * Determine whether to show logo or not
+     */
     $scope.showLogo = function() {
         return UtilService.isDefined($scope.formData.logo);
     };

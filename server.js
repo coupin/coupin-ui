@@ -135,6 +135,10 @@ app.get('/merchant/register', function(req, res) {
   res.sendfile('./public/views/shared/merchantReg.html');
 });
 
+app.get('/auth/forgot-password/:id', function(req, res) {
+  res.sendfile('./public/views/shared/forgotPassword.html');
+});
+
 app.get('/merchant/:id/confirm', function(req, res) {
   res.sendfile('./public/views/shared/merchantCon.html');
 });
