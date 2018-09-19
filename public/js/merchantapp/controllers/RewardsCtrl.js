@@ -331,10 +331,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.makePayment = function(reward) {
         $scope.loading = true;
-        payWithPayStack(reward, function(reference) {
+        payWithPayStack(reward, function(response) {
             MerchantService.updateBilling($scope.user.id, {
                 plan: 'payAsYouGo',
-                reference: reference
+                reference: response.reference
             }).then(function(response) {
                 StorageService.setUser(response.data);
                 reward.status = 'isPending';
