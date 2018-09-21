@@ -428,7 +428,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showErrors = function(title, response) {
         var data = '';
         if(UtilService.isDefined(response.data)) {
-            console.log(response);
             data = response.data.message;
         } else {
             data = 'Error occured while trying to log in';

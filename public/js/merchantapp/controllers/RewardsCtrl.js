@@ -84,7 +84,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.newReward.pictures = 'pictures' in $scope.newReward ? $scope.newReward.pictures : [];
             $scope.photos = $scope.newReward.pictures;
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
-            console.log($scope.newReward);
         }).catch(function(error) {
             UtilService.showError(errTitle, error.data);
         });
@@ -204,6 +203,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.makePayment(result.data);
             } else {
                 UtilService.showSuccess('Success', 'Reward Created Successfully.An admin will review it in the next 24hours or less.');
+                $state.go('dashboard.reward', {});
+
             }
         }).catch(function (err) {
             $scope.loading = false;
