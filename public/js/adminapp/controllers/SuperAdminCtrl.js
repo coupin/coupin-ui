@@ -43,7 +43,6 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     $scope.delete = function(id) {
         AdminService.delete(id)
         .then(function(data) {
-            console.log(data);
             if(data.data.success) {
                 $scope.admins = $scope.admins.filter( function(admin) {
                     return admin._id !== $scope.currentAdmin._id;

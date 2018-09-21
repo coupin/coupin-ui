@@ -43,7 +43,6 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
       }
     });
     $scope.totalSlides = $scope.slides.length;
-    console.log($scope.slides);
   }).catch(function(err) {
     console.log(err);
     UtilService.showError('Uh oh!', err.data);

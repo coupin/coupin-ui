@@ -6,7 +6,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     RewardsService,
     UtilService
 ){
-    console.log($scope.user);
     $scope.requests = [];
     $scope.currentRequest = {};
     $scope.currentReward = {};
@@ -50,9 +49,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
         $scope.group = status;
         RequestService.getRequests(status).then(function(response) {
-            // $scope.requests = response.data;
-            console.log(response.data);
-
             $scope.totalReq = response.data;
             $scope.loading = false;
         }).catch(function(err) {
@@ -65,7 +61,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
 
         RequestService.getRewards().then(function(response) {
-            console.log(response);
             $scope.totalRewards = response.data;
             $scope.loading = false;
         });

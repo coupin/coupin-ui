@@ -108,7 +108,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     $scope.empty = false;
 
     CoupinService.verify(pin).then(function(response) {
-      console.log(response);
       $scope.loading = false;
       $scope.booking = response.data;
       $scope.rewards = response.data.rewardId;
