@@ -29,7 +29,7 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "start": "gulp ng-config && nodemon server.js",
+    "start": "gulp ng-config && node server.js",
     "postinstall": "./node_modules/bower/bin/bower install"
   }
 }
