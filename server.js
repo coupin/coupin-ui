@@ -7,7 +7,6 @@ const methodOverride = require('method-override');
 // For logging all request
 const morgan = require('morgan');
 // For token validation
-const fs = require('fs-extra');
 const cloudinary = require('cloudinary');
 const cors = require('cors');
 const multer = require('multer');
@@ -45,11 +44,6 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET
 });
-
-// frontend routers
-// app.get('/', function(req, res) {
-//   res.sendfile('./public/views/welcome.html');
-// });
 
 // Sign Up Routes
 app.get('/signup', function(req, res) {

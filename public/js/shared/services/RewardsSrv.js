@@ -1,17 +1,17 @@
 angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
     '$http',
-    'config',
+    'ENV_VARS',
     'StorageService',
     function (
         $http,
-        config,
+        ENV_VARS,
         StorageService
     ) {
         var token = StorageService.getToken();
         var authHeader = {
             'x-access-token': token
         };
-        var baseV1Url = config.baseUrl;
+        var baseV1Url = ENV_VARS.apiUrl;
 
         return {
             activate: function (id) {

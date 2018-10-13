@@ -1,11 +1,11 @@
 angular.module('AuthSrv', []).factory('AuthService', [
   '$http',
-  'config',
+  'ENV_VARS',
 function(
   $http,
-  config
+  ENV_VARS
 ) {
-  var baseV1Url = config.baseUrl;
+  var baseV1Url = ENV_VARS.apiUrl;
 
   return {
     check : function(adminData) {

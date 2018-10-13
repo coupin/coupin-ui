@@ -5,7 +5,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $state,
     $window,
     $alert,
-    config,
+    ENV_VARS,
     MerchantService,
     AuthService,
     StorageService,
@@ -186,7 +186,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      function makePayment() {
          var date = new Date();
         var handler = PaystackPop.setup({
-            key: config.paystackId,
+            key: ENV_VARS.paystackId,
             email: $scope.user.email,
             amount: amount * 100,
             ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,

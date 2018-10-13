@@ -1,13 +1,13 @@
 angular.module('MerchantSrv', []).factory('MerchantService', [
-    'config',
+    'ENV_VARS',
     '$http',
     'StorageService',
 function (
-    config,
+    ENV_VARS,
     $http,
     StorageService
 ) {
-    var baseV1Url = config.baseUrl;
+    var baseV1Url = ENV_VARS.apiUrl;
     var token = StorageService.getToken();
     var authHeader = {
         'x-access-token': token

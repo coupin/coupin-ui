@@ -2,7 +2,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope,
   $alert,
   $window,
-  config,
+  ENV_VARS,
   StorageService,
   MerchantService,
   UtilService,
@@ -311,7 +311,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   function makePayment() {
     var date = new Date();
     var handler = PaystackPop.setup({
-        key: config.paystackId,
+        key: ENV_VARS.paystackId,
         email: $scope.user.email,
         amount: amount * 100,
         ref: `${$scope.billing.plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
