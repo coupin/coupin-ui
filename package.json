@@ -11,6 +11,9 @@
     "dotenv": "^4.0.0",
     "express": "~4.8.0",
     "fs-extra": "^3.0.1",
+    "gulp": "^3.9.1",
+    "gulp-cli": "^2.0.1",
+    "gulp-ng-config": "^1.5.0",
     "jsonwebtoken": "^8.0.1",
     "lodash": "^4.17.4",
     "method-override": "~2.0.2",
@@ -26,7 +29,7 @@
     "nodemon": "^1.12.1"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "gulp ng-config && nodemon server.js",
     "postinstall": "./node_modules/bower/bin/bower install"
   }
 }

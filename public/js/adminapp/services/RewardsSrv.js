@@ -1,11 +1,11 @@
 angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsService', [
   '$http',
-  'config',
+  'ENV_VARS',
   'StorageService',
   'UtilService',
   function (
       $http,
-      config,
+      ENV_VARS,
       StorageService,
       UtilService
   ) {
@@ -13,7 +13,7 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
       var authHeader = {
           'x-access-token': token
       };
-      var baseV1Url = config.baseUrl;
+      var baseV1Url = ENV_VARS.apiUrl;
 
       return {
           // create: function (details) {

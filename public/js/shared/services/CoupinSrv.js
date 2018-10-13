@@ -1,13 +1,13 @@
 angular.module('CoupinSrv', []).factory('CoupinService', [
   '$http',
-  'config',
+  'ENV_VARS',
   'StorageService'
 , function(
   $http,
-  config,
+  ENV_VARS,
   StorageService
 ) {
-  var baseV1Url = config.baseUrl;
+  var baseV1Url = ENV_VARS.apiUrl;
   var token = StorageService.getToken();
   var authHeader = {
       'x-access-token': token
