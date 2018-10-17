@@ -311,7 +311,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   function makePayment() {
     var date = new Date();
     var handler = PaystackPop.setup({
-        key: ENV_VARS.paystackId,
+        key: ENV_VARS.payStackId,
         email: $scope.user.email,
         amount: amount * 100,
         ref: `${$scope.billing.plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,

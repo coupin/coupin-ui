@@ -105,7 +105,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         const reference = `${reward._id}-${$scope.user.merchantInfo.companyName.split(' ')[0]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`;
 
         var handler = PaystackPop.setup({
-            key: ENV_VARS.paystackId,
+            key: ENV_VARS.payStackId,
             email: $scope.user.email,
             amount: amount * 100,
             ref: reference,

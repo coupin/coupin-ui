@@ -6,6 +6,10 @@ body {
     background: linear-gradient(to right, #000428, #004e92); /* Chrome 10-25, Safari 5.1-6 */
 }
 
+option {
+  text-transform: capitalize !important;
+}
+
 #user-details > div:nth-child(even) {
   border-bottom: 1px solid gray;
 }
