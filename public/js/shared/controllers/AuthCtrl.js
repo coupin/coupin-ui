@@ -185,7 +185,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      function makePayment() {
          var date = new Date();
         var handler = PaystackPop.setup({
-            key: ENV_VARS.paystackId,
+            key: ENV_VARS.payStackId,
             email: $scope.user.email,
             amount: amount * 100,
             ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
