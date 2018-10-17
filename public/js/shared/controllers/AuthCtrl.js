@@ -41,7 +41,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.uploadingLogo = false;
     
     // States
-    $scope.states = ['lagos'];
+    $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
     
     // Get current merchant if merchant route called
     if($location.absUrl().includes('confirm')) {
