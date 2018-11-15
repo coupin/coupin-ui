@@ -119,6 +119,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     };
 
     function setUserInfo(data) {
+        var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
+        StorageService.setExpired(moment(expirationDate).isBefore());
         StorageService.setToken(data.token);
         StorageService.setUser(data.user);
         $scope.user = data.user;

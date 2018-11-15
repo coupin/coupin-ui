@@ -8,7 +8,7 @@
             </div>
             <div class="col-md-3 col-xs-12">
                 <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Search</button>
-                <button class="btn btn-success" ng-click="goToNewReward()"><i class="fas fa-plus"></i> Add Reward</button>
+                <button class="btn btn-success" ng-if="!isExpired()" ng-click="goToNewReward()"><i class="fas fa-plus"></i> Add Reward</button>
             </div>
         </div>
     </form>

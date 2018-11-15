@@ -9,6 +9,10 @@ angular.module('BaseMCtrl', []).controller('BaseMController', function (
 ) {
     $scope.position = {};
 
+    $scope.isExpired = function() {
+        return StorageService.isExpired();
+    };
+
     /**
      * Show error alert dialog.
      * @param {String} title 

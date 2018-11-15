@@ -3,7 +3,8 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
   $alert,
   $state,
   MerchantService,
-  RewardsService
+  RewardsService,
+  StorageService
 ) {
   /**
    * Change status of a reward
@@ -77,6 +78,10 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
     } else {
         $state.go('dashboard.reward-add-edit', { id: id }, {});
     }
+  };
+
+  $scope.isExpired = function() {
+      return StorageService.isExpired();
   };
 
   /**
