@@ -302,6 +302,9 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             } else {
                 UtilService.showSuccess('Success', `Billing successfully changed to ${$scope.billing.plan} plan!`);
             }
+            $('#billingModal').modal('hide');
+            StorageService.setExpired(false);
+            $window.location.reload();
         })
         .catch(function(err) {
             UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
@@ -342,6 +345,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         return true;
     } else if (isPayAsYouGo && $scope.billing.plan === 'payAsYouGo') {
         UtilService.showInfo('Hey!', 'Pay As You Go cannot be renewed.');
+        return false;
     } else {
         var isValid = moment(new Date()).isBefore($scope.user.merchantInfo.billing.history[0].expiration);
         if (isValid) {
@@ -354,15 +358,20 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   }
 
   $scope.updateBilling = function(renew) {
-    if(validBilling() && !renew) {
+      var valid = validBilling();
+    if(valid && !renew) {
         if (bill) {
             makePayment();
         } else {
             persistBillingInfo();
         }
     } else {
-        $scope.setPlan($scope.user.merchantInfo.billing.plan);
-        makePayment();
+        StorageService.setExpired(false);
+        $window.location.reload();
+        if (valid) {
+            $scope.setPlan($scope.user.merchantInfo.billing.plan);
+            makePayment();
+        }
     }
   };
 

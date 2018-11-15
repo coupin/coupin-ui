@@ -55,6 +55,16 @@ option {
   text-transform: capitalize;
 }
 
+.red-link,
+.red-link:focus,
+.red-link:hover {
+  color: inherit !important;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
 .my-card {
   border: 1px solid gray;
   box-sizing: border-box;

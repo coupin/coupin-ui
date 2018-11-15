@@ -59,6 +59,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         value: 3
     }];
 
+    if (StorageService.isExpired()) {
+        $state.go('dashboard.rewards', {});
+    }
+
     if ($scope.user.merchantInfo.billing.plan !== 'payAsYouGo') {
         showTotal = false;
         $scope.maxDays = expires.diff(new Date(), 'days');

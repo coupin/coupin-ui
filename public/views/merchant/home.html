@@ -28,8 +28,8 @@
             </nav>
         </div>
         <div class="col-sm-10 col-lg-11 merchant-space">
-            <div class="alert alert-danger" role="alert" ng-if="displayExpirationMessage()">
-                Your Subscription has expired! Please go to <b>Profile</b> and then <b>Billing Info</b> to renew!
+            <div class="alert alert-danger" role="alert" ng-if="isExpired()">
+                Your Subscription has expired! Click <a class="red-link" ui-sref=".profile">here</a> go to <b>Profile</b> and then <b>Billing Info</b> to renew!
             </div>
             <!-- Dynamic Angular Content -->
             <div ui-view></div>
