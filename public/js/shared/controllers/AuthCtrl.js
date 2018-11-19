@@ -119,9 +119,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    function setUserInfo(data) {
-        var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
-        StorageService.setExpired(moment(expirationDate).isBefore());
+    function setUserInfo(data, setExpiration) {
+        if (setExpiration) {
+            var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
+            StorageService.setExpired(moment(expirationDate).isBefore());
+        }
         StorageService.setToken(data.token);
         StorageService.setUser(data.user);
         $scope.user = data.user;
@@ -141,7 +143,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             // check if the login details are correct, if so log in and redirect else show error
             AuthService.signinA($scope.formData)
             .then(function(response){
-                setUserInfo(response.data);
+                setUserInfo(response.data, false);
                 $state.go('portal.home', {});
             }, function(err) {
                 $scope.loading[0] = false;
@@ -367,7 +369,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         };
 
         AuthService.signinM(details).then(function(response) {
-            setUserInfo(response.data);
+            setUserInfo(response.data, true);
             $state.go('dashboard.home', {});
         }).catch(function(err) {
             $scope.loading[1] = false;

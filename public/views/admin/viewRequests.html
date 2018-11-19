@@ -218,6 +218,11 @@
                             <br>
                             <span>{{currentReward.createdDate}}</span>
                         </div>
+                        <div class="col-md-12 col-sm-12">
+                            <span class="preview-box" ng-repeat="(index, photo) in currentReward.pictures">
+                                <img ng-src="{{photo.url}}" height="200" width="200"/>
+                            </span>
+                        </div>
                     </div>
                     <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'accepted')">Approve</button>
                     <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(currentReward, 'rejected')">Decline</button>
