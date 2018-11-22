@@ -1,8 +1,6 @@
 angular.module('StorageSrv', []).factory('StorageService', [
-  '$sessionStorage',
   'UtilService',
 function(
-    $sessionStorage,
     UtilService
   ) {
     return {
@@ -11,34 +9,38 @@ function(
         this.clearUser();
       },
       clearExpired: function() {
-        $sessionStorage.remove('hasExpired');
+        localStorage.clear('hasExpired');
       },
       clearToken: function() {
-        $sessionStorage.remove('ctk');
+        localStorage.clear('ctk');
       },
       clearUser: function() {
-        $sessionStorage.remove('user');
+        localStorage.clear('user');
       },
       getToken: function() {
-        return $sessionStorage.get('ctk');
+        return localStorage.getItem('ctk');
       },
       getUser: function() {
-        return $sessionStorage.getObject('user');
+        try {
+          return JSON.parse(localStorage.getItem('user'));
+        } catch {
+          return;
+        }
       },
       isExpired: function() {
-        return $sessionStorage.get('hasExpired') === 'true';
+        return localStorage.getItem('hasExpired') === 'true';
       },
       isLoggedIn: function() {
-        return UtilService.isDefined($sessionStorage.get('ctk'));
+        return UtilService.isDefined(localStorage.getItem('ctk'));
       },
       setExpired: function(hasExpired) {
-        $sessionStorage.put('hasExpired', hasExpired);
+        localStorage.setItem('hasExpired', hasExpired);
       },
       setToken: function(token) {
-        $sessionStorage.put('ctk', token);
+        localStorage.setItem('ctk', token);
       },
       setUser: function(user) {
-        $sessionStorage.putObject('user', user);
+        localStorage.setItem('user', JSON.stringify(user));
       }
     };
   }]);
