@@ -60,9 +60,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     }
     
     // Confirm Id if for change of password
-    if($location.absUrl().includes('forgot-password')) { 
-        var urlStrings = $location.absUrl().match(/[^\/\:]+/g);
-        encodedString = urlStrings[urlStrings.length - 1];
+    if($location.absUrl().includes('forgot-password')) {
+        var encodedString = $location.search().query;
 
         AuthService.confirmEncodedString(encodedString).then(function(result) {
             confirmed = true;
