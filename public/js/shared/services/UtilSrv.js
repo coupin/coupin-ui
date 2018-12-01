@@ -27,7 +27,7 @@ function(
    * @param {String} number 
    */
   service.isDecimal = function(number) {
-    if (/^\d\.{1}\d+$/mg.test(number) && number.length >= 8) {
+    if (/^(\-*\+*)\d+\.{1}\d+$/mg.test(number) && number.length >= 8) {
         return true;
     }
 
