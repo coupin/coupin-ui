@@ -20,6 +20,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     // to show error and loading
     var amount = 0;
     var confirmed = false;
+    var checkAuth = true;
     var merchId = '';
     var encodedString = '';
     var plan = 'payAsYouGo';
@@ -45,6 +46,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     
     // Get current merchant if merchant route called
     if($location.absUrl().includes('confirm')) {
+        checkAuth = false;
         merchId = strings[strings.length - 2];
         
         if (merchId && merchId.length === 24) {
@@ -60,7 +62,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     
     // Confirm Id if for change of password
     if($location.absUrl().includes('forgot-password')) {
-        var encodedString = $location.search().query;
+        checkAuth = false;
+        var encodedString = UtilService.getQueryVariable('query');
 
         AuthService.confirmEncodedString(encodedString).then(function(result) {
             confirmed = true;
@@ -74,7 +77,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         });
     }
 
-    if (StorageService.isLoggedIn()) {
+    if (checkAuth && StorageService.isLoggedIn()) {
         $scope.user = StorageService.getUser();
         if ($scope.user.role > 1) {
             $state.go('dashboard.home', {});
