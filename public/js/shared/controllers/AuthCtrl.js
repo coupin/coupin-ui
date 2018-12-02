@@ -365,12 +365,14 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             email : $scope.formData.loginEmail,
             password : $scope.formData.loginPassword
         };
+        $scope.loading[0] = true;
 
         AuthService.signinM(details).then(function(response) {
             setUserInfo(response.data, true);
+            $scope.loading[0] = false;
             $state.go('dashboard.home', {});
         }).catch(function(err) {
-            $scope.loading[1] = false;
+            $scope.loading[0] = false;
             UtilService.showError('Request Failed', err.data);
         });
     }
