@@ -42,6 +42,10 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
 
 if (!$scope.user) {
   $scope.user = StorageService.getUser();
+  $scope.position = {
+      long: $scope.user.merchantInfo.location[0],
+      lat: $scope.user.merchantInfo.location[1]
+  };
 }
 
 $scope.billing = {

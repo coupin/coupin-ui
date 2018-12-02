@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const path = require('path');
 // server module
 const express = require('express');
 const methodOverride = require('method-override');
@@ -129,8 +130,8 @@ app.get('/merchant/register', function(req, res) {
   res.sendfile('./public/views/shared/merchantReg.html');
 });
 
-app.get('/auth/forgot-password/:id', function(req, res) {
-  res.sendfile('./public/views/shared/forgotPassword.html');
+app.get('/auth/forgot-password', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/views/shared/forgotPassword.html'));
 });
 
 app.get('/merchant/:id/confirm', function(req, res) {
