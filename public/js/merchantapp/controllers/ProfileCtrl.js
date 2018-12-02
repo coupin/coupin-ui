@@ -104,7 +104,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         return false;
     }
 
-    if ('location' in user.merchantInfo && user.merchantInfo.location.lenght < 2) {
+    if ('location' in user.merchantInfo && user.merchantInfo.location.length < 2) {
         UtilService.showError('An error occured', 'Location must have both latitude and longitude');
         return false;
     } else if ('location' in user.merchantInfo && (!UtilService.isDecimal(user.merchantInfo.location[0].toString()) || !UtilService.isDecimal(user.merchantInfo.location[1].toString()))) {
