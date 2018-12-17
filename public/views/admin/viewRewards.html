@@ -41,8 +41,8 @@
               <th>Name</th>
               <th>Merchant</th>
               <th>Start Date</th>
+              <th>Expiry Date</th>
               <th>Status</th>
-              <th>Created Date</th>
           </thead>
           <tbody>
               <tr ng-repeat="(index, reward) in rewards">
@@ -50,8 +50,8 @@
                   <td>{{reward.name}}</td>
                   <td>{{reward.merchantID.merchantInfo.companyName}}</td>
                   <td>{{reward.startDate | date: 'longDate'}}</td>
-                  <td>{{reward.status}}</td>
-                  <td>{{reward.createdDate | date: 'longDate'}}</td>
+                  <td>{{reward.endDate | date: 'longDate'}}</td>
+                  <td>{{parseStatus(reward.status, reward.endDate)}}</td>
                   <!-- <td><div class="clickable" data-toggle="tooltip" title="Review Reward" ng-click="editMerch(merchant._id)"><i class="fa fa-clipboard-check"></i></div></td> -->
                   <td><div class="clickable" data-toggle="tooltip" title="Activate/Deactivate Merchant" ng-click="toggleStatus(merchant._id)"><i ng-class="{'fas fa-eye-slash icon': merchant.isActive, 'fas fa-eye icon': !merchant.isActive}"></i></div></td>
                   <td><div class="clickable" data-toggle="tooltip" title="Archive" ng-click="toggleStatus(merchant._id)"><i class="fa fa-archive"></i></div></td>

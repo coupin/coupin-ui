@@ -5,17 +5,7 @@ function(
   ) {
     return {
       clearAll: function() {
-        this.clearToken();
-        this.clearUser();
-      },
-      clearExpired: function() {
-        localStorage.clear('hasExpired');
-      },
-      clearToken: function() {
-        localStorage.clear('ctk');
-      },
-      clearUser: function() {
-        localStorage.clear('user');
+        localStorage.clear();
       },
       getToken: function() {
         return localStorage.getItem('ctk');
@@ -33,8 +23,14 @@ function(
       isLoggedIn: function() {
         return UtilService.isDefined(localStorage.getItem('ctk'));
       },
+      isMerchant: function() {
+        return UtilService.isDefined(localStorage.getItem('isMerchant'));
+      },
       setExpired: function(hasExpired) {
         localStorage.setItem('hasExpired', hasExpired);
+      },
+      setIsMerchant: function(option) {
+        localStorage.setItem('isMerchant', option);
       },
       setToken: function(token) {
         localStorage.setItem('ctk', token);
