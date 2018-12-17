@@ -49,6 +49,11 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
     return !UtilService.isDefined($scope.selectedMerch) || $scope.loading;
   };
 
+  $scope.parseStatus = function(status, date) {
+    var inStatus = moment(new Date()).isAfter(date) ? 'InActive' : 'Active';
+    return status === 'active' ? inStatus : status;
+  };
+
   $scope.getPage = function() {
     return `Page ${page + 1}`;
   };
