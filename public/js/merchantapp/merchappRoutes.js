@@ -8,7 +8,7 @@ function (
     $urlRouterProvider
 ) {
     $urlRouterProvider
-    .otherwise('/dashboard');
+    .otherwise('/dashboard/home');
 
     $stateProvider
         .state('auth', {
