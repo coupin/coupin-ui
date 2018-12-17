@@ -1,11 +1,7 @@
 angular.module('BaseMCtrl', []).controller('BaseMController', function (
     $scope,
     $alert,
-    $location,
-    $state,
-    $window,
     StorageService,
-    MerchantService,
 ) {
     $scope.position = {};
 

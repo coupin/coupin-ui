@@ -206,8 +206,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
                 $scope.makePayment(result.data);
             } else {
-                UtilService.showSuccess('Success', 'Reward Created Successfully.An admin will review it in the next 24hours or less.');
-                $state.go('dashboard.reward', {});
+                UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
+                $state.go('dashboard.rewards', {});
 
             }
         }).catch(function (err) {
