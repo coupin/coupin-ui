@@ -50,7 +50,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   };
 
   $scope.parseStatus = function(status, date) {
-    var inStatus = moment(new Date()).isAfter(date) ? 'Active' : 'Inactive';
+    var inStatus = moment(new Date()).isAfter(date) ? 'InActive' : 'Active';
     return status === 'active' ? inStatus : status;
   };
 
