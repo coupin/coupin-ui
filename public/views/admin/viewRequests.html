@@ -95,7 +95,6 @@
                             <td>{{reward.createdDate | date:'longDate'}}</td>
                             <td class="capitalize">{{reward.status}}</td>
                             <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
-
                             <td class="clickable" data-toggle="modal" data-target="#selectedReward" ng-click="selectReward(reward)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
                             <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'rejected')"><i class="fas fa-times" data-title="Edit Reward" bs-tooltip></i></td>
                             <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'accepted')"><i class="fas fa-check" data-title="Accept Reward" bs-tooltip></i></td>
