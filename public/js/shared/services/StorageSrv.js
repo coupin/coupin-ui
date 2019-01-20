@@ -5,6 +5,10 @@ function(
   ) {
     return {
       clearAll: function() {
+        localStorage.removeItem('ctk');
+        localStorage.removeItem('hasExpired');
+        localStorage.removeItem('isMerchant');
+        localStorage.removeItem('user');
         localStorage.clear();
       },
       getToken: function() {

@@ -111,9 +111,9 @@
                     <label for="endDate">Please select number of days: </label><br/>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                        <input id="noOfDate" name="noOfDays" ng-class="{'form-control': true, 'error-input': isError(form.noOfDays)}" type="number" ng-model="noOfDays" ng-change="setEndDate(noOfDays)" ng-max="{{maxDays}}" required/>
+                        <input id="noOfDate" name="noOfDays" ng-class="{'form-control': true, 'error-input': isError(form.noOfDays)}" type="number" ng-model="noOfDays" ng-change="setEndDate(noOfDays)" ng-min="4" ng-max="{{maxDays}}" required/>
                     </div>
-                    <small id="daysHelp" class="form-text text-muted">Your maximum number of days, based on subscription, is <b>{{maxDays}}</b>.</small>
+                    <small id="daysHelp" class="form-text text-muted">Minimum of <b>4</b> days. Your maximum number of days, based on subscription, is <b>{{maxDays}}</b>.</small><br/>
                     <small id="rangeHelp" class="form-text text-muted">The reward will expire on <b>{{newReward.endDate | date: 'longDate'}}</b>.</small>
                 </div>
             </div>
