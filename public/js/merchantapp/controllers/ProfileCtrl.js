@@ -137,7 +137,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
                 'title': 'Success!',
                 'content': 'Password was updated successfully',
                 'duration': 5,
-                'placement': 'top-right',
+                'placement': 'center-center',
                 'show' : true ,
                 'type' : 'success'
             });
@@ -174,7 +174,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             'title': 'Invalid Image',
             'content': msg,
             'duration': 5,
-            'placement': 'top-right',
+            'placement': 'center-center',
             'show' : true ,
             'type' : 'danger'
         });
@@ -281,7 +281,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
           'title': 'Success!',
           'content': 'Profile updated successfully',
           'duration': 5,
-          'placement': 'top-right',
+          'placement': 'center-center',
           'show' : true ,
           'type' : 'success'
         });

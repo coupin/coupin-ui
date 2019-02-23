@@ -267,6 +267,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         if ($scope.formData.password === $scope.formData.password2) {
             AuthService.changePassword(merchId, $scope.formData.password, encodedString).then(function(result) {
                 UtilService.showSuccess('Success!', 'Password change successful.');
+                $scope.loading[1] = false;
                 $scope.formData = {};
             }).catch(function(err) {
                 $scope.loading[1] = false;
@@ -449,7 +450,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     'title': title,
                     'content': data[i].msg,
                     'duration': 5,
-                    'placement': 'top-right',
+                    'placement': 'center-center',
                     'show' : true ,
                     'type' : 'danger'
                 });
@@ -460,7 +461,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 'title': title,
                 'content': data,
                 'duration': 5,
-                'placement': 'top-right',
+                'placement': 'center-center',
                 'show' : true ,
                 'type' : 'danger'
             });

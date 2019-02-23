@@ -24,6 +24,7 @@ function(
 
   service.getQueryVariable = function(variable) {
     var query = window.location.search.substring(1);
+
     var vars = query.split('&');
     for (var i = 0; i < vars.length; i++) {
         var pair = vars[i].split('=');
@@ -150,7 +151,7 @@ function(
       'title': title,
       'content': text,
       'duration': 5,
-      'placement': 'top-right',
+      'placement': 'center-center',
       'show' : true ,
       'type' : 'danger'
     });
@@ -166,7 +167,7 @@ function(
           'title': title,
           'content': msg,
           'duration': 5,
-          'placement': 'top-right',
+          'placement': 'center-center',
           'show' : true ,
           'type' : 'info'
       });
@@ -182,7 +183,7 @@ function(
         'title': title,
         'content': msg,
         'duration': 5,
-        'placement': 'top-right',
+        'placement': 'center-center',
         'show' : true ,
         'type' : 'success'
     });
@@ -215,7 +216,7 @@ function(
           'title': 'Invalid Image',
           'content': msg,
           'duration': 5,
-          'placement': 'top-right',
+          'placement': 'center-center',
           'show' : true ,
           'type' : 'danger'
       });

@@ -19,7 +19,7 @@ angular.module('BaseMCtrl', []).controller('BaseMController', function (
             'title': title,
             'content': msg,
             'duration': 5,
-            'placement': 'top-right',
+            'placement': 'center-center',
             'show' : true ,
             'type' : 'danger'
         });

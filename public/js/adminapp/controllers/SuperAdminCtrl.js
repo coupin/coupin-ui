@@ -51,7 +51,7 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
                     'title': "Success",
                     'content': $scope.currentAdmin.local.email + data.data.message,
                     'duration': 5,
-                    'placement': 'top-right',
+                    'placement': 'center-center',
                     'show' : true ,
                     'type' : 'success'
                 });
