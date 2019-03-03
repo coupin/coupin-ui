@@ -1,1 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
+$color-primary: #1AC8ED;
+$color-secondary: #0CF574;
+$color-alt: #E4FF1A;
+$color-alt-Secondary: #FFA400;
+$color-error: #D63230;
+
+body {
+  background: #ffffff;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+#root {
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.divider-sm {
+  margin-bottom: 20px;
+  margin-top: 20px;
+  width: 5%;
+}
+
+.font-white {
+  color: white;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+/* Margins */
+.margin-sm {
+  margin: 10px;
+}
+
+.margin-sm-bottom {
+  margin-bottom: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
