@@ -27,9 +27,12 @@
               "src/assets"
             ],
             "styles": [
+              "dist/semantic/dist/semantic.min.css",
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+              "dist/semantic/dist/semantic.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
