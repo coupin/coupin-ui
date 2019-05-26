@@ -1,20 +1,20 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-lg-1">
+        <div class="col-sm-2 col-lg-2">
             <nav class="navbar navbar-default navbar-fixed-side">
                 <div class="container">
-                    <div class="navbar-header">
+                    <!-- <div class="navbar-header">
                         <button class="navbar-toggle" data-target="#merchant-menu" data-toggle="collapse">
                             <span class="sr-only">Toggle Navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <!-- <a class="navbar-brand" href="/merchant"><img class="center-item" src="/img/logo.png" style="display:block" width="180px"/></a> -->
+                        <a class="navbar-brand" href="/merchant"><img class="center-item" src="/img/logo.png" style="display:block" width="180px"/></a>
                         <img class="center-item" ng-src="{{user.merchantInfo.logo.url}}" width="100vh"/>
-                    </div>
+                    </div> -->
                     <div class="collapse navbar-collapse" id="merchant-menu">
-                        <ul class="nav navbar-nav">
+                        <!-- <ul class="nav navbar-nav">
                             <li><a class="nav-merch text-center" href="" ng-disabled="true"><b>{{user.merchantInfo.companyName}}</b></a></li>
                             <li><a id="home" class="nav-merch text-center" ui-sref=".home">Home</a></li>
                             <li><a id="rewards" class="nav-merch text-center" ui-sref=".rewards">Rewards</a></li>
@@ -22,12 +22,39 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li><a class="nav-merch text-center" ng-click="logOut()">Sign Out</a></li>
-                        </ul>
+                        </ul> -->
+                        <section class="merchant-information">
+                            <div class="merchant-logo"></div>
+                            <h3 class="merchant-name">
+                                {{user.merchantInfo.companyName}}
+                            </h3>
+                            <h4 class="merchant-email">
+                                {{user.email}}
+                            </h4>
+                        </section>
+                        <section class="menu">
+                            <a ui-sref=".home" ui-sref-active="active">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
+                            <a ui-sref=".profile" ui-sref-active="active">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                            <a ui-sref=".rewards" ui-sref-active="active">
+                                <i class="fas fa-tags"></i>
+                                Rewards
+                            </a>
+                            <a ng-click="logOut()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Signout
+                            </a>
+                        </section>
                     </div>
                 </div>
             </nav>
         </div>
-        <div class="col-sm-10 col-lg-11 merchant-space">
+        <div class="col-sm-10 col-lg-10 merchant-space">
             <div class="alert alert-danger" role="alert" ng-if="isExpired()">
                 Your Subscription has expired! Click <a class="red-link" ui-sref=".profile">here</a> go to <b>Profile</b> and then <b>Billing Info</b> to renew!
             </div>

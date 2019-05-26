@@ -1,9 +1,11 @@
 body {
-    background: #000428; /* fallback for old browsers */
+    /* background: #000428; /* fallback for old browsers
     background: -webkit-linear-gradient(left, #000428, #004e92);
     background: -moz-linear-gradient(left, #000428, #004e92);
     background: -o-linear-gradient(left, #000428, #004e92);
-    background: linear-gradient(to right, #000428, #004e92); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #000428, #004e92); Chrome 10-25, Safari 5.1-6 */
+
+    background-color: #F8FFFE;
 }
 
 option {
@@ -293,6 +295,78 @@ fieldset[disabled] .btn-outline-primary.focus {
 
 .navbar {
     border: 0px !important;
+    width: 250px;
+    height: 100vh;
+    background: #fff;
+    box-shadow: 2px 0px 3px rgba(21, 165, 128, 0.16);
+}
+
+#merchant-menu {
+  padding: 0;
+}
+
+.merchant-information {
+  padding-top: 50px;
+  padding-bottom: 30px;
+  padding-left: 30px;
+}
+
+.merchant-name {
+  font-size: 16px;
+  font-weight: 600;
+  max-width: 200px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-transform: capitalize;
+}
+
+.merchant-email {
+  font-size: 13px;
+  color: #B4BBC5;
+}
+
+.merchant-logo {
+  background-color: #efefef;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border: .1875rem solid #eee;
+  border-radius: 50%;
+  height: 7.25rem;
+  width: 7.25rem;
+}
+
+.menu a {
+  display: block;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 30px;
+  color: #94989E;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  cursor: pointer;
+}
+
+.menu a:hover, .menu a.active {
+  color: #15A580;
+  background-color: transparent;
+}
+
+.menu a:hover::after, .menu a.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #15A580;
+}
+
+.menu a i {
+  margin-right: 10px;
+  font-weight: 12px;
 }
 
 .row-no-space {
