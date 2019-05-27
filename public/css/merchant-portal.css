@@ -217,6 +217,7 @@ fieldset[disabled] .btn-outline-primary.focus {
 
 .container-fluid {
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 .icon {
@@ -271,7 +272,7 @@ fieldset[disabled] .btn-outline-primary.focus {
 }
 
 .merchant-space {
-  padding: 20px;
+  padding: 20px 20px 20px 80px;
 }
 
 .nav-link:hover {
@@ -319,6 +320,7 @@ fieldset[disabled] .btn-outline-primary.focus {
   text-overflow: ellipsis;
   white-space: nowrap;
   text-transform: capitalize;
+  color: #454D57;
 }
 
 .merchant-email {
@@ -328,10 +330,8 @@ fieldset[disabled] .btn-outline-primary.focus {
 
 .merchant-logo {
   background-color: #efefef;
-  background-position: 50%;
   background-repeat: no-repeat;
   background-size: cover;
-  border: .1875rem solid #eee;
   border-radius: 50%;
   height: 7.25rem;
   width: 7.25rem;
@@ -429,4 +429,67 @@ fieldset[disabled] .btn-outline-primary.focus {
 .selected {
   background: #2e6da4;
   color: white;
+}
+
+.card {
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16);
+  /* padding: 20px 20px 18px 15px; */
+  padding: 20px;
+}
+
+.section-containers {
+  margin: 50px 0;
+}
+
+.section-headers {
+  /* font-family: Quicksand; */
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 15px;
+  text-align: left;
+  color: #454D57;
+  margin-bottom: 30px
+}
+
+.quick-info {
+  width: 250px;
+  /* height: 150px; */
+  display: inline-block;
+}
+
+.quick-info:not(:first-child) {
+  margin-left: 30px;
+}
+
+.quick-info h4 {
+  font-family: "Helvetica Neue";
+  font-weight: 600;
+  font-size: 35px;
+  text-align: left;
+  color: #454D57;
+  /* color: #394350; */
+  /* color: #707070; */
+  margin: 0;
+}
+
+.quick-info h5 {
+  font-family: "Helvetica Neue";
+  font-weight: 400;
+  font-size: 20px;
+  text-align: left;
+  color: #878D93;
+  /* color: #707070; */
+  margin: 12px 0 5px 0;
+}
+
+/* .overview-container {
+  display: flex;
+} */
+
+@media (max-width: 767px) {
+  .merchant-space {
+    margin-top: 40px;
+  }
 }
