@@ -13,10 +13,12 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope.uploadingLogo = false;
   $scope.updating = false;
   $scope.editable = false;
-  $scope.position = {};
   $scope.states = ['lagos'];
   $scope.settings = 'personal';
-  $scope.position = $scope.user.merchantInfo.location;
+  $scope.position = {
+    long: $scope.user.merchantInfo.location[0],
+    lat: $scope.user.merchantInfo.location[1]
+};
   
   
   $scope.bounds = {
@@ -27,10 +29,8 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   };
 
   var selected = false;
-  var logo = UtilService.isDefined($scope.user.merchantInfo.logo) ? $scope.user.merchantInfo.logo.url 
-  : '../img/logo.jpg';
-  var banner = UtilService.isDefined($scope.user.merchantInfo.banner) ? $scope.user.merchantInfo.banner.url 
-  : '../img/banner.jpg';
+  var logo = $scope.user.merchantInfo.logo && $scope.user.merchantInfo.logo.url ? $scope.user.merchantInfo.logo.url : '../img/logo.jpg';
+  var banner = $scope.user.merchantInfo.banner && $scope.user.merchantInfo.banner.url  ? $scope.user.merchantInfo.banner.url : '../img/banner_alt.png';
   $scope.image = {
       src: null,
       dst: null
@@ -38,7 +38,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   var amount = 0;
   var bill = false;
   var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
-  var hasExpired = moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration);
+  var hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
 
 if (!$scope.user) {
   $scope.user = StorageService.getUser();

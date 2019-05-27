@@ -327,7 +327,7 @@ td::first-letter {
     width: 200px;
 }
 
-.banner-box:hover,
+/* .banner-box:hover,
 .banner-box-small:hover,
 .logo-box:hover {
     border: 1px solid white;
@@ -337,7 +337,7 @@ td::first-letter {
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
-}
+} */
 
 .modal-space-text {
     font-size: 18px;

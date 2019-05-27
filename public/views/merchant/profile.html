@@ -1,85 +1,81 @@
-<div class="info-box padding-none">
-    <div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
-        <div class="banner-inner">
-            <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
-                Upload new banner <i class="fas fa-plus"></i>
-            </span>
+<div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
+    <div class="banner-inner">
+        <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
+            Upload new banner <i class="fas fa-plus"></i>
+        </span>
+    </div>
+    <div class="logo-container">
+        <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
+            <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
+                <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+                <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+            </div>
         </div>
-        <!-- <div class="row">
-            <div class="col-md-4 col-xs-12"> -->
-            <div class="logo-container">
-                <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
-                    <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
-                        <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
-                        <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+    </div>
+</div>
+<div class="card profile-section-card">
+    <section class="row profile-form-section">
+        <div class="col-md-3">
+            <p>Personal Details</p>
+        </div>
+        <div class="col-md-9">
+            <form>
+                <div class="form-group col-md-12">
+                    <label for="name">Email: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
                     </div>
                 </div>
-            </div>
-                <br>
-            <!-- </div>
-        </div> -->
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-xs-12 padding-x-none settings-sub">
-            <h3 class="text-center">Settings</h3>
-            <h5 ng-click="setSettings('personal')" ng-class="{'active': settings === 'personal'}">Personal Details</h5>
-            <h5 ng-click="setSettings('company')" ng-class="{'active': settings === 'company'}">Company Info</h5>
-            <h5 ng-click="setSettings('billing')" ng-class="{'active': settings === 'billing'}">Billing Info</h5>
+            </form>
         </div>
-        <div class="col-md-10 col-xs-12" ng-switch="settings">
-            <div ng-switch-when="personal" class="row margin-y-sm">
-                <form>
-                    <div class="form-group">
-                        <label for="name">Email: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
-                        </div>
-                        <small id="emailHelp" class="form-text text-muted">User email.</small>
-                    </div>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">Change Password</button>
-                    <br><br>
-                    <button class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
-                </form>
-            </div>
-            <div ng-switch-when="company" class="row margin-y-sm">
-                <form>
+    </section>
+    <section class="row profile-form-section">
+        <div class="col-md-3">
+            <p>Company Info</p>
+        </div>
+        <div class="col-md-9">
+            <form>
+            <!-- <form style="position: relative;top: -23px;"> -->
+                <div class="row">
                     <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Name: </label>
+                        <label for="name">Company Name: </label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-meetup"></i></div>
+                            <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
                             <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
                         </div>
-                        <small id="nameHelp" class="form-text text-muted">Company Name.</small>
                     </div>
                     <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Phone Number: </label>
+                        <label for="name">Branch Phone Number: </label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
                             <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
                         </div>
-                        <small id="nameHelp" class="form-text text-muted">Branch Phone Number.</small>
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-12 col-sm-12">
-                        <label for="name">Details: </label>
+                        <label for="name">Company Description: </label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                             <textarea type="text" class="form-control" id="detail" aria-describedby="emailHelp" placeholder="Company Details.." ng-model="user.merchantInfo.companyDetails" required></textarea>
                         </div>
-                        <small id="detailHelp" class="form-text text-muted">Company Details.</small>
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-12 col-sm-12">
-                        <label for="email">Address: </label>
+                        <label for="email">Branch Street Address: </label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                             <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
                             <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
                         </div>
-                        <small id="addressHelp" class="form-text text-muted">Branch Address</small>
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-6 col-sm-12">
                         <label for="city">City:</label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-map-marker"></i></div>
+                            <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
                             <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
                         </div>
                     </div>
@@ -87,98 +83,50 @@
                         <label for="state">State:</label>
                         <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="user.merchantInfo.state" ng-options="state for state in states" required></select>
                     </div>
-                    <h3>Geolocation Details</h3>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Latitude: </label>
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                    <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="email">Longitude: </label>
-                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                    <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button class="btn btn-primary btn-full" ng-click="getLocation()">Use My Current Location <i class="fas fa-spin fa-spinner" ng-disabled="loadingPosition === true" ng-show="loadingPosition"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                    <br><br>
-                    <button class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
-                </form>
-            </div>
-            <div ng-switch-when="billing" class="row margin-y-sm">
-                <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <label>Bill Plan: </label>
-                        <span class="capitalize">{{user.merchantInfo.billing.plan}}</span>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <label>Last Payment: </label>
-                        <span>{{user.merchantInfo.billing.history[0].date | date: 'longDate'}}</span>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <label>Expiration Date: </label>
-                        <span>{{user.merchantInfo.billing.history[0].expiration | date: 'longDate'}}</span>
-                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#billingModal">Change Billing Plan</button>
-                        <button class="btn btn-success" ng-if="displayRenew()" ng-click="updateBilling(true)">Renew Plan</button>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="text-center">Billing History</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table table-striped">
-                            <thead>
-                                <th>S/N</th>
-                                <th>Plan</th>
-                                <th>Paid On</th>
-                                <th>reference</th>
-                                <th>Expires On</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
-                                    <td>{{index + 1}}</td>
-                                    <td class="capitalize">{{bill.plan}}</td>
-                                    <td>{{bill.date | date: 'longDate'}}</td>
-                                    <td>{{bill.reference}}</td>
-                                    <td>{{bill.expiration | date: 'longDate'}}</td>
-                                </tr>
-                                <tr ng-if="!showHistory()">
-                                    <td colspan="5">
-                                        <div class="row padding-10-all">
-                                            <div class="col-sm-12 text-center">
-                                                <i class="fas fa-box-open fa-3x"></i>
-                                                <h5>Sorry there is no payment history.</h5>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
-    </div>
+    </section>
+    <section class="row profile-form-section">
+        <div class="col-md-3">
+            <p>Geo Location details</p>
+        </div>
+        <div class="col-md-9">
+            <form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Latitude: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="email">Longitude: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 location-button-container">
+                        <div class="form group">
+                            <button class="btn btn-outline-primary get-user-location btn-lg" ng-click="getLocation()" ng-disabled="loadingPosition === true">
+                                <i class="fas fa-map-marked-alt" ng-hide="loadingPosition"></i>
+                                <i class="fas fa-spin fa-spinner" ng-show="loadingPosition"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row user-profile-action">
+                    <button class="btn btn-primary btn-lg" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
+                </div>
+            </form>
+        </div>
+    </section>
 </div>
 
 <!-- Billing Modal -->
