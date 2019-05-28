@@ -1,3 +1,8 @@
+* {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+}
+
 /* Admin Login Box Styling */
 .login-form {
     margin: 5%;
@@ -132,7 +137,6 @@ td::first-letter {
 .crop-area-modal {
     background: #E4E4E4;
     display: block;
-    /* overflow: hidden; */
     width:200px;
     height:200px;
 }
@@ -147,10 +151,6 @@ td::first-letter {
     clear: both;
     display: block;
 }
-
-/* .cropArea canvas {
-    margin: 0 !important;
-} */
 
 .form-page {
     display: block;
@@ -748,4 +748,9 @@ td::first-letter {
 
   .white-text {
       color: white !important;
+  }
+
+  .form-group label {
+      color: #94989E !important;
+      font-weight: 600 !important;
   }
