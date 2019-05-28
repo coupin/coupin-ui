@@ -114,6 +114,7 @@ option {
   overflow: hidden;
   width: 200px;
   position: relative;
+  top: 50px;
 }
 
 .logo-box > .inner {
@@ -159,7 +160,7 @@ option {
   background-color: #F49A40;
   outline: none;
   border: 0;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease 0s;
 }
 
@@ -167,7 +168,7 @@ option {
 .btn-primary.active,
 .open > .dropdown-toggle.btn-outline-primary {
   background-color: rgb(206, 130, 54) !important;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transform: translateY(2px);
   outline: none;
 }
@@ -175,7 +176,7 @@ option {
 .btn-primary:hover,
 .btn-primary:hover:disabled {
   background-color: rgb(218, 136, 53);
-  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
   transform: translateY(-1.5px);
 }
 
@@ -184,7 +185,7 @@ option {
   background-color: #F49A40;
   outline: none;
   border: 0;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-outline-primary {

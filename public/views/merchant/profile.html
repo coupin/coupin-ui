@@ -127,6 +127,34 @@
             </form>
         </div>
     </section>
+    <section class="row profile-form-section">
+        <div class="col-md-3">
+            <p>Password</p>
+        </div>
+        <div class="col-md-9">
+            <form ng-submit="changePassword(password, confirm)">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="email">New Password: </label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Confirm Password: </label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row user-profile-action">
+                    <button class="btn btn-primary btn-lg">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
+                </div>
+            </form>
+        </div>
+    </section>
 </div>
 
 <!-- Billing Modal -->
@@ -216,36 +244,6 @@
                             <button class="btn btn-def btn-full" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Password Modal -->
-<div class="modal fade" id="passwordModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Password Change</h3>
-            </div>
-            <div class="modal-body">
-                <form ng-submit="changePassword(password, confirm)">
-                    <div class="form-group">
-                        <label for="email">New Passowrd: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Confirm Passowrd: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-full">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
                 </form>
             </div>
         </div>
