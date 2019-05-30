@@ -26,13 +26,17 @@
                                 <i class="fas fa-home"></i>
                                 Home
                             </a>
+                            <a ui-sref=".rewards" ui-sref-active="active">
+                                <i class="fas fa-tags"></i>
+                                Rewards
+                            </a>
                             <a ui-sref=".profile" ui-sref-active="active">
                                 <i class="fas fa-user"></i>
                                 Profile
                             </a>
-                            <a ui-sref=".rewards" ui-sref-active="active">
-                                <i class="fas fa-tags"></i>
-                                Rewards
+                            <a ui-sref=".billing" ui-sref-active="active">
+                                <i class="fas fa-money-bill"></i>
+                                Billing Info
                             </a>
                             <a ng-click="logOut()">
                                 <i class="fas fa-sign-out-alt"></i>
@@ -45,7 +49,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-lg-10 merchant-space">
             <div class="alert alert-danger" role="alert" ng-if="isExpired()">
-                Your Subscription has expired! Click <a class="red-link" ui-sref=".profile">here</a> go to <b>Profile</b> and then <b>Billing Info</b> to renew!
+                Your Subscription has expired! Click <a class="red-link" ui-sref=".billing">here</a> go to <b>Billing Info</b> to renew!
             </div>
             <!-- Dynamic Angular Content -->
             <div ui-view></div>

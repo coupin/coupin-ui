@@ -472,5 +472,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.logOut = function() {
         StorageService.clearAll();
         $state.go('auth', {});
+        $window.location.reload();
     };
 });

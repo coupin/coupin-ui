@@ -362,7 +362,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   }
 
   $scope.updateBilling = function(renew) {
-      var valid = validBilling();
+    var valid = validBilling();
     if(valid && !renew) {
         if (bill) {
             makePayment();

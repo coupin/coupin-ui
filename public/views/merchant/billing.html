@@ -1,0 +1,64 @@
+<div id="billing-info">
+  <section class="billing-plans">
+    <p class="section-headers">
+      Billing plans
+      <button 
+        class="btn btn-outline-primary btn-sm" 
+        ng-if="displayRenew()"
+        ng-click="updateBilling(true)"
+        style="margin-left:15px;">Renew Plan</button>
+    </p>
+    <div class="plans">
+      <div class="plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="payAsYouGo" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
+          <div class="plan-header">
+            Pay as you go
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>Single Reward Payments</p>
+            <p>15% off any reward that exceeds 7 days</p>
+          </div>
+          <div class="plan-footer">
+            &#8358;500 per Day
+          </div>
+        </div>
+      </div>
+      <div class="plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="monthly" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('monthly'); updateBilling()">
+          <div class="plan-header">
+            Start Up Plan
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>Unlimited Rewards within Month of Payment</p>
+            <p>Dedicated Tech Support</p>
+          </div>
+          <div class="plan-footer">
+            &#8358;57,000 
+          </div>
+      </div>
+      </div>
+      <div class="plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="yearly" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('yearly'); updateBilling()">
+          <div class="plan-header">
+              Corporate Plan
+              <span class="select-indicator"></span>
+            </div>
+            <div class="plan-body">
+              <p>Unlimited Rewards within Month of Payment</p>
+              <p>Dedicated Tech Support</p>
+              <p>Coupin Concierge at Merchant Location</p>
+            </div>
+            <div class="plan-footer">
+              &#8358;750,000
+            </div>
+      </div>
+      </div>
+    </div>
+  </section>
+  <section class="billing-history"></section>
+</div>

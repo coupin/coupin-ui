@@ -482,7 +482,7 @@ fieldset[disabled] .btn-outline-primary.focus {
 
 .section-headers {
   font-weight: 600;
-  font-size: 22px;
+  font-size: 19px;
   line-height: 15px;
   text-align: left;
   color: #454D57;
@@ -581,6 +581,101 @@ select:focus
 
 form .row {
   margin-bottom: 15px;
+}
+
+#billing-info .billing-plans {
+  padding-top: 30px;
+}
+
+#billing-info .billing-plans .plans {
+  display: flex;
+}
+
+#billing-info .billing-plans .plans .plan {
+  /* height: 300px; */
+  width: 300px;
+  margin-right: 40px;
+  cursor: pointer;
+}
+
+#billing-info .billing-plans .plans .plan .card {
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+  border-top: transparent solid 5px;
+  position: relative;
+  padding-top: 15px;
+}
+
+#billing-info .billing-plans .plans .plan .card .select-indicator {
+  display: block;
+  border: solid 2px #15A580;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  transition: 0.5s all;
+}
+#billing-info .billing-plans .plans .plan .card .select-indicator:before {
+  content: '';
+  height: 11.5px;
+  width: 11.5px;
+  background-color: #15A580;
+  transform: scale(0);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  transition: all 0.2s ease-out;
+  transform-origin: 5px 5px;
+}
+
+#billing-info .billing-plans .plans .plan input[type="radio"].billing-plan {
+  visibility: hidden;
+  position: absolute;
+}
+
+#billing-info .billing-plans .plans .plan .card:hover,
+#billing-info .billing-plans .plans .plan input[type="radio"]:checked ~ .card {
+  box-shadow: 0px 3px 10px rgba(21, 165, 128, 0.16);
+  border-top-color: #15A580;
+}
+
+#billing-info .billing-plans .plans .plan .card:hover {
+  transform: translateY(-0.5px);
+}
+
+#billing-info .billing-plans .plans .plan .card:active {
+  transform: translateY(2px);
+  box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16);
+}
+
+
+#billing-info .billing-plans .plans .plan input[type="radio"]:checked ~ .card .select-indicator:before {
+  transform: scale(1);
+}
+
+#billing-info .billing-plans .plans .plan .card .plan-header {
+  height: 50px;
+  font-weight: 600;
+  font-size: 20px;
+  position: relative;
+  border-bottom: 1px solid rgb(219, 222, 227);
+}
+
+#billing-info .billing-plans .plans .plan .card .plan-body {
+  min-height: 160px;
+  padding: 20px 0 10px;
+  margin: 0;
+}
+
+#billing-info .billing-plans .plans .plan .card .plan-footer {
+  padding: 10px 0;
+  font-weight: 700;
+  font-size: 18px;
 }
 
 @media (max-width: 767px) {

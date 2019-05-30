@@ -12,6 +12,7 @@ angular.module('coupinApp', [
   'AuthCtrl',
   'HomeCtrl',
   'BaseMCtrl',
+  'BillingCtrl',
   'ProfileCtrl',
   'MerchantSrv',
   'RewardsCtrl',
