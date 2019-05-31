@@ -2,15 +2,13 @@
   <section class="billing-plans">
     <p class="section-headers">
       Billing plans
-      <button 
-        class="btn btn-outline-primary btn-sm" 
-        ng-if="displayRenew()"
-        ng-click="updateBilling(true)"
+      <button class="btn btn-outline-primary btn-sm" ng-if="displayRenew()" ng-click="updateBilling(true)"
         style="margin-left:15px;">Renew Plan</button>
     </p>
     <div class="plans">
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="payAsYouGo" ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="payAsYouGo"
+          ng-model="billing.plan">
         <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
           <div class="plan-header">
             Pay as you go
@@ -26,7 +24,8 @@
         </div>
       </div>
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="monthly" ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="monthly"
+          ng-model="billing.plan">
         <div class="card" ng-click="setPlan('monthly'); updateBilling()">
           <div class="plan-header">
             Start Up Plan
@@ -37,28 +36,71 @@
             <p>Dedicated Tech Support</p>
           </div>
           <div class="plan-footer">
-            &#8358;57,000 
+            &#8358;57,000 per Month
           </div>
-      </div>
+        </div>
       </div>
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="yearly" ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="yearly"
+          ng-model="billing.plan">
         <div class="card" ng-click="setPlan('yearly'); updateBilling()">
           <div class="plan-header">
-              Corporate Plan
-              <span class="select-indicator"></span>
-            </div>
-            <div class="plan-body">
-              <p>Unlimited Rewards within Month of Payment</p>
-              <p>Dedicated Tech Support</p>
-              <p>Coupin Concierge at Merchant Location</p>
-            </div>
-            <div class="plan-footer">
-              &#8358;750,000
-            </div>
-      </div>
+            Corporate Plan
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>Unlimited Rewards within Month of Payment</p>
+            <p>Dedicated Tech Support</p>
+            <p>Coupin Concierge at Merchant Location</p>
+          </div>
+          <div class="plan-footer">
+            &#8358;750,000 per Year
+          </div>
+        </div>
       </div>
     </div>
   </section>
-  <section class="billing-history"></section>
+  <section class="billing-history">
+    <!-- <div class="row">
+      <div class="col-sm-12"> -->
+          <p class="section-headers">
+            Billing History
+          </p>
+        <table class="table">
+          <thead>
+            <th>S/N</th>
+            <th>Plan</th>
+            <th>Paid On</th>
+            <th>Expires On</th>
+            <th>reference</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
+              <td>{{index + 1}}</td>
+              <td class="capitalize">{{bill.plan}}</td>
+              <td>{{bill.date | date: 'longDate'}}</td>
+              <td>{{bill.expiration | date: 'longDate'}}</td>
+              <td>{{bill.reference}}</td>
+              <td>
+                <span ng-if="index === 0 && planStatus()" ng-class="planStatus()" class="plan-status">
+                  {{planStatus()}}
+                </span>
+              </td>
+            </tr>
+            <tr ng-if="!showHistory()">
+              <td colspan="5">
+                <div class="row padding-10-all">
+                  <div class="col-sm-12 text-center">
+                    <i class="fas fa-box-open fa-3x"></i>
+                    <h5>Sorry there is no payment history.</h5>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      <!-- </div>
+    </div> -->
+  </section>
 </div>

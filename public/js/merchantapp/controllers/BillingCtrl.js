@@ -128,4 +128,12 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
       // StorageService.setExpired(false);
     }
   };
+
+  $scope.planStatus = function () {
+    if ($scope.user.merchantInfo.billing.history[0] && !isPayAsYouGo) {
+      return hasExpired ? 'expired' : 'active';
+    }
+
+    return false;
+  }
 });
