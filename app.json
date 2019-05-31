@@ -1,0 +1,39 @@
+{
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "API_URL": {
+      "required": true
+    },
+    "CLOUD_API_KEY": {
+      "required": true
+    },
+    "CLOUD_API_SECRET": {
+      "required": true
+    },
+    "CLOUD_NAME": {
+      "required": true
+    },
+    "NODE_ENV": {
+      "required": true
+    },
+    "PAY_STACK_ID": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "coupin-ui",
+  "scripts": {
+  },
+  "stack": "heroku-16"
+}
