@@ -123,7 +123,6 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     function setUserInfo(data, setExpiration) {
         if (setExpiration && data.user.merchantInfo.billing.history[0]) {
             var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
-            console.log('ges here', expirationDate)
             StorageService.setExpired(moment(expirationDate).isBefore());
         }
         StorageService.setIsMerchant(setExpiration);

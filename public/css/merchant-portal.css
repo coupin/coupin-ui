@@ -6,6 +6,7 @@ body {
     background: linear-gradient(to right, #000428, #004e92); Chrome 10-25, Safari 5.1-6 */
 
     background-color: #F8FFFE;
+    /* background-color: #dffffa; */
 }
 
 option {
@@ -117,7 +118,9 @@ option {
   overflow: hidden;
   width: 200px;
   position: relative;
-  top: 50px;
+  top: 40px;
+  left: 10px;
+  border-radius: 5px;
 }
 
 .logo-box > .inner {
@@ -370,7 +373,7 @@ fieldset[disabled] .btn-outline-primary.focus {
   background-color: #efefef;
   background-repeat: no-repeat;
   background-size: cover;
-  border-radius: 50%;
+  border-radius: 5px;
   height: 7.25rem;
   width: 7.25rem;
 }
@@ -534,6 +537,7 @@ fieldset[disabled] .btn-outline-primary.focus {
 input[type="text"],
 input[type="password"],
 input[type="email"],
+input[type="number"],
 textarea,
 select {
   font-size: 17px !important;
@@ -549,13 +553,16 @@ select {
 
 input[type="text"],
 input[type="password"],
+input[type="number"],
 input[type="email"] {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
+input[type="number"]:focus,
 textarea:focus,
 select:focus
 {
@@ -692,6 +699,11 @@ table.table tr th, table.table tr td {
   border: 0;
   border-bottom: 1px solid #efefef;
   text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 50px !important; */
+  max-width: 150px;
 }
 
 table.table tr th:first-child, table.table tr td:first-child {
@@ -707,12 +719,40 @@ table.table tr th {
   border-bottom-width: 1px;
 }
 
+table.table tr td {
+  cursor: pointer;
+}
+
+table.table tr td.action {
+  width: 45px;
+}
+
+table.table tr td.action i {
+  vertical-align: baseline;
+  margin-right: 13px;
+  padding: 5px;
+  color: #a4a4a4;
+  visibility: hidden;
+}
+
+table.table tr:hover td.action i {
+  visibility: visible;
+}
+
+table.table tr td.action i.delete:hover {
+  color: #E51B24;
+}
+
+table.table tr td.action i.activate:hover {
+  color: #5677FC;
+}
+
 .plan-status {
   /* width: 73px; */
   height: 23px;
   border-radius: 11.5px;
   background: #f0f0f0;
-  font-size: 13px;
+  font-size: 11px;
   padding: 5px 7px;
   text-transform: capitalize;
 }
@@ -726,6 +766,47 @@ table.table tr th {
   background: #CDFAF4;
   color: #15A580;
 }
+
+.plan-status.draft {
+  background: #fff;
+  color: #8A8A8A;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16);
+}
+.plan-status.isPending {
+  background: #FFEBD6;
+  color: #F49A40;
+}
+
+.plan-status.review {
+  background: #DBE2FF;
+  color: #5677FC;
+}
+
+.plan-status.inactive {
+  background: #5A5959;
+  color: #F0F0F0;
+}
+
+#reward-list-page {
+  padding-top: 30px;
+}
+
+#reward-list-page .reward-search {
+  font-size: 15px !important;
+  text-indent: 15px;
+}
+
+#reward-list-page .search-container i {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+}
+
+/*** custom naira icon ***/
+.cu-naira::before {
+ content: '\20A6'
+}
+/*** end of custom naira icon ***/
 
 @media (max-width: 767px) {
   .merchant-space {

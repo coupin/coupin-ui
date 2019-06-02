@@ -16,22 +16,6 @@
 <div class="card profile-section-card">
     <section class="row profile-form-section">
         <div class="col-md-2">
-            <p>Personal Details</p>
-        </div>
-        <div class="col-md-10">
-            <form>
-                <div class="form-group col-md-12">
-                    <label for="name">Email: </label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-    <section class="row profile-form-section">
-        <div class="col-md-2">
             <p>Company Info</p>
         </div>
         <div class="col-md-10">
@@ -50,6 +34,13 @@
                             <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
                             <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
                         </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="name">Company Email: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
                     </div>
                 </div>
                 <div class="row">

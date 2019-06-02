@@ -12,7 +12,8 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
    * @param {*} isActive 
    * @param {*} tab 
    */
-  $scope.changeStatus = function(index, isActive, tab) {
+  $scope.changeStatus = function($event, index, isActive, tab) {
+    $event.stopPropagation();
     var reward = {};
     if (tab === 0) {
         reward = $scope.rewards[index];

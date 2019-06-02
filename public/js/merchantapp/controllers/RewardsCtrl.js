@@ -101,6 +101,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         };
     }
 
+    $scope.isNewReward = function () {
+        return !id;
+    }
+
     /**
      * Make payment with paystack
      */
