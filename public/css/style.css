@@ -754,3 +754,57 @@ td::first-letter {
       color: #94989E !important;
       font-weight: 600 !important;
   }
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select {
+    font-size: 17px;
+    line-height: 1.5 !important;
+    padding: .5em 1em !important;
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    border: 0 !important;
+    box-shadow: unset !important;
+    border-bottom: 1px solid #c5cbd5 !important;
+    border-radius: 0 !important;
+    transition: border 0.3s;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="email"] {
+    max-width: 500px;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus
+{
+    border-bottom-color: #15A580 !important;
+}
+
+.icons-input {
+    border: 0;
+    border-bottom: 1px solid #c5cbd5 !important;
+    border-radius: 0;
+    background-color: white;
+    color: #14a580;
+    padding-right: 0;
+  }
+
+/* input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus */

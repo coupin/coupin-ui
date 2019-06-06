@@ -40,6 +40,15 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
+
+
+    /* this is for switching pages in the merchant auth area */
+    $scope.activeView = 'signin';
+
+    $scope.switchActiveView = function (view) {
+        $scope.activeView = view;
+    }
+    /* end of switching pages in the merchant auth area */
     
     // States
     $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
