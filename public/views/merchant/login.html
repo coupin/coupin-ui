@@ -27,7 +27,13 @@
                     </div>
                     <!-- <small class="form-text text-muted light">Forgot your password? Click <b>here</b></small> -->
                 </div>
-                <button class="btn btn-default btn-primary" type="submit">Sign In</button><i ng-show="loading[0]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[0]">
+                    <span ng-hide="loading[0]">Sign In</span>
+                    <span ng-show="loading[0]">
+                        Loading
+                        <i class="fas fa-spinner fa-spin fa-fw"></i>
+                    </span>
+                </button>
             </form>
         </div>
         <div class="body"  ng-if="activeView === 'register'">
@@ -78,14 +84,20 @@
                     </div>
                     <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
                 </div>
-                <button class="btn btn-default btn-primary" type="submit" ng-click="registerMerch()">Submit Request</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                <button class="btn btn-default btn-primary" type="submit" ng-click="registerMerch()" ng-disabled="loading[1]">
+                    <span ng-hide="loading[1]">Submit Request</span>
+                    <span ng-show="loading[1]">
+                        Loading
+                        <i class="fas fa-spinner fa-spin fa-fw"></i>
+                    </span>
+                </button>
             </form>
         </div>
     </div>
   </div>
-  <!-- <div class="row footer">
+  <div class="row footer auth-footer">
       <div class="row text-center">
-          <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
+          <small id="descrHelp" class="form-text">Copyright of CoupinApp &copy;</small>
       </div>
-  </div> -->
+  </div>
 </body>
