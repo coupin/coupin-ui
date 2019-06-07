@@ -75,7 +75,7 @@ input {
   font-size: 14px !important;
 }
 
-.logo-container {
+.auth-logo-container {
   display: flex;
   justify-content: center;
 }
