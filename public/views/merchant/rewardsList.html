@@ -11,7 +11,7 @@
             <i class="fas fa-search"></i>
         </div>
         <div class="col-md-3 col-xs-12">
-            <button class="btn btn-success" ng-if="!isExpired()" ng-click="goToNewReward()" style="float: right">
+            <button class="btn btn-primary" ng-if="!isExpired()" ng-click="goToNewReward()" style="float: right">
                 <i class="fas fa-plus"></i> Add Reward
             </button>
         </div>
@@ -21,7 +21,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>S/N</th>
+                        <th width="20px">S/N</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Status</th>
@@ -50,6 +50,14 @@
                                 class="activate"></i>
                             <!-- <i class="fas fa-trash icon delete" data-toggle="tooltip" data-placement="top" title="Delete" ng-click="deleteReward($event, discount._id)"></i> -->
                         </td>
+                    </tr>
+                    <tr ng-if="loadingRewards" class="loading-row">
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>

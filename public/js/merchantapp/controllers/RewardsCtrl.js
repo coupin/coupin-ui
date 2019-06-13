@@ -443,7 +443,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         }
     };
 
-        /**
+    /**
      * Update existing reward and
      * replace images if any have been uploaded
      * or deleted
@@ -516,4 +516,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             }
         }
     };
+
+    $scope.goToRewardList = function () {
+        $state.go('dashboard.rewards', {});
+    }
 });
