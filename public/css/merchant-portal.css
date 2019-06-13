@@ -795,6 +795,78 @@ table.table tr.loading-row td:first-child div {
   cursor: pointer;
 }
 
+/*** the button group styling for selecting applicable days ***/
+#applicable-days-container .select-group, #applicable-days-container .day-group {
+  width: 550px;
+  display: flex;
+  align-items: stretch;
+}
+
+#applicable-days-container .button-group {
+  display: inline-block;
+  flex: 1;
+}
+
+#applicable-days-container .button-group button i {
+  display: none;
+}
+
+#applicable-days-container .button-group input[type="radio"]:checked ~ button,
+#applicable-days-container .button-group input[type="checkbox"]:checked ~ button {
+  background-color: #5cb85c;
+  color: #fff;
+}
+
+#applicable-days-container .button-group input[type="radio"]:checked ~ button i,
+#applicable-days-container .button-group input[type="checkbox"]:checked ~ button i {
+  display: inline-block;
+  color: #fff;
+  margin-left: 5px;
+}
+
+#applicable-days-container .button-group input[type="radio"],
+#applicable-days-container .button-group input[type="checkbox"] {
+  display: none;
+}
+
+#applicable-days-container button {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid transparent;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #5cb85c;
+  color: #5cb85c;
+  outline: none;
+  width: 100%;
+}
+
+#applicable-days-container button.active, #applicable-days-container button:hover {
+  background-color: #5cb85c;
+  color: #fff;
+}
+
+#applicable-days-container .day-group .button-group:not(:first-of-type) button,
+#applicable-days-container .select-group .button-group:not(:first-of-type) button {
+  border-left: 0;
+}
+
+#applicable-days-container .day-group .button-group button:hover,
+#applicable-days-container .select-group .button-group button:hover,
+#applicable-days-container .day-group .button-group input[type="checkbox"]:checked ~ button {
+  border-right-color: #fff;
+}
+
+#applicable-days-container div.select-group {
+  margin-bottom: 20px;
+}
+
+/*** end of the button group styling for selecting applicable days ***/
+
 /*** custom naira icon ***/
 .cu-naira::before {
  content: '\20A6'

@@ -15,11 +15,12 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     const plan = $scope.user.merchantInfo.billing.plan;
 
     var amount = 0;
-    var selectAll = false;
     var showTotal = true;
-    var weekDays = false;
-    var weekEnds = false;
-    
+
+
+    // could either be all, weekdays or weekends
+    $scope.selectedDayOption = '';
+
     $scope.activeRewards = [];
     $scope.inactiveRewards = [];
     $scope.daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -74,21 +75,18 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     if (id) {
         $scope.categories = {};
         $scope.update = true;
-        RewardsService.getReward(id).then(function(result) {
+        RewardsService.getReward(id).then(function (result) {
             $scope.newReward = result.data;
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
             $scope.newReward.startDate = new Date($scope.newReward.startDate);
-            $scope.newReward.applicableDays.forEach(function(x) {
-                $('#'+x).css('background', '#2e6da4');
-                $('#'+x).css('color', '#fff');
-            });
-            $scope.newReward.categories.forEach(function(category) {
+            setSelectedDayOption ();
+            $scope.newReward.categories.forEach(function (category) {
                 $scope.categories[category] = true;
             });
             $scope.newReward.pictures = 'pictures' in $scope.newReward ? $scope.newReward.pictures : [];
             $scope.photos = $scope.newReward.pictures;
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
-        }).catch(function(error) {
+        }).catch(function (error) {
             UtilService.showError(errTitle, error.data);
         });
     } else {
@@ -126,12 +124,12 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     }
                 ]
             },
-            callback: function(response) {
+            callback: function (response) {
                 if (cb && typeof cb === 'function') {
                     cb(response.reference);
                 }
             },
-            onClose: function() {
+            onClose: function () {
                 $scope.loading = false;
                 UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
             }
@@ -147,7 +145,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         }
     };
 
-    $scope.addReward = function() {
+    $scope.addReward = function () {
         // $location.url('/merchant/rewards');
     };
 
@@ -156,34 +154,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * @param {number} oldPrice 
      * @param {number} newPrice 
      */
-    $scope.calculatePercentage = function(oldPrice, newPrice) {
-        return ((oldPrice - newPrice)/oldPrice) * 100;
-    };
-
-    /**
-     * Check all days of the week
-     */
-    $scope.checkAll = function () {
-        if (!selectAll) {
-            selectAll = true;
-            for (var y = 0; y < 7; y++) {
-                if ($scope.newReward.applicableDays.indexOf(y) == -1) {
-                    $scope.newReward.applicableDays.push(y);
-                    $('#'+y).css('background', '#2e6da4');
-                    $('#'+y).css('color', '#fff');
-                }
-            }
-        } else {
-            selectAll = false;
-            for (var y = 0; y < 7; y++) {
-                const index = $scope.newReward.applicableDays.indexOf(y);
-                if (index > -1) {
-                    $scope.newReward.applicableDays.splice(index, 1);
-                    $('#'+y).css('background', '#fff');
-                    $('#'+y).css('color', '#2e6da4');
-                }
-            }
-        }
+    $scope.calculatePercentage = function (oldPrice, newPrice) {
+        return ((oldPrice - newPrice) / oldPrice) * 100;
     };
 
     /**
@@ -197,7 +169,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.newReward = result.data;
             $scope.loading = false;
             if ($scope.files.length > 0) {
-                $scope.upload(result.data._id, function() {
+                $scope.upload(result.data._id, function () {
                     if (bill) {
                         UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
                         $scope.makePayment(result.data);
@@ -206,7 +178,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                         $state.go('dashboard.reward', {});
                     }
                 });
-            } else if(plan === 'payAsYouGo') {
+            } else if (plan === 'payAsYouGo') {
                 UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
                 $scope.makePayment(result.data);
             } else {
@@ -220,30 +192,49 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         })
     };
 
+    function setSelectedDayOption () {
+        var weekends = [5, 6];
+
+        var isWeekend = $scope.newReward.applicableDays.length === 2 &&
+            $scope.newReward.applicableDays.every(function (x) { return weekends.includes(x); });
+
+        var isWeekday = $scope.newReward.applicableDays.length === 5 &&
+            $scope.newReward.applicableDays.every(function (x) { return !weekends.includes(x); });
+
+        if ($scope.newReward.applicableDays.length === 7) {
+            $scope.selectedDayOption = 'all';
+        } else if (isWeekend) {
+            $scope.selectedDayOption = 'weekends';
+        } else if (isWeekday) {
+            $scope.selectedDayOption = 'weekdays';
+        } else {
+            $scope.selectedDayOption = '';
+        }
+    }
+
     /**
      * Check a particular day of the week
-     * @param {String} x 
+     * @param {String} dayNumber
      */
-    $scope.day = function (x) {
-        if ($scope.newReward.applicableDays.indexOf(x) == -1) {
-            $scope.newReward.applicableDays.push(x);
-            $('#'+x).css('background', '#2e6da4');
-            $('#'+x).css('color', '#fff');
+    $scope.day = function (dayNumber) {
+        
+        if ($scope.newReward.applicableDays.indexOf(dayNumber) !== -1) {
+            $scope.newReward.applicableDays.splice($scope.newReward.applicableDays.indexOf(dayNumber), 1);
         } else {
-            $scope.newReward.applicableDays.splice($scope.newReward.applicableDays.indexOf(x), 1);
-            $('#'+x).css('background', '#fff');
-            $('#'+x).css('color', '#2e6da4');
+            $scope.newReward.applicableDays.push(dayNumber)
         }
+
+        setSelectedDayOption ();
     };
 
     /**
      * Delete a reward
      * @param {String} id 
      */
-    $scope.deleteReward = function(id) {
-        RewardsService.delete(id).then(function(response) {
+    $scope.deleteReward = function (id) {
+        RewardsService.delete(id).then(function (response) {
             // $location.url('/merchant');
-        }).catch(function(error) {
+        }).catch(function (error) {
             UtilService.showError(errTitle, error.data.message);
         });
     };
@@ -251,28 +242,28 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     /**
      * Display creation button
      */
-    $scope.displayCreateButton = function() {
+    $scope.displayCreateButton = function () {
         return !$scope.update;
     };
 
     /**
      * Display Pay and Update button
      */
-    $scope.displayPayAndUpdateButton = function() {
+    $scope.displayPayAndUpdateButton = function () {
         return $scope.update && plan === 'payAsYouGo' && $scope.newReward.status === 'draft';
     };
 
     /**
      * Display update button
      */
-    $scope.displayUpdateButton = function() {
+    $scope.displayUpdateButton = function () {
         return $scope.update && $scope.newReward.status !== 'draft';
     };
 
     /**
      * Return boolean to determine whether or not to show reward photos
      */
-    $scope.displayRewardPhotos = function() {
+    $scope.displayRewardPhotos = function () {
         return $scope.photos.length > 0;
     };
 
@@ -280,7 +271,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Check file and make upload
      * @param {*} image 
      */
-    $scope.fileCheck = function(image) {
+    $scope.fileCheck = function (image) {
         var limit = 200000;
 
         if ($scope.photos.length === 4) {
@@ -290,12 +281,12 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             isuploading = true;
             var dataurl = image.dst;
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            
-            var file = new File([u8arr], `${$scope.photos.length}`, {type:mime});
+
+            var file = new File([u8arr], `${$scope.photos.length}`, { type: mime });
 
             if (file.size > limit) {
                 limit = limit / 100;
@@ -318,19 +309,19 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Get total cost
      * @param {number} days 
      */
-    $scope.getTotal = function(days) {
+    $scope.getTotal = function (days) {
         if (days) {
             amount = days > 7 ? days * 450 : days * 500;
         }
         return amount;
     };
 
-    $scope.isError = function(x) {
+    $scope.isError = function (x) {
         return UtilService.isError(x);
     };
 
 
-    $scope.isFormError = function(x) {
+    $scope.isFormError = function (x) {
         return UtilService.isFormError(x) || $scope.newReward.applicableDays.length <= 0 || $scope.newReward.categories.length <= 0;
     };
 
@@ -338,13 +329,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Make payment for the reward
      * @param {Object} reward 
      */
-    $scope.makePayment = function(reward) {
+    $scope.makePayment = function (reward) {
         $scope.loading = true;
-        payWithPayStack(reward, function(response) {
+        payWithPayStack(reward, function (response) {
             MerchantService.updateBilling($scope.user.id, {
                 plan: 'payAsYouGo',
                 reference: response.reference
-            }).then(function(response) {
+            }).then(function (response) {
                 StorageService.setUser(response.data);
                 reward.status = 'isPending';
                 reward.isActive = true;
@@ -352,14 +343,14 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.loading = false;
                 UtilService.showSuccess('Success', `Billing Updated!`);
             })
-            .catch(function() {
-                $scope.loading = false;
-                UtilService.showError('Uh Oh', 'There was an error while saving payment. please contact admin on admin@coupin.com');
-            });
+                .catch(function () {
+                    $scope.loading = false;
+                    UtilService.showError('Uh Oh', 'There was an error while saving payment. please contact admin on admin@coupin.com');
+                });
         });
     };
 
-    $scope.payRewardIsActive = function() {
+    $scope.payRewardIsActive = function () {
         return $scope.newReward.status !== 'draft' && plan === 'payAsYouGo';
     };
 
@@ -368,7 +359,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * images for deletion
      * @param {*} index 
      */
-    $scope.removeImage = function(index) {
+    $scope.removeImage = function (index) {
         if ('id' in $scope.photos[index]) {
             $scope.deletePhotos.push($scope.photos[index].id);
         }
@@ -377,18 +368,18 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.photos.splice(index, 1);
     };
 
-    $scope.setEndDate = function(days) {
+    $scope.setEndDate = function (days) {
         if (!showTotal) {
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
         }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
     };
 
-    $scope.showReviews = function() {
+    $scope.showReviews = function () {
         return $scope.newReward.review && $scope.newReward.review.length > 0 && $scope.newReward.status === 'review';
     };
 
-    $scope.showTotal = function() {
+    $scope.showTotal = function () {
         return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     };
 
@@ -396,7 +387,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Upload images
      * @param {*} id 
      */
-    $scope.upload = function(id, cb) {
+    $scope.upload = function (id, cb) {
         if ($scope.files.length > 0) {
             $scope.uploading = true;
 
@@ -408,14 +399,14 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     photos: $scope.files,
                     public_id: id
                 }
-            }).then(function(resp) {
+            }).then(function (resp) {
                 var count = 0;
 
-                resp.data.forEach(function(data) {
+                resp.data.forEach(function (data) {
                     var total = $scope.photos.length;
                     var found = false;
-                    
-                    while(count < total && !found) {
+
+                    while (count < total && !found) {
                         if ($scope.photos[count].url.includes('data')) {
                             $scope.photos[count] = data;
                             found = true;
@@ -430,13 +421,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 if (cb) {
                     cb();
                 }
-            }, function(err) {
+            }, function (err) {
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your reward images failed to upload. Please try again.');
-            }, function(evt) {
+            }, function (evt) {
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 $scope.progress = progressPercentage;
-            }).catch(function(err) {
+            }).catch(function (err) {
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your pictures failed to upload. Please try again.')
             });
@@ -452,70 +443,36 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.updateReward = function (reward) {
         $scope.loading = true;
-        RewardsService.update(reward._id, reward).then(function() {
+        RewardsService.update(reward._id, reward).then(function () {
             if ($scope.deletePhotos.length > 0) {
                 UtilService.deletePhotos($scope.deletePhotos);
             }
 
             UtilService.showSuccess('Success', 'Your Reward updated successfully.');
             $scope.loading = false;
-        }).catch(function(error) {
+        }).catch(function (error) {
             $scope.loading = false;
             UtilService.showError('Uh Oh!', error.data.message);
         });
     };
 
-    /**
-     * Check only weekends
-     */
-    $scope.weekDay = function () {
-        if (!weekDays) {
-            weekDays = true;
-            for (var y = 0; y < 5; y++) {
-                if ($scope.newReward.applicableDays.indexOf(y) == -1) {
-                    $scope.newReward.applicableDays.push(y);
-                    $('#'+y).css('background', '#2e6da4');
-                    $('#'+y).css('color', '#fff');
-                }
-            }
-        } else {
-            weekDays = false;
-            for (var y = 0; y < 5; y++) {
-                const index = $scope.newReward.applicableDays.indexOf(y);
-                if (index > -1) {
-                    $scope.newReward.applicableDays.splice(index, 1);
-                    $('#'+y).css('background', '#fff');
-                    $('#'+y).css('color', '#2e6da4');
-                }
-            }
+    $scope.selectGroup = function (x) {
+        if ($scope.selectedDayOption === x) {
+            $scope.selectedDayOption = '';
+            $scope.newReward.applicableDays = [];
+            return;
         }
-    };
 
-    /**
-     * Check only weekdays
-     */
-    $scope.weekEnd = function () {
-        if (!weekEnds) {
-            weekEnds = true;
-            for (var y = 4; y < 7; y++) {
-                if ($scope.newReward.applicableDays.indexOf(y) == -1) {
-                    $scope.newReward.applicableDays.push(y);
-                    $('#'+y).css('background', '#2e6da4');
-                    $('#'+y).css('color', '#fff');
-                }
-            }
-        } else {
-            weekEnds = false;
-            for (var y = 4; y < 7; y++) {
-                const index = $scope.newReward.applicableDays.indexOf(y);
-                if (index > -1) {
-                    $scope.newReward.applicableDays.splice(index, 1);
-                    $('#'+y).css('background', '#fff');
-                    $('#'+y).css('color', '#2e6da4');
-                }
-            }
+        $scope.selectedDayOption = x;
+
+        if (x === 'all') {
+            $scope.newReward.applicableDays = [0, 1, 2, 3, 4, 5, 6];
+        } else if (x === 'weekdays') {
+            $scope.newReward.applicableDays = [0, 1, 2, 3, 4];
+        } else if (x === 'weekends') {
+            $scope.newReward.applicableDays = [5, 6];
         }
-    };
+    }
 
     $scope.goToRewardList = function () {
         $state.go('dashboard.rewards', {});
