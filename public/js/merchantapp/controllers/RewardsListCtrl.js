@@ -91,7 +91,6 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
    */
   $scope.loadRewards = function () {
     $scope.loadingRewards = true;
-    console.log($scope.loadingRewards, 'loadingRewards')
     var details = {};
 
     if (angular.isDefined($scope.query)) {
