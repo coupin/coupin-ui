@@ -1,223 +1,225 @@
-<div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
-    <div class="banner-inner">
-        <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
-            Upload new banner <i class="fas fa-plus"></i>
-        </span>
-    </div>
-    <div class="logo-container">
-        <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
-            <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
-                <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
-                <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+<div id="profile">
+    <div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
+        <div class="banner-inner">
+            <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
+                Upload new banner <i class="fas fa-plus"></i>
+            </span>
+        </div>
+        <div class="logo-container">
+            <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
+                <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
+                    <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+                    <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="card profile-section-card">
-    <section class="row profile-form-section">
-        <div class="col-md-2">
-            <p>Company Info</p>
-        </div>
-        <div class="col-md-10">
-            <form>
-                <div class="row">
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Company Name: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
-                            <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Branch Phone Number: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
-                            <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-md-12">
-                    <label for="name">Company Email: </label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-12 col-sm-12">
-                        <label for="name">Company Description: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
-                            <textarea
-                                type="text" 
-                                class="form-control" 
-                                id="detail" 
-                                aria-describedby="emailHelp" 
-                                placeholder="Company Details.." 
-                                ng-model="user.merchantInfo.companyDetails" 
-                                required 
-                                rows="4"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-12 col-sm-12">
-                        <label for="email">Branch Street Address: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
-                            <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="city">City:</label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
-                            <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="state">State:</label>
-                        <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="user.merchantInfo.state" ng-options="state for state in states" required></select>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-    <section class="row profile-form-section">
-        <div class="col-md-2">
-            <p>Geo Location details</p>
-        </div>
-        <div class="col-md-10">
-            <form>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="email">Latitude: </label>
+    <div class="card profile-section-card">
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Company Info</p>
+            </div>
+            <div class="col-md-10">
+                <form>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Company Name: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
+                                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Branch Phone Number: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
+                                <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="email">Longitude: </label>
+                    <div class="form-group col-md-12">
+                        <label for="name">Company Email: </label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label for="name">Company Description: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
+                                <textarea
+                                    type="text" 
+                                    class="form-control" 
+                                    id="detail" 
+                                    aria-describedby="emailHelp" 
+                                    placeholder="Company Details.." 
+                                    ng-model="user.merchantInfo.companyDetails" 
+                                    required 
+                                    rows="4"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-1 location-button-container">
-                        <div class="form group">
-                            <button class="btn btn-outline-primary get-user-location btn-lg" ng-click="getLocation()" ng-disabled="loadingPosition === true">
-                                <i class="fas fa-map-marked-alt" ng-hide="loadingPosition"></i>
-                                <i class="fas fa-spin fa-spinner" ng-show="loadingPosition"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="row user-profile-action">
-                    <button class="btn btn-primary btn-lg" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
-                </div>
-            </form>
-        </div>
-    </section>
-    <section class="row profile-form-section">
-        <div class="col-md-2">
-            <p>Password</p>
-        </div>
-        <div class="col-md-10">
-            <form ng-submit="changePassword(password, confirm)">
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label for="email">New Password: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="email">Confirm Password: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
-                        </div>
-                    </div>
-                </div>
-                <div class="row user-profile-action">
-                    <button class="btn btn-primary btn-lg">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
-                </div>
-            </form>
-        </div>
-    </section>
-</div>
-
-<!-- Crop Modal -->
-<div class="modal fade" id="cropModal">
-    <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <h3>Image Crop</h3>
-            </div>
-            <div class="modal-body text-center">
-                <div ng-if="isLogo">
-                    <h4>Images Must all be cropped to a 200x200 square.</h4>
-                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                    <br>
-                    <br>
                     <div class="row">
-                        <div class="cropArea">
-                            <canvas
-                                height="350"
-                                width="500"
-                                image="image.src"
-                                image-cropper
-                                cropped-image="image.dst"
-                                crop-height="200"
-                                crop-width="200"
-                                keep-aspect="true"
-                                touch-radiue="30"
-                                crop-area-bounds="bounds"
-                                ></canvas>
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label for="email">Branch Street Address: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
+                                <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div ng-if="!isLogo">
-                    <h4>Images Must all be cropped to a 950x323 square.</h4>
-                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                    <br>
                     <div class="row">
-                        <div class="cropArea-banner">
-                            <canvas
-                                height="400"
-                                width="1000"
-                                image-cropper
-                                image="image.src"
-                                cropped-image="image.dst"
-                                crop-height="323"
-                                crop-width="950"
-                                keep-aspect="true"
-                                touch-radiue="30"
-                                crop-area-bounds="bounds"
-                                ></canvas>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="city">City:</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
+                                <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="state">State:</label>
+                            <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="user.merchantInfo.state" ng-options="state for state in states" required></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Geo Location</p>
+            </div>
+            <div class="col-md-10">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">Latitude: </label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                    <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="email">Longitude: </label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                                    <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 location-button-container">
+                            <div class="form group">
+                                <button class="btn btn-outline-primary get-user-location btn-lg" ng-click="getLocation()" ng-disabled="loadingPosition === true">
+                                    <i class="fas fa-map-marked-alt" ng-hide="loadingPosition"></i>
+                                    <i class="fas fa-spin fa-spinner" ng-show="loadingPosition"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button class="btn btn-primary btn-lg" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Password</p>
+            </div>
+            <div class="col-md-10">
+                <form ng-submit="changePassword(password, confirm)">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="email">New Password: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                                <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email">Confirm Password: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                                <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button class="btn btn-primary btn-lg">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Crop Modal -->
+    <div class="modal fade" id="cropModal">
+        <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Image Crop</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div ng-if="isLogo">
+                        <h4>Images Must all be cropped to a 200x200 square.</h4>
+                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="cropArea">
+                                <canvas
+                                    height="350"
+                                    width="500"
+                                    image="image.src"
+                                    image-cropper
+                                    cropped-image="image.dst"
+                                    crop-height="200"
+                                    crop-width="200"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="!isLogo">
+                        <h4>Images Must all be cropped to a 950x323 square.</h4>
+                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
+                        <br>
+                        <div class="row">
+                            <div class="cropArea-banner">
+                                <canvas
+                                    height="400"
+                                    width="1000"
+                                    image-cropper
+                                    image="image.src"
+                                    cropped-image="image.dst"
+                                    crop-height="323"
+                                    crop-width="950"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                            <span class="text-center">{{progress + '%'}}</span>
                         </div>
                     </div>
                 </div>
-                <br>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
-                        <span class="text-center">{{progress + '%'}}</span>
-                    </div>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
-            </div>
-            <div class="modal-footer text-center">
-                <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
-                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

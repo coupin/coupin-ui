@@ -7,6 +7,7 @@ body {
 
     /* background-color: #F8FFFE; */
     background-color: #dbfaf2;
+    height: 100%;
     /* background-color: #dffffa; */
 }
 
@@ -16,17 +17,6 @@ option {
 
 #user-details > div:nth-child(even) {
   border-bottom: 1px solid gray;
-}
-
-.banner-box {
-  border: 1px solid lightgray;
-  height: 300px;
-  max-height: 300px;
-  max-width: 600px;
-  min-height: 300px;
-  min-width: 600px;
-  overflow: hidden;
-  width: 600px;
 }
 
 .banner-display {
@@ -106,16 +96,20 @@ option {
   max-height: 200px;
   max-width: 200px;
   min-height: 200px;
+  height: 200px;
   min-width: 200px;
   overflow: hidden;
   width: 200px;
   position: relative;
-  top: 40px;
-  left: 10px;
   border-radius: 5px;
 }
 
-.logo-box > .inner {
+#profile .logo-box {
+  top: 40px;
+  left: 10px;
+}
+
+.logo-box > .inner, .banner-box > .inner {
   background: rgba(0, 0, 0, .4);
   color: white;
   cursor: pointer;
@@ -130,7 +124,7 @@ option {
   bottom: 0;
 }
 
-.logo-box > .inner:hover {
+.logo-box > .inner:hover, .banner-box > .inner:hover {
   opacity: 1;
 }
 
@@ -547,23 +541,23 @@ form .row {
   margin-bottom: 15px;
 }
 
-#billing-info .billing-plans {
+.billing-plans {
   padding-top: 30px;
   padding-bottom: 50px;
 }
 
-#billing-info .billing-plans .plans {
+.billing-plans .plans {
   display: flex;
 }
 
-#billing-info .billing-plans .plans .plan {
+.billing-plans .plans .plan {
   /* height: 300px; */
   width: 250px;
   margin-right: 20px;
   cursor: pointer;
 }
 
-#billing-info .billing-plans .plans .plan .card {
+.billing-plans .plans .plan .card {
   cursor: pointer;
   transition: all 0.3s ease-out;
   border-top: transparent solid 5px;
@@ -571,7 +565,7 @@ form .row {
   padding-top: 15px;
 }
 
-#billing-info .billing-plans .plans .plan .card .select-indicator {
+.billing-plans .plans .plan .card .select-indicator {
   display: block;
   border: solid 2px #15A580;
   border-radius: 50%;
@@ -582,7 +576,7 @@ form .row {
   right: 0;
   transition: 0.5s all;
 }
-#billing-info .billing-plans .plans .plan .card .select-indicator:before {
+.billing-plans .plans .plan .card .select-indicator:before {
   content: '';
   height: 11.5px;
   width: 11.5px;
@@ -598,32 +592,32 @@ form .row {
   transform-origin: 5px 5px;
 }
 
-#billing-info .billing-plans .plans .plan input[type="radio"].billing-plan {
+.billing-plans .plans .plan input[type="radio"].billing-plan {
   visibility: hidden;
   position: absolute;
 }
 
-#billing-info .billing-plans .plans .plan .card:hover,
-#billing-info .billing-plans .plans .plan input[type="radio"]:checked ~ .card {
+.billing-plans .plans .plan .card:hover,
+.billing-plans .plans .plan input[type="radio"]:checked ~ .card {
   box-shadow: 0px 3px 10px rgba(21, 165, 128, 0.16);
   border-top-color: #15A580;
 }
 
-#billing-info .billing-plans .plans .plan .card:hover {
+.billing-plans .plans .plan .card:hover {
   transform: translateY(-3px);
 }
 
-#billing-info .billing-plans .plans .plan .card:active {
+.billing-plans .plans .plan .card:active {
   transform: translateY(2px);
   box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16);
 }
 
 
-#billing-info .billing-plans .plans .plan input[type="radio"]:checked ~ .card .select-indicator:before {
+.billing-plans .plans .plan input[type="radio"]:checked ~ .card .select-indicator:before {
   transform: scale(1);
 }
 
-#billing-info .billing-plans .plans .plan .card .plan-header {
+.billing-plans .plans .plan .card .plan-header {
   /* height: 50px; */
   padding: 0 0 10px;
   font-weight: 600;
@@ -632,17 +626,17 @@ form .row {
   border-bottom: 1px solid rgb(219, 222, 227);
 }
 
-#billing-info .billing-plans .plans .plan .card .plan-body {
+.billing-plans .plans .plan .card .plan-body {
   min-height: 160px;
   padding: 20px 0 10px;
   margin: 0;
 }
 
-#billing-info .billing-plans .plans .plan .card .plan-body p{
+.billing-plans .plans .plan .card .plan-body p{
   font-size: 12px;
 }
 
-#billing-info .billing-plans .plans .plan .card .plan-footer {
+.billing-plans .plans .plan .card .plan-footer {
   padding: 16px 0 0;
   font-weight: 600;
   font-size: 17px;

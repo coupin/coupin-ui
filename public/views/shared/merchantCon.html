@@ -1,243 +1,260 @@
 <!DOCType html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta lang="en"/>
 
-        <title> Register with us for premier discount marketing </title>
-        <!-- CSS -->
-        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/libs/font-awesome/css/all.css">
-        <link rel="stylesheet" href="/libs/angular-motion/dist/angular-motion.css">
-        <link rel="stylesheet" href="/libs/ng-img-crop/compile/minified/ng-img-crop.css"/>
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="/css/style.css">
+<head>
+    <meta charset="utf-8" />
+    <meta lang="en" />
 
-        <!-- JS -->
-        <script src="/libs/angular/angular.js"></script>
-        <script src="/libs/angular-route/angular-route.js"></script>
-        <script src="/libs/angular-sessionstorage/angular-sessionstorage.js"></script>
-        <script src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script src="/libs/angular-ui-router/release/stateEvents.min.js"></script>
-        <script src="/libs/angular-strap/dist/angular-strap.min.js"></script>
-        <script src="/libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
-        <script src="/libs/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
-        <script src="/libs/ng-file-upload/ng-file-upload.min.js"></script>
-        <script src="/libs/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-        <script src="/libs/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
+    <title> Register with us for premier discount marketing </title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/libs/font-awesome/css/all.css">
+    <link rel="stylesheet" href="/libs/angular-motion/dist/angular-motion.css">
+    <link rel="stylesheet" href="/libs/ng-img-crop/compile/minified/ng-img-crop.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/merchant-portal.css">
 
-        <!-- ANGULAR CUSTOM -->
-        <script src="/js/shared/controllers/AuthCtrl.js"></script>
-        <script src="/js/shared/services/AuthSrv.js"></script>
-        <script src="/js/shared/services/StorageSrv.js"></script>
-        <script src="/js/merchantapp/services/MerchantSrv.js"></script>
-        <script src="/js/shared/services/RewardsSrv.js"></script>
-        <script src="/js/shared/services/UtilSrv.js"></script>
-        <script src="/js/config.js"></script>
-        <script src="/js/shared/authapp.js"></script>
-    </head>
-    <body ng-app="authapp" ng-controller="AuthController">
-        <div class="registration">
+    <!-- JS -->
+    <script src="/libs/angular/angular.js"></script>
+    <script src="/libs/angular-route/angular-route.js"></script>
+    <script src="/libs/angular-sessionstorage/angular-sessionstorage.js"></script>
+    <script src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="/libs/angular-ui-router/release/stateEvents.min.js"></script>
+    <script src="/libs/angular-strap/dist/angular-strap.min.js"></script>
+    <script src="/libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
+    <script src="/libs/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+    <script src="/libs/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="/libs/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+    <script src="/libs/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
+
+    <!-- ANGULAR CUSTOM -->
+    <script src="/js/shared/controllers/AuthCtrl.js"></script>
+    <script src="/js/shared/services/AuthSrv.js"></script>
+    <script src="/js/shared/services/StorageSrv.js"></script>
+    <script src="/js/merchantapp/services/MerchantSrv.js"></script>
+    <script src="/js/shared/services/RewardsSrv.js"></script>
+    <script src="/js/shared/services/UtilSrv.js"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/shared/authapp.js"></script>
+</head>
+
+<body ng-app="authapp" ng-controller="AuthController">
+    <div class="registration">
+        <!-- <div class="row text-center">
+            <h1 class="light"> Merchant Confirmation Form </h1>
+            <h4 class="light"> Just one more step to become active</h4>
+        </div> -->
+        <div class="row justify-content-center">
+            <div class="col-md-2 col-xs-12"></div>
+            <div class="col-md-8 col-xs-12">
+                <div class="merchantRegBox">
+                    <h1> Merchant Confirmation Form </h1>
+                    <h3 class="light no-space-below" style="margin-top: 0;">
+                        Hi {{ user.merchantInfo.companyName }}, fill the form below to complete your registration
+                    </h3>
+                    <h5 class="light"> Just one more step to become active</h5>
+                    <form ng-submit="completeMerch()">
+                        <!-- <p class="section-headers" style="margin-bottom: 15px;">Select Plan</p> -->
+                        <div class="card">
+                            <section class="billing-plans" style="padding-top: 0;">
+                                <h3 class="light" style="margin-bottom: 30px;">Select Your Plan</h3>
+                                <div class="plans">
+                                    <div class="plan">
+                                        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
+                                            value="0" ng-checked="planIndex===0">
+                                        <div class="card" ng-click="planSelect(0)">
+                                            <div class="plan-header">
+                                                Pay as you go
+                                                <span class="select-indicator"></span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <p>Single Reward Payments</p>
+                                                <p>15% off any reward that exceeds 7 days</p>
+                                            </div>
+                                            <div class="plan-footer">
+                                                &#8358;500 per Day
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="plan">
+                                        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
+                                            value="1" ng-checked="planIndex===1">
+                                        <div class="card" ng-click="planSelect(1)">
+                                            <div class="plan-header">
+                                                Start Up Plan
+                                                <span class="select-indicator"></span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <p>Unlimited Rewards within Month of Payment</p>
+                                                <p>Dedicated Tech Support</p>
+                                            </div>
+                                            <div class="plan-footer">
+                                                &#8358;57,000 per Month
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="plan">
+                                        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
+                                            value="2" ng-checked="planIndex===2">
+                                        <div class="card" ng-click="planSelect(2)">
+                                            <div class="plan-header">
+                                                Corporate Plan
+                                                <span class="select-indicator"></span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <p>Unlimited Rewards within Month of Payment</p>
+                                                <p>Dedicated Tech Support</p>
+                                                <p>Coupin Concierge at Merchant Location</p>
+                                            </div>
+                                            <div class="plan-footer">
+                                                &#8358;750,000 per Year
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="card" style="margin-top: 20px;">
+                            <h3 class="light" style="margin-bottom: 30px;">Upload Your Images</h3>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12">
+                                    <label>Logo</label>
+                                    <div class="logo-box">
+                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}" />
+                                        <div class="inner" data-toggle="modal" data-target="#cropModal"
+                                            ng-click="isLogo = true">
+                                            <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+                                            <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+                                        </div>
+                                    </div>
+                                    <small>Click above to upload or clear logo image</small>
+                                </div>
+                                <div class="col-md-9 col-sm-12">
+                                    <label>Banner</label>
+                                    <div class="banner-box">
+                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}" />
+                                        <div class="inner" data-toggle="modal" data-target="#cropModal"
+                                            ng-click="isLogo = false">
+                                            <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+                                            <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+                                        </div>
+                                    </div>
+                                    <small>Click above to upload or clear banner image</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" style="margin-top: 20px;">
+                            <h3 class="light" style="margin-bottom: 30px;">Set Your Password and Info</h3>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="password">Password:</label>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
+                                            <input type="password" class="form-control" id="password"
+                                                aria-describedby="passwordHelp" placeholder="Please put in password"
+                                                ng-model="formData.password" required>
+                                        </div>
+                                        <small id="passwordHelp" class="form-text text-muted">This is the password linked with
+                                            your email for login.</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="password2">Confirm Password:</label>
+                                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                            <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
+                                            <input type="password" class="form-control" id="password2"
+                                                aria-describedby="password2lHelp" placeholder="Confirm Password.."
+                                                ng-model="formData.password2" required>
+                                        </div>
+                                        <small id="password2Help" class="form-text text-muted">Please confirm your
+                                            password.</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label for="descr">Description of Business:</label>
+                                        <textarea class="form-control" id="descr" maxlength="80" placeholder="My company is into..."
+                                            ng-model="formData.companyDetails" required></textarea>
+                                        <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or
+                                            less</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row user-profile-action">
+                                <button class="btn btn-primary btn-lg" type="submit">Complete Registration <i class="fas fa-spin fa-spinner" ng-show="loading[1]"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row footer">
             <div class="row text-center">
-                <h1 class="light"> <b>Merchant</b> Confirmation Form </h1>
-                <h4 class="light"> Just one more step to become <b>active</b></h4>
-                <h3 class="light no-space-below">Hi <b>{{ merchant.companyName }}</b> Fill the form below to complete your registration</h3>
-            </div>
-            <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <div class="merchantRegBox">
-                        <form ng-submit="completeMerch()">
-                            <div class="row">
-                                <h3 class="text-center">Select Plan</h3>
-                                <h3 class="light text-center">Read description about plans below</h3>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="plan">
-                                        <div class="plan-inner">
-                                            <div id="plan-1" class="plan-header text-center">
-                                                <span class="plan-title">Pay As You Go</span>
-                                            </div>
-                                            <div class="plan-price price-1 text-center">
-                                                <span>&#8358;500</span>
-                                                <small class="price-1">per Day</small>
-                                            </div>
-                                            <div class="plan-body price-1">
-                                                <span>&#8358;15% off any reward that exceeds 7 days</span>
-                                            </div>
-                                            <div class="plan-footer plan-1 text-center" ng-click="planSelect(0)">
-                                                <i ng-if="planCheck(0)" class="fa fa-check"></i>
-                                                <span ng-if="!planCheck(0)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="plan">
-                                        <div class="plan-inner">
-                                            <div id="plan-2" class="plan-header text-center">
-                                                <span class="plan-title">Start Up</span>
-                                            </div>
-                                            <div class="plan-price price-2 text-center">
-                                                <span>&#8358;57,000</span>
-                                            </div>
-                                            <div class="plan-body price-2">
-                                                <span>Unlimited Rewards within Month of Payment</span>
-                                                <hr>
-                                                <span>Dedicated Tech Support</span>
-                                            </div>
-                                            <div class="plan-footer plan-2 text-center" ng-click="planSelect(1)">
-                                                <i ng-if="planCheck(1)" class="fa fa-check"></i>
-                                                <span ng-if="!planCheck(1)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="plan">
-                                        <div class="plan-inner">
-                                            <div id="plan-3" class="plan-header text-center">
-                                                <span class="plan-title">Corporate</span>
-                                            </div>
-                                            <div class="plan-price price-3 text-center">
-                                                <span>&#8358;750,000</span>
-                                            </div>
-                                            <div class="plan-body price-3">
-                                                <span>Unlimited Rewards within Year of Payment</span>
-                                                <hr>
-                                                <span>Dedicated Tech Support</span>
-                                                <hr>
-                                                <span>Coupin Concierge at Merchant Location</span>
-                                            </div>
-                                            <div class="plan-footer plan-3 text-center" ng-click="planSelect(2)">
-                                                <i ng-if="planCheck(2)" class="fa fa-check"></i>
-                                                <span ng-if="!planCheck(2)" class="clickable light" planCheck(0)>Select <i class="far fa-square"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 col-sm-12">
-                                    <h5>Logo</h5>
-                                    <div class="logo-box" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
-                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}"/>
-                                    </div>
-                                    <small>Click on image above to upload or clear logo image</small>
-                                </div>
-                                <div class="col-md-8 col-sm-12">
-                                    <h5>Banner</h5>
-                                    <div class="banner-box" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
-                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}"/>
-                                    </div>
-                                    <small>Click on image above to upload or clear banner image</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="password">Password:</label>
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                                        <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" placeholder="Please put in password" ng-model="formData.password" required>
-                                    </div>
-                                    <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="password2">Confirm Password:</label>
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                                        <input type="password" class="form-control" id="password2" aria-describedby="password2lHelp" placeholder="Confirm Password.." ng-model="formData.password2" required>
-                                    </div>
-                                    <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                    <label for="descr">Description of Business:</label>
-                                    <textarea class="form-control" id="descr" maxlength="80" placeholder="My company is into..." ng-model="formData.companyDetails" required></textarea>
-                                    <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
-                                </div>
-                            
-                            <button class="btn btn-default" type="submit">Complete Registration</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="row footer">
-                <div class="row text-center">
-                    <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
-                </div>
+                <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
             </div>
         </div>
-        <!-- Crop Modal -->
-        <div class="modal fade" id="cropModal">
-            <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
-                <div class="modal-content">
-                    <div class="modal-header text-center">
-                        <h3>Image Crop</h3>
-                    </div>
-                    <div class="modal-body text-center">
-                        <div ng-if="isLogo">
-                            <h4>Images Must all be cropped to a 200x200 square.</h4>
-                            <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                            <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                            <br>
-                            <br>
-                            <div class="row">
-                                <div class="cropArea">
-                                    <canvas
-                                        height="350"
-                                        width="500"
-                                        image="image.src"
-                                        image-cropper
-                                        cropped-image="image.dst"
-                                        crop-height="200"
-                                        crop-width="200"
-                                        keep-aspect="true"
-                                        touch-radiue="30"
-                                        crop-area-bounds="bounds"
-                                        ></canvas>
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-if="!isLogo">
-                            <h4>Images Must all be cropped to a 950x323 square.</h4>
-                            <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                            <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                            <br>
-                            <div class="row">
-                                <div class="cropArea-banner">
-                                    <canvas
-                                        height="400"
-                                        width="1000"
-                                        image-cropper
-                                        image="image.src"
-                                        cropped-image="image.dst"
-                                        crop-height="323"
-                                        crop-width="950"
-                                        keep-aspect="true"
-                                        touch-radiue="30"
-                                        crop-area-bounds="bounds"
-                                        ></canvas>
-                                </div>
-                            </div>
-                        </div>
+    </div>
+    <!-- Crop Modal -->
+    <div class="modal fade" id="cropModal">
+        <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Image Crop</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div ng-if="isLogo">
+                        <h4>Images Must all be cropped to a 200x200 square.</h4>
+                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread
+                            image="image.src" />
                         <br>
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
-                                <span class="text-center" ng-if="progress < 100">{{progress + '%'}}</span>
-                                <span class="text-center" ng-if="progress === 100">Retrieving image information.....</span>
+                        <br>
+                        <div class="row">
+                            <div class="cropArea">
+                                <canvas height="350" width="500" image="image.src" image-cropper
+                                    cropped-image="image.dst" crop-height="200" crop-width="200" keep-aspect="true"
+                                    touch-radiue="30" crop-area-bounds="bounds"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer text-center">
-                        <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
-                        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <div ng-if="!isLogo">
+                        <h4>Images Must all be cropped to a 950x323 square.</h4>
+                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread
+                            image="image.src" />
+                        <br>
+                        <div class="row">
+                            <div class="cropArea-banner">
+                                <canvas height="400" width="1000" image-cropper image="image.src"
+                                    cropped-image="image.dst" crop-height="323" crop-width="950" keep-aspect="true"
+                                    touch-radiue="30" crop-area-bounds="bounds"></canvas>
+                            </div>
+                        </div>
                     </div>
+                    <br>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar"
+                            ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                            <span class="text-center" ng-if="progress < 100">{{progress + '%'}}</span>
+                            <span class="text-center" ng-if="progress === 100">Retrieving image information.....</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
-        <script src="/libs/jQuery/dist/jquery.js"></script>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-        <script src="/libs/bootstrap/dist/js/bootstrap.js"></script>
-    </body>
+    </div>
+    <script src="/libs/jQuery/dist/jquery.js"></script>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="/libs/bootstrap/dist/js/bootstrap.js"></script>
+</body>
+
 </html>

@@ -280,16 +280,18 @@ td::first-letter {
 
 .banner-box {
     background: rgba(0, 0, 0, .5);
-    background-image: url("./../img/photo-camera.png");
     background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
-    border: 1px solid rgba(0, 0, 0, .5);
     display: flex;
-    height: 200px;
+    height: 250px;
     overflow: hidden;
     width: 100%;
+    cursor: pointer;
+    position: relative;
 }
+
+/* .banner-box */
 
 .banner-box > img {
     object-fit: cover;
@@ -318,7 +320,6 @@ td::first-letter {
 
 .logo-box {
     background: rgba(0, 0, 0, .5);
-    background-image: url("./../img/photo-camera.png");
     background-size: 30px;
     background-position: center;
     background-repeat: no-repeat;
@@ -345,8 +346,8 @@ td::first-letter {
 }
 
 .registration {
-    background: linear-gradient(to right bottom, #67BC57, deepskyblue);
-    color: white;
+    /* background: linear-gradient(to right bottom, #67BC57, deepskyblue); */
+    /* color: white; */
     min-height: 100%;
     min-width: 100%;
     position: absolute;
@@ -481,19 +482,6 @@ td::first-letter {
 }
 
 /* Merchant Registration */
-.merchantRegBox {
-    background: rgba(0, 0, 0, .5);
-    border-radius: 3px;
-    color: white;
-    height: inherit;
-    margin: 5% auto;
-    padding: 1%;
-    width: 90%;
-
-    /*Shadow*/
-    box-shadow: 1px 1px 3px #a0a0a0;
-}
-
 .merchantRegBox small {
     color: gray;
 }
@@ -503,7 +491,7 @@ td::first-letter {
 }
 
 .merchantRegBox form {
-    margin: 5% 5%;
+    margin-top: 40px;
 }
 
 .merchantRegBox .top-label {
