@@ -59,6 +59,11 @@
                         <td><div></div></td>
                         <td></td>
                     </tr>
+                    <tr ng-if="rewards.length === 0" class="empty-row">
+                        <td colspan="6">
+                            No Rewards to display
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
