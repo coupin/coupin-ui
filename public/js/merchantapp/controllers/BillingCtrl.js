@@ -1,6 +1,5 @@
 angular.module('BillingCtrl', []).controller('BillingController', function (
   $scope,
-  $alert,
   StorageService,
   $window,
   ENV_VARS,

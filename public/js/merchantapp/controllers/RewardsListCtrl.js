@@ -1,6 +1,5 @@
 angular.module('RewardsListCtrl', []).controller('RewardsListController', function(
   $scope,
-  $alert,
   $state,
   MerchantService,
   RewardsService,

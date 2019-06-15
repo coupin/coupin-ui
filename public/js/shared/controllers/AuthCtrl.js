@@ -396,7 +396,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      */
     $scope.registerMerch = () => {
         // Hide any existing alert
-        hideAllAlerts();
+        // hideAllAlerts();
         
         // Get final categories picked
         var finalCat = [];
@@ -455,25 +455,19 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         // check if errorArray is an object, if so send an alert for each item
         if(typeof data === 'object') {
             for(var i = 0; i < data.length; i++) {
-                multipleAlerts[multipleAlerts.length] = $alert({
+                /* multipleAlerts[multipleAlerts.length] = $alert({
                     'title': title,
                     'content': data[i].msg,
                     'duration': 5,
                     'placement': 'center-center',
                     'show' : true ,
                     'type' : 'danger'
-                });
+                }); */
+                UtilService.showError(title, data[i].msg)
             }
         } else {
             // else just show the message
-            $alert({
-                'title': title,
-                'content': data,
-                'duration': 5,
-                'placement': 'center-center',
-                'show' : true ,
-                'type' : 'danger'
-            });
+            UtilService.showError(title, data);
         }
     };
 

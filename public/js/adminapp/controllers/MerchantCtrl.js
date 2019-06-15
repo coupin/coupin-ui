@@ -1,5 +1,4 @@
 angular.module('MerchantCtrl', []).controller('MerchantController', function(
-    $alert,
     $scope,
     $timeout,
     $state,

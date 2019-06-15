@@ -1,5 +1,4 @@
 angular.module('HomeCtrl', []).controller('HomeController', function(
-  $alert,
   $location,
   $scope,
   StorageService,

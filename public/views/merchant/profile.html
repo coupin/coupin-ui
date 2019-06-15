@@ -121,7 +121,7 @@
                         </div>
                     </div>
                     <div class="row user-profile-action">
-                        <button class="btn btn-primary btn-lg" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
+                        <button class="btn btn-primary btn-lg" ng-disabled="updating" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-show="updating"></i></button>
                     </div>
                 </form>
             </div>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
                     <div class="row user-profile-action">
-                        <button class="btn btn-primary btn-lg">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
+                        <button class="btn btn-primary btn-lg" ng-disabled="updatingPassword">Change Password <i class="fas fa-spin fa-spinner" ng-show="updatingPassword"></i></button>
                     </div>
                 </form>
             </div>
