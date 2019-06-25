@@ -1,60 +1,3 @@
-/* Admin Login Box Styling */
-.login-form {
-    margin: 5%;
-}
-
-.dashed-bottom {
-    border-bottom: 1px dashed grey;
-}
-
-.error {
-    background: url('../img/error-sm.png') 5px 5px no-repeat,#e40000;
-    border: 1px solid #e40000;
-    border-radius: 5px;
-    color: white;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.error-input {
-    border-color: #e40000 !important;
-    outline: 0 !important;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(228,0,0,.6) !important;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(228,0,0,.6) !important;
-}
-
-.error-text {
-    color: #e40000 !important;
-}
-
-.success {
-    background: url('../img/success-sm.png') 5px 5px no-repeat,#67BC57;
-    border: 1px solid #67BC57;
-    border-radius: 5px;
-    color: white;
-    margin-bottom: 10px;
-    text-align: center;
-}
-/* Admin Login Box Styling */
-
-/* Admin View Styling */
-.admin-list-view {
-    background: #f0f0f0;
-    border-bottom: 1px solid #c0c0c0;
-    height: 40px;
-    margin: 0 !important;
-}
-
-.admin-list-view div {
-    border-right: 1px solid #a0a0a0;
-    height: 40px;
-}
-
-.admin-list-view div h5, .admin-list-view div button {
-    margin-top: 5px;
-}
-/* Admin View Styling End */
-
 /*General Styling*/
 .body {
     width: 100%;
@@ -348,10 +291,6 @@ td::first-letter {
     position: absolute;
 }
 
-#admin-login.registration {
-    background: linear-gradient(to right bottom, #67BC57, deepskyblue);
-}
-
 .right {
     float: right;
 }
@@ -379,20 +318,6 @@ td::first-letter {
 .margin-y-20 {
     margin-bottom: 20px;
     margin-top: 20px;
-}
-
-.navbar-admin {
-    background: #00ace6;
-    border-radius: 0 !important;
-    color: white;
-}
-
-.navbar-admin a {
-    color: white;
-}
-
-.nav-admin > li > a:hover, .nav-admin > li > a:focus { 
-    background: transparent !important;
 }
 
 .no-space-below {
@@ -467,57 +392,6 @@ td::first-letter {
 
 /* General Styling End */
 
-.loginBox {
-    background: rgba(0, 0, 0, .5);
-    border-radius: 3px;
-    color: white;
-    height: inherit;
-    margin: 5% auto;
-    padding: 1%;
-    width: 50%;
-
-    /*Shadow*/
-    box-shadow: 1px 1px 3px #a0a0a0;
-}
-
-/* Merchant Registration */
-.merchantRegBox small {
-    color: gray;
-}
-
-.merchantRegBox small b {
-    color: white;
-}
-
-.merchantRegBox form {
-    margin-top: 40px;
-}
-
-.merchantRegBox .top-label {
-    background: linear-gradient(to right bottom, #67BC57, deepskyblue);
-    border-radius: 3px 3px 0 0;
-    box-shadow: 1px 1px 3px #c0c0c0;
-    color: white;
-    height: inherit;
-    font-family: FontAwesome;
-    font-size: 32px;
-    line-height: 2em;
-    margin-bottom: 50px !important;
-    width: 100%;
-}
-/* Merchant Registration End */
-
-/* Alert */
-.center-center {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9000;
-}
-/* Alert End */
-/* End of Merchant Profile Styling */
-
 .cropArea {
     background: #E4E4E4;
     height:350px;
@@ -563,108 +437,6 @@ td::first-letter {
     height: 250px;
     margin: auto 10px;
     width: 200px;
-}
-
-/* .plan {
-    padding: 30px;
-} */
-
-.plan-def {
-    background-color: white;
-}
-
-#plan-1, .plan-1 {
-    background: #5DBD6C;
-}
-
-#plan-2, .plan-2 {
-    background: #4DBE8F;
-}
-
-#plan-3, .plan-3 {
-    background: #34BEC0;
-}
-
-.price-1 {
-    color: #5DBD6C !important;
-}
-
-.price-2 {
-    color: #4DBE8F;
-}
-
-.price-3 {
-    color: #34BEC0;
-}
-
-.plan-header {
-    padding-bottom: 5px;
-    padding-top: 5px;
-}
-
-.plan-footer {
-    padding: 3px;
-    letter-spacing: 0.2em;
-}
-
-.plan-inner {
-    background: white;
-    border-radius: 3px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
-    min-height: 200px;
-    min-width: 100%;
-    padding: 10px;
-}
-
-.plan-inner > span,
-.plan-body > span {
-    display: block;
-    margin: auto;
-    text-align: center;
-    width: 100%;
-}
-
-.plan-title {
-    color: white;
-    font-size: 1.5em;
-    font-weight: 200;
-    letter-spacing: 0.3em;
-}
-
-.plan-price {
-    display: block;
-    font-size: 2.5em;
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    margin-bottom: 15px;
-    margin-top: 15px;
-}
-
-.plan-price > small {
-    display: block;
-    font-size: 0.4em;
-    letter-spacing: 0.1em;
-    text-align: center;
-    width: 100%;
-}
-
-.plan-body {
-    font-weight: 200;
-    letter-spacing: 0.1em;
-    margin: 5px;
-    padding: 5px;
-}
-
-.plan-body > span {
-    margin-bottom: 3px;
-    margin-top: 3px;
-}
-
-.plan-body > hr {
-    min-height: 1px;
-    display: block;
-    margin: auto;
-    width: 40%;
 }
 
 .btn-half{
@@ -741,57 +513,3 @@ td::first-letter {
       color: #94989E !important;
       font-weight: 600 !important;
   }
-
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="number"],
-input[type="tel"],
-textarea,
-select {
-    font-size: 17px;
-    line-height: 1.5 !important;
-    padding: .5em 1em !important;
-    background-color: rgba(255, 255, 255, 0.6) !important;
-    border: 0 !important;
-    box-shadow: unset !important;
-    border-bottom: 1px solid #c5cbd5 !important;
-    border-radius: 0 !important;
-    transition: border 0.3s;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="tel"],
-input[type="email"] {
-    /* max-width: 500px; */
-    width: 100%;
-}
-
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-input[type="tel"]:focus,
-textarea:focus,
-select:focus
-{
-    border-bottom-color: #15A580 !important;
-}
-
-.icons-input {
-    border: 0;
-    border-bottom: 1px solid #c5cbd5 !important;
-    border-radius: 0;
-    background-color: white;
-    color: #14a580;
-    padding-right: 0;
-  }
-
-/* input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-textarea:focus,
-select:focus */

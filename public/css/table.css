@@ -1,0 +1,92 @@
+table.table {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(21, 165, 128, 0.16);
+}
+
+table.table tr.selected {
+  background-color: rgb(226, 249, 245);
+  color: inherit;
+}
+
+table.table tr.empty-row td {
+  text-align: center;
+  font-size: 20px;
+  color: #a4a4a4;
+  font-weight: 500;
+}
+
+table.table tr th, table.table tr td {
+  padding: 15px;
+  border: 0;
+  border-bottom: 1px solid #efefef;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 50px !important; */
+  max-width: 150px;
+}
+
+table.table tr th:first-child, table.table tr td:first-child {
+  padding-left: 30px;
+}
+
+table.table tr th {
+  color: #a4a4a4;
+  /* color: #94989E; */
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size:12px;
+  border-bottom-width: 1px;
+}
+
+table.table tr td {
+  cursor: pointer;
+}
+
+table.table tr td.action {
+  width: 45px;
+}
+
+table.table tr td.action i {
+  vertical-align: baseline;
+  margin-right: 13px;
+  padding: 5px;
+  color: #a4a4a4;
+  visibility: hidden;
+}
+
+table.table tr:hover td.action i {
+  visibility: visible;
+}
+
+table.table tr td.action i.delete:hover {
+  color: #E51B24;
+}
+
+table.table tr td.action i.activate:hover {
+  color: #5677FC;
+}
+
+table.table tr.loading-row td div {
+  width: 100%;
+  height: 20px;
+  background-color: rgb(239, 239, 239);
+  border-radius: 10px;
+  background-image: linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% );
+  background-size: 50px 200px;
+  background-position: -29% 0;
+  background-repeat: no-repeat;
+  animation: shine 1.5s infinite ease-out;
+}
+
+@keyframes shine {
+  to {
+    background-position: 100% 0;
+  }
+}
+
+table.table tr.loading-row td:first-child div {
+  width: 20px;
+}

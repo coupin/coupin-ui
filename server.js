@@ -121,14 +121,14 @@ app.get(['/a', '/a/*'], function(req, res) {
   res.sendfile('./public/views/admin/index.html');
 });
 
-app.get('/homepage', function(req, res) {
-  // load the home page
-  res.sendfile('./public/views/base.html');
-});
+// app.get('/homepage', function(req, res) {
+//   // load the home page
+//   res.sendfile('./public/views/base.html');
+// });
 
-app.get('/merchant/register', function(req, res) {
-  res.sendfile('./public/views/shared/merchantReg.html');
-});
+// app.get('/merchant/register', function(req, res) {
+//   res.sendfile('./public/views/shared/merchantReg.html');
+// });
 
 app.get('/auth/forgot-password', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/views/shared/forgotPassword.html'));
