@@ -121,7 +121,16 @@ input {
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 767px) {
   .auth-container {
-    width: 90%;
+    width: 100%;
+    padding: 0 5px;
+  }
+
+  .auth-container .header .underline {
+    display: none;
+  }
+
+  .auth-container .header span.active:not(.underline) {
+    border-bottom: 2px solid #14a580;
   }
 }
 

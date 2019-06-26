@@ -9,20 +9,22 @@
     position: absolute;
     top: 0;
     z-index: 99998;
+    left: 0;
   }
 
   .navbar-toggle {
     position: absolute;
     z-index: 99999;
     top: 10px;
-    right: 20px;
+    right: 10px;
     background-color: #fff !important;
     height: 44px;
     width: 44px;
     border-radius: 22px;
     cursor: pointer;
     border: 0;
-    box-shadow: 0px 4px 6px rgba(21, 165, 128, 0.16);
+    box-shadow: 0px 2px 4px rgba(21, 165, 128, 0.16);
+    margin: 0;
   }
 
   .navbar-toggle .icon-bar {
@@ -60,6 +62,11 @@
     transform: translateY(-3px) rotate(-45deg);
     transition-delay: 0.3s;
     transform-origin: center;
+  }
+
+  .navbar-toggle:not(.collapsed) {
+    background-color: transparent;
+    box-shadow: unset;
   }
 }
 @media (min-width: 768px) {

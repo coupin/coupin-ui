@@ -366,6 +366,7 @@ option {
 
 .section-containers {
   margin: 50px 0;
+  width: 100%;
 }
 
 .section-headers, .section-headers * {
@@ -699,6 +700,18 @@ form .row {
   margin-right: 10px;
 }
 
+#verification-page .coupin-search {
+  width: 500px;
+}
+
+#verify .redeem-section {
+  margin-bottom: 15px;
+}
+
+#verify .redeem-section .redeem-button {
+  float:right; margin-right:10px;
+}
+
 .capitalize {
   text-transform: capitalize;
 }
@@ -709,8 +722,43 @@ form .row {
 }
 /*** end of custom naira icon ***/
 
-@media (max-width: 767px) {
+@media (min-width: 320px) and (max-width: 786px) {
   .merchant-space {
-    margin-top: 40px;
+    padding: 10px;
   }
+
+  #verification-page .coupin-search {
+    width: 216px;
+  }
+
+  #verify .redeem-section .redeem-button {
+    float:unset;
+    /* margin-right:10px; */
+  }
+
+  .shorten {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 250px;
+  }
+
+  #verify .reward-list .customer-info p:nth-of-type(2) {
+    font-size: 14px;
+  }
+
+  #verify .reward-list .customer-info p:nth-of-type(2) {
+    font-size: 17px;
+  }
+
+  #verify .reward-list.selected {
+    background-color: rgb(226, 249, 245);
+    color: inherit;
+  }
+}
+
+@media (max-width: 767px) {
+  /* .merchant-space {
+    margin-top: 40px;
+  } */
 }
