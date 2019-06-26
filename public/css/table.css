@@ -21,11 +21,13 @@ table.table tr th, table.table tr td {
   border: 0;
   border-bottom: 1px solid #efefef;
   text-align: left;
+  max-width: 150px;
+}
+
+table.table tr th.shorten, table.table tr td.shorten {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* width: 50px !important; */
-  max-width: 150px;
 }
 
 table.table tr th:first-child, table.table tr td:first-child {
@@ -89,4 +91,45 @@ table.table tr.loading-row td div {
 
 table.table tr.loading-row td:first-child div {
   width: 20px;
+}
+
+@media
+only screen and (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  table.table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  table.table tr { 
+    padding-top: 12px;
+  }
+
+  table.table tr:not(:last-child) { 
+    border-bottom: 1px solid #ccc; 
+  }
+
+  table.table tr td {
+    border: none;
+    position: relative;
+    max-width: 100%;
+  }
+  
+  table.table  tbody tr th:before, table.table  tr td:before {
+    position: absolute;
+    top: 0;
+    color: #94989E;
+    font-size: 12px;
+  }
+
+  #verify-reward-table td:nth-of-type(1):before { content: "S/N"; }
+  #verify-reward-table td:nth-of-type(2):before { content: "Name"; }
+  #verify-reward-table td:nth-of-type(3):before { content: "Description"; }
+  #verify-reward-table td:nth-of-type(4):before { content: "Expires On";}
+  #verify-reward-table td:nth-of-type(5):before { content: "Status";}
+  #verify-reward-table td:nth-of-type(6):before { content: "Expired";}
 }
