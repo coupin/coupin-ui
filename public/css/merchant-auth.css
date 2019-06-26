@@ -119,7 +119,7 @@ input {
 }
 /* Merchant Registration End */
 
-@media only screen and (min-device-width : 320px) and (max-device-width : 767px) {
+@media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
   .auth-container {
     width: 100%;
     padding: 0 5px;
@@ -132,9 +132,6 @@ input {
   .auth-container .header span.active:not(.underline) {
     border-bottom: 2px solid #14a580;
   }
-}
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
 }
 
 @media only screen  and (min-width : 1224px) {

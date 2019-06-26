@@ -30,7 +30,7 @@ table.table tr th.shorten, table.table tr td.shorten {
   text-overflow: ellipsis;
 }
 
-table.table tr th:first-child, table.table tr td:first-child {
+table.table tr:not(.empty-row) th:first-child, table.table tr:not(.empty-row) td:first-child {
   padding-left: 30px;
 }
 
@@ -105,7 +105,7 @@ only screen and (max-width: 768px) {
     left: -9999px;
   }
 
-  table.table tr { 
+  table.table tr:not(.empty-row) { 
     padding-top: 12px;
   }
 
@@ -126,10 +126,25 @@ only screen and (max-width: 768px) {
     font-size: 12px;
   }
 
+  table.table tr td.action i {
+    visibility: visible;
+  }
+
+  table.table tr td span.plan-status {
+    display: inline-block;
+  }
+
   #verify-reward-table td:nth-of-type(1):before { content: "S/N"; }
   #verify-reward-table td:nth-of-type(2):before { content: "Name"; }
   #verify-reward-table td:nth-of-type(3):before { content: "Description"; }
   #verify-reward-table td:nth-of-type(4):before { content: "Expires On";}
   #verify-reward-table td:nth-of-type(5):before { content: "Status";}
   #verify-reward-table td:nth-of-type(6):before { content: "Expired";}
+
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(1):before { content: "S/N"; }
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(2):before { content: "Name"; }
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(3):before { content: "Description"; }
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(4):before { content: "Status"; }
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(5):before { content: "Expires"; }
+  #reward-list-table tr:not(.empty-row) td:nth-of-type(6):before { content: ""; }
 }

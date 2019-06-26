@@ -7,20 +7,19 @@
                 class="form-control reward-search" 
                 ng-model="query" 
                 type="text" 
-                style="width: 500px;"
                 placeholder="Search by name or description"/>
             <i class="fas fa-search"></i>
         </div>
         <div class="col-md-3 col-xs-12">
-            <button class="btn btn-primary" ng-if="!isExpired()" ng-click="goToNewReward()" style="float: right">
+            <button class="btn btn-primary add-reward-button" ng-if="!isExpired()" ng-click="goToNewReward()">
                 <i class="fas fa-plus"></i> Add Reward
             </button>
         </div>
     </section>
     <section class="row">
         <div class="col-md-12 col-xs-12">
-            <table class="table">
-                <thead>
+            <table class="table" id="reward-list-table">
+                <thead class="hidden-xs hidden-sm">
                     <tr>
                         <th width="20px">S/N</th>
                         <th>Name</th>
@@ -32,16 +31,16 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)">
-                        <td scope="row">{{ index + 1 }}</td>
+                        <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
                         <td class="icon">{{ discount.name }}</td>
-                        <td class="icon">{{ discount.description }}</td>
+                        <td class="icon shorten">{{ discount.description }}</td>
                         <td>
                             <span ng-class="discount.status" class="plan-status">
                                 {{discount.status}}
                             </span>
                         </td>
                         <td>{{ discount.endDate | date: 'longDate'}}</td>
-                        <td class="action">
+                        <td class="action hidden-xs hidden-sm">
                             <i 
                                 ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'"
                                 data-toggle="tooltip"
@@ -53,7 +52,7 @@
                         </td>
                     </tr>
                     <tr ng-if="loadingRewards" class="loading-row">
-                        <td><div></div></td>
+                        <td class="hidden-xs hidden-sm"><div></div></td>
                         <td><div></div></td>
                         <td><div></div></td>
                         <td><div></div></td>

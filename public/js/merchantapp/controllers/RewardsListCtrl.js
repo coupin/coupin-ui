@@ -2,6 +2,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
   $scope,
   $state,
   MerchantService,
+  UtilService,
   RewardsService,
   StorageService
 ) {
@@ -28,24 +29,24 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
           if (result.status === 200) {
               reward.isActive = false;
           } else if (result.status === 500) {
-              showError(errTitle, errMsg);
+              UtilService.showError('errTitle', 'errMsg');
           } else {
-              showError(errTitle, result.data);
+              UtilService.showError('errTitle', result.data);
           }
       }).catch(function (err) {
-          showError(errTitle, errMsg);
+        UtilService.showError('errTitle', 'errMsg');
       });  
     } else {
       RewardsService.activate(reward._id).then(function (result) {
           if (result.status === 200) {
               reward.isActive = true;
           } else if (result.status === 500) {
-              showError(errTitle, errMsg);
+              UtilService.showError('errTitle', 'errMsg');
           } else {
-              showError(errTitle, result.data);
+              UtilService.showError('errTitle', result.data);
           }
       }).catch(function (err) {
-          showError(errTitle, errMsg);
+          UtilService.showError('errTitle', 'errMsg');
       });
     }
   }
@@ -73,7 +74,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
           if (result.status === 200) {
               $scope.reward = result.data;
           } else {
-              showError(errTitle, errMsg);
+            UtilService.showError('errTitle', 'errMsg');
           }
       }).catch();
     } else {

@@ -587,9 +587,14 @@ form .row {
   padding-top: 30px;
 }
 
+#reward-list-page .add-reward-button {
+  float: right;
+}
+
 #reward-list-page .reward-search {
   font-size: 15px !important;
   text-indent: 15px;
+  /* width: 500px; */
 }
 
 #reward-list-page .search-container i {
@@ -757,8 +762,13 @@ form .row {
   }
 }
 
-@media (max-width: 767px) {
-  /* .merchant-space {
-    margin-top: 40px;
-  } */
+@media (max-width: 1024px) {
+  .merchant-space {
+    margin-top: 60px;
+  }
+
+  #reward-list-page .add-reward-button {
+    float: left;
+    margin-top: 30px;
+  }
 }
