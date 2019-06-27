@@ -1,10 +1,17 @@
 <div id="billing-info">
   <section class="billing-plans">
-    <p class="section-headers">
-      Billing plans
-      <button class="btn btn-outline-primary btn-sm" ng-if="displayRenew()" ng-click="updateBilling(true)"
-        style="margin-left:15px;">Renew Plan</button>
-    </p>
+      <div class="section-header-container">
+        <p class="section-headers">
+          Billing plans
+        </p>
+        <button 
+          class="btn btn-outline-primary btn-sm" 
+          ng-if="true" 
+          ng-click="updateBilling(true)"
+          style="margin-left:15px;">
+          Renew Plan
+        </button>
+      </div>
     <div class="plans">
       <div class="plan">
         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="payAsYouGo"
@@ -63,10 +70,10 @@
   <section class="billing-history">
     <!-- <div class="row">
       <div class="col-sm-12"> -->
-          <p class="section-headers">
-            Billing History
-          </p>
-        <table class="table">
+        <p class="section-headers">
+          Billing History
+        </p>
+        <table class="table" id="payment-history-table">
           <thead>
             <th>S/N</th>
             <th>Plan</th>
@@ -77,11 +84,19 @@
           </thead>
           <tbody>
             <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
-              <td>{{index + 1}}</td>
+              <td class="hidden-xs hidden-sm">{{index + 1}}</td>
               <td class="capitalize">{{bill.plan}}</td>
               <td>{{bill.date | date: 'longDate'}}</td>
-              <td>{{bill.expiration | date: 'longDate'}}</td>
-              <td>{{bill.reference}}</td>
+              <td>
+                <span ng-if="bill.expiration">
+                    {{bill.expiration | date: 'longDate'}}
+                </span>
+                <span ng-if="!bill.expiration">--</span>
+              </td>
+              <td>
+                <span ng-if="bill.reference">{{bill.reference}}</span>
+                <span ng-if="!bill.reference">--</span>
+              </td>
               <td>
                 <span ng-if="index === 0 && planStatus()" ng-class="planStatus()" class="plan-status">
                   {{planStatus()}}

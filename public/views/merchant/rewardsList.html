@@ -1,7 +1,7 @@
 <div id="reward-list-page" ng-init="loadRewards()">
     <p class="section-headers">Rewards</p>
     <section class="row" style="padding-bottom: 30px;">
-        <div class="col-md-9 col-xs-12 search-container">
+        <div class="col-md-9 col-sm-12 search-container">
             <input
                 ng-keyup="$event.keyCode === 13 && loadRewards()"
                 class="form-control reward-search" 
@@ -10,7 +10,7 @@
                 placeholder="Search by name or description"/>
             <i class="fas fa-search"></i>
         </div>
-        <div class="col-md-3 col-xs-12">
+        <div class="col-md-3 col-sm-12">
             <button class="btn btn-primary add-reward-button" ng-if="!isExpired()" ng-click="goToNewReward()">
                 <i class="fas fa-plus"></i> Add Reward
             </button>

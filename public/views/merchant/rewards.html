@@ -5,17 +5,18 @@
     <!-- <div class="text-center">
         <h2>Reward Creation</h2>
     </div> -->
-    <p class="section-headers"  style="margin: 25px 0 25px 15px;">
+    <div>
         <i 
             data-toggle="tooltip"
             data-placement="top"
             title="Click to go back to reward list"
             class="fas fa-arrow-circle-left reward-back-button"
             ng-click="goToRewardList()"></i>
-
-        <span ng-if="isNewReward()">Add new reward</span>
-        <span ng-if="!isNewReward()">Edit existing reward</span>
-    </p>
+        <p class="section-headers"  style="margin: 25px 0 25px 10px;display:inline-block;">
+            <span ng-if="isNewReward()">Add new reward</span>
+            <span ng-if="!isNewReward()">Edit existing reward</span>
+        </p>
+    </div>
     <div id="accordion" ng-if="showReviews()">
         <div class="success-card">
           <div class="success-card-header" id="reviewHeader">

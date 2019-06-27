@@ -369,13 +369,27 @@ option {
   width: 100%;
 }
 
-.section-headers, .section-headers * {
+.section-headers:before {
+  background: none repeat scroll 0 0 #F49A40 ;
+  bottom: -22px;
+  content: "";
+  display: block;
+  height: 1px;
+  position: relative;
+}
+
+.section-headers, .section-headers *:not(button) {
   font-weight: 600;
-  font-size: 19px;
+  font-size: 15px;
+  /* font-size: 19px; */
   line-height: 15px;
   text-align: left;
-  color: #454D57;
-  margin-bottom: 30px
+  /* color: #454D57; */
+  color: #94989E;
+  margin-bottom: 30px;
+  font-family: montserrat;
+  text-transform: uppercase;
+  width: fit-content;
 }
 
 .quick-info {
@@ -605,7 +619,9 @@ form .row {
 
 .reward-back-button {
   color: #e6e6e6;
-  margin-right: 10px;
+  /* margin-right: 10px; */
+  font-size: 18px;
+  display: inline-block;
 }
 
 .reward-back-button:hover {
@@ -615,7 +631,8 @@ form .row {
 
 /*** the button group styling for selecting applicable days ***/
 #applicable-days-container .select-group, #applicable-days-container .day-group {
-  width: 550px;
+  max-width: 550px;
+  width: 100%;
   display: flex;
   align-items: stretch;
 }
@@ -627,6 +644,10 @@ form .row {
 
 #applicable-days-container .button-group button i {
   display: none;
+}
+
+#applicable-days-container .button-group button {
+  background-color: #fff;
 }
 
 #applicable-days-container .button-group input[type="radio"]:checked ~ button,
@@ -663,7 +684,7 @@ form .row {
   width: 100%;
 }
 
-#applicable-days-container button.active, #applicable-days-container button:hover {
+#applicable-days-container button.active/* , #applicable-days-container button:hover */ {
   background-color: #5cb85c;
   color: #fff;
 }
@@ -762,13 +783,69 @@ form .row {
   }
 }
 
+.section-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.section-header-container .section-headers {
+  margin-bottom: 0;
+}
+
+.datepicker button {
+  border: 0;
+}
+
 @media (max-width: 1024px) {
   .merchant-space {
     margin-top: 60px;
   }
 
+}
+
+@media (max-width: 992px) {
   #reward-list-page .add-reward-button {
     float: left;
     margin-top: 30px;
+  }
+
+  #billing-info .billing-plans .plans {
+    flex-wrap: wrap;
+  }
+  
+  #billing-info .billing-plans .plans .plan {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  #billing-info .billing-plans .plans .plan .plan-body {
+    min-height: unset;
+  }
+}
+
+@media (max-width: 665px) {
+  #applicable-days-container .day-group {
+    /* flex-wrap: wrap; */
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    grid-gap: 5px;
+  }
+
+  #applicable-days-container .day-group .button-group button {
+    border: 1px solid rgb(92, 184, 92) !important;
+  }
+}
+
+@media (max-width: 460px) {
+  #applicable-days-container .select-group .button-group input[type="radio"]:checked ~ button i {
+    display: none;
+  }
+}
+
+@media (max-width: 330px) {
+  #applicable-days-container .day-group .button-group input[type="checkbox"]:checked ~ button i {
+    display: none;
   }
 }
