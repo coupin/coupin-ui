@@ -236,7 +236,6 @@ option {
 .merchant-information {
   padding-top: 50px;
   padding-bottom: 30px;
-  padding-left: 30px;
 }
 
 .merchant-name {
@@ -251,11 +250,15 @@ option {
   color: #454D57;
   -ms-overflow-style: none;
   -moz-overflow-style: none;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .merchant-email {
   font-size: 13px;
   color: #B4BBC5;
+  text-align: center;
 }
 
 .merchant-logo {
@@ -265,6 +268,7 @@ option {
   border-radius: 5px;
   height: 7.25rem;
   width: 7.25rem;
+  margin: auto;
 }
 
 .menu a {
