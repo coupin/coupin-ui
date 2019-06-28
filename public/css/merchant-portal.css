@@ -248,6 +248,8 @@ option {
   white-space: nowrap;
   text-transform: capitalize;
   color: #454D57;
+  -ms-overflow-style: none;
+  -moz-overflow-style: none;
 }
 
 .merchant-email {
@@ -403,7 +405,8 @@ option {
   margin-bottom: 30px;
   font-family: montserrat;
   text-transform: uppercase;
-  width: fit-content;
+  /* width: fit-content; */
+  display: inline-block;
 }
 
 .overview-container {
