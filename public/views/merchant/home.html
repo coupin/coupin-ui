@@ -26,19 +26,35 @@
                             </h4>
                         </section>
                         <section class="menu">
-                            <a ui-sref=".home" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu">
+                            <a ui-sref=".home" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
                                 <i class="fas fa-home"></i>
                                 Home
                             </a>
-                            <a ui-sref=".rewards" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu">
+                            <a ui-sref=".home" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
+                            <a ui-sref=".rewards" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
                                 <i class="fas fa-tags"></i>
                                 Rewards
                             </a>
-                            <a ui-sref=".profile" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu">
+                            <a ui-sref=".rewards" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-tags"></i>
+                                Rewards
+                            </a>
+                            <a ui-sref=".profile" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
                                 <i class="fas fa-user"></i>
                                 Profile
                             </a>
-                            <a ui-sref=".billing" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu">
+                            <a ui-sref=".profile" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                            <a ui-sref=".billing" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-money-bill"></i>
+                                Billing Info
+                            </a>
+                            <a ui-sref=".billing" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
                                 <i class="fas fa-money-bill"></i>
                                 Billing Info
                             </a>

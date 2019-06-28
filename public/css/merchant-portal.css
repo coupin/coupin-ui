@@ -244,6 +244,7 @@ option {
   font-weight: 600;
   max-width: 200px;
   overflow-x: hidden;
+  overflow-y: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-transform: capitalize;

@@ -229,7 +229,6 @@
 
   div.navbar-collapse.collapse.in {
     display: block !important;
-    /* height: 100vh; */
     transition: all 0.3s;
   }
 
