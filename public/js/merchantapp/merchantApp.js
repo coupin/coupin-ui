@@ -33,4 +33,17 @@ angular.module('coupinApp', [
       $rootScope['user'] = StorageService.getUser();
     }
   });
-});
+}).directive('showMore', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element) {
+      element.addClass('shorten');
+      element.css('cursor', 'pointer');
+
+      element.on('click', function (event) {
+        event.stopImmediatePropagation();
+        element.toggleClass('shorten');
+      });
+    }
+  }
+})

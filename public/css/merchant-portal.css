@@ -366,6 +366,7 @@ option {
   background: #313237;
   /* box-shadow: 0px 1px 4px rgba(21, 165, 128, 0.23); */
   padding: 20px;
+  transition: all 0.3s;
 }
 
 #merchant-confirmation .plan .card {
@@ -741,6 +742,11 @@ form .row {
 }
 /*** end of the button group styling for selecting applicable days ***/
 
+#verification-page .customer-info {
+  display: inline-block;
+  width: 100%;
+}
+
 #verification-page .customer-info p:first-of-type {
   margin: 0;
   font-weight: 300;
@@ -788,6 +794,16 @@ form .row {
 }
 /*** end of custom naira icon ***/
 
+.shorten {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.break-word {
+  overflow-wrap: break-word;
+}
+
 @media (min-width: 320px) and (max-width: 786px) {
   .merchant-space {
     padding: 10px;
@@ -803,9 +819,6 @@ form .row {
   }
 
   .shorten {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 250px;
   }
 
