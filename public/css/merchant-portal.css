@@ -1,6 +1,7 @@
 body {
     /* background-color: #F8FFFE; */
-    background-color: #dbfaf2;
+    background-color: #252525;
+    color: #fff;
     height: 100%;
     /* background-color: #dffffa; */
     font-family: 'Nunito Sans', sans-serif;
@@ -224,8 +225,8 @@ option {
     border: 0px !important;
     width: 250px;
     height: 100vh;
-    background: #fff;
-    box-shadow: 2px 0px 3px rgba(21, 165, 128, 0.16);
+    background: #313237;
+    /* box-shadow: 2px 0px 3px rgba(21, 165, 128, 0.16); */
 }
 
 #merchant-menu {
@@ -359,9 +360,21 @@ option {
 
 .card {
   border-radius: 5px;
-  background: #fff;
-  box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16);
+  background: #313237;
+  /* box-shadow: 0px 1px 4px rgba(21, 165, 128, 0.23); */
   padding: 20px;
+}
+
+#merchant-confirmation .plan .card {
+  background: #252525;
+}
+
+#merchant-confirmation .plan .plan-header {
+  border-bottom-color: #313237;
+}
+
+#merchant-confirmation .plan .plan-footer {
+  border-top-color: #313237;
 }
 
 .section-containers {
@@ -385,7 +398,8 @@ option {
   line-height: 15px;
   text-align: left;
   /* color: #454D57; */
-  color: #94989E;
+  color: #FDFFFF;
+  /* color: #94989E; */
   margin-bottom: 30px;
   font-family: montserrat;
   text-transform: uppercase;
@@ -418,7 +432,7 @@ option {
   font-weight: 700;
   font-size: 35px;
   text-align: left;
-  color: #454D57;
+  /* color: #454D57; */
   margin: 0;
 }
 
@@ -443,7 +457,8 @@ option {
   font-size: 17px;
   line-height: 15px;
   text-align: left;
-  color: #454D57;
+  color: #FDFFFF;
+  /* color: #454D57; */
   margin-bottom: 30px;
 }
 
@@ -526,7 +541,7 @@ form .row {
 
 .billing-plans .plans .plan .card:hover,
 .billing-plans .plans .plan input[type="radio"]:checked ~ .card {
-  box-shadow: 0px 3px 10px rgba(21, 165, 128, 0.16);
+  /* box-shadow: 0px 3px 10px rgba(27, 39, 36, 0.16); */
   border-top-color: #15A580;
 }
 
@@ -536,7 +551,7 @@ form .row {
 
 .billing-plans .plans .plan .card:active {
   transform: translateY(2px);
-  box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16);
+  /* box-shadow: 0px 3px 6px rgba(21, 165, 128, 0.16); */
 }
 
 
@@ -550,7 +565,7 @@ form .row {
   font-weight: 600;
   font-size: 17px;
   position: relative;
-  border-bottom: 1px solid rgb(219, 222, 227);
+  border-bottom: 1px solid #252525;
 }
 
 .billing-plans .plans .plan .card .plan-body {
@@ -567,7 +582,7 @@ form .row {
   padding: 16px 0 0;
   font-weight: 600;
   font-size: 17px;
-  border-top: 1px solid rgb(219, 222, 227);
+  border-top: 1px solid #252525;
 }
 
 .plan-status {
@@ -664,7 +679,7 @@ form .row {
 }
 
 #applicable-days-container .button-group button {
-  background-color: #fff;
+  background-color: #252525;
 }
 
 #applicable-days-container .button-group input[type="radio"]:checked ~ button,
@@ -714,7 +729,7 @@ form .row {
 #applicable-days-container .day-group .button-group button:hover,
 #applicable-days-container .select-group .button-group button:hover,
 #applicable-days-container .day-group .button-group input[type="checkbox"]:checked ~ button {
-  border-right-color: #fff;
+  border-right-color: #5cb85c;
 }
 
 #applicable-days-container div.select-group {
@@ -757,6 +772,10 @@ form .row {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+.mobile-logo {
+  height: 25px;
 }
 
 /*** custom naira icon ***/
@@ -828,16 +847,16 @@ form .row {
     margin-top: 30px;
   }
 
-  #billing-info .billing-plans .plans {
+  .billing-plans .plans {
     flex-wrap: wrap;
   }
   
-  #billing-info .billing-plans .plans .plan {
+  .billing-plans .plans .plan {
     margin-bottom: 20px;
     width: 100%;
   }
 
-  #billing-info .billing-plans .plans .plan .plan-body {
+  .billing-plans .plans .plan .plan-body {
     min-height: unset;
   }
 }

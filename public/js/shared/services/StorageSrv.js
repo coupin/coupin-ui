@@ -17,7 +17,7 @@ function(
       getUser: function() {
         try {
           return JSON.parse(localStorage.getItem('user'));
-        } catch {
+        } catch (err) {
           return;
         }
       },

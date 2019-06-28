@@ -1,11 +1,12 @@
 table.table {
   border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0px 4px 8px rgba(21, 165, 128, 0.16);
+  background-color: #313237;
+  /* box-shadow: 0px 1px 4px rgba(21, 165, 128, 0.23); */
 }
 
 table.table tr.selected {
-  background-color: rgb(226, 249, 245);
+  /* background-color: rgb(226, 249, 245); */
+  background-color: #252525;
   color: inherit;
 }
 
@@ -16,10 +17,13 @@ table.table tr.empty-row td {
   font-weight: 500;
 }
 
+table.table tr th, table.table tr:not(:last-child) td {
+  border: 0;
+  border-bottom: 1px solid #252525;
+}
+
 table.table tr th, table.table tr td {
   padding: 15px;
-  border: 0;
-  border-bottom: 1px solid #efefef;
   text-align: left;
   max-width: 150px;
 }
@@ -110,11 +114,11 @@ only screen and (max-width: 768px) {
   }
 
   table.table tr:not(:last-child) { 
-    border-bottom: 1px solid #ccc; 
+    border-bottom: 1px solid #252525; 
   }
 
   table.table tr td {
-    border: none;
+    border: none !important;
     position: relative;
     max-width: 100%;
   }
