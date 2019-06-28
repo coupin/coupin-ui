@@ -392,6 +392,19 @@ option {
   width: fit-content;
 }
 
+.overview-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  -moz-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overview-container::-webkit-scrollbar {
+  display: none;
+}
+
 .quick-info {
   width: 250px;
   display: inline-block;
@@ -606,9 +619,13 @@ form .row {
 }
 
 #reward-list-page .reward-search {
-  font-size: 15px !important;
-  text-indent: 15px;
+  /* font-size: 15px !important; */
   /* width: 500px; */
+}
+
+#reward-list-page .search-container {
+  display: block;
+  position: relative;
 }
 
 #reward-list-page .search-container i {
@@ -822,6 +839,12 @@ form .row {
 
   #billing-info .billing-plans .plans .plan .plan-body {
     min-height: unset;
+  }
+}
+
+@media (max-width: 768px) {
+  .quick-info:not(:first-child) {
+    margin-left: 10px;
   }
 }
 

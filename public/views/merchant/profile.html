@@ -25,48 +25,47 @@
                         <div class="form-group col-md-6 col-sm-12">
                             <label for="name">Company Name: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="name" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
-                                <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
                             </div>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
                             <label for="name">Branch Phone Number: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
-                                <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
                             </div>
                         </div>
                     </div>
                     <div class="form-group col-md-12">
                         <label for="name">Company Email: </label>
                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="email" class="form-control" id="email" placeholder="example@domain.com" ng-model="user.email" required/>
                             <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12 col-sm-12">
                             <label for="name">Company Description: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                                 <textarea
-                                    type="text" 
-                                    class="form-control" 
-                                    id="detail" 
-                                    aria-describedby="emailHelp" 
-                                    placeholder="Company Details.." 
-                                    ng-model="user.merchantInfo.companyDetails" 
-                                    required 
-                                    rows="4"></textarea>
+                                type="text" 
+                                class="form-control" 
+                                id="detail" 
+                                placeholder="Company Details.." 
+                                ng-model="user.merchantInfo.companyDetails" 
+                                required 
+                                rows="4"></textarea>
+                                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-md-12 col-sm-12">
-                            <label for="email">Branch Street Address: </label>
+                            <label for="address">Branch Street Address: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
                                 <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
                             </div>
                         </div>
                     </div>
@@ -74,8 +73,8 @@
                         <div class="form-group col-md-6 col-sm-12">
                             <label for="city">City:</label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
                                 <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
+                                <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
                             </div>
                         </div>
                         <div class="form-group col-md-6 col-sm-12">
@@ -95,19 +94,19 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">Latitude: </label>
+                                <label for="latitude">Latitude: </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
                                     <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="email">Longitude: </label>
+                                <label for="longitude">Longitude: </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
                                     <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -134,17 +133,17 @@
                 <form ng-submit="changePassword(password, confirm)">
                     <div class="row">
                         <div class="form-group col-md-6">
-                            <label for="email">New Password: </label>
+                            <label for="password">New Password: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
                                 <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="email">Confirm Password: </label>
+                            <label for="confirm">Confirm Password: </label>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
                                 <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
                             </div>
                         </div>
                     </div>
