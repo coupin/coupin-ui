@@ -425,8 +425,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your reward images failed to upload. Please try again.');
             }, function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                $scope.progress = progressPercentage;
+                // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
+                // $scope.progress = progressPercentage;
             }).catch(function (err) {
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your pictures failed to upload. Please try again.')
