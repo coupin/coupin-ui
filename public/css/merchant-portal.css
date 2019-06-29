@@ -89,21 +89,24 @@ option {
   background-position: center;
   background-size: cover;
   border: 1px solid lightgray;
-  height: 200px;
-  max-height: 200px;
+  height: 150px;
+  /* max-height: 200px;
   max-width: 200px;
   min-height: 200px;
-  height: 200px;
-  min-width: 200px;
+  min-width: 200px; */
   overflow: hidden;
-  width: 200px;
+  width: 150px;
   position: relative;
   border-radius: 5px;
 }
 
 #profile .logo-box {
-  top: 40px;
+  top: 90px;
   left: 10px;
+}
+
+#profile .logo-container {
+  height: 100%;
 }
 
 .logo-box > .inner, .banner-box > .inner {
@@ -860,6 +863,12 @@ form .row {
     margin-top: 60px;
   }
 
+
+  #profile .logo-box {
+    height: 100px;
+    width: 100px;
+    top: 140px;
+  }
 }
 
 @media (max-width: 992px) {
