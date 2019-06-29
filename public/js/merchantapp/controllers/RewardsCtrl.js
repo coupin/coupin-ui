@@ -14,7 +14,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     const errMsg = 'Something went wrong on our end. Please try again.';
     const plan = $scope.user.merchantInfo.billing.plan;
 
-    var amount = 0;
+    $scope.amount = 0;
     var showTotal = true;
 
 
@@ -113,7 +113,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         var handler = PaystackPop.setup({
             key: ENV_VARS.payStackId,
             email: $scope.user.email,
-            amount: amount * 100,
+            amount: $scope.amount * 100,
             ref: reference,
             metadata: {
                 custom_fields: [
@@ -309,11 +309,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * Get total cost
      * @param {number} days 
      */
-    $scope.getTotal = function (days) {
-        if (days) {
-            amount = days > 7 ? days * 450 : days * 500;
-        }
-        return amount;
+    function getTotal (days) {
+        if (!days) days = 0;
+        return parseInt(days, 10) > 7 ? parseInt(days, 10) * 425 : days * 500;
     };
 
     $scope.isError = function (x) {
@@ -373,6 +371,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
         }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
+
+        $scope.amount = getTotal(days);
     };
 
     $scope.showReviews = function () {
