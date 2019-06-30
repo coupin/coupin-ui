@@ -6,7 +6,7 @@
         </p>
         <button 
           class="btn btn-outline-primary btn-sm" 
-          ng-if="true" 
+          ng-if="displayRenew()" 
           ng-click="updateBilling(true)"
           style="margin-left:15px;">
           Renew Plan
@@ -14,8 +14,7 @@
       </div>
     <div class="plans">
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="payAsYouGo"
-          ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" value="payAsYouGo" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
           <div class="plan-header">
             Pay as you go
@@ -24,6 +23,7 @@
           <div class="plan-body">
             <p>Single Reward Payments</p>
             <p>15% off any reward that exceeds 7 days</p>
+            <p>Access to Customer Insights Through the Analytics Dashboard</p>
           </div>
           <div class="plan-footer">
             &#8358;500 per Day
@@ -31,8 +31,7 @@
         </div>
       </div>
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="monthly"
-          ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" value="monthly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('monthly'); updateBilling()">
           <div class="plan-header">
             Start Up Plan
@@ -41,6 +40,7 @@
           <div class="plan-body">
             <p>Unlimited Rewards Addition within Month of Payment</p>
             <p>Dedicated Tech Support</p>
+            <p>Access to Customer Insights Through the Analytics Dashboard</p>
           </div>
           <div class="plan-footer">
             &#8358;57,000 per Month
@@ -48,16 +48,14 @@
         </div>
       </div>
       <div class="plan">
-        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan" value="yearly"
-          ng-model="billing.plan">
+        <input type="radio" name="billing-plan" class="billing-plan" value="yearly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('yearly'); updateBilling()">
           <div class="plan-header">
             Corporate Plan
             <span class="select-indicator"></span>
           </div>
           <div class="plan-body">
-            <p>Unlimited Rewards Addition within Year of Payment</p>
-            <p>Dedicated Tech Support</p>
+            <p>All of start up plan Options</p>
             <p>Coupin Concierge at Merchant Location</p>
           </div>
           <div class="plan-footer">

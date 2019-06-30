@@ -8,6 +8,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
 ) {
   var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
   var hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
+  var previousPlan = '';
 
   if (!$scope.user) {
     $scope.user = StorageService.getUser();
@@ -26,7 +27,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   };
 
   $scope.setPlan = function (plan) {
-    $scope.previousPlan = $scope.billing.plan;
+    previousPlan = $scope.billing.plan;
     $scope.billing.plan = plan;
     if (plan === 'monthly') {
       amount = 57000;
@@ -84,9 +85,11 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
         persistBillingInfo();
       },
       onClose: function () {
-        $scope.loading = false;
-        $scope.billing.plan = $scope.previousPlan;
-        UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+        $scope.$apply(function () {
+          $scope.loading = false;
+          $scope.billing.plan = previousPlan;
+          UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
+        });
       }
     });
     handler.openIframe();
@@ -101,7 +104,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
     } else {
       var isValid = moment(new Date()).isBefore($scope.user.merchantInfo.billing.history[0].expiration);
       if (isValid) {
-        $scope.billing.plan = $scope.previousPlan;
+        $scope.billing.plan = previousPlan;
         UtilService.showInfo('Hey!', 'Your current plan is yet to expire. Please wait for it to expire before renewing.');
         return false;
       } else {
