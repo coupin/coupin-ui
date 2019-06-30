@@ -1,6 +1,6 @@
 <div id="profile">
     <div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
-        <div class="banner-inner">
+        <div class="banner-inner hidden-xs hidden-sm">
             <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
                 Upload new banner <i class="fas fa-plus"></i>
             </span>
@@ -159,6 +159,12 @@
     <div class="modal fade" id="cropModal">
         <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
             <div class="modal-content">
+                <div class="screen-rotation-request" data-dismiss="modal">
+                    <div class="content">
+                        <p><i class="fas fa-mobile fa-4x"></i></p>
+                        <p>Please rotate your device to continue</p>
+                    </div>
+                </div>
                 <div class="modal-header text-center">
                     <h3>Image Crop</h3>
                 </div>
@@ -216,7 +222,7 @@
                     </div>
                 </div>
                 <div class="modal-footer text-center">
-                    <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
+                    <button class="btn btn-primary" ng-click="fileCheck(image, isLogo)">Upload Image</button>
                     <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

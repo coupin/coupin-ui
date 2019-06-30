@@ -250,43 +250,49 @@
 
 <!-- Croppig Modal -->
 <div class="modal fade" id="croppingModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h3>Upload Gallery Image</h3>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="screen-rotation-request" data-dismiss="modal">
+                <div class="content">
+                    <p><i class="fas fa-mobile fa-4x"></i></p>
+                    <p>Please rotate your device to continue</p>
                 </div>
-                <div class="modal-body text-center">
+            </div>
+            <div class="modal-header text-center">
+                <h3>Upload Gallery Image</h3>
+            </div>
+            <div class="modal-body text-center">
+                <div>
+                    <h4>Images Must all be cropped to a 200x200 square.</h4>
+                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                     <div>
-                        <h4>Images Must all be cropped to a 200x200 square.</h4>
-                        <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                        <div>
-                            <label for="imageupload">Select an Image</label>
-                            <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src" id="imageupload"/>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="row">
-                            <div class="cropArea">
-                                <canvas
-                                    height="350"
-                                    width="500"
-                                    image="image.src"
-                                    image-cropper
-                                    cropped-image="image.dst"
-                                    crop-height="200"
-                                    crop-width="200"
-                                    keep-aspect="true"
-                                    touch-radiue="30"
-                                    crop-area-bounds="bounds"
-                                    ></canvas>
-                            </div>
+                        <label for="imageupload">Select an Image</label>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src" id="imageupload"/>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="cropArea">
+                            <canvas
+                                height="350"
+                                width="500"
+                                image="image.src"
+                                image-cropper
+                                cropped-image="image.dst"
+                                crop-height="200"
+                                crop-width="200"
+                                keep-aspect="true"
+                                touch-radiue="30"
+                                crop-area-bounds="bounds"
+                                ></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer text-center">
-                    <button class="btn btn-primary btn-sm" ng-click="fileCheck(image)">Add Image</button>
-                    <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
-                </div>
+            </div>
+            <div class="modal-footer text-center">
+                <button class="btn btn-primary btn-sm" ng-click="fileCheck(image)">Add Image</button>
+                <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
+</div>
