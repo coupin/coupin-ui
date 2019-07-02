@@ -1,5 +1,4 @@
 angular.module('HomeCtrl', []).controller('HomeController', function(
-  $alert,
   $location,
   $scope,
   StorageService,
@@ -70,7 +69,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
    */
   $scope.toggleReward = function(index, status) {
     const location = $scope.use.indexOf(index);
-    var toggle = false;
+    // var toggle = false;
 
     if(location > -1) {
       toggle = true;
@@ -82,9 +81,13 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
       UtilService.showError('Uh Oh', 'Sorry the reward has expired');
     }
 
-    if (toggle) {
-      $('#reward-'+index).toggleClass('selected');
-    }
+    // if (toggle) {
+    //   $('#reward-'+index).toggleClass('selected');
+    // }
+  };
+
+  $scope.isRewardSelected = function (index) {
+    return $scope.use.includes(index)
   };
 
   $scope.showTable = function() {
@@ -116,17 +119,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
       }
     });
   };
-
-  // $scope.$watch(function() {
-  //   $location.path();
-  // }, function() {
-  //   console.log('Change');
-  //   var pathArray = $location.path().split("/");
-  //   var page = pathArray[pathArray.length - 1];
-  //   if (page === 'home' || page === 'rewards' || page === 'profile') {
-  //     $(`#${page}`).toggleClass('nav-active');
-  //   }
-  // });
 
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);

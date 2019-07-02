@@ -1,18 +1,20 @@
 angular.module('RewardsListCtrl', []).controller('RewardsListController', function(
   $scope,
-  $alert,
   $state,
   MerchantService,
+  UtilService,
   RewardsService,
   StorageService
 ) {
+  $scope.loadingRewards = false;
   /**
    * Change status of a reward
    * @param {*} index 
    * @param {*} isActive 
    * @param {*} tab 
    */
-  $scope.changeStatus = function(index, isActive, tab) {
+  $scope.changeStatus = function($event, index, isActive, tab) {
+    $event.stopPropagation();
     var reward = {};
     if (tab === 0) {
         reward = $scope.rewards[index];
@@ -27,24 +29,24 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
           if (result.status === 200) {
               reward.isActive = false;
           } else if (result.status === 500) {
-              showError(errTitle, errMsg);
+              UtilService.showError('errTitle', 'errMsg');
           } else {
-              showError(errTitle, result.data);
+              UtilService.showError('errTitle', result.data);
           }
       }).catch(function (err) {
-          showError(errTitle, errMsg);
+        UtilService.showError('errTitle', 'errMsg');
       });  
     } else {
       RewardsService.activate(reward._id).then(function (result) {
           if (result.status === 200) {
               reward.isActive = true;
           } else if (result.status === 500) {
-              showError(errTitle, errMsg);
+              UtilService.showError('errTitle', 'errMsg');
           } else {
-              showError(errTitle, result.data);
+              UtilService.showError('errTitle', result.data);
           }
       }).catch(function (err) {
-          showError(errTitle, errMsg);
+          UtilService.showError('errTitle', 'errMsg');
       });
     }
   }
@@ -72,7 +74,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
           if (result.status === 200) {
               $scope.reward = result.data;
           } else {
-              showError(errTitle, errMsg);
+            UtilService.showError('errTitle', 'errMsg');
           }
       }).catch();
     } else {
@@ -88,6 +90,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
    * Load a reward or route to reward page
    */
   $scope.loadRewards = function () {
+    $scope.loadingRewards = true;
     var details = {};
 
     if (angular.isDefined($scope.query)) {
@@ -95,8 +98,10 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
     }
 
     RewardsService.getMerchRewards(details).then(function (result) {
+      $scope.loadingRewards = false;
       $scope.rewards = result.data;
     }).catch(function (err) {
+        $scope.loadingRewards = false;
         console.log(err);
         // showError(errTitle, errMsg);
     });

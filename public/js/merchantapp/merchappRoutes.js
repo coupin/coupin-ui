@@ -33,6 +33,10 @@ function (
             url: '/profile',
             templateUrl: '/views/merchant/profile.html',
             controller: 'ProfileController'
+        }).state('dashboard.billing', {
+            url: '/billing',
+            templateUrl: '/views/merchant/billing.html',
+            controller: 'BillingController'
         })
         .state('dashboard.reward', {
             url: '/reward',

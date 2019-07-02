@@ -1,0 +1,138 @@
+.merchant-auth {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right:  0;
+  bottom: 0;
+  background-color: #252525;
+}
+
+.auth-container {
+  width: 350px;
+  margin: 50px auto 100px;
+}
+
+.auth-container .header {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.auth-container .header span {
+  font-weight: bold;
+  color: #9d9d9d;
+}
+
+.auth-container .header span.active:not(.underline) {
+  color: #14a580;
+  background-color: unset;
+}
+
+.auth-container .header span:hover:not(.underline) {
+  color: #14a580;
+  background-color: unset;
+}
+
+.auth-container .header .underline {
+  width: 40%;
+  border-bottom: 2px solid #14a580;
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-93px);
+  transition: 0.3s transform;
+}
+
+.auth-container .header span:not(.underline) {
+  padding: 10px 20px 10px 5px;
+  width: 50%;
+  cursor: pointer;
+}
+
+.auth-container .header span:nth-child(1):hover ~ .underline {
+  transform: translateX(-93px) !important;
+}
+
+.auth-container .header span:nth-child(2):hover ~ .underline {
+  transform: translateX(62px) !important;
+}
+
+.auth-container .header span:nth-child(1).active ~ .underline {
+  transform: translateX(-93px);
+}
+
+.auth-container .header span:nth-child(2).active ~ .underline {
+  transform: translateX(62px);
+}
+
+input {
+  font-size: 14px !important;
+}
+
+.auth-logo-container {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-container .body p {
+  margin: 30px 0;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.auth-footer {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  color: #94989E;
+  padding: 10px;
+}
+
+/* Merchant Registration */
+.merchantRegBox small {
+  color: gray;
+}
+
+.merchantRegBox small b {
+  color: white;
+}
+
+.merchantRegBox form {
+  margin-top: 40px;
+}
+
+.merchantRegBox .top-label {
+  background: linear-gradient(to right bottom, #67BC57, deepskyblue);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 1px 1px 3px #c0c0c0;
+  color: white;
+  height: inherit;
+  font-family: FontAwesome;
+  font-size: 32px;
+  line-height: 2em;
+  margin-bottom: 50px !important;
+  width: 100%;
+}
+/* Merchant Registration End */
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
+  .auth-container {
+    width: 100%;
+    padding: 0 5px;
+  }
+
+  .auth-container .header .underline {
+    display: none;
+  }
+
+  .auth-container .header span.active:not(.underline) {
+    border-bottom: 2px solid #14a580;
+  }
+}
+
+@media only screen  and (min-width : 1224px) {
+}
