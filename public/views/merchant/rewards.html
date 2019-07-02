@@ -264,13 +264,32 @@
             <div class="modal-body text-center">
                 <div>
                     <h4>Images Must all be cropped to a 200x200 square.</h4>
-                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                    <div>
+                    <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small> -->
+                    <!-- <div>
                         <label for="imageupload">Select an Image</label>
                         <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src" id="imageupload"/>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="file-input__container">
+                                <label for="imageupload" class="file-input__container__prompts">
+                                    <div class="file-input__container__prompts__img">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <div class="file-input__container__prompts__text">
+                                        <p>Select an Image</p>
+                                        <p>Note: Image will appear to viewers as cropped.</p>
+                                    </div>
+                                    <input 
+                                        class="form-control" 
+                                        type="file" 
+                                        accept="image/*" 
+                                        img-cropper-fileread image="image.src" 
+                                        id="imageupload"/>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <br>
-                    <br>
                     <div class="row">
                         <div class="cropArea">
                             <canvas
