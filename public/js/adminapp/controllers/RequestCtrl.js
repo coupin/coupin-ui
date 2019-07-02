@@ -1,6 +1,5 @@
 angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope,
-    $alert,
     MerchantService,
     RequestService,
     RewardsService,

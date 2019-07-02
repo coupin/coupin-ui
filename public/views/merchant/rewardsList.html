@@ -1,42 +1,82 @@
-<div class="jumbotron" ng-init="loadRewards()">
-    <!-- <button class="btn btn-primary" ng-click="addReward()"><i class="fas fa-plus"></i> Add New Discount</button> -->
-    <h4 class="text-center">All Your Rewards</h4>
-    <form ng-submit="loadRewards()">
-        <div class="row">
-            <div class="col-md-9 col-xs-12">
-                <input class="form-control" ng-model="query" type="text" placeholder="Search by name or description"/>
-            </div>
-            <div class="col-md-3 col-xs-12">
-                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Search</button>
-                <button class="btn btn-success" ng-if="!isExpired()" ng-click="goToNewReward()"><i class="fas fa-plus"></i> Add Reward</button>
+<div id="reward-list-page" ng-init="loadRewards()">
+    <p class="section-headers">Rewards</p>
+    <section class="row" style="padding-bottom: 30px;">
+        <!-- <div class="col-md-9 col-sm-12 search-container">
+            <input
+                ng-keyup="$event.keyCode === 13 && loadRewards()"
+                class="form-control reward-search" 
+                ng-model="query" 
+                type="text" 
+                placeholder="Search by name or description"/>
+            <i class="fas fa-search"></i>
+        </div> -->
+        <div class="col-md-6 col-ms-12 search-container">
+            <div class="input-group">
+                <input 
+                    ng-keyup="$event.keyCode === 13 && loadRewards()"
+                    class="form-control reward-search" 
+                    ng-model="query" 
+                    type="text" 
+                    placeholder="Search by name or description"/>
+                <div class="input-group-addon icons-input"><i class="fas fa-search"></i></div>
             </div>
         </div>
-    </form>
-    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <button class="btn btn-primary add-reward-button" ng-if="!isExpired()" ng-click="goToNewReward()">
+                <i class="fas fa-plus"></i> Add Reward
+            </button>
+        </div>
+    </section>
+    <section class="row">
         <div class="col-md-12 col-xs-12">
-            <table class="table">
-                <thead>
+            <table class="table" id="reward-list-table">
+                <thead class="hidden-xs hidden-sm">
                     <tr>
-                        <th>S/N</th>
+                        <th width="20px">S/N</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th>Status</th>
                         <th>Expires</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="(index, discount) in rewards">
-                        <th scope="row">{{ index + 1 }}</td>
-                        <td class="icon" ng-click="goToReward(discount._id)">{{ discount.name }}</td>
-                        <td class="icon" ng-click="goToReward(discount._id)">{{ discount.description }}</td>
-                        <td class="capitalize">{{ discount.status}}</td>
+                    <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)">
+                        <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
+                        <td class="icon">{{ discount.name }}</td>
+                        <td class="icon" show-more>{{ discount.description }}</td>
+                        <td>
+                            <span ng-class="discount.status" class="plan-status">
+                                {{discount.status}}
+                            </span>
+                        </td>
                         <td>{{ discount.endDate | date: 'longDate'}}</td>
-                        <td><i ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" data-toggle="tooltip" data-placement="top" title="Hide/Show" ng-click="changeStatus(index, discount.isActive, 0)"></i></td>
-                        <td><i class="fas fa-pencil icon" data-toggle="tooltip" data-placement="top" title="Edit" ng-click="goToEditReward(discount._id)"></i></td>
-                        <td><i class="fas fa-trash icon" data-toggle="tooltip" data-placement="top" title="Delete" ng-click="deleteReward(discount._id)"></i></td>
+                        <td class="action hidden-xs hidden-sm">
+                            <i 
+                                ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Hide/Show"
+                                ng-click="changeStatus($event, index, discount.isActive, 0)" 
+                                class="activate"></i>
+                            <!-- <i class="fas fa-trash icon delete" data-toggle="tooltip" data-placement="top" title="Delete" ng-click="deleteReward($event, discount._id)"></i> -->
+                        </td>
+                    </tr>
+                    <tr ng-if="loadingRewards" class="loading-row">
+                        <td class="hidden-xs hidden-sm"><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td><div></div></td>
+                        <td></td>
+                    </tr>
+                    <tr ng-if="rewards.length === 0" class="empty-row">
+                        <td colspan="6">
+                            No Rewards to display
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </section>
 </div>

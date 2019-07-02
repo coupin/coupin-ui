@@ -40,6 +40,15 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
+
+
+    /* this is for switching pages in the merchant auth area */
+    $scope.activeView = 'signin';
+
+    $scope.switchActiveView = function (view) {
+        $scope.activeView = view;
+    }
+    /* end of switching pages in the merchant auth area */
     
     // States
     $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
@@ -122,7 +131,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     };
 
     function setUserInfo(data, setExpiration) {
-        if (setExpiration) {
+        if (setExpiration && data.user.merchantInfo.billing.history[0]) {
             var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
             StorageService.setExpired(moment(expirationDate).isBefore());
         }
@@ -388,7 +397,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      */
     $scope.registerMerch = () => {
         // Hide any existing alert
-        hideAllAlerts();
+        // hideAllAlerts();
         
         // Get final categories picked
         var finalCat = [];
@@ -447,30 +456,25 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         // check if errorArray is an object, if so send an alert for each item
         if(typeof data === 'object') {
             for(var i = 0; i < data.length; i++) {
-                multipleAlerts[multipleAlerts.length] = $alert({
+                /* multipleAlerts[multipleAlerts.length] = $alert({
                     'title': title,
                     'content': data[i].msg,
                     'duration': 5,
                     'placement': 'center-center',
                     'show' : true ,
                     'type' : 'danger'
-                });
+                }); */
+                UtilService.showError(title, data[i].msg)
             }
         } else {
             // else just show the message
-            $alert({
-                'title': title,
-                'content': data,
-                'duration': 5,
-                'placement': 'center-center',
-                'show' : true ,
-                'type' : 'danger'
-            });
+            UtilService.showError(title, data);
         }
     };
 
     $scope.logOut = function() {
         StorageService.clearAll();
         $state.go('auth', {});
+        $window.location.reload();
     };
 });

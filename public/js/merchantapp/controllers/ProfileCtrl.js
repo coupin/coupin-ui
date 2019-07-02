@@ -1,6 +1,5 @@
 angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope,
-  $alert,
   $window,
   ENV_VARS,
   StorageService,
@@ -13,10 +12,13 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope.uploadingLogo = false;
   $scope.updating = false;
   $scope.editable = false;
-  $scope.position = {};
+  $scope.updatingPassword = false;
   $scope.states = ['lagos'];
   $scope.settings = 'personal';
-  $scope.position = $scope.user.merchantInfo.location;
+  $scope.position = {
+    long: $scope.user.merchantInfo.location[0],
+    lat: $scope.user.merchantInfo.location[1]
+};
   
   
   $scope.bounds = {
@@ -27,10 +29,8 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   };
 
   var selected = false;
-  var logo = UtilService.isDefined($scope.user.merchantInfo.logo) ? $scope.user.merchantInfo.logo.url 
-  : '../img/logo.jpg';
-  var banner = UtilService.isDefined($scope.user.merchantInfo.banner) ? $scope.user.merchantInfo.banner.url 
-  : '../img/banner.jpg';
+  var logo = $scope.user.merchantInfo.logo && $scope.user.merchantInfo.logo.url ? $scope.user.merchantInfo.logo.url : '../img/logo.jpg';
+  var banner = $scope.user.merchantInfo.banner && $scope.user.merchantInfo.banner.url  ? $scope.user.merchantInfo.banner.url : '../img/banner_alt.png';
   $scope.image = {
       src: null,
       dst: null
@@ -38,7 +38,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function(
   var amount = 0;
   var bill = false;
   var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
-  var hasExpired = moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration);
+  var hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
 
 if (!$scope.user) {
   $scope.user = StorageService.getUser();
@@ -131,18 +131,14 @@ $scope.history = $scope.user.merchantInfo.billing.history;
    * @param {*} confirm 
    */
   $scope.changePassword = function (password, confirm) {
+    $scope.updatingPassword = true;
     if (password === confirm) {
         MerchantService.changePassword(password).then(function (response) {
-            $alert({
-                'title': 'Success!',
-                'content': 'Password was updated successfully',
-                'duration': 5,
-                'placement': 'center-center',
-                'show' : true ,
-                'type' : 'success'
-            });
+            $scope.updatingPassword = false;
+            UtilService.showSuccess('Success!', 'Password was updated successfully')
             $('#passwordModal').modal('hide');
         }).catch(function (err) {
+            $scope.updatingPassword = false;
             if (err.status === 500) {
                 UtilService.showError('Oops!', 'An Error Occured, Please Try Again');
             } else {
@@ -170,14 +166,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
       } else {
         var msg = isLogo ? 'Please make sure image is at least 200x200 and is at most 2MB.' 
         : 'Please make sure image is at least 950x323 and is at most 3MB.';
-        $alert({
-            'title': 'Invalid Image',
-            'content': msg,
-            'duration': 5,
-            'placement': 'center-center',
-            'show' : true ,
-            'type' : 'danger'
-        });
+        UtilService.showError('Invalid Image', msg)
         return false;
       }
   };
@@ -277,14 +266,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
       MerchantService.update($scope.user.id, $scope.user.merchantInfo).then(function (response) {
         StorageService.setUser(response.data);
         $('#cropModal').modal('hide');
-        $alert({
-          'title': 'Success!',
-          'content': 'Profile updated successfully',
-          'duration': 5,
-          'placement': 'center-center',
-          'show' : true ,
-          'type' : 'success'
-        });
+        UtilService.showSuccess('Success!', 'Profile updated successfully')
         $scope.updating = false;
       }).catch(function (err) {
         $scope.updating = false;
@@ -362,7 +344,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
   }
 
   $scope.updateBilling = function(renew) {
-      var valid = validBilling();
+    var valid = validBilling();
     if(valid && !renew) {
         if (bill) {
             makePayment();
