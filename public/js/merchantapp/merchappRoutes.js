@@ -37,8 +37,11 @@ function (
             url: '/billing',
             templateUrl: '/views/merchant/billing.html',
             controller: 'BillingController'
-        })
-        .state('dashboard.reward', {
+        }).state('dashboard.analytics', {
+            url: '/analytics',
+            templateUrl: '/views/merchant/analytics.html',
+            controller: 'AnalyticsController'
+        }).state('dashboard.reward', {
             url: '/reward',
             templateUrl: '/views/merchant/view.html',
             controller: 'RewardsController'
