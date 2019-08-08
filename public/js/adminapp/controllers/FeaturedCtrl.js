@@ -36,7 +36,7 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
     var data = response.data;
     $scope.featured = data.featured ? data.featured : $scope.featured;
     $scope.slides = data.hotlist ? data.hotlist : [];
-    $scope.slides.forEach(element => {
+    $scope.slides.forEach(function (element) {
       var slideIndex = availableIndex.indexOf(element.index);
       if (slideIndex > -1) {
         availableIndex.splice(slideIndex, 1);
@@ -124,7 +124,7 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
 
         if (file.size > limit) {
           limit = limit / 100;
-          showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+          showError('Uh Oh!', "File is too large, must be " + temp + "KB or less.");
         } else {
           uploadSlide(file, 'slide-' + availableIndex[0]);
         }

@@ -136,7 +136,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
     // Non-scope variables
     var multipleAlerts = [];
-    var hideAllAlerts = () => {
+    var hideAllAlerts = function () {
         if(multipleAlerts.length > 0) {
             for(var j = 0; j < multipleAlerts.length; j++) {
                 multipleAlerts[j].hide();
@@ -148,7 +148,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Add selected category to object
      * @param {Number} x index
      */
-    $scope.addCat = (x) => {
+    $scope.addCat = function (x) {
         if($scope.categories[x] === false) {
             $scope.categories[x] = true;
         } else {
@@ -170,7 +170,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Sign in Admin
      */
-    $scope.signInA = () => {
+    $scope.signInA = function () {
         // show loading
         $scope.loading[0] = true;
         // reset show error back to false
@@ -425,7 +425,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
             if (file.size > limit) {
                 limit = limit / 100;
-                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                showError('Uh Oh!', 'File is too large, must be ' + temp + 'KB or less.');
             } else {
                 upload(file, $scope.user._id, isLogo);
             }
@@ -435,7 +435,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Logs merchant into the system
      */
-    $scope.loginMerch = () => {
+    $scope.loginMerch = function () {
         let details = {
             email : $scope.formData.loginEmail,
             password : $scope.formData.loginPassword
@@ -455,7 +455,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Used to register a merchant after they have been approved
      */
-    $scope.registerMerch = () => {
+    $scope.registerMerch = function () {
         // Hide any existing alert
         // hideAllAlerts();
         

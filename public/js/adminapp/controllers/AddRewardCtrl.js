@@ -171,11 +171,11 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
             u8arr[n] = bstr.charCodeAt(n);
         }
         
-        var file = new File([u8arr], `${$scope.photos.length}`, {type:mime});
+        var file = new File([u8arr], "" + $scope.photos.length, {type:mime});
 
         if (file.size > limit) {
             limit = limit / 100;
-            UtilService.showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+            UtilService.showError('Uh Oh!', "File is too large, must be " + limit +"KB or less.");
         } else {
             $scope.files.push(file);
             $scope.photos.push({

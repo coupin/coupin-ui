@@ -57,11 +57,11 @@ $scope.billing = {
 $scope.history = $scope.user.merchantInfo.billing.history;
 
   $scope.bannerStyle = {
-    "background-image": `url("${banner}")`
+    "background-image": "url(\"" + banner + "\")"
   };
 
   $scope.logoStyle = {
-    "background-image": `url("${logo}")`
+    "background-image": "url(\"" + logo + "\")"
   };
 
   /**
@@ -296,7 +296,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             if ($scope.billing.plan === $scope.user.merchantInfo.billing.plan) {
                 UtilService.showSuccess('Success', `Subscription successfully renewed!`);
             } else {
-                UtilService.showSuccess('Success', `Billing successfully changed to ${$scope.billing.plan} plan!`);
+                UtilService.showSuccess('Success', 'Billing successfully changed to ' + $scope.billing.plan + ' plan!');
             }
             $('#billingModal').modal('hide');
             StorageService.setExpired(false);
@@ -362,7 +362,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
 
             if (file.size > limit) {
                 limit = limit / 100;
-                UtilService.showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                UtilService.showError('Uh Oh!', 'File is too large, must be ' + temp + 'KB or less.');
             } else {
                 $scope.upload(file, $scope.user.id, isLogo);
             }

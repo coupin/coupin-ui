@@ -106,13 +106,13 @@ angular.module('UtilSrv', []).service('UtilService', [
         key: 'pk_test_e34c598056e00361d0ecceefac6299eef29b7e46',
         email: user.email,
         amount: amount * 100,
-        ref: `${plan}-${user.id}-${date.getTime()}`,
+        ref: plan + '-' + user.id + '-' + date.getTime(),
         metadata: {
           custom_fields: [
             {
               display_name: 'Subscription payment',
               variable_name: 'Payer\'s Details',
-              value: `Made by ${user.merchantInfo.companyName}`
+              value: 'Made by ' + user.merchantInfo.companyName
             }
           ]
         },

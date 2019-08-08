@@ -113,7 +113,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     function payWithPayStack(reward, cb) {
         var date = new Date();
-        const reference = `${reward._id}-${$scope.user.merchantInfo.companyName.split(' ')[0]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`;
+        const reference = reward._id + '-' + $scope.user.merchantInfo.companyName.split(' ')[0] +'-'+ date.getFullYear() +'-'+ date.getMonth() +'-'+ date.getDate() +'-'+ date.getTime();
 
         var handler = PaystackPop.setup({
             key: ENV_VARS.payStackId,
@@ -125,7 +125,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     {
                         display_name: "Reward Name",
                         variable_name: "The name of the reward",
-                        value: `${reward.name}`
+                        value: reward.name
                     }
                 ]
             },
@@ -291,11 +291,11 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 u8arr[n] = bstr.charCodeAt(n);
             }
 
-            var file = new File([u8arr], `${$scope.photos.length}`, { type: mime });
+            var file = new File([u8arr], "" + $scope.photos.length, { type: mime });
 
             if (file.size > limit) {
                 limit = limit / 100;
-                UtilService.showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+                UtilService.showError('Uh Oh!', 'File is too large, must be ' + limit + 'KB or less.');
             } else {
                 $scope.files.push(file);
                 $scope.photos.push({

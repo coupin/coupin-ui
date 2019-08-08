@@ -131,11 +131,11 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 u8arr[n] = bstr.charCodeAt(n);
             }
             
-            var file = new File([u8arr], `${image.src.length}`, {type:mime});
+            var file = new File([u8arr], "" + image.src.length, {type:mime});
 
             if (file.size > limit) {
                 limit = limit / 100;
-                showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+                showError('Uh Oh!', "File is too large, must be " + limit + "KB or less.");
             } else {
                 upload = true;
                 $scope.file = file;

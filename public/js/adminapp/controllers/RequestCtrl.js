@@ -73,12 +73,12 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         }
     }
 
-    $scope.selectMerch = (x, status) => {
+    $scope.selectMerch = function (x, status) {
         $scope.currentRequest = x;
         $scope.status.value = status;
     };
 
-    $scope.selectReward = (x, status) => {
+    $scope.selectReward = function (x, status) {
         $scope.currentReward = x;
         $scope.status.value = status;
     };
@@ -125,7 +125,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
         RewardsService.updateReview($scope.currentReward._id, data).then(function() {
             $scope.loading = false;
-            UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.value} and email has been sent`);
+            UtilService.showSuccess('Success', $scope.currentReward.name + " has been " + $scope.status.value + " and email has been sent");
 
             $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
                 return reward.id !== $scope.currentReward.id;
@@ -157,7 +157,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         RequestService.updateStatus($scope.currentRequest.id, data).then(function() {
             $scope.loading = false;
             // Send an alert that approval has been successful
-            UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.value} and email has been sent`);
+            UtilService.showSuccess('Success', $scope.currentRequest.name + " has been " + $scope.status.value + " and email has been sent");
 
             // Change it in the data being shown
             $scope.totalReq = $scope.totalReq.filter(function(request) {

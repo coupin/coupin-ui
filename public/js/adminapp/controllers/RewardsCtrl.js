@@ -55,7 +55,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   };
 
   $scope.getPage = function() {
-    return `Page ${page + 1}`;
+    var _page = page + 1
+    return "Page" + _page;
   };
 
   $scope.nextPage = function() {
