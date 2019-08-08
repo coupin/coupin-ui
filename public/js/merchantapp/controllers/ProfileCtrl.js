@@ -294,7 +294,7 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         .then(function(response) {
             StorageService.setUser(response.data);
             if ($scope.billing.plan === $scope.user.merchantInfo.billing.plan) {
-                UtilService.showSuccess('Success', `Subscription successfully renewed!`);
+                UtilService.showSuccess('Success', 'Subscription successfully renewed!');
             } else {
                 UtilService.showSuccess('Success', 'Billing successfully changed to ' + $scope.billing.plan + ' plan!');
             }

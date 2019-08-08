@@ -194,7 +194,7 @@ angular.module('UtilSrv', []).service('UtilService', [
           method: 'POST',
           arrayKey: '',
           data: {
-            data
+            data: data
           }
         }).then(function (res) {
           resolve(res);
