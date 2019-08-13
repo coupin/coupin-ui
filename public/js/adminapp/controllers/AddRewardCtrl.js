@@ -271,7 +271,7 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
               var found = false;
               
               while(count < total && !found) {
-                  if ($scope.photos[count].url.includes('data')) {
+                  if ($scope.photos[count].url.indexOf('data') > -1) {
                       $scope.photos[count] = data;
                       found = true;
                   }

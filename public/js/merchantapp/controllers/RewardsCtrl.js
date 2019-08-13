@@ -201,10 +201,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         var weekends = [5, 6];
 
         var isWeekend = $scope.newReward.applicableDays.length === 2 &&
-            $scope.newReward.applicableDays.every(function (x) { return weekends.includes(x); });
+            $scope.newReward.applicableDays.every(function (x) { return weekends.indexOf(x) > -1; });
 
         var isWeekday = $scope.newReward.applicableDays.length === 5 &&
-            $scope.newReward.applicableDays.every(function (x) { return !weekends.includes(x); });
+            $scope.newReward.applicableDays.every(function (x) { return !weekends.indexOf(x) > -1; });
 
         if ($scope.newReward.applicableDays.length === 7) {
             $scope.selectedDayOption = 'all';
@@ -417,7 +417,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     var found = false;
 
                     while (count < total && !found) {
-                        if ($scope.photos[count].url.includes('data')) {
+                        if ($scope.photos[count].url.indexOf('data') > -1) {
                             $scope.photos[count] = data;
                             found = true;
                         }

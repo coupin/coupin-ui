@@ -87,7 +87,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   };
 
   $scope.isRewardSelected = function (index) {
-    return $scope.use.includes(index)
+    return $scope.use.indexOf(index) > -1
   };
 
   $scope.showTable = function() {

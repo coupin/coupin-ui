@@ -67,7 +67,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
     
     // Get current merchant if merchant route called
-    if($location.absUrl().includes('confirm')) {
+    if($location.absUrl().indexOf('confirm') > -1) {
         checkAuth = false;
         merchId = strings[strings.length - 2];
 
@@ -97,7 +97,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     }
     
     // Confirm Id if for change of password
-    if($location.absUrl().includes('forgot-password')) {
+    if($location.absUrl().indexOf('forgot-password') > -1) {
         checkAuth = false;
         var encodedString = UtilService.getQueryVariable('query');
 
