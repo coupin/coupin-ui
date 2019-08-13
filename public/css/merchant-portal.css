@@ -848,7 +848,8 @@ form .row {
   }
 
   #verify .redeem-section .redeem-button {
-    float:unset;
+    float: none;
+    /* float: unset; */
     /* margin-right:10px; */
   }
 
@@ -914,7 +915,8 @@ form .row {
   }
 
   .billing-plans .plans .plan .plan-body {
-    min-height: unset;
+    min-height: 0;
+    /* min-height: unset; */
   }
 }
 
