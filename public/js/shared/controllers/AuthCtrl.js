@@ -313,12 +313,12 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 if (isLogo) {
                     $scope.formData['logo'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 } else {
                     $scope.formData['banner'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 }
                 $('#cropModal').modal('hide');
