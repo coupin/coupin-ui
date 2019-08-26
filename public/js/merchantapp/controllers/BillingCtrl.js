@@ -9,6 +9,11 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
   var hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
   var previousPlan = '';
+  $scope.showRest = false;
+
+  $scope.setShowRest = function () {
+    $scope.showRest = !$scope.showRest;
+  }
 
   if (!$scope.user) {
     $scope.user = StorageService.getUser();

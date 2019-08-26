@@ -81,7 +81,7 @@
             <th></th>
           </thead>
           <tbody>
-            <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
+            <tr ng-if="showHistory() && (index < 5 || showRest)" ng-repeat="(index, bill) in history">
               <td class="hidden-xs hidden-sm">{{index + 1}}</td>
               <td class="capitalize">{{bill.plan}}</td>
               <td>{{bill.date | date: 'longDate'}}</td>
@@ -113,6 +113,8 @@
             </tr>
           </tbody>
         </table>
+        <div style="cursor: pointer;" ng-if="history.length > 5 && !showRest" ng-click="setShowRest()">Show more</div>
+        <div style="cursor: pointer;" ng-if="history.length > 5 && showRest" ng-click="setShowRest()">Show less</div>
       <!-- </div>
     </div> -->
   </section>

@@ -127,7 +127,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             },
             callback: function (response) {
                 if (cb && typeof cb === 'function') {
-                    cb(response.reference);
+                    cb(response);
                 }
             },
             onClose: function () {
@@ -330,10 +330,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.makePayment = function (reward) {
         $scope.loading = true;
-        payWithPayStack(reward, function (response) {
+        payWithPayStack(reward, function (_response) {
             MerchantService.updateBilling($scope.user.id, {
                 plan: 'payAsYouGo',
-                reference: response.reference
+                reference: _response.reference
             }).then(function (response) {
                 StorageService.setUser(response.data);
                 reward.status = 'isPending';
@@ -341,6 +341,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.updateReward(reward);
                 $scope.loading = false;
                 UtilService.showSuccess('Success', `Billing Updated!`);
+                $state.go('dashboard.rewards', {});
             })
                 .catch(function () {
                     $scope.loading = false;

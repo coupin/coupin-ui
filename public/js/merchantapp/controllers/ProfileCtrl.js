@@ -307,35 +307,6 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         });
   }
 
-  function makePayment() {
-    var date = new Date();
-    var handler = PaystackPop.setup({
-        key: ENV_VARS.payStackId,
-        email: $scope.user.email,
-        amount: amount * 100,
-        ref: `${$scope.billing.plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
-        metadata: {
-            custom_fields: [
-                {
-                    display_name: "Plan",
-                    variable_name: "Billing_Plan",
-                    value: `${$scope.user.merchantInfo.companyName} - ${$scope.billing.plan}-${date.getTime()}`
-                }
-            ]
-        },
-        callback: function(response){
-            $scope.billing.date = date;
-            $scope.billing.reference = response.reference
-            persistBillingInfo();
-        },
-        onClose: function(){
-            $scope.loading = false;
-            UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-        }
-    });
-    handler.openIframe();
-    }
-
   function validBilling() {
     if (isPayAsYouGo && $scope.billing.plan !== 'payAsYouGo') {
         return true;
