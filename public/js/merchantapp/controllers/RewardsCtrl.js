@@ -1,7 +1,9 @@
 angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope,
     $state,
+    $timeout,
     ENV_VARS,
+    PaymentService,
     MerchantService,
     RewardsService,
     StorageService,
@@ -59,6 +61,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         display: 'Years',
         value: 3
     }];
+
+    var url = window.location.origin;
 
     if (StorageService.isExpired()) {
         $state.go('dashboard.rewards', {});
@@ -330,23 +334,25 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.makePayment = function (reward) {
         $scope.loading = true;
-        payWithPayStack(reward, function (_response) {
-            MerchantService.updateBilling($scope.user.id, {
-                plan: 'payAsYouGo',
-                reference: _response.reference
-            }).then(function (response) {
-                StorageService.setUser(response.data);
-                reward.status = 'isPending';
-                reward.isActive = true;
-                $scope.updateReward(reward);
-                $scope.loading = false;
-                UtilService.showSuccess('Success', `Billing Updated!`);
-                $state.go('dashboard.rewards', {});
-            })
-                .catch(function () {
-                    $scope.loading = false;
-                    UtilService.showError('Uh Oh', 'There was an error while saving payment. please contact admin on admin@coupin.com');
-                });
+        const paymentObject = {
+            callbackUrl: url + '/dashboard/rewards',
+            amount: $scope.amount,
+            email: $scope.user.email,
+            type: 'reward',
+            companyName: $scope.user.merchantInfo.companyName,
+            userId: $scope.user.id,
+            reward: {
+                id: reward._id,
+                name: reward.name,
+            },
+        };
+
+        PaymentService.initiatePayment(paymentObject).then(function (result) {
+            var authorizationUrl = result.data['authorization_url'];
+            UtilService.showInfo('Hey!', 'You\'ll be redirected to a payment page to pay for the reward');
+            $timeout(function () {
+                window.location = authorizationUrl;
+            }, 1500)
         });
     };
 
