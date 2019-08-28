@@ -208,9 +208,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             amount: amount,
             email: $scope.user.email,
             type: 'billing',
-            billingPlan: $scope.formData['billing'],
+            billingPlan: plan,
             companyName: $scope.user.merchantInfo.companyName,
-            userId: $scope.user.id,
+            userId: $scope.user._id,
         };
 
         PaymentService.initiatePayment(paymentObject).then(function (result) {
@@ -227,20 +227,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
       */
      function updateUser() {
         $scope.loading[1] = true;
-        return MerchantService.complete(merchId, $scope.formData).then(function(response){
-            // Get response data
-            let data = response.data;
-
-            // Show loading icon/screen
-            $scope.loading[1] = false;
-
-            // Handle service response
-            // UtilService.showSuccess('Confirmation Success', data.message);
-            // $window.location.href = '/auth';
-        }).catch(function(err){
-            $scope.loading[1] = false;
-            UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
-        });
+        return MerchantService.complete(merchId, $scope.formData)
      }
 
     /**
@@ -261,9 +248,20 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 break;
             case 1:
             case 2:
-                updateUser().then(function() {
+                updateUser().then(function(response) {
+                    // Get response data
+                    let data = response.data;
+
+                    // Show loading icon/screen
+                    $scope.loading[1] = false;
+
+                    // Handle service response
+                    UtilService.showSuccess('Confirmation Success', data.message);
                     makePayment();
-                })
+                }).catch(function(err){
+                    $scope.loading[1] = false;
+                    UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
+                });
                 break;
         }
     };
