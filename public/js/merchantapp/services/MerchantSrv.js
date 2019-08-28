@@ -46,8 +46,11 @@ function (
             return $http.post(baseV1Url + '/auth/signin/m', details, );
         },
         retrieve : function(id) {
+            var token = StorageService.getToken();
             return $http.get(baseV1Url + '/merchant/' + id, {
-                headers: authHeader
+                headers: {
+                    'x-access-token': token
+                }
             });
         },
         update: function (id, user) {
