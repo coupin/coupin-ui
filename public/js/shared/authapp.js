@@ -10,6 +10,7 @@ angular.module('authapp', [
   'mgcrea.ngStrap',
   'AuthCtrl',
   'AuthSrv',
+  'PaymentSrv',
   'MerchantSrv',
   'RewardsSrv',
   'StorageSrv',

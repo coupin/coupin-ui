@@ -173,17 +173,24 @@ option {
 }
 
 .loading {
-  background: rgba(255, 255, 255, .8);
+  background: rgba(0, 0, 0, 0.69);
+  /* background: rgba(255, 255, 255, .5); */
   color: rgb(218, 136, 53);
-  height: 93%;
-  padding-top: 30%;
-  position: absolute;
-  width: 95%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .loading span {
-  font-size: 30px;
+  font-size: 25px;
+  margin-left: 10px;
 }
 
 .loading i span {

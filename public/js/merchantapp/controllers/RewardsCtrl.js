@@ -1,7 +1,9 @@
 angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope,
     $state,
+    $timeout,
     ENV_VARS,
+    PaymentService,
     MerchantService,
     RewardsService,
     StorageService,
@@ -60,6 +62,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         value: 3
     }];
 
+    var url = window.location.origin;
+
     if (StorageService.isExpired()) {
         $state.go('dashboard.rewards', {});
     }
@@ -86,6 +90,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.newReward.pictures = 'pictures' in $scope.newReward ? $scope.newReward.pictures : [];
             $scope.photos = $scope.newReward.pictures;
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
+            $scope.amount = getTotal($scope.noOfDays);
         }).catch(function (error) {
             UtilService.showError(errTitle, error.data);
         });
@@ -126,7 +131,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             },
             callback: function (response) {
                 if (cb && typeof cb === 'function') {
-                    cb(response.reference);
+                    cb(response);
                 }
             },
             onClose: function () {
@@ -329,22 +334,26 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.makePayment = function (reward) {
         $scope.loading = true;
-        payWithPayStack(reward, function (response) {
-            MerchantService.updateBilling($scope.user.id, {
-                plan: 'payAsYouGo',
-                reference: response.reference
-            }).then(function (response) {
-                StorageService.setUser(response.data);
-                reward.status = 'isPending';
-                reward.isActive = true;
-                $scope.updateReward(reward);
-                $scope.loading = false;
-                UtilService.showSuccess('Success', `Billing Updated!`);
-            })
-                .catch(function () {
-                    $scope.loading = false;
-                    UtilService.showError('Uh Oh', 'There was an error while saving payment. please contact admin on admin@coupin.com');
-                });
+        var rewardId = reward._id || reward.id;
+        const paymentObject = {
+            callbackUrl: url + '/dashboard/merchant/rewards/' + rewardId,
+            amount: $scope.amount,
+            email: $scope.user.email,
+            type: 'reward',
+            companyName: $scope.user.merchantInfo.companyName,
+            userId: $scope.user.id,
+            reward: {
+                id: rewardId,
+                name: reward.name,
+            },
+        };
+
+        PaymentService.initiatePayment(paymentObject).then(function (result) {
+            var authorizationUrl = result.data['authorization_url'];
+            UtilService.showInfo('Hey!', 'You\'ll be redirected to a payment page to pay for the reward');
+            $timeout(function () {
+                window.location = authorizationUrl;
+            }, 1500)
         });
     };
 

@@ -1,6 +1,7 @@
 angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope,
     $http,
+    $timeout,
     $location,
     $state,
     $window,
@@ -9,6 +10,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     MerchantService,
     AuthService,
     StorageService,
+    PaymentService,
     UtilService
 ) {
     // scope variable to hold form data
@@ -40,6 +42,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
+    var url = window.location.origin;
 
 
     /* this is for switching pages in the merchant auth area */
@@ -200,56 +203,31 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
       * Make payment using paystack
       */
      function makePayment() {
-         var date = new Date();
-        var handler = PaystackPop.setup({
-            key: ENV_VARS.payStackId,
+        const paymentObject = {
+            callbackUrl: url + '/auth',
+            amount: amount,
             email: $scope.user.email,
-            amount: amount * 100,
-            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
-            metadata: {
-                custom_fields: [
-                    {
-                        display_name: "Plan",
-                        variable_name: "Billing_Plan",
-                        value: `${$scope.user.merchantInfo.companyName} - registration - ${plan}-${date.getTime()}`
-                    }
-                ]
-            },
-            callback: function(response){
-                $scope.formData['billing'] = {
-                    plan: plan,
-                    date: date,
-                    reference: response.reference
-                };
-                updateUser();
-            },
-            onClose: function(){
-                $scope.loading = false;
-                UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-            }
+            type: 'billing',
+            billingPlan: plan,
+            companyName: $scope.user.merchantInfo.companyName,
+            userId: $scope.user._id,
+        };
+
+        PaymentService.initiatePayment(paymentObject).then(function (result) {
+            var authorizationUrl = result.data['authorization_url'];
+            UtilService.showInfo('Hey!', 'You\'ll be redirected to a payment page to pay for the billing');
+            $timeout(function () {
+                window.location = authorizationUrl;
+            }, 1500)
         });
-        handler.openIframe();
      }
 
      /**
       * Update user data
       */
      function updateUser() {
-         $scope.loading[1] = true;
-         MerchantService.complete(merchId, $scope.formData).then(function(response){
-            // Get response data
-            let data = response.data;
-
-            // Show loading icon/screen
-            $scope.loading[1] = false;
-
-            // Handle service response
-            UtilService.showSuccess('Confirmation Success', data.message);
-            $window.location.href = '/auth';
-        }).catch(function(err){
-            $scope.loading[1] = false;
-            UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
-        });
+        $scope.loading[1] = true;
+        return MerchantService.complete(merchId, $scope.formData)
      }
 
     /**
@@ -263,11 +241,27 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     date: new Date(),
                     reference: 'complete-registration'
                 };
-                updateUser();
+                updateUser().then(function () {
+                    UtilService.showSuccess('Confirmation Success', data.message);
+                    $window.location.href = '/auth';
+                });
                 break;
             case 1:
             case 2:
-                makePayment();
+                updateUser().then(function(response) {
+                    // Get response data
+                    let data = response.data;
+
+                    // Show loading icon/screen
+                    $scope.loading[1] = false;
+
+                    // Handle service response
+                    UtilService.showSuccess('Confirmation Success', data.message);
+                    makePayment();
+                }).catch(function(err){
+                    $scope.loading[1] = false;
+                    UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
+                });
                 break;
         }
     };
@@ -313,12 +307,12 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 if (isLogo) {
                     $scope.formData['logo'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 } else {
                     $scope.formData['banner'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 }
                 $('#cropModal').modal('hide');

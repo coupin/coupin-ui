@@ -106,7 +106,7 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
           counter++;
           urls.push({
             id: result.public_id,
-            url: result.url
+            url: result.secure_url
           });
           if (counter === total) {
             res.status(200).send(urls);

@@ -1,5 +1,6 @@
 angular.module('ProfileCtrl', []).controller('ProfileController', function(
   $scope,
+  $q,
   $window,
   ENV_VARS,
   StorageService,
@@ -187,22 +188,24 @@ $scope.history = $scope.user.merchantInfo.billing.history;
                 public_id: filename
             }
         }).then(function(resp) {
+            console.log(resp.data)
             if (isLogo) {
                 $scope.user.merchantInfo.logo = {
                     id: resp.data.public_id,
-                    url: resp.data.url
+                    url: resp.data.secure_url
                 };
             } else {
                 $scope.user.merchantInfo.banner = {
                     id: resp.data.public_id,
-                    url: resp.data.url
+                    url: resp.data.secure_url
                 };
             }
             $('#cropModal').modal('hide');
-            $scope.update();
-            setTimeout(function() {
-                $window.location.reload();
-            }, 2000);
+            $scope.update().then(function () {
+                setTimeout(function() {
+                    $window.location.reload();
+                }, 2000);
+            });
         }, function(err) {
             resetUploads();
             UtilService.showError('oops!', err.data);
@@ -263,19 +266,26 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         ];
       }
 
-      MerchantService.update($scope.user.id, $scope.user.merchantInfo).then(function (response) {
+      var deferred = $q.defer();
+
+    MerchantService.update($scope.user.id, $scope.user.merchantInfo).then(function (response) {
         StorageService.setUser(response.data);
         $('#cropModal').modal('hide');
         UtilService.showSuccess('Success!', 'Profile updated successfully')
         $scope.updating = false;
+        deferred.resolve();
       }).catch(function (err) {
         $scope.updating = false;
         if (!(err.status === 500) && err.data) {
             UtilService.showError('oops!', err.data);
+            deferred.reject(err.data);
         } else {
             UtilService.showError('Oops!', 'An Error Occured, Please Try Again');
+            deferred.reject('An Error Occured, Please Try Again');
         }
       });
+
+      return deferred.promise;
     }
   };
 
@@ -296,35 +306,6 @@ $scope.history = $scope.user.merchantInfo.billing.history;
             UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
         });
   }
-
-  function makePayment() {
-    var date = new Date();
-    var handler = PaystackPop.setup({
-        key: ENV_VARS.payStackId,
-        email: $scope.user.email,
-        amount: amount * 100,
-        ref: `${$scope.billing.plan}-${$scope.user.id}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
-        metadata: {
-            custom_fields: [
-                {
-                    display_name: "Plan",
-                    variable_name: "Billing_Plan",
-                    value: `${$scope.user.merchantInfo.companyName} - ${$scope.billing.plan}-${date.getTime()}`
-                }
-            ]
-        },
-        callback: function(response){
-            $scope.billing.date = date;
-            $scope.billing.reference = response.reference
-            persistBillingInfo();
-        },
-        onClose: function(){
-            $scope.loading = false;
-            UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-        }
-    });
-    handler.openIframe();
-    }
 
   function validBilling() {
     if (isPayAsYouGo && $scope.billing.plan !== 'payAsYouGo') {
