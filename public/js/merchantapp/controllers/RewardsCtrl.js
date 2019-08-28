@@ -334,15 +334,16 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.makePayment = function (reward) {
         $scope.loading = true;
+        var rewardId = reward._id || reward.id;
         const paymentObject = {
-            callbackUrl: url + '/dashboard/rewards',
+            callbackUrl: url + '/dashboard/merchant/rewards/' + rewardId,
             amount: $scope.amount,
             email: $scope.user.email,
             type: 'reward',
             companyName: $scope.user.merchantInfo.companyName,
             userId: $scope.user.id,
             reward: {
-                id: reward._id,
+                id: rewardId,
                 name: reward.name,
             },
         };
