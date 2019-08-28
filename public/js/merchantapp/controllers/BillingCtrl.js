@@ -8,18 +8,33 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   MerchantService,
   UtilService,
 ) {
-  var isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
-  var hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
   var previousPlan = '';
   $scope.showRest = false;
   var url = window.location.origin;
+  $scope.loading = false;
+  $scope.historyLoading = true;
+  var isPayAsYouGo = false;
+  $scope.history = [];
+  var hasExpired;
+  $scope.user = StorageService.getUser();
+
+  MerchantService.retrieve($scope.user.id).then(function (response) {
+    $scope.user.merchantInfo.billing = response.data.merchantInfo.billing;
+    StorageService.setUser($scope.user);
+    isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+    hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
+    $scope.history = $scope.user.merchantInfo.billing.history;
+    $scope.historyLoading = false;
+  }).catch(function () {
+    UtilService.showError('Uh ol!', 'There was an error loading the updated billing history');
+    isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+    hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
+    $scope.history = $scope.user.merchantInfo.billing.history;
+    $scope.historyLoading = false;
+  })
 
   $scope.setShowRest = function () {
     $scope.showRest = !$scope.showRest;
-  }
-
-  if (!$scope.user) {
-    $scope.user = StorageService.getUser();
   }
 
   $scope.billing = {
@@ -27,8 +42,6 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
     reference: null,
     date: new Date()
   };
-
-  $scope.history = $scope.user.merchantInfo.billing.history;
 
   $scope.displayRenew = function () {
     return !isPayAsYouGo && hasExpired;
@@ -72,6 +85,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   }
 
   function makePayment() {
+    $scope.loading = true;
       const paymentObject = {
           callbackUrl: url + '/dashboard/billing',
           amount: $scope.amount,

@@ -1,4 +1,7 @@
 <div id="billing-info">
+  <div class="loading text-center" ng-if="loading">
+    <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Loading Payment page</span>
+  </div>
   <section class="billing-plans">
       <div class="section-header-container">
         <p class="section-headers">
@@ -101,7 +104,15 @@
                 </span>
               </td>
             </tr>
-            <tr ng-if="!showHistory()">
+            <tr ng-if="historyLoading" class="loading-row">
+                <td class="hidden-xs hidden-sm"><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td></td>
+            </tr>
+            <tr ng-if="!historyLoading && !showHistory()">
               <td colspan="5">
                 <div class="row padding-10-all">
                   <div class="col-sm-12 text-center">
