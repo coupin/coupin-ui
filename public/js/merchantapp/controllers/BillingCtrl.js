@@ -24,24 +24,28 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
     isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
     $scope.history = $scope.user.merchantInfo.billing.history;
+    $scope.billing = {
+      plan: $scope.user.merchantInfo.billing.plan,
+      reference: null,
+      date: new Date()
+    };
     $scope.historyLoading = false;
   }).catch(function () {
     UtilService.showError('Uh ol!', 'There was an error loading the updated billing history');
     isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
     $scope.history = $scope.user.merchantInfo.billing.history;
+    $scope.billing = {
+      plan: $scope.user.merchantInfo.billing.plan,
+      reference: null,
+      date: new Date()
+    };
     $scope.historyLoading = false;
   })
 
   $scope.setShowRest = function () {
     $scope.showRest = !$scope.showRest;
   }
-
-  $scope.billing = {
-    plan: $scope.user.merchantInfo.billing.plan,
-    reference: null,
-    date: new Date()
-  };
 
   $scope.displayRenew = function () {
     return !isPayAsYouGo && hasExpired;
