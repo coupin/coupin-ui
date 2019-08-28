@@ -106,7 +106,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
         $timeout(function () {
             window.location = authorizationUrl;
         }, 1500)
-  });
+    });
   }
 
   function validBilling() {
