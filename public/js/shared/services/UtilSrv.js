@@ -167,7 +167,7 @@ angular.module('UtilSrv', []).service('UtilService', [
     service.showInfo = function (title, msg) {
       new Noty({
         text: getNotificationTemplate(title, msg),
-        timeout: 5000,
+        timeout: 7500,
         closeWith: ['click', 'button'],
         type: 'info'
       }).show();
@@ -181,7 +181,7 @@ angular.module('UtilSrv', []).service('UtilService', [
     service.showSuccess = function (title, msg) {
       new Noty({
         text: getNotificationTemplate(title, msg),
-        timeout: 5000,
+        timeout: 7500,
         closeWith: ['click', 'button'],
         type: 'success'
       }).show();

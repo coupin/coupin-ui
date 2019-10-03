@@ -218,7 +218,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             UtilService.showInfo('Hey!', 'You\'ll be redirected to a payment page to pay for the billing');
             $timeout(function () {
                 window.location = authorizationUrl;
-            }, 1500)
+            }, 3000)
         });
      }
 
