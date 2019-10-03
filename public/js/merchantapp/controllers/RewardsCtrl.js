@@ -336,7 +336,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.loading = true;
         var rewardId = reward._id || reward.id;
         const paymentObject = {
-            callbackUrl: url + '/dashboard/merchant/rewards/' + rewardId,
+            callbackUrl: url + '/dashboard/rewards',
             amount: $scope.amount,
             email: $scope.user.email,
             type: 'reward',
@@ -377,7 +377,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
     $scope.setEndDate = function (days) {
         if (!showTotal) {
-            $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
+            $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days') || 0;
         }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
 
@@ -409,6 +409,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     public_id: id
                 }
             }).then(function (resp) {
+                $scope.uploading = false;
                 var count = 0;
 
                 resp.data.forEach(function (data) {
@@ -425,7 +426,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 });
 
                 $scope.newReward.pictures = $scope.photos;
-                $scope.uploading = false;
                 $scope.updateReward($scope.newReward);
                 if (cb) {
                     cb();
