@@ -111,6 +111,28 @@ select:focus
     /* border: 1px solid rgba(76,83,88,.3); */
   }
 
+input[type="text"].has-error,
+input[type="password"].has-error,
+input[type="email"].has-error,
+input[type="number"].has-error,
+input[type="tel"].has-error,
+textarea.has-error,
+select.has-error {
+    border-color: #ED5653;
+    color: #ED5653;
+    background-color: #ffeef0 !important;
+}
+
+.input-group input[type="text"].has-error ~ .icons-input i,
+.input-group input[type="password"].has-error ~ .icons-input i,
+.input-group input[type="email"].has-error ~ .icons-input i,
+.input-group input[type="number"].has-error ~ .icons-input i,
+.input-group input[type="tel"].has-error ~ .icons-input i,
+.input-group textarea.has-error ~ .icons-input i,
+.input-group select.has-error ~ .icons-input i {
+    color: #ED5653;
+}
+
 /* input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,

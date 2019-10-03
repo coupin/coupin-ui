@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label for="name">Name: </label><span>*</span>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input type="text" name="name" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'form-control': true, 'error-input': isError(form.name)}" required/>
+                                <input type="text" name="name" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <div class="form-group">
                             <label for="description">Description: </label>
                             <div class="input-group mb-2 mr-sm mb-sm-0">
-                                <textarea type="text" class="form-control" id="description" name="description" ng-class="{'form-control': true, 'error-input': isError(form.description)}" aria-describedby="descriptionHelp" placeholder="Description.." ng-model="newReward.description" required></textarea>
+                                <textarea type="text" class="form-control" id="description" name="description" ng-class="{'has-error': isError(form.description)}" aria-describedby="descriptionHelp" placeholder="Description.." ng-model="newReward.description" required></textarea>
                                 <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                             </div>
                         </div>
@@ -119,21 +119,31 @@
                         <div class="form-group">
                             <label for="startDate">Please pick a start date: </label><br/>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input bs-datepicker class="form-control" id="startDate" name="startDate" ng-class="{'form-control': true, 'error-input': isError(form.startDate)}" type="text" ng-change="setEndDate(noOfDays)" ng-model="newReward.startDate" data-min-date="{{minDate}}" data-max-date={{maxDate}} required/>
+                                <input bs-datepicker class="form-control" id="startDate" name="startDate" ng-class="{'has-error': isError(form.startDate)}" type="text" ng-change="setEndDate(noOfDays)" ng-model="newReward.startDate" data-min-date="{{minDate}}" data-max-date={{maxDate}} required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
-                            <small id="rangeHelp" class="form-text text-muted">This is when the users will start to see the re ward.</small>
+                            <small id="rangeHelp" class="form-text">This is when the users will start to see the reward.</small>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="endDate">Please select number of days: </label><br/>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input id="noOfDate" class="form-control" name="noOfDays" ng-class="{'error-input': isError(form.noOfDays)}" type="number" ng-model="noOfDays" ng-change="setEndDate(noOfDays)" ng-min="4" ng-max="{{maxDays}}" required/>
+                                <input
+                                    id="noOfDate"
+                                    class="form-control"
+                                    name="noOfDays"
+                                    ng-class="{'has-error': isError(form.noOfDays)}" 
+                                    type="number" 
+                                    ng-model="noOfDays" 
+                                    ng-change="setEndDate(noOfDays)" 
+                                    ng-min="4" 
+                                    ng-max="{{maxDays}}" 
+                                    required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
-                            <small id="daysHelp" class="form-text text-muted">Minimum of <b>4</b> days. Your maximum number of days, based on subscription, is <b>{{maxDays}}</b>.</small><br/>
-                            <small id="rangeHelp" class="form-text text-muted">The reward will expire on <b>{{newReward.endDate | date: 'longDate'}}</b>.</small>
+                            <small id="daysHelp" class="form-text"><b>Minimum of 4 days. Your maximum number of days, based on subscription, is {{maxDays}}.</b></small><br/>
+                            <small id="rangeHelp" class="form-text"><b>The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b></small>
                         </div>
                     </div>
                     <h3 class="text-center" ng-if="showTotal()">Total: <b>&#8358; {{amount}}</b></h3>
@@ -217,24 +227,24 @@
             </div>
             <div class="col-md-10">
                 <div class="row">
-                    <div class="form-group" ng-if="!payRewardIsActive()">
+                    <div class="form-group">
                         <label for="end">Reward Pictures: </label><br/>
                         <div class="btn btn-success" ng-disabled="loading || uploading" data-toggle="modal" data-target="#croppingModal">Select Files</div>
                         <small id="endHelp" class="form-text text-muted">Sample Picture of Reward.</small>
                     </div>
                     <div class="row" ng-if="displayRewardPhotos()">
-                        <div class="progress" ng-if="!payRewardIsActive()">
+                        <div class="progress" ng-if="uploading">
                             <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
                                 <span class="text-center">{{progress === 100 ? 'Processing...' : progress + '%'}}</span>
                             </div>
                         </div>
                         <div class="preview-box" ng-repeat="(index, photo) in photos">
-                            <h5 class="text-center clickable" ng-click="removeImage(index)" ng-if="!payRewardIsActive()"><i class="fas fa-2x fa-times-circle"></i></h5>
+                            <h5 class="text-center clickable" ng-click="removeImage(index)"><i class="fas fa-2x fa-times-circle"></i></h5>
                             <img ng-src="{{photo.url}}" height="200" width="200"/>
                         </div>
                         <br>
-                        <span ng-if="!payRewardIsActive()">
-                            <button class="btn btn-success" ng-if="update" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
+                        <span>
+                            <button class="btn btn-success" ng-if="update && files.length > 0" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
                         </span>
                     </div>
                 </div>
