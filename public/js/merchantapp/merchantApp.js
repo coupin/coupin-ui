@@ -10,6 +10,7 @@ angular.module('coupinApp', [
   'daterangepicker',
   'merchappRoutes',
   'AuthCtrl',
+  'AnalyticsCtrl',
   'HomeCtrl',
   'BaseMCtrl',
   'BillingCtrl',
@@ -48,4 +49,16 @@ angular.module('coupinApp', [
       });
     }
   }
-})
+}).directive('cpLineIndicator', function () {
+  return {
+    restrict: 'E',
+    scope: {
+      coupinInfo: '=coupins'
+    },
+    templateUrl: 'views/directives/cp-line-indicator.html',
+    link: function (scope, element) {
+      var length = element[0].querySelector('#Rectangle_35').width.baseVal.value
+      scope.indicatorLevel = length * (scope.coupinInfo.redeemed/scope.coupinInfo.generated);
+    }
+  };
+});
