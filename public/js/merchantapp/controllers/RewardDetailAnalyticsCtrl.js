@@ -129,7 +129,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
           dataLabels: {
             position: 'top',
           },
-          barHeight: '50%',
+          barHeight: '70%',
         }
       },
       colors: ['#08AEEA', '#15A580'],

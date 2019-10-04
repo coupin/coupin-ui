@@ -1,7 +1,8 @@
 angular.module('BaseMCtrl', []).controller('BaseMController', function (
     $scope,
     $alert,
-    StorageService
+    StorageService,
+    $state
 ) {
     $scope.position = {};
 
@@ -24,4 +25,10 @@ angular.module('BaseMCtrl', []).controller('BaseMController', function (
             'type' : 'danger'
         });
     };
+
+
+  $scope.analyticsState = function() {
+    return $state.includes('dashboard.analytics') || 
+      $state.includes('dashboard.reward-analytics');
+  }
 });
