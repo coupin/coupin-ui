@@ -23,4 +23,5 @@ angular.module('coupinApp', [
   'AdminMerchantCtrl',
   'AuthCtrl',
   'AnalyticsCtrl',
+  'RewardDetailAnalyticsCtrl'
 ]);

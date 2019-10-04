@@ -11,6 +11,7 @@ angular.module('coupinApp', [
   'merchappRoutes',
   'AuthCtrl',
   'AnalyticsCtrl',
+  'RewardDetailAnalyticsCtrl',
   'HomeCtrl',
   'BaseMCtrl',
   'BillingCtrl',

@@ -348,11 +348,11 @@ option {
   border-color: #204d74;
 }
 
-.active {
+/* .active {
   color: #fff;
   background-color: rgb(218, 136, 53);
   border-color: #204d74;
-}
+} */
 
 /* Padding */
 .padding-none {
@@ -788,18 +788,21 @@ form .row {
 }
 /*** end of the button group styling for selecting applicable days ***/
 
-#verification-page .customer-info {
+#verification-page .customer-info,
+#reward-analytics-page .reward-info {
   display: inline-block;
   width: 100%;
 }
 
-#verification-page .customer-info p:first-of-type {
+#verification-page .customer-info p:first-of-type,
+#reward-analytics-page .reward-info p:first-of-type {
   margin: 0;
   font-weight: 300;
   color: #94989E;
 }
 
-#verification-page .customer-info p:last-of-type {
+#verification-page .customer-info p:last-of-type,
+#reward-analytics-page .reward-info p:last-of-type {
   font-size: 20px;
 }
 
@@ -1119,4 +1122,11 @@ form .row {
 .lightpick .lightpick__month .lightpick__day:hover {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='%23111' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
 }
+
+/* apex charts styling */
+.linechart-yaxis-label {
+  fill: #fff;
+  color: #fff;
+}
+/* end of apex charts styling */
 /* End of Analytics page styling */
