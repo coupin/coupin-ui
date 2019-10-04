@@ -635,12 +635,17 @@ form .row {
 }
 
 .plan-status.expired {
-  background: #ffe8e9;
-  color: #E51B24;
+  /* background: #ffe8e9;
+  color: #E51B24; */
+  background: transparent;
+  border: 1px solid #e93e46;
+  color: #e93e46;
 }
 
 .plan-status.active {
-  background: #CDFAF4;
+  /* background: #CDFAF4; */
+  background: transparent;
+  border: 1px solid #15A580;
   color: #15A580;
 }
 
@@ -650,18 +655,25 @@ form .row {
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16);
 }
 .plan-status.isPending {
-  background: #FFEBD6;
+  /* background: #FFEBD6;
+  color: #F49A40; */
+  background: transparent;
+  border: 1px solid #F49A40;
   color: #F49A40;
 }
 
 .plan-status.review {
-  background: #DBE2FF;
+  /* background: #DBE2FF;
+  color: #5677FC; */
+  background: transparent;
+  border: 1px solid #5677FC;
   color: #5677FC;
 }
 
 .plan-status.inactive {
-  background: #5A5959;
+  background: transparent;
   color: #F0F0F0;
+  border: 1px solid #f0f0f0;
 }
 
 #reward-list-page {
@@ -1015,3 +1027,96 @@ form .row {
   outline: 0;
 }
 /** End of reward List pagination buttons **/
+
+/* Analytics page styling */
+.overall-coupin-stat p.section-headers {
+  display: block;
+}
+
+.overall-coupin-stat p.section-headers:before {
+  bottom: -28px;
+}
+
+#analytics-page table#reward-list-table tr td{
+  font-size: 14px;
+}
+
+#analytics-page .overview-container {
+  display: flex;
+  justify-content: space-between;
+  overflow: none;
+}
+
+#analytics-page .overview-container .info{
+  width: 260px;
+  flex: 0 0 31%;
+}
+
+#analytics-page .overview-container .info h4 {
+  font-weight: 700;
+  font-size: 35px;
+  text-align: left;
+  /* color: #454D57; */
+  margin: 0;
+}
+
+#analytics-page .overview-container .info h5 {
+  font-weight: 400;
+  font-size: 20px;
+  text-align: left;
+  color: #878D93;
+  margin: 12px 0 5px 0;
+}
+
+#analytics-page .analytics-datepicker {
+  color: #fff;
+  background-color: #2A2A2A !important;
+  border: 0;
+  font-weight: 600;
+}
+
+#analytics-page .analytics-datepicker ~ .input-group-addon i {
+  color: #F49A40;
+}
+
+.lightpick {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.lightpick .lightpick__toolbar button {
+  background-color: #313237;
+}
+
+.lightpick .lightpick__month {
+  background-color: #2a2a2a;
+  color: #fff;
+}
+
+.lightpick .lightpick__month .lightpick__select {
+  width: initial;
+  color: #fff;
+  background-color: #2a2a2a !important;
+}
+
+.lightpick .lightpick__month .lightpick__day.is-today {
+  color: #F49A40;
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range.is-start-date,
+.lightpick .lightpick__month .lightpick__day.is-in-range.is-end-date {
+  background-color: #15A580;
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range {
+  background-color: rgba(21, 165, 128, 0.1);
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='rgba(21, 165, 128, 0.4)' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
+}
+
+.lightpick .lightpick__month .lightpick__day:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='%23111' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
+}
+/* End of Analytics page styling */
