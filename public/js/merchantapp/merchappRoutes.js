@@ -41,6 +41,13 @@ function (
             url: '/analytics',
             templateUrl: '/views/merchant/analytics.html',
             controller: 'AnalyticsController'
+        }).state('dashboard.reward-analytics', {
+            url: '/analytics/reward/:id',
+            templateUrl: '/views/merchant/rewardDetailAnalytics.html',
+            controller: 'RewardDetailAnalyticsController',
+            params: {
+                param1: 'id'
+            }
         }).state('dashboard.reward', {
             url: '/reward',
             templateUrl: '/views/merchant/view.html',

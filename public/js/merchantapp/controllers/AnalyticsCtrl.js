@@ -1,4 +1,4 @@
-angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function ($scope) {
+angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function ($scope, $state) {
   /** IIFE for chart by the side */
   (function () {
     var options = {
@@ -132,6 +132,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
 
   $scope.goToReward = function (rewardId) {
     console.log(rewardId);
+    $state.go('dashboard.reward-analytics', { id: rewardId }, {});
   };
 
   $scope.picker = new Lightpick({
