@@ -11,21 +11,41 @@
         </div>
         <div class="body" ng-if="activeView === 'signin'">
             <p>Sign in, Welcome back</p>
-            <form ng-submit="loginMerch()">
+            <form ng-submit="loginMerch()" name="loginForm">
                 <div class="form-group">
                     <label for="loginEmail">Email: </label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <input type="email" class="form-control" id="loginEmail" aria-describedby="loginEmailHelp" placeholder="name@example.com" ng-model="formData.loginEmail" required>
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="loginEmail"
+                            ng-class="{'has-error': isError(loginForm.loginEmail)}"
+                            id="loginEmail"
+                            aria-describedby="loginEmailHelp"
+                            placeholder="name@example.com"
+                            ng-model="formData.loginEmail"
+                            required>
                         <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">Password: </label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <input type="password" class="form-control" id="loginPassword" aria-describedby="loginPasswordHelp" placeholder="*******" ng-model="formData.loginPassword" required>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="loginPassword"
+                            name="loginPassword"
+                            ng-class="{'has-error': isError(loginForm.loginPassword)}"
+                            aria-describedby="loginPasswordHelp"
+                            placeholder="*******"
+                            ng-model="formData.loginPassword"
+                            required>
                         <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
                     </div>
-                    <small class="forgot-password form-text text-muted light">Forgot your password? Click <b>here</b></small>
+                    <small class="forgot-password form-text text-muted light" ng-click="goToPasswordResetRequestPage()">
+                        <b>Forgot your password? Click here</b>
+                    </small>
                 </div>
                 <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[0]">
                     <span ng-hide="loading[0]">Sign In</span>
