@@ -23,6 +23,11 @@ function(
         encoded: encodedString
       });
     },
+    requestPasswordChange: function (email) {
+      return $http.post(baseV1Url + '/auth/forgot-password', {
+        email: email
+      });
+    },
     registerMerch : function(merchantData) {
       return $http.post(baseV1Url + '/auth/register/m', merchantData);
     },

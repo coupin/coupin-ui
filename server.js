@@ -134,6 +134,10 @@ app.get('/auth/forgot-password', function(req, res) {
   res.sendFile(path.join(__dirname + '/public/views/shared/forgotPassword.html'));
 });
 
+app.get('/auth/request-password-change', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/views/shared/requestPasswordChange.html'));
+});
+
 app.get('/merchant/:id/confirm', function(req, res) {
   res.sendfile('./public/views/shared/merchantCon.html');
 });

@@ -137,6 +137,11 @@ input {
 .forgot-password {
   margin-top: 10px;
   display: block;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  color: #14a580;
 }
 
 @media only screen  and (min-width : 1224px) {

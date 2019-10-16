@@ -83,7 +83,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             merchId = result.data.id;
         }).catch(function(err) {
             if (err.status === 500) {
-                UtilService.showError('Uh Oh', 'Could not confirm id. Please contact admin at admin@coupin.com');
+                UtilService.showError('Uh Oh', 'Could not confirm id. Please contact us at care@coupinapp.com');
             } else {
                 UtilService.showError('Uh Oh', err.data);
             }
@@ -273,6 +273,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 UtilService.showSuccess('Success!', 'Password change successful.');
                 $scope.loading[1] = false;
                 $scope.formData = {};
+                // $window.location.href="/auth"
             }).catch(function(err) {
                 $scope.loading[1] = false;
                 UtilService.showError('Uh Oh', err.data);
@@ -282,6 +283,27 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             UtilService.showError('Uh Oh', 'Passwords do not match. Please try again');
         }
     };
+
+    $scope.submitPasswordResetRequest = function() {
+        $scope.loading[1] = true;
+        if ($scope.formData.resetPasswordEmail) {
+            AuthService.requestPasswordChange($scope.formData.resetPasswordEmail).then(function(result) {
+                UtilService.showSuccess('Success!', 'Request sent successful.');
+                $scope.loading[1] = false;
+                $scope.formData = {};
+            }).catch(function(err) {
+                $scope.loading[1] = false;
+                UtilService.showError('Uh Oh', err.data);
+            });
+        } else {
+            $scope.loading[1] = false;
+            UtilService.showError('Uh Oh', 'Please enter your email!');
+        }
+    };
+
+    $scope.goToPasswordResetRequestPage = function () {
+        $window.location.href = '/auth/request-password-change';
+    }
 
     function resetUploads() {
         $scope.progress = 0;
@@ -470,5 +492,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         StorageService.clearAll();
         $state.go('auth', {});
         $window.location.reload();
+    };
+
+    $scope.isError = function (x) {
+        return UtilService.isError(x);
     };
 });
