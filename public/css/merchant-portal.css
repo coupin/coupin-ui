@@ -1106,6 +1106,7 @@ form .row {
 
 .lightpick .lightpick__month .lightpick__day.is-today {
   color: #F49A40;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='rgba(244, 154, 64,0.4)' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
 }
 
 .lightpick .lightpick__month .lightpick__day.is-in-range.is-start-date,

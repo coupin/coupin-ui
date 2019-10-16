@@ -17,6 +17,7 @@ angular.module('coupinApp', [
   'BillingCtrl',
   'ProfileCtrl',
   'MerchantSrv',
+  'AnalyticsSrv',
   'RewardsCtrl',
   'RewardsListCtrl',
   'StorageSrv',
@@ -37,29 +38,4 @@ angular.module('coupinApp', [
       $rootScope['user'] = StorageService.getUser();
     }
   });
-}).directive('showMore', function () {
-  return {
-    restrict: 'A',
-    link: function (scope, element) {
-      element.addClass('shorten');
-      element.css('cursor', 'pointer');
-
-      element.on('click', function (event) {
-        event.stopImmediatePropagation();
-        element.toggleClass('shorten');
-      });
-    }
-  }
-}).directive('cpLineIndicator', function () {
-  return {
-    restrict: 'E',
-    scope: {
-      coupinInfo: '=coupins'
-    },
-    templateUrl: 'views/directives/cp-line-indicator.html',
-    link: function (scope, element) {
-      var length = element[0].querySelector('#Rectangle_35').width.baseVal.value
-      scope.indicatorLevel = length * (scope.coupinInfo.redeemed/scope.coupinInfo.generated);
-    }
-  };
 });
