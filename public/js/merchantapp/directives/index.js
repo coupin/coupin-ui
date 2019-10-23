@@ -95,7 +95,6 @@ angular.module('coupinApp').directive('showMore', function () {
 
       // update the barchart values
       scope.$watch('redeemedValue', function (val) {
-        console.log('cconsole.log', val)
         scope.barChart.updateSeries(val);
       });
     },

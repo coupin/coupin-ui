@@ -1,4 +1,4 @@
-angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalyticsController', function ($scope) {
+angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalyticsController', function ($scope, $state) {
   (function () {
     var options = {
       chart: {
@@ -309,4 +309,8 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
 
     chart.render();
   })()
+
+  $scope.goToAnalytics = function () {
+    $state.go('dashboard.analytics', {}, {});
+  };
 });

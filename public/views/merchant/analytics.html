@@ -20,24 +20,33 @@
       <div class="col-md-8" style="padding-left: 0;">
         <div class="overview-container">
             <div class="card info">
-              <h4>
-                30
+              <h4 ng-if="!loadingStats">
+                {{stats.active}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
               </h4>
               <h5>
                 Active Rewards
               </h5>
             </div>
             <div class="card info">
-              <h4>
-                30
+              <h4 ng-if="!loadingStats">
+                {{stats.generated}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
               </h4>
               <h5>
                 Generated Coupins
               </h5>
             </div>
             <div class="card info">
-              <h4>
-                30
+              <h4 ng-if="!loadingStats">
+                {{stats.redeemed}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
               </h4>
               <h5>
                 Redeemed Coupins
@@ -50,17 +59,17 @@
                 <tr>
                     <th width="20px">S/N</th>
                     <th>Name</th>
-                    <th>Added</th>
+                    <th>Start</th>
                     <th>Expires</th>
                     <th>Coupins</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)">
+                <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)" ng-if="!loadingRewards">
                     <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
                     <td class="icon">{{ discount.name }}</td>
-                    <td class="icon">{{ discount.added | date: 'longdate' }}</td>
-                    <td class="icon">{{ discount.expires | date: 'longdate' }}</td>
+                    <td class="icon">{{ discount.start }}</td>
+                    <td class="icon">{{ discount.expires }}</td>
                     <td>
                       <cp-line-indicator coupins="discount.coupins" class="{{discount._id}}-coupin-indicator"></cp-line-indicator>
                     </td>
@@ -85,9 +94,10 @@
       <div class="col-md-4">
         <div class="card overall-coupin-stat">
           <p class="section-headers">
-            Analytics
+            Overall Coupins
           </p>
           <div id="overall-coupin-stat_radar"></div>
+          <cp-radar-chart redeemed-value="radarSeriesValue"></cp-radar-chart>
         </div>
       </div>
     </div>
