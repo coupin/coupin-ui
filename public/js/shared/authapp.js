@@ -14,5 +14,6 @@ angular.module('authapp', [
   'MerchantSrv',
   'RewardsSrv',
   'StorageSrv',
+  'ConfigSrv',
   'UtilSrv'
 ]);

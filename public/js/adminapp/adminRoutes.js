@@ -85,6 +85,18 @@ function(
         }
       }
     })
+    .state('portal.config', {
+      url: '/config',
+      templateUrl: 'views/admin/config.html',
+      controller: 'ConfigController',
+      resolve: {
+        config: function(ConfigService) {
+          return ConfigService.getConfig().then(function(response) {
+            return response.data;
+          });
+        }
+      }
+    })
     .state('portal.home', {
       url: '/home',
       templateUrl: 'views/admin/viewRequests.html',

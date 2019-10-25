@@ -1,4 +1,5 @@
 /*General Styling*/
+
 .body {
     width: 100%;
 }
@@ -47,9 +48,7 @@ td::first-letter {
     padding: 10px;
 }
 
-.success-card-btn,
-.success-card-btn:active,
-.success-card-btn:focus {
+.success-card-btn, .success-card-btn:active, .success-card-btn:focus {
     background: none;
     border: none;
     color: white;
@@ -68,15 +67,15 @@ td::first-letter {
 .cropArea {
     background: #E4E4E4;
     overflow: hidden;
-    width:200px;
-    height:200px;
+    width: 200px;
+    height: 200px;
 }
 
 .crop-area-modal {
     background: #E4E4E4;
     display: block;
-    width:200px;
-    height:200px;
+    width: 200px;
+    height: 200px;
 }
 
 .crop-area-img {
@@ -141,7 +140,7 @@ td::first-letter {
     margin: auto;
 }
 
-.custom, .custom:active , .custom:focus {
+.custom, .custom:active, .custom:focus {
     background: deepskyblue;
     border: deepskyblue;
     color: white;
@@ -161,25 +160,23 @@ td::first-letter {
     padding-bottom: 0 !important;
 }
 
-.home-nav-inv > div {
+.home-nav-inv>div {
     border-bottom: 1px solid #00ace6;
     transition-duration: 200ms;
     transition-timing-function: linear;
 }
 
-.home-nav > div {
+.home-nav>div {
     transition-duration: 200ms;
     transition-timing-function: linear;
 }
 
-
-.home-nav > div:hover {
+.home-nav>div:hover {
     background: #00ace6;
     color: white;
 }
 
-.home-active-inv,
-.home-nav-inv > div:hover {
+.home-active-inv, .home-nav-inv>div:hover {
     text-shadow: 0 0 5px white;
 }
 
@@ -187,15 +184,13 @@ td::first-letter {
     color: #00ace6;
 }
 
-.dashboard-request > div > div > a {
+.dashboard-request>div>div>a {
     color: white;
     transition-duration: 200ms;
     transition-timing-function: linear;
 }
 
-.dashboard-request > div > div > a:hover,
-.dashboard-request > div > div > a:active,
-.dashboard-request > div > div > a:focus {
+.dashboard-request>div>div>a:hover, .dashboard-request>div>div>a:active, .dashboard-request>div>div>a:focus {
     text-decoration: none;
     text-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
 }
@@ -231,7 +226,7 @@ td::first-letter {
 
 /* .banner-box */
 
-.banner-box > img {
+.banner-box>img {
     object-fit: cover;
     object-position: center;
     width: 100%;
@@ -250,7 +245,7 @@ td::first-letter {
     width: 500px;
 }
 
-.banner-box-small > img {
+.banner-box-small>img {
     object-fit: cover;
     object-position: center;
     width: 100%;
@@ -298,7 +293,6 @@ td::first-letter {
 .left-divider {
     border-left: 1px solid lightgray;
     height: 40%;
-
     transform: translateY(30%);
     -moz-transform: translateY(30%);
     -o-transform: translateY(30%);
@@ -332,19 +326,19 @@ td::first-letter {
 /* Vertical Divider */
 
 .vertical-divider {
-  position: absolute;
-  z-index: 10;
-  font-size: 20px;
-  top: 50%;
-  left: 42%;
-  margin: 0;
-  padding: 0;
-  width: auto;
-  height: 45%;
-  line-height: 0;
-  text-align:center;
-  text-transform: uppercase;
-  transform: translateX(-50%);
+    position: absolute;
+    z-index: 10;
+    font-size: 20px;
+    top: 50%;
+    left: 42%;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 45%;
+    line-height: 0;
+    text-align: center;
+    text-transform: uppercase;
+    transform: translateX(-50%);
 }
 
 /*.vertical-divider span {
@@ -355,76 +349,77 @@ td::first-letter {
     z-index: 9;
 }*/
 
-.vertical-divider:before, 
-.vertical-divider:after {
-  position: absolute;
-  left: 42%;
-  content: '';
-  z-index: 1;
-  border-left: 1px solid rgba(34,36,38,.15);
-  border-right: 1px solid rgba(255,255,255,.1);
-  width: 0;
-  height: calc(100% - 2rem);
+.vertical-divider:before, .vertical-divider:after {
+    position: absolute;
+    left: 42%;
+    content: '';
+    z-index: 1;
+    border-left: 1px solid rgba(34, 36, 38, .15);
+    border-right: 1px solid rgba(255, 255, 255, .1);
+    width: 0;
+    height: calc(100% - 2rem);
 }
 
-.row-divided > .vertical-divider {
-  height: calc(40% - 1rem);    
+.row-divided>.vertical-divider {
+    height: calc(40% - 1rem);
 }
 
 .vertical-divider:before {
-  top: -100%;
+    top: -100%;
 }
 
 .vertical-divider:after {
-  top: auto;
-  bottom: 0;
+    top: auto;
+    bottom: 0;
 }
 
 .row-divided {
-  position:relative;
+    position: relative;
 }
 
-.row-divided > [class^="col-"],
-.row-divided > [class*=" col-"] {
-  padding-left: 30px;  /* gutter width (give a little extra room) 2x default */
-  padding-right: 30px; /* gutter width (give a little extra room) 2x default */
+.row-divided>[class^="col-"], .row-divided>[class*=" col-"] {
+    padding-left: 30px;
+    /* gutter width (give a little extra room) 2x default */
+    padding-right: 30px;
+    /* gutter width (give a little extra room) 2x default */
 }
 
 /* General Styling End */
 
 .cropArea {
     background: #E4E4E4;
-    height:350px;
+    height: 350px;
     margin: auto;
     overflow: hidden;
-    width:500px;
+    width: 500px;
 }
 
 .cropArea-banner {
     background: #E4E4E4;
-    height:400px;
+    height: 400px;
     margin: auto;
     overflow: hidden;
-    width:1000px;
+    width: 1000px;
 }
 
 .modal-backdrop.am-fade {
     opacity: .5;
     transition: opacity .15s linear;
 }
-  
-.modal-backdrop.am-fade > .ng-enter {
+
+.modal-backdrop.am-fade>.ng-enter {
     opacity: 0;
 }
 
-.modal-backdrop.am-fade > .ng-enter > .ng-enter-active {
+.modal-backdrop.am-fade>.ng-enter>.ng-enter-active {
     opacity: .5;
 }
 
-.modal-backdrop.am-fade > .ng-leave {
+.modal-backdrop.am-fade>.ng-leave {
     opacity: .5;
 }
-.modal-backdrop.am-fade > .ng-leave > .ng-leave-active {
+
+.modal-backdrop.am-fade>.ng-leave>.ng-leave-active {
     opacity: 0;
 }
 
@@ -439,77 +434,132 @@ td::first-letter {
     width: 200px;
 }
 
-.btn-half{
+.btn-half {
     width: 50%;
 }
 
-.btn-full{
+.btn-full {
     width: 100%;
 }
-  
-  .btn-outline-primary {
+
+.btn-outline-primary {
     color: #337ab7;
     background-color: white;
     border-color: #2e6da4;
-  }
-  .btn-outline-primary:focus,
-  .btn-outline-primary.focus {
+}
+
+.btn-outline-primary:focus, .btn-outline-primary.focus {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
-  }
-  .btn-outline-primary:hover {
+}
+
+.btn-outline-primary:hover {
     color: #fff;
     background-color: #204d74;
     border-color: #204d74;
-  }
-  .btn-outline-primary:active,
-  .btn-outline-primary.active,
-  .open > .dropdown-toggle.btn-outline-primary {
+}
+
+.btn-outline-primary:active, .btn-outline-primary.active, .open>.dropdown-toggle.btn-outline-primary {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
-  }
-  .btn-outline-primary:active:hover,
-  .btn-outline-primary.active:hover,
-  .open > .dropdown-toggle.btn-outline-primary:hover,
-  .btn-outline-primary:active:focus,
-  .btn-outline-primary.active:focus,
-  .open > .dropdown-toggle.btn-outline-primary:focus,
-  .btn-outline-primary:active.focus,
-  .btn-outline-primary.active.focus,
-  .open > .dropdown-toggle.btn-outline-primary.focus {
+}
+
+.btn-outline-primary:active:hover, .btn-outline-primary.active:hover, .open>.dropdown-toggle.btn-outline-primary:hover, .btn-outline-primary:active:focus, .btn-outline-primary.active:focus, .open>.dropdown-toggle.btn-outline-primary:focus, .btn-outline-primary:active.focus, .btn-outline-primary.active.focus, .open>.dropdown-toggle.btn-outline-primary.focus {
     color: #fff;
     background-color: #204d74;
     border-color: #122b40;
-  }
-  .btn-outline-primary:active,
-  .btn-outline-primary.active,
-  .open > .dropdown-toggle.btn-outline-primary {
+}
+
+.btn-outline-primary:active, .btn-outline-primary.active, .open>.dropdown-toggle.btn-outline-primary {
     background-image: none;
-  }
-  .btn-outline-primary.disabled:hover,
-  .btn-outline-primary[disabled]:hover,
-  fieldset[disabled] .btn-outline-primary:hover,
-  .btn-outline-primary.disabled:focus,
-  .btn-outline-primary[disabled]:focus,
-  fieldset[disabled] .btn-outline-primary:focus,
-  .btn-outline-primary.disabled.focus,
-  .btn-outline-primary[disabled].focus,
-  fieldset[disabled] .btn-outline-primary.focus {
+}
+
+.btn-outline-primary.disabled:hover, .btn-outline-primary[disabled]:hover, fieldset[disabled] .btn-outline-primary:hover, .btn-outline-primary.disabled:focus, .btn-outline-primary[disabled]:focus, fieldset[disabled] .btn-outline-primary:focus, .btn-outline-primary.disabled.focus, .btn-outline-primary[disabled].focus, fieldset[disabled] .btn-outline-primary.focus {
     background-color: #337ab7;
     border-color: #2e6da4;
-  }
-  .btn-outline-primary .badge {
+}
+
+.btn-outline-primary .badge {
     color: #337ab7;
     background-color: #fff;
-  }
+}
 
-  .white-text {
-      color: white !important;
-  }
+.white-text {
+    color: white !important;
+}
 
-  .form-group label {
-      color: #94989E !important;
-      font-weight: 600 !important;
-  }
+.form-group label {
+    color: #94989E !important;
+    font-weight: 600 !important;
+}
+
+/* style for toggle */
+
+.toggle-container {
+    width: 75px;
+    height: 37.5px;
+    border: 1px solid #ccc;
+    position: relative;
+    border-radius: 25px;
+    display: inline-block;
+    cursor: pointer;
+    box-sizing: content-box;
+    /* margin-left: 30px; */
+}
+
+.toggle-container .toggle {
+    height: 32.5px;
+    width: 32.5px;
+    background-color: #ccc;
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px;
+    bottom: 2.5px;
+    border-radius: 50%;
+    transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    transition: transform 0.3s, -webkit-transform 0.3s;
+    box-sizing: content-box;
+}
+
+.toggle-container input[type="checkbox"]#toggle-checkbox {
+    visibility: hidden;
+}
+
+.toggle-container input[type="checkbox"]#toggle-checkbox:checked~.toggle {
+    -webkit-transform: translateX(37.5px);
+    transform: translateX(37.5px);
+    background-color: #337ab7;
+}
+
+/* end of style for toggle */
+
+/* style for admin config page */
+
+.toggle-config-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.trial-period-config {
+    border: #efefef 1px solid;
+    border-radius: 5px;
+    padding: 30px 10px;
+    position: relative;
+    margin-top: 30px;
+}
+
+.trial-period-config p.title  {
+    position: absolute;
+    font-size: 24px;
+    font-weight: 600;
+    top: -20px;
+    background-color: #fff;
+    padding: 0 10px;
+    /* color: #bbb; */
+}
+
+/* end of style for admin config page */
