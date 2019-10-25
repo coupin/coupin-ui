@@ -11,7 +11,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     AuthService,
     StorageService,
     PaymentService,
-    UtilService
+    UtilService,
+    ConfigService
 ) {
     // scope variable to hold form data
     $scope.formData = {};
@@ -43,6 +44,14 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
     var url = window.location.origin;
+    /**
+     * {
+     *  enabled: boolean,
+     *  endDate: date,
+     *  duration: number,
+     * }
+     */
+    $scope.trialPeriodData = {};
 
 
     /* this is for switching pages in the merchant auth area */
@@ -60,6 +69,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     if($location.absUrl().includes('confirm')) {
         checkAuth = false;
         merchId = strings[strings.length - 2];
+
+        ConfigService.getConfig().then(function (res) {
+            var config = res.data;
+            $scope.trialPeriodData = config.trialPeriod || {};
+
+            if ($scope.trialPeriodData.enabled) {
+                $scope.planIndex = 3;
+                var plan = 'trial';
+            }
+        });
         
         if (merchId && merchId.length === 24) {
             MerchantService.confirm(merchId).then(function(response) {
@@ -263,6 +282,21 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
                 });
                 break;
+            case 3:
+                // for the free trial option
+                $scope.formData['billing'] = {
+                    plan: 'trial',
+                    date: new Date(),
+                    reference: $scope.trialPeriodData.duration + '-months-trial-complete-registration',
+                    expiration: moment(new Date()).add($scope.trialPeriodData.duration, 'months').toDate(),
+                };
+                updateUser().then(function () {
+                    UtilService.showSuccess('Confirmation Success', data.message);
+                    $window.location.href = '/auth';
+                });
+                break;
+            default:
+                UtilService.showError('Select Valid Plan', 'Please select a valid billing plan!');
         }
     };
 
