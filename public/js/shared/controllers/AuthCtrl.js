@@ -296,7 +296,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 });
                 break;
             default:
-                UtilService.showError('Select Valid Plan', 'Please select a valid billing plan!');
+                UtilService.showError('Please select Valid Plan', 'Please select a valid billing plan!');
         }
     };
 
