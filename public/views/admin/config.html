@@ -19,6 +19,22 @@
   
       <div class="row" ng-if="trialData.trialStatus">
         <div class="col-md-2">
+          <p>Enter a duration for the plan in months</p>
+        </div>
+        <div class="col-md-10">
+          <input 
+            class="form-control" 
+            id="trialDuration" 
+            name="trialDuration" 
+            type="number"
+            min="1"
+            ng-model="trialData.trialDuration" 
+            required />
+        </div>
+      </div>
+
+      <div class="row" ng-if="trialData.trialStatus">
+        <div class="col-md-2">
           <p>Enter an end date for trial</p>
         </div>
         <div class="col-md-10">
@@ -27,8 +43,7 @@
             class="form-control" 
             id="trialEndDate" 
             name="trialEndDate" 
-            type="text" 
-            ng-change="setEndDate(noOfDays)" 
+            type="text"
             ng-model="trialData.trialEndDate" 
             data-min-date="{{minDate}}" 
             required />

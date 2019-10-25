@@ -9,6 +9,7 @@ angular.module('ConfigCtrl', []).controller('ConfigController', function(
   $scope.trialData = {
     trialStatus: false,
     trialEndDate: '',
+    trialDuration: 1,
   };
 
   ConfigService.getConfig()
@@ -17,6 +18,7 @@ angular.module('ConfigCtrl', []).controller('ConfigController', function(
       $scope.trialData = {
         trialStatus: res.data.trialPeriod ? res.data.trialPeriod.enabled : false,
         trialEndDate: res.data.trialPeriod ? res.data.trialPeriod.endDate : '',
+        trialDuration: res.data.trialPeriod ? res.data.trialPeriod.duration : 1,
       };
     });
 
@@ -26,17 +28,25 @@ angular.module('ConfigCtrl', []).controller('ConfigController', function(
       return;
     }
 
+    if ($scope.trialData.trialStatus && $scope.trialData.trialDuration < 1) {
+      UtilService.showError('Oh Snap!', 'Please enter a valid duration amount');
+      return;
+    }
+
     var data = {
       status: $scope.trialData.trialStatus,
     };
 
     if ($scope.trialData.trialStatus) {
       data['endDate'] = $scope.trialData.trialEndDate;
+      data['duration'] = $scope.trialData.trialDuration;
     }
 
     ConfigService.setTrialConfig(data)
       .then(function (res) {
-        console.log(res.data);
+        var message = 'Trial Period has been ' + ($scope.trialData.trialStatus ? 'activated' : 'deactivated');
+
+        UtilService.showSuccess('Success', message);
       });
   }
 });
