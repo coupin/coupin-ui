@@ -76,7 +76,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
             if ($scope.trialPeriodData.enabled) {
                 $scope.planIndex = 3;
-                var plan = 'trial';
+                plan = 'trial';
+                console.log(plan)
             }
         });
         
@@ -290,7 +291,13 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     reference: $scope.trialPeriodData.duration + '-months-trial-complete-registration',
                     expiration: moment(new Date()).add($scope.trialPeriodData.duration, 'months').toDate(),
                 };
-                updateUser().then(function () {
+                updateUser().then(function (response) {
+                    // Get response data
+                    let data = response.data;
+
+                    // Show loading icon/screen
+                    $scope.loading[1] = false;
+
                     UtilService.showSuccess('Confirmation Success', data.message);
                     $window.location.href = '/auth';
                 });
