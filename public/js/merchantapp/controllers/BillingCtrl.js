@@ -14,6 +14,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   $scope.loading = false;
   $scope.historyLoading = true;
   var isPayAsYouGo = false;
+  var isTrial = false;
   $scope.history = [];
   var hasExpired;
   $scope.user = StorageService.getUser();
@@ -22,6 +23,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
     $scope.user.merchantInfo.billing = response.data.merchantInfo.billing;
     StorageService.setUser($scope.user);
     isPayAsYouGo = $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+    isTrial = $scope.user.merchantInfo.billing.plan === 'trial';
     hasExpired = ($scope.user.merchantInfo.billing.history[0] && moment(new Date()).isAfter($scope.user.merchantInfo.billing.history[0].expiration)) || false;
     $scope.history = $scope.user.merchantInfo.billing.history;
     $scope.billing = {

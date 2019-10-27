@@ -509,6 +509,22 @@ form .row {
 
 .billing-plans .plans {
   display: flex;
+  position: relative;
+}
+
+.billing-plans .plans .plan-disable-frontdrop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  z-index: 99999;
+  background-color: rgba(0, 0, 0, .65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
 }
 
 .billing-plans .plans .plan {
@@ -516,6 +532,10 @@ form .row {
   width: 250px;
   margin-right: 20px;
   cursor: pointer;
+}
+
+.billing-plans .plans .plan.trial-plan {
+  filter: blur(4px);
 }
 
 .billing-plans .plans .plan .card {
