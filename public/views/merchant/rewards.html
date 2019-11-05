@@ -133,16 +133,15 @@
                                     id="noOfDate"
                                     class="form-control"
                                     name="noOfDays"
-                                    ng-class="{'has-error': isError(form.noOfDays)}" 
                                     type="number" 
                                     ng-model="noOfDays" 
                                     ng-change="setEndDate(noOfDays)" 
-                                    ng-min="4" 
+                                    ng-min="1" 
                                     ng-max="{{maxDays}}" 
                                     required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
-                            <small id="daysHelp" class="form-text"><b>Minimum of 4 days. Your maximum number of days, based on subscription, is {{maxDays}}.</b></small><br/>
+                            <small id="daysHelp" class="form-text"><b>Minimum of 1 day. Your maximum number of days, based on subscription, is {{maxDays}}.</b></small><br/>
                             <small id="rangeHelp" class="form-text"><b>The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b></small>
                         </div>
                     </div>
