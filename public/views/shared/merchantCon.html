@@ -66,11 +66,11 @@
                     <form ng-submit="completeMerch()">
 
                         <!-- plan selection section -->
-                        <div class="card">
-                            <section class="billing-plans" style="padding-top: 0;" ng-if="!trialPeriodData.enabled">
+                        <div class="card" ng-if="showBilling">
+                            <section class="billing-plans" style="padding-top: 0;" >
                                 <h3 class="light" style="margin-bottom: 30px;">Select Your Plan</h3>
                                 <div class="plans">
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="0" ng-checked="planIndex===0">
                                         <div class="card" ng-click="planSelect(0)">
@@ -88,7 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="1" ng-checked="planIndex===1">
                                         <div class="card" ng-click="planSelect(1)">
@@ -106,7 +106,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="2" ng-checked="planIndex===2">
                                         <div class="card" ng-click="planSelect(2)">
@@ -123,15 +123,23 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="plan" ng-if="trialPeriodData.enabled">
+                                        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
+                                            value="2" ng-checked="trialPeriodData.enabled">
+                                        <div class="card">
+                                            <div class="plan-header">
+                                                Free Trial
+                                                <span class="select-indicator"></span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <p>Unlimited Rewards Addition within trial Month</p>
+                                            </div>
+                                            <div class="plan-footer">
+                                                &#8358;0 for {{trialPeriodData.duration}} month{{trialPeriodData.duration > 1 ? 's' : ''}} (Free)
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div>
-                                    
-                                </div>
-                            </section>
-                            <section class="billing-plans"  style="padding-top: 0;"  ng-if="trialPeriodData.enabled">
-                                <h3 class="light">
-                                    You don't need to select a billing plan as you have {{trialPeriodData.duration}} month{{trialPeriodData.duration > 1 ? 's' : ''}} free
-                                </h3>
                             </section>
                         </div>
 

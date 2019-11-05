@@ -43,6 +43,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
+    $scope.showBilling = false;
     var url = window.location.origin;
     /**
      * {
@@ -79,6 +80,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 plan = 'trial';
                 console.log(plan)
             }
+
+            $scope.showBilling = true;
         });
         
         if (merchId && merchId.length === 24) {
