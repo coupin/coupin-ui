@@ -150,7 +150,7 @@
                                 <div class="col-md-3 col-sm-12">
                                     <label>Logo</label>
                                     <div class="logo-box">
-                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}" />
+                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}" style="height: 150px; width: 150px;"/>
                                         <div class="inner" data-toggle="modal" data-target="#cropModal"
                                             ng-click="isLogo = true">
                                             <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
@@ -162,7 +162,7 @@
                                 <div class="col-md-9 col-sm-12">
                                     <label>Banner</label>
                                     <div class="banner-box">
-                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}" />
+                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}" style="height: 250px;"/>
                                         <div class="inner" data-toggle="modal" data-target="#cropModal"
                                             ng-click="isLogo = false">
                                             <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
