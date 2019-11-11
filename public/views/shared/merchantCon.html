@@ -33,6 +33,7 @@
     <script src="/libs/ng-file-upload/ng-file-upload.min.js"></script>
     <script src="/libs/ng-img-crop/compile/minified/ng-img-crop.js"></script>
     <script src="/libs/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
+    <script src="/libs/moment/moment.js"></script>
 
     <!-- ANGULAR CUSTOM -->
     <script src="/js/shared/controllers/AuthCtrl.js"></script>
@@ -42,6 +43,7 @@
     <script src="/js/shared/services/PaymentSrv.js"></script>
     <script src="/js/shared/services/RewardsSrv.js"></script>
     <script src="/js/shared/services/UtilSrv.js"></script>
+    <script src="/js/shared/services/ConfigSrv.js"></script>
     <script src="/js/config.js"></script>
     <script src="/js/shared/authapp.js"></script>
 </head>
@@ -62,12 +64,13 @@
                     </h3>
                     <h5 class="light"> Just one more step to become active</h5>
                     <form ng-submit="completeMerch()">
-                        <!-- <p class="section-headers" style="margin-bottom: 15px;">Select Plan</p> -->
-                        <div class="card">
-                            <section class="billing-plans" style="padding-top: 0;">
+
+                        <!-- plan selection section -->
+                        <div class="card" ng-if="showBilling">
+                            <section class="billing-plans" style="padding-top: 0;" >
                                 <h3 class="light" style="margin-bottom: 30px;">Select Your Plan</h3>
                                 <div class="plans">
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="0" ng-checked="planIndex===0">
                                         <div class="card" ng-click="planSelect(0)">
@@ -85,7 +88,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="1" ng-checked="planIndex===1">
                                         <div class="card" ng-click="planSelect(1)">
@@ -103,7 +106,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="plan">
+                                    <div class="plan" ng-if="!trialPeriodData.enabled">
                                         <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
                                             value="2" ng-checked="planIndex===2">
                                         <div class="card" ng-click="planSelect(2)">
@@ -120,16 +123,34 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="plan" ng-if="trialPeriodData.enabled">
+                                        <input type="radio" name="billing-plan" class="billing-plan" name="billing-plan"
+                                            value="2" ng-checked="trialPeriodData.enabled">
+                                        <div class="card">
+                                            <div class="plan-header">
+                                                Free Trial
+                                                <span class="select-indicator"></span>
+                                            </div>
+                                            <div class="plan-body">
+                                                <p>Unlimited Rewards Addition within trial Month</p>
+                                            </div>
+                                            <div class="plan-footer">
+                                                &#8358;0 for {{trialPeriodData.duration}} month{{trialPeriodData.duration > 1 ? 's' : ''}} (Free)
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </section>
                         </div>
+
+                        <!-- merhcnat logo and banner image section -->
                         <div class="card" style="margin-top: 20px;">
                             <h3 class="light" style="margin-bottom: 30px;">Upload Your Images</h3>
                             <div class="row">
                                 <div class="col-md-3 col-sm-12">
                                     <label>Logo</label>
                                     <div class="logo-box">
-                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}" />
+                                        <img ng-if="showLogo()" ng-src="{{formData.logo.url}}" style="height: 150px; width: 150px;"/>
                                         <div class="inner" data-toggle="modal" data-target="#cropModal"
                                             ng-click="isLogo = true">
                                             <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
@@ -141,7 +162,7 @@
                                 <div class="col-md-9 col-sm-12">
                                     <label>Banner</label>
                                     <div class="banner-box">
-                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}" />
+                                        <img height="200" ng-if="showBanner()" ng-src="{{formData.banner.url}}" style="height: 250px;"/>
                                         <div class="inner" data-toggle="modal" data-target="#cropModal"
                                             ng-click="isLogo = false">
                                             <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
@@ -152,6 +173,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- merchant password and info section -->
                         <div class="card" style="margin-top: 20px;">
                             <h3 class="light" style="margin-bottom: 30px;">Set Your Password and Info</h3>
                             <div class="row">

@@ -14,6 +14,7 @@ angular.module('adminApp', [
   'AddMerchantCtrl',
   'AddRewardCtrl',
   'FeaturedCtrl',
+  'ConfigCtrl',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',
@@ -26,6 +27,7 @@ angular.module('adminApp', [
   'RewardsSrv',
   'RewardsCtrl',
   'RequestSrv',
+  'ConfigSrv',
   'StorageSrv',
   'UtilSrv'
 ]).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {

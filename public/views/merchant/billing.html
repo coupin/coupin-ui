@@ -16,7 +16,10 @@
         </button>
       </div>
     <div class="plans">
-      <div class="plan">
+      <div class="plan-disable-frontdrop" ng-if="billing.plan === 'trial'">
+        You don't have to select a plan, you have an active free plan
+      </div>
+      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
         <input type="radio" name="billing-plan" class="billing-plan" value="payAsYouGo" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
           <div class="plan-header">
@@ -33,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="plan">
+      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
         <input type="radio" name="billing-plan" class="billing-plan" value="monthly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('monthly'); updateBilling()">
           <div class="plan-header">
@@ -50,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div class="plan">
+      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
         <input type="radio" name="billing-plan" class="billing-plan" value="yearly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('yearly'); updateBilling()">
           <div class="plan-header">
