@@ -998,3 +998,20 @@ form .row {
   display: none;
 }
 /** end of file upload styling **/
+
+/** Reward List pagination buttons **/
+.reward-list-pagination button {
+  width: 35px;
+  height: 35px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background-color: #313237;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 0;
+  outline: 0;
+}
+/** End of reward List pagination buttons **/

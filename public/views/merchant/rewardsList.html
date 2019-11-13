@@ -29,6 +29,14 @@
     </section>
     <section class="row">
         <div class="col-md-12 col-xs-12">
+            <div class="reward-list-pagination">
+                <button ng-click="previousRewards()">
+                    <i class="fa fa-chevron-left"></i>
+                </button>
+                <button ng-click="nextRewards()">
+                    <i class="fa fa-chevron-right"></i>
+                </button>
+            </div>
             <table class="table" id="reward-list-table">
                 <thead class="hidden-xs hidden-sm">
                     <tr>
@@ -70,7 +78,7 @@
                         <td><div></div></td>
                         <td></td>
                     </tr>
-                    <tr ng-if="rewards.length === 0" class="empty-row">
+                    <tr ng-if="!loadingRewards && rewards.length === 0" class="empty-row">
                         <td colspan="6">
                             No Rewards to display
                         </td>

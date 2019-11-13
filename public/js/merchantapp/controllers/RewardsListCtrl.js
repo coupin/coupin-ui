@@ -7,6 +7,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
   StorageService
 ) {
   $scope.loadingRewards = false;
+  $scope.page = 1;
   /**
    * Change status of a reward
    * @param {*} index 
@@ -97,6 +98,8 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
       details['query'] = $scope.query;
     }
 
+    details.page = $scope.page;
+
     RewardsService.getMerchRewards(details).then(function (result) {
       $scope.loadingRewards = false;
       $scope.rewards = result.data;
@@ -106,4 +109,22 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
         // showError(errTitle, errMsg);
     });
   };
+
+  $scope.previousRewards = function () {
+    if ($scope.page !== 1) {
+      $scope.page -= 1;
+      $scope.loadingRewards = true;
+      $scope.rewards = [];
+      $scope.loadRewards();
+    }
+  }
+
+  $scope.nextRewards = function () {
+    if ($scope.rewards.length === 10) {
+      $scope.page += 1;
+      $scope.loadingRewards = true;
+      $scope.rewards = [];
+      $scope.loadRewards();
+    }
+  }
 });
