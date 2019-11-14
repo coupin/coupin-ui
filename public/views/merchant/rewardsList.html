@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)">
-                        <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
+                        <td scope="row" class="hidden-xs hidden-sm">{{ (10 * (page - 1)) + (index + 1) }}</td>
                         <td class="icon">{{ discount.name }}</td>
                         <td class="icon" show-more>{{ discount.description }}</td>
                         <td>
