@@ -57,11 +57,11 @@ $scope.billing = {
 $scope.history = $scope.user.merchantInfo.billing.history;
 
   $scope.bannerStyle = {
-    "background-image": `url("${banner}")`
+    "background-image": "url(\"" + banner + "\")"
   };
 
   $scope.logoStyle = {
-    "background-image": `url("${logo}")`
+    "background-image": "url(\"" + logo + "\")"
   };
 
   /**
@@ -294,9 +294,9 @@ $scope.history = $scope.user.merchantInfo.billing.history;
         .then(function(response) {
             StorageService.setUser(response.data);
             if ($scope.billing.plan === $scope.user.merchantInfo.billing.plan) {
-                UtilService.showSuccess('Success', `Subscription successfully renewed!`);
+                UtilService.showSuccess('Success', 'Subscription successfully renewed!');
             } else {
-                UtilService.showSuccess('Success', `Billing successfully changed to ${$scope.billing.plan} plan!`);
+                UtilService.showSuccess('Success', 'Billing successfully changed to ' + $scope.billing.plan + ' plan!');
             }
             $('#billingModal').modal('hide');
             StorageService.setExpired(false);
@@ -349,6 +349,8 @@ $scope.history = $scope.user.merchantInfo.billing.history;
      */
     $scope.fileCheck = function(image, isLogo) {
         var limit = isLogo ? 500000 : 900000;
+        var file;
+
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
             var dataurl = image.dst;
@@ -358,11 +360,17 @@ $scope.history = $scope.user.merchantInfo.billing.history;
                 u8arr[n] = bstr.charCodeAt(n);
             }
             
-            var file = new File([u8arr], 'testing', {type:mime});
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;
-                UtilService.showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                UtilService.showError('Uh Oh!', 'File is too large, must be ' + temp + 'KB or less.');
             } else {
                 $scope.upload(file, $scope.user.id, isLogo);
             }

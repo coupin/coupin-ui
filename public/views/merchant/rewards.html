@@ -170,7 +170,7 @@
                                         <input
                                             type="checkbox"
                                             name="_day"
-                                            ng-checked="newReward.applicableDays.includes($index)"
+                                            ng-checked="newReward.applicableDays.indexOf($index) > -1"
                                             ng-value="$index">
                                         <button
                                             type="button"

@@ -22,9 +22,9 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
           //     });
           // },
           getMerchRewards: function (id, query) {
-              var url = `${baseV1Url}/merchant/${id}/rewards`;
+              var url = baseV1Url + '/merchant/' + id + '/rewards';
               if (UtilService.isDefined(query)) {
-                  url = `${url}?status=${query.status}`
+                  url = url + '?status=' + query.status
               }
               
               return $http({

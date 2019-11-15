@@ -29,12 +29,12 @@
 
 .auth-container .header span.active:not(.underline) {
   color: #14a580;
-  background-color: unset;
+  background-color: transparent;
 }
 
 .auth-container .header span:hover:not(.underline) {
   color: #14a580;
-  background-color: unset;
+  background-color: transparent;
 }
 
 .auth-container .header .underline {

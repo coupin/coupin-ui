@@ -6,7 +6,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   PaymentService,
   StorageService,
   MerchantService,
-  UtilService,
+  UtilService
 ) {
   var previousPlan = '';
   $scope.showRest = false;
@@ -76,9 +76,9 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
       .then(function (response) {
         StorageService.setUser(response.data);
         if ($scope.billing.plan === $scope.user.merchantInfo.billing.plan) {
-          UtilService.showSuccess('Success', `Subscription successfully renewed!`);
+          UtilService.showSuccess('Success', 'Subscription successfully renewed!');
         } else {
-          UtilService.showSuccess('Success', `Billing successfully changed to ${$scope.billing.plan} plan!`);
+          UtilService.showSuccess('Success', 'Billing successfully changed to ' + $scope.billing.plan + ' plan!');
         }
         if (hasExpired) {
           StorageService.setExpired(false);
@@ -86,7 +86,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
         $window.location.reload();
       })
       .catch(function (err) {
-        UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupin.com');
+        UtilService.showError('Uh Oh', 'There was an error while updating your billing info. please contact admin on admin@coupinapp.com');
       });
   }
 

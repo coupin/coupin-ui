@@ -36,7 +36,7 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
     var data = response.data;
     $scope.featured = data.featured ? data.featured : $scope.featured;
     $scope.slides = data.hotlist ? data.hotlist : [];
-    $scope.slides.forEach(element => {
+    $scope.slides.forEach(function (element) {
       var slideIndex = availableIndex.indexOf(element.index);
       if (slideIndex > -1) {
         availableIndex.splice(slideIndex, 1);
@@ -111,6 +111,8 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
    */
   $scope.fileCheck = function(image) {
     var limit = 900000;
+    var file;
+
     if (UtilService.isDefined(image.src)) {
         isuploading = true;
         var dataurl = image.dst;
@@ -119,12 +121,18 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
         while(n--){
             u8arr[n] = bstr.charCodeAt(n);
         }
-        
-        var file = new File([u8arr], 'testing', {type:mime});
+
+        try {
+            file = new File([u8arr], "" + image.src.length, {type:mime});
+        } catch (err) {
+            file = new Blob([u8arr], {type:mime});
+            file.name = "" + image.src.length;
+            file.lastModified = new Date();
+        }
 
         if (file.size > limit) {
           limit = limit / 100;
-          showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+          showError('Uh Oh!', "File is too large, must be " + temp + "KB or less.");
         } else {
           uploadSlide(file, 'slide-' + availableIndex[0]);
         }

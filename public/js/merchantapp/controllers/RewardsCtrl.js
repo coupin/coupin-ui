@@ -113,7 +113,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     function payWithPayStack(reward, cb) {
         var date = new Date();
-        const reference = `${reward._id}-${$scope.user.merchantInfo.companyName.split(' ')[0]}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`;
+        const reference = reward._id + '-' + $scope.user.merchantInfo.companyName.split(' ')[0] +'-'+ date.getFullYear() +'-'+ date.getMonth() +'-'+ date.getDate() +'-'+ date.getTime();
 
         var handler = PaystackPop.setup({
             key: ENV_VARS.payStackId,
@@ -125,7 +125,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     {
                         display_name: "Reward Name",
                         variable_name: "The name of the reward",
-                        value: `${reward.name}`
+                        value: reward.name
                     }
                 ]
             },
@@ -201,10 +201,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         var weekends = [5, 6];
 
         var isWeekend = $scope.newReward.applicableDays.length === 2 &&
-            $scope.newReward.applicableDays.every(function (x) { return weekends.includes(x); });
+            $scope.newReward.applicableDays.every(function (x) { return weekends.indexOf(x) > -1; });
 
         var isWeekday = $scope.newReward.applicableDays.length === 5 &&
-            $scope.newReward.applicableDays.every(function (x) { return !weekends.includes(x); });
+            $scope.newReward.applicableDays.every(function (x) { return !weekends.indexOf(x) > -1; });
 
         if ($scope.newReward.applicableDays.length === 7) {
             $scope.selectedDayOption = 'all';
@@ -278,6 +278,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.fileCheck = function (image) {
         var limit = 200000;
+        var file;
 
         if ($scope.photos.length === 4) {
             $('#croppingModal').modal('hide');
@@ -291,11 +292,17 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 u8arr[n] = bstr.charCodeAt(n);
             }
 
-            var file = new File([u8arr], `${$scope.photos.length}`, { type: mime });
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;
-                UtilService.showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+                UtilService.showError('Uh Oh!', 'File is too large, must be ' + limit + 'KB or less.');
             } else {
                 $scope.files.push(file);
                 $scope.photos.push({
@@ -417,7 +424,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     var found = false;
 
                     while (count < total && !found) {
-                        if ($scope.photos[count].url.includes('data')) {
+                        if ($scope.photos[count].url.indexOf('data') > -1) {
                             $scope.photos[count] = data;
                             found = true;
                         }

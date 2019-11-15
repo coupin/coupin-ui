@@ -1,7 +1,7 @@
 angular.module('BaseMCtrl', []).controller('BaseMController', function (
     $scope,
     $alert,
-    StorageService,
+    StorageService
 ) {
     $scope.position = {};
 

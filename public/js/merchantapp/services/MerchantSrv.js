@@ -43,7 +43,9 @@ function (
             });
         },
         login : function(details) {
-            return $http.post(baseV1Url + '/auth/signin/m', details, );
+            return $http.post(baseV1Url + '/auth/signin/m', details, {
+                headers: authHeader
+            });
         },
         retrieve : function(id) {
             var token = StorageService.getToken();

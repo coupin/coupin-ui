@@ -220,7 +220,8 @@
 
   .navbar-toggle:not(.collapsed) {
     background-color: transparent;
-    box-shadow: unset;
+    box-shadow: 0;
+    /* box-shadow: unset; */
   }
 
   div.navbar-collapse.collapse {

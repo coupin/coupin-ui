@@ -60,6 +60,10 @@ td::first-letter {
     padding: 100px;
 }
 
+.error-text {
+    color: #e40000 !important;
+  }
+
 .clickable {
     cursor: pointer;
 }

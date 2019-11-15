@@ -26,7 +26,7 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     $scope.getPageCount = function() {
         const start = page * 10;
         const end = start + $scope.merchants.length;
-        return `${start} - ${end}`;
+        return start - end;
     };
 
     $scope.loadMerchants = function() {

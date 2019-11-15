@@ -67,7 +67,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
     
     // Get current merchant if merchant route called
-    if($location.absUrl().includes('confirm')) {
+    if($location.absUrl().indexOf('confirm') > -1) {
         checkAuth = false;
         merchId = strings[strings.length - 2];
 
@@ -97,7 +97,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     }
     
     // Confirm Id if for change of password
-    if($location.absUrl().includes('forgot-password')) {
+    if($location.absUrl().indexOf('forgot-password') > -1) {
         checkAuth = false;
         var encodedString = UtilService.getQueryVariable('query');
 
@@ -136,7 +136,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
     // Non-scope variables
     var multipleAlerts = [];
-    var hideAllAlerts = () => {
+    var hideAllAlerts = function () {
         if(multipleAlerts.length > 0) {
             for(var j = 0; j < multipleAlerts.length; j++) {
                 multipleAlerts[j].hide();
@@ -148,7 +148,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Add selected category to object
      * @param {Number} x index
      */
-    $scope.addCat = (x) => {
+    $scope.addCat = function (x) {
         if($scope.categories[x] === false) {
             $scope.categories[x] = true;
         } else {
@@ -170,7 +170,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Sign in Admin
      */
-    $scope.signInA = () => {
+    $scope.signInA = function () {
         // show loading
         $scope.loading[0] = true;
         // reset show error back to false
@@ -257,6 +257,26 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Used to complete merchants registration
      */
     $scope.completeMerch = function() {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            UtilService.showError('Error', 'Passwords do not match');
+            return;
+        }
+        
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            UtilService.showError('Error', 'Please upload an image for the logo');
+            return;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            UtilService.showError('Error', 'Please upload an image for the banner');
+            return;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            UtilService.showError('Error', 'Please add a description for your company');
+            return;
+        }
+
         switch($scope.planIndex) {
             case 0:
                 $scope.formData['billing'] = {
@@ -412,6 +432,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      */
     $scope.fileCheck = function(image, isLogo) {
         var limit = isLogo ? 500000 : 900000;
+        var file;
+
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
             var dataurl = image.dst;
@@ -421,11 +443,17 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 u8arr[n] = bstr.charCodeAt(n);
             }
             
-            var file = new File([u8arr], 'testing', {type:mime});
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;
-                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                showError('Uh Oh!', 'File is too large, must be ' + temp + 'KB or less.');
             } else {
                 upload(file, $scope.user._id, isLogo);
             }
@@ -435,7 +463,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Logs merchant into the system
      */
-    $scope.loginMerch = () => {
+    $scope.loginMerch = function () {
         let details = {
             email : $scope.formData.loginEmail,
             password : $scope.formData.loginPassword
@@ -455,7 +483,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Used to register a merchant after they have been approved
      */
-    $scope.registerMerch = () => {
+    $scope.registerMerch = function () {
         // Hide any existing alert
         // hideAllAlerts();
         
@@ -541,4 +569,24 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.isError = function (x) {
         return UtilService.isError(x);
     };
+
+    $scope.disableMerchantConfirmationButton = function () {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            return false;
+        }
+        
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            return false;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            return false;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            return false;
+        }
+
+        return true;
+    }
 });

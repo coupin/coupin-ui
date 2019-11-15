@@ -158,6 +158,7 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
    */
   $scope.fileCheck = function(image, isLogo) {
     var limit = 200000;
+    var file;
 
     if ($scope.photos.length === 4) {
         $('#croppingModal').modal('hide');
@@ -170,12 +171,18 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
         while(n--){
             u8arr[n] = bstr.charCodeAt(n);
         }
-        
-        var file = new File([u8arr], `${$scope.photos.length}`, {type:mime});
+
+        try {
+            file = new File([u8arr], "" + image.src.length, {type:mime});
+        } catch (err) {
+            file = new Blob([u8arr], {type:mime});
+            file.name = "" + image.src.length;
+            file.lastModified = new Date();
+        }
 
         if (file.size > limit) {
             limit = limit / 100;
-            UtilService.showError('Uh Oh!', `File is too large, must be ${limit}KB or less.`);
+            UtilService.showError('Uh Oh!', "File is too large, must be " + limit +"KB or less.");
         } else {
             $scope.files.push(file);
             $scope.photos.push({
@@ -271,7 +278,7 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
               var found = false;
               
               while(count < total && !found) {
-                  if ($scope.photos[count].url.includes('data')) {
+                  if ($scope.photos[count].url.indexOf('data') > -1) {
                       $scope.photos[count] = data;
                       found = true;
                   }
