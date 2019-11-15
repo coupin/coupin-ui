@@ -278,6 +278,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      */
     $scope.fileCheck = function (image) {
         var limit = 200000;
+        var file;
 
         if ($scope.photos.length === 4) {
             $('#croppingModal').modal('hide');
@@ -291,7 +292,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 u8arr[n] = bstr.charCodeAt(n);
             }
 
-            var file = new File([u8arr], "" + $scope.photos.length, { type: mime });
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;

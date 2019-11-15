@@ -121,6 +121,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
     $scope.fileCheck = function() {
         var image = $scope.image;
         var limit = 200000;
+        var file;
         
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
@@ -130,8 +131,14 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
             while(n--){
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            
-            var file = new File([u8arr], "" + image.src.length, {type:mime});
+
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;

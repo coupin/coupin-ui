@@ -349,6 +349,8 @@ $scope.history = $scope.user.merchantInfo.billing.history;
      */
     $scope.fileCheck = function(image, isLogo) {
         var limit = isLogo ? 500000 : 900000;
+        var file;
+
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
             var dataurl = image.dst;
@@ -358,7 +360,13 @@ $scope.history = $scope.user.merchantInfo.billing.history;
                 u8arr[n] = bstr.charCodeAt(n);
             }
             
-            var file = new File([u8arr], 'testing', {type:mime});
+            try {
+                file = new File([u8arr], "" + image.src.length, {type:mime});
+            } catch (err) {
+                file = new Blob([u8arr], {type:mime});
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;
