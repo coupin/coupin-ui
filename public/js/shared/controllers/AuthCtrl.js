@@ -257,6 +257,26 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Used to complete merchants registration
      */
     $scope.completeMerch = function() {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            UtilService.showError('Error', 'Passwords do not match');
+            return;
+        }
+        
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            UtilService.showError('Error', 'Please upload an image for the logo');
+            return;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            UtilService.showError('Error', 'Please upload an image for the banner');
+            return;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            UtilService.showError('Error', 'Please add a description for your company');
+            return;
+        }
+
         switch($scope.planIndex) {
             case 0:
                 $scope.formData['billing'] = {
@@ -541,4 +561,24 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.isError = function (x) {
         return UtilService.isError(x);
     };
+
+    $scope.disableMerchantConfirmationButton = function () {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            return false;
+        }
+        
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            return false;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            return false;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            return false;
+        }
+
+        return true;
+    }
 });

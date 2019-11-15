@@ -63,7 +63,7 @@
                         Hi {{ user.merchantInfo.companyName }}, fill the form below to complete your registration
                     </h3>
                     <h5 class="light"> Just one more step to become active</h5>
-                    <form ng-submit="completeMerch()">
+                    <form ng-submit="completeMerch()" name="merchantConfirmation">
 
                         <!-- plan selection section -->
                         <div class="card" ng-if="showBilling">
@@ -183,9 +183,16 @@
                                         <label for="password">Password:</label>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
-                                            <input type="password" class="form-control" id="password"
-                                                aria-describedby="passwordHelp" placeholder="Please put in password"
-                                                ng-model="formData.password" required>
+                                            <input 
+                                                type="password" 
+                                                class="form-control" 
+                                                id="password"
+                                                aria-describedby="passwordHelp"
+                                                placeholder="Please put in password"
+                                                ng-model="formData.password"
+                                                name="password"
+                                                ng-class="{'has-error': merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password}"
+                                                required>
                                         </div>
                                         <small id="passwordHelp" class="form-text text-muted">This is the password linked with
                                             your email for login.</small>
@@ -196,12 +203,19 @@
                                         <label for="password2">Confirm Password:</label>
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
-                                            <input type="password" class="form-control" id="password2"
-                                                aria-describedby="password2lHelp" placeholder="Confirm Password.."
-                                                ng-model="formData.password2" required>
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                id="password2"
+                                                aria-describedby="password2lHelp"
+                                                placeholder="Confirm Password.."
+                                                ng-model="formData.password2"
+                                                name="confirmPassword"
+                                                ng-class="{'has-error': merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password}"
+                                                required>
                                         </div>
-                                        <small id="password2Help" class="form-text text-muted">Please confirm your
-                                            password.</small>
+                                        <small id="password2Help" class="form-text text-muted" ng-show="!(merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password)">Please confirm your password.</small>
+                                        <small id="password2Help" class="form-text error-text" ng-show="merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password">Password and confirm password must match</small>
                                     </div>
                                 </div>
                             </div>
@@ -209,15 +223,20 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="descr">Description of Business:</label>
-                                        <textarea class="form-control" id="descr" maxlength="80" placeholder="My company is into..."
-                                            ng-model="formData.companyDetails" required></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="descr"
+                                            maxlength="80"
+                                            placeholder="My company is into..."
+                                            ng-model="formData.companyDetails"
+                                            required></textarea>
                                         <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or
                                             less</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="row user-profile-action">
-                                <button ng-disabled="loading[1]" class="btn btn-primary btn-lg" type="submit">Complete Registration <i class="fas fa-spin fa-spinner" ng-show="loading[1]"></i></button>
+                                <button ng-disabled="!disableMerchantConfirmationButton() || loading[1]" class="btn btn-primary btn-lg" type="submit">Complete Registration <i class="fas fa-spin fa-spinner" ng-show="loading[1]"></i></button>
                             </div>
                         </div>
                     </form>

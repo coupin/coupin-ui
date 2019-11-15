@@ -58,7 +58,7 @@
         </div>
         <div class="body"  ng-if="activeView === 'register'">
             <p>Sign up with us to start now</p>
-            <form>
+            <form name="registrationForm">
                 <div class="form-group">
                     <label for="companyName">Business Name:</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -70,7 +70,17 @@
                 <div class="form-group">
                     <label for="address">Address:</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <input type="text" class="form-control" id="address" minlength="20" maxlength="40" aria-describedby="addressHelp" placeholder="e.g. 2 bank road, ikoyi" ng-model="formData.address" required>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            minlength="20"
+                            maxlength="40"
+                            name="registrationAddress"
+                            ng-class="{'has-error': isError(registrationForm.registrationAddress)}"
+                            aria-describedby="addressHelp"
+                            placeholder="e.g. 2 bank road, ikoyi"
+                            ng-model="formData.address" required>
                         <div class="input-group-addon icons-input"><i class="fas fa-home"></i></div>
                     </div>
                     <small id="addressHelp" class="form-text text-muted">Street address with area</small>
