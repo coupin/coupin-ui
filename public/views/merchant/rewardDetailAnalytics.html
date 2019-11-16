@@ -12,19 +12,19 @@
           <div class="col-md-4 col-sm-12" style="padding-left: 0;">
             <span class="reward-info">
               <p>Name</p>
-              <p class="capitalize">Lorem Ipsum</p>
+              <p class="capitalize">{{reward.name}}</p>
             </span>
           </div>
           <div class="col-sm-12 col-md-4" style="padding-left: 0;">
             <span class="reward-info">
               <p>Added</p>
-              <p>10/10/20</p>
+              <p>{{reward.startDate | date: 'longDate'}}</p>
             </span>
           </div>
           <div class="col-sm-12 col-md-4" style="padding-left: 0;">
             <span class="reward-info">
               <p>Expires</p>
-              <p>10/10/20</p>
+              <p>{{reward.endDate | date: 'longDate'}}</p>
             </span>
           </div>
         </div>
@@ -33,20 +33,20 @@
     <div class="row" style="margin-top: 30px">
       <div class="col-sm-12 card">
           <p class="section-headers" style="margin-bottom: 20px;">Generated Coupin vs Redeemed Coupin</p>
-        <div id="generated-vs-redeemed"></div>
+          <cp-reward-analytics-generated-vs-redeemed-coupins></cp-reward-analytics-generated-vs-redeemed-coupins>
       </div>
     </div>
     <div class="row" style="margin-top: 30px;">
         <div class="col-md-6" style="padding-left: 0;">
           <div class="card">
               <p class="section-headers" style="margin-bottom: 20px;">Gender Distribution</p>
-              <div id="gender-distribution"></div>
+              <cp-reward-analytics-gender-distribution data="genderDistributionData"></cp-reward-analytics-gender-distribution>
           </div>
         </div>
         <div class="col-md-6" style="padding-right: 0;">
           <div class="card">
               <p class="section-headers" style="margin-bottom: 20px;">Age Distribution</p>
-              <div id="age-distribution"></div>
+              <cp-reward-analytics-age-distribution></cp-reward-analytics-age-distribution>
           </div>
         </div>
       </div>

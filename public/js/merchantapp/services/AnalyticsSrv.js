@@ -38,5 +38,19 @@ function (
         headers: authHeader
       });
     },
+
+    getRewardGenderDistribution: function (rewardId) {
+      var url = '/analytics/reward/' + rewardId +'/gender-distribution';
+      return $http.get(baseV1Url + url, {
+        headers: authHeader
+      });
+    },
+
+    getRewardAgeDistribution: function (rewardId) {
+      var url = '/analytics/reward/' + rewardId +'/age-distribution';
+      return $http.get(baseV1Url + url, {
+        headers: authHeader
+      });
+    },
   }
 }]);
