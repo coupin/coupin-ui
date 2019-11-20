@@ -38,6 +38,15 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
     });
   }
 
+  function getAgeDistribution(rewardId) {
+    AnalyticsService.getRewardAgeDistribution(rewardId).then(function (result) {
+      $scope.ageDistributionData = result.data;
+    }).catch(function (error) {
+        UtilService.showError(errTitle, error.data);
+    });
+  }
+
   getReward(id);
   getGenderDistribution(id);
+  getAgeDistribution(id);
 });

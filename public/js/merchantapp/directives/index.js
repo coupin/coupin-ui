@@ -368,14 +368,28 @@ angular.module('coupinApp').directive('showMore', function () {
           series: [
             {
               name: "Redeemed Coupin",
-              // data: [193,318,293,360,211,236,390]
-              data: [[new Date('9/27/2018').getTime(), 193], [new Date('10/11/2018').getTime(), 318], [new Date('10/25/2018').getTime(), 293], [new Date('11/8/2018').getTime(), 360], [new Date('11/22/2018').getTime(), 236], [new Date('12/6/2018').getTime(), 211], [new Date('12/20/2018').getTime(), 390],],
+              data: [
+                [new Date('9/27/2018').getTime(), 193],
+                [new Date('10/11/2018').getTime(), 318],
+                [new Date('10/25/2018').getTime(), 293],
+                [new Date('11/8/2018').getTime(), 360],
+                [new Date('11/22/2018').getTime(), 236],
+                [new Date('12/6/2018').getTime(), 211],
+                [new Date('12/20/2018').getTime(), 390],
+              ],
             },
             {
               name: "Generated Coupin",
-              // data: [161,313,465,159,191,364,493]
-              data: [[new Date('9/27/2018').getTime(), 161], [new Date('10/11/2018').getTime(), 313], [new Date('10/25/2018').getTime(), 465], [new Date('11/8/2018').getTime(), 159], [new Date('11/22/2018').getTime(), 191], [new Date('12/6/2018').getTime(), 364], [new Date('12/20/2018').getTime(), 493],]
-            }
+              data: [
+                [new Date('9/27/2018').getTime(), 161],
+                [new Date('10/11/2018').getTime(), 313],
+                [new Date('10/25/2018').getTime(), 465],
+                [new Date('11/8/2018').getTime(), 159],
+                [new Date('11/22/2018').getTime(), 191],
+                [new Date('12/6/2018').getTime(), 364],
+                [new Date('12/20/2018').getTime(), 493],
+              ],
+            },
           ],
           grid: {
             borderColor: 'rgba(231, 233, 237, 0.15)',

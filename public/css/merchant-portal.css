@@ -12,6 +12,52 @@ option {
   text-transform: capitalize !important;
 }
 
+.portal-header {
+  height: 60px;
+  background-color: #313237;
+  z-index: 999999;
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  border-bottom: 2px solid #252525;
+  padding-left: 20px;
+}
+
+.portal-header > ::before {
+  content: '';
+  height: 100%;
+  width: 0;
+}
+
+.portal-header > .logo-block, .portal-header > ::before {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.portal-header > .logo-block * {
+  display: inline-block;
+}
+
+.portal-header > .logo-block p {
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 0;
+  vertical-align: middle;
+}
+
+.portal-content {
+  margin-top: 60px;
+}
+
+@media (max-width: 1199px) {
+  .portal-content {
+    margin-top: 0px;
+  }
+}
+
 #user-details > div:nth-child(even) {
   border-bottom: 1px solid gray;
 }
@@ -834,6 +880,10 @@ form .row {
 }
 
 .mobile-logo {
+  height: 25px;
+}
+
+.desktop-logo {
   height: 25px;
 }
 
