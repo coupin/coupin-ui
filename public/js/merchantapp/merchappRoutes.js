@@ -16,6 +16,11 @@ function (
             templateUrl: '/views/merchant/login.html',
             controller: 'AuthController'
         })
+        .state('terms', {
+            url: '/policy/terms',
+            templateUrl: '/views/merchant/terms.html',
+            // controller: 'AuthController'
+        })
         .state('dashboard', {
             url: '/dashboard',
             templateUrl: '/views/merchant/home.html',

@@ -44,7 +44,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
     $scope.showBilling = false;
-    $scope.agreeTermsAndCondition = true;
+    $scope.agreeTermsAndCondition = false;
     var url = window.location.origin;
     /**
      * {
