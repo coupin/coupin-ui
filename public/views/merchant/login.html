@@ -58,7 +58,7 @@
         </div>
         <div class="body"  ng-if="activeView === 'register'">
             <p>Sign up with us to start now</p>
-            <form name="registrationForm">
+            <form name="registrationForm" ng-submit="registerMerch()">
                 <div class="form-group">
                     <label for="companyName">Business Name:</label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
@@ -114,7 +114,18 @@
                     </div>
                     <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
                 </div>
-                <button class="btn btn-default btn-primary" type="submit" ng-click="registerMerch()" ng-disabled="loading[1]">
+                <div class="form-group">
+                    <label for="agreeTermsAndCondition">
+                        <input
+                            type="checkbox"
+                            name="agreeTermsAndCondition"
+                            ng-change="setAgreeTermsAndConditionChange()"
+                            ng-model="agreeTermsAndCondition"
+                            required>
+                        By clicking this, you agree to our Terms and Conditions.
+                    </label>
+                </div>
+                <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[1]">
                     <span ng-hide="loading[1]">Submit Request</span>
                     <span ng-show="loading[1]">
                         Loading

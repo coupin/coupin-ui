@@ -44,6 +44,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
     $scope.showBilling = false;
+    $scope.agreeTermsAndCondition = true;
     var url = window.location.origin;
     /**
      * {
@@ -480,12 +481,21 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         });
     }
 
+    $scope.setAgreeTermsAndConditionChange = function () {
+        $scope.agreeTermsAndCondition = !$scope.agreeTermsAndCondition;
+    }
+
     /**
      * Used to register a merchant after they have been approved
      */
     $scope.registerMerch = function () {
         // Hide any existing alert
         // hideAllAlerts();
+
+        if (!$scope.agreeTermsAndCondition) {
+            UtilService.showError('Missing field', 'Please agree to our terms and conditions');
+            return;
+        }
         
         // Get final categories picked
         var finalCat = [];
