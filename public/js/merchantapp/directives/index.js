@@ -285,7 +285,8 @@ angular.module('coupinApp').directive('showMore', function () {
           },
           legend: {
             show: true,
-            offsetX: -300,
+            // offsetX: -300,
+            offsetY: -10,
             fontFamily: 'Nunito Sans',
             fontSize: '12px',
             position: 'bottom',

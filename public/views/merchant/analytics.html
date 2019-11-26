@@ -8,16 +8,17 @@
   <section class="section-containers">
     <div class="row">
       <div class="col-sm-12 card">
-        <div class="input-group">
+        <span style="margin-right: 10px;">Select data feed period </span>
+        <span class="input-group" style="display: inline-block; width: unset;">
           <input type="text" id="datepicker" class="analytics-datepicker" style="width: 225px; height: 34px;">
           <div class="input-group-addon icons-input col-md-5">
             <i class="far fa-calendar-alt"></i>
           </div>
-        </div>
+        </span>
       </div>
     </div>
     <div class="row" style="margin-top: 30px;">
-      <div class="col-md-8" style="padding-left: 0;">
+      <div class="col-md-9" style="padding-left: 0;">
         <div class="overview-container">
             <div class="card info">
               <h4 ng-if="!loadingStats">
@@ -54,6 +55,7 @@
             </div>
         </div>
         <div class="reward-list" style="margin-top: 30px;">
+          <p>Click specific promotions / rewards to get better insights</p>
           <table class="table" id="reward-list-table">
             <thead class="hidden-xs hidden-sm">
                 <tr>
@@ -91,7 +93,7 @@
           </table>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <div class="card overall-coupin-stat">
           <p class="section-headers">
             Overall Coupins
