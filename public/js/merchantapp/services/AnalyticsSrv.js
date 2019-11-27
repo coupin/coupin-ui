@@ -52,5 +52,12 @@ function (
         headers: authHeader
       });
     },
+
+    getGeneratedRedeemedCoupin: function (rewardId) {
+      var url = '/analytics/reward/' + rewardId +'/generated-redeemed-coupin';
+      return $http.get(baseV1Url + url, {
+        headers: authHeader
+      });
+    },
   }
 }]);

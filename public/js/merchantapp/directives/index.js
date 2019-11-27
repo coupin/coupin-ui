@@ -331,7 +331,8 @@ angular.module('coupinApp').directive('showMore', function () {
     restrict: 'E',
     template: '<div id="generated-vs-redeemed"></div>',
     scope: {
-
+      data: '=',
+      reward: '='
     },
     link: function (scope, elem, attr) {
       scope.lineChart;
@@ -467,9 +468,9 @@ angular.module('coupinApp').directive('showMore', function () {
       })();
 
       // update the barchart values
-      // scope.$watch('redeemedValue', function (val) {
-      //   scope.lineChart.updateSeries(val);
-      // });
+      scope.$watch('data', function (val) {
+        scope.lineChart.updateSeries(val);
+      });
     }
   }
 });

@@ -26,7 +26,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
       $scope.reward.endDate = new Date($scope.reward.endDate);
       $scope.reward.startDate = new Date($scope.reward.startDate);
     }).catch(function (error) {
-        UtilService.showError(errTitle, error.data);
+        UtilService.showError('Error getting data', error.data);
     });
   }
 
@@ -34,7 +34,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
     AnalyticsService.getRewardGenderDistribution(rewardId).then(function (result) {
       $scope.genderDistributionData = result.data;
     }).catch(function (error) {
-        UtilService.showError(errTitle, error.data);
+        UtilService.showError('Error getting data', error.data);
     });
   }
 
@@ -42,11 +42,20 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
     AnalyticsService.getRewardAgeDistribution(rewardId).then(function (result) {
       $scope.ageDistributionData = result.data;
     }).catch(function (error) {
-        UtilService.showError(errTitle, error.data);
+        UtilService.showError('Error getting data', error.data);
+    });
+  }
+
+  function getGeneratedRedeemedCoupin(rewardId) {
+    AnalyticsService.getGeneratedRedeemedCoupin(rewardId).then(function (result) {
+      $scope.generatedVsRedeemed = result.data;
+    }).catch(function (error) {
+        UtilService.showError('Error getting data', error.data);
     });
   }
 
   getReward(id);
   getGenderDistribution(id);
   getAgeDistribution(id);
+  getGeneratedRedeemedCoupin(id);
 });
