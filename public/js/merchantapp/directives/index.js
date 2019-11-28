@@ -43,11 +43,14 @@ angular.module('coupinApp').directive('showMore', function () {
           chart: {
             type: 'radialBar',
             background: '#313237',
+            toolbar: {
+              show: false
+            }
           },
           plotOptions: {
             radialBar: {
               hollow: {
-                size: '85%',
+                size: '80%',
               },
               dataLabels: {
                 showOn: 'always',
@@ -55,11 +58,11 @@ angular.module('coupinApp').directive('showMore', function () {
                   offsetY: -10,
                   show: true,
                   color: '#EDEFF2',
-                  fontSize: '17px'
+                  fontSize: '15px'
                 },
                 value: {
                   color: '#EDEFF2',
-                  fontSize: '36px',
+                  fontSize: '34px',
                   show: true,
                 }
               },
@@ -115,6 +118,9 @@ angular.module('coupinApp').directive('showMore', function () {
             height: 350,
             type: 'bar',
             background: '#313237',
+            toolbar: {
+              show: false
+            }
           },
           plotOptions: {
             bar: {
@@ -231,6 +237,9 @@ angular.module('coupinApp').directive('showMore', function () {
             type: 'bar',
             background: '#313237',
             stacked: true,
+            toolbar: {
+              show: false
+            }
           },
           plotOptions: {
             bar: {
@@ -358,6 +367,9 @@ angular.module('coupinApp').directive('showMore', function () {
                 enabled: true,
                 speed: 350
               }
+            },
+            toolbar: {
+              show: false
             }
           },
           dataLabels: {
