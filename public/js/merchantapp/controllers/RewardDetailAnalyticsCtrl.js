@@ -21,7 +21,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
   };
 
   function getReward(rewardId) {
-    RewardsService.getReward(rewardId).then(function (result) {
+    AnalyticsService.getSingleReward(rewardId).then(function (result) {
       $scope.reward = result.data;
       $scope.reward.endDate = new Date($scope.reward.endDate);
       $scope.reward.startDate = new Date($scope.reward.startDate);

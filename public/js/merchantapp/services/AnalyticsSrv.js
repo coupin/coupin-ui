@@ -46,6 +46,13 @@ function (
       });
     },
 
+    getSingleReward: function (rewardId) {
+      var url = '/analytics/reward/' + rewardId;
+      return $http.get(baseV1Url + url, {
+        headers: authHeader
+      });
+    },
+
     getRewardAgeDistribution: function (rewardId) {
       var url = '/analytics/reward/' + rewardId +'/age-distribution';
       return $http.get(baseV1Url + url, {
