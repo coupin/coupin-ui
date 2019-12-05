@@ -1,55 +1,57 @@
 <div id="verify">
-  <!-- <section class="reward-overview section-containers">
-    <p class="section-headers">Overview of the last x days</p>
-  
+  <section class="reward-overview section-containers">
+    <p class="section-headers">Overview of the last 30 days</p>
+
     <div class="overview-container">
       <div class="card quick-info">
-        <h4>
-          30
+        <h4 ng-if="!loadingStats">
+          {{stats.active}}
+        </h4>
+        <h4 ng-if="loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
         </h4>
         <h5>
           Active Rewards
         </h5>
       </div>
       <div class="card quick-info">
-        <h4>
-          30
+        <h4 ng-if="!loadingStats">
+          {{stats.generated}}
+        </h4>
+        <h4 ng-if="loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
         </h4>
         <h5>
           Generated Coupins
         </h5>
       </div>
       <div class="card quick-info">
-        <h4>
-          30
+        <h4 ng-if="!loadingStats">
+          {{stats.redeemed}}
+        </h4>
+        <h4 ng-if="loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
         </h4>
         <h5>
           Redeemed Coupins
         </h5>
       </div>
     </div>
-  </section> -->
+    <p style="margin-top: 10px;"><b>For more insights about your customer preferences go over to the Analytics
+        dashboard</b></p>
+  </section>
   <section class="section-containers" id="verification-page">
     <p class="section-headers">Customer Code Verification</p>
     <div class="row">
       <div class="col-sm-12" style="padding: 0;">
         <form ng-submit="">
           <div class="form-group">
-            <input 
-              type="text"
-              class="coupin-search"
-              placeholder="Type in code to be verified.."
-              ng-model="pin"
-              />
-              <button 
-                class="btn btn-success"
-                type="submit"
-                ng-click="verify(pin)"
-                ng-disabled="loading">
-                Verify
-                <i class="fas fa-search" ng-if="!loading"></i>
-                <i class="fas fa-spin fa-spinner" ng-if="loading"></i>
-              </button>
+            <input type="text" class="coupin-search" placeholder="Type in code to be verified.." ng-model="pin" />
+            <button class="btn btn-success" type="submit" ng-click="verify(pin)" ng-disabled="loading">
+              Verify
+              <i class="fas fa-search" ng-if="!loading"></i>
+              <i class="fas fa-spin fa-spinner" ng-if="loading"></i>
+            </button>
           </div>
         </form>
       </div>
@@ -91,10 +93,7 @@
     <div ng-if="showTable() && !empty" class="redeem-section">
       <h4 style="display:inline-block">Redeem: {{use.length + ' rewards'}}</h4>
       <!-- <label><input type="checkbox" ng-model="select.all"> Select All</label> -->
-      <button
-        class="btn btn-success redeeem-button"
-        ng-disabled="disableButton()"
-        ng-click="redeem()">
+      <button class="btn btn-success redeeem-button" ng-disabled="disableButton()" ng-click="redeem()">
         Redeem Selected</button>
     </div>
 
@@ -103,33 +102,31 @@
     <div ng-if="showTable() && !empty">
       <table class="table" id="verify-reward-table" style="margin-bottom: 10px;">
         <thead>
-            <tr>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Expires On</th>
-                <th>Status</th>
-                <th>Expired</th>
-            </tr>
+          <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Expires On</th>
+            <th>Status</th>
+            <th>Expired</th>
+          </tr>
         </thead>
         <tbody>
-          <tr
-            ng-repeat="(index, reward) in rewards" 
-            ng-attr-id="{{'reward-' + index}}"
-            ng-class="{'selected': isRewardSelected(index)}"
-            ng-click="toggleReward(index, reward.status)">
-              <td scope="row" class="hidden-xs hidden-sm">
-                <span ng-if="!isRewardSelected(index)">{{ index + 1 }}</span>
-                <span ng-if="isRewardSelected(index)">
-                  <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox" ng-checked="isRewardSelected(index)">
-                </span>
-              </td>
-              <td class="icon" >{{ reward.id.name }}</td>
-              <td class="icon break-word" show-more>{{ reward.id.description }}</td>
-              <td class="icon" >{{ reward.id.endDate | date: 'longDate' }}</td>
-              <td class="capitalize">{{ reward.status }}</td>
-              <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
-              <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
+          <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}"
+            ng-class="{'selected': isRewardSelected(index)}" ng-click="toggleReward(index, reward.status)">
+            <td scope="row" class="hidden-xs hidden-sm">
+              <span ng-if="!isRewardSelected(index)">{{ index + 1 }}</span>
+              <span ng-if="isRewardSelected(index)">
+                <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox"
+                  ng-checked="isRewardSelected(index)">
+              </span>
+            </td>
+            <td class="icon">{{ reward.id.name }}</td>
+            <td class="icon break-word" show-more>{{ reward.id.description }}</td>
+            <td class="icon">{{ reward.id.endDate | date: 'longDate' }}</td>
+            <td class="capitalize">{{ reward.status }}</td>
+            <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
+            <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
           </tr>
         </tbody>
       </table>

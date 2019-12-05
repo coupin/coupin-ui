@@ -82,7 +82,7 @@ select:focus
 .input-group input[type="number"],
 .input-group input[type="tel"],
 .input-group select {
-    text-indent: 30px;
+    text-indent: 23px;
 }
 
 .input-group textarea {

@@ -4,13 +4,20 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   StorageService,
   CoupinService,
   RewardsService,
-  UtilService
+  UtilService,
+  AnalyticsService
 ) {
   $scope.user = StorageService.getUser();
   $scope.booking = {};
   $scope.rewards = [];
   $scope.empty = false;
   $scope.loading = false;
+  $scope.loadingStats = true;
+  $scope.stats = {
+    active: 0,
+    generated: 0,
+    redeemed: 0,
+  };
   $scope.select = {
     all: false
   };
@@ -123,4 +130,10 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);
   });
+
+  AnalyticsService.getStats()
+    .then(function (res) {
+      $scope.loadingStats = false;
+      $scope.stats = res.data;
+    });
 });

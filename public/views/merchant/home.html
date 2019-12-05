@@ -1,5 +1,13 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row portal-header hidden-xs hidden-sm hidden-md">
+        <!-- <div class="col-xs-12"> -->
+            <div class="logo-block">
+                <img src="img/logo@2x-fs8.png" alt="logo" class="desktop-logo" />
+                <p>Merchant Dashboard</p>
+            </div>
+        <!-- </div> -->
+    </div>
+    <div class="row portal-content">
         <div class="col-xs-12 col-sm-12 col-lg-2">
             <nav class="navbar navbar-default navbar-fixed-side">
                 <div class="container">
@@ -57,6 +65,14 @@
                             <a ui-sref=".billing" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
                                 <i class="fas fa-money-bill"></i>
                                 Billing Info
+                            </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
                             </a>
                             <a ng-click="logOut()">
                                 <i class="fas fa-sign-out-alt"></i>
