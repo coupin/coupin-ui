@@ -3,7 +3,7 @@
     <div style="margin: 30px;" class="auth-logo-container">
         <img src="img/logo@2x-fs8.png" alt="logo" style="height: 50px;">
     </div>
-    <div class="card">
+    <div class="card" style="position: relative; padding-bottom: 40px;">
         <div class="header">
             <span ng-class="{'active': activeView === 'signin'}" ng-click="switchActiveView('signin')">Sign In</span>
             <span ng-class="{'active': activeView === 'register'}" ng-click="switchActiveView('register')">Register</span>
@@ -135,11 +135,16 @@
                 </button>
             </form>
         </div>
+        <div class="row footer auth-footer">
+            <div class="row text-center">
+                <small id="descrHelp" class="form-text">Copyright of Coupin &copy;</small>
+            </div>
+        </div>
     </div>
   </div>
-  <div class="row footer auth-footer">
+  <!-- <div class="row footer auth-footer">
       <div class="row text-center">
           <small id="descrHelp" class="form-text">Copyright of Coupin &copy;</small>
       </div>
-  </div>
+  </div> -->
 </body>
