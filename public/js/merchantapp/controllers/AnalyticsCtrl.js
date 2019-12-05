@@ -1,34 +1,42 @@
-angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function ($scope, $state, AnalyticsService) {
-  $scope.loadingRewards = true;
-  $scope.loadingStats = true;
+angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
+  $scope,
+  $state,
+  AnalyticsService,
+  shouldAccess
+) {
   $scope.page = 1
   $scope.stats = {
     active: 0,
     generated: 0,
     redeemed: 0,
   };
+  $scope.shouldAccess = shouldAccess;
+
+  if (shouldAccess) {
+    $scope.loadingRewards = true;
+    $scope.loadingStats = true;
+    $scope.radarSeriesValue = [0];
+    getOverallCoupinStat();
+
+    $scope.picker = new Lightpick({
+      field: document.getElementById('datepicker'),
+      singleDate: false,
+      numberOfMonths: 2,
+      onSelect: function (start, end) {
+        $scope.start = start
+        $scope.end = end
+        onDatePickerChange()
+      }
+    });
+  
+    $scope.picker.setDateRange(moment().subtract(30, 'day'), moment());
+    getRewards($scope.start, $scope.end, $scope.page)
+    getStats($scope.start, $scope.end)
+  }
 
   $scope.goToReward = function (rewardId) {
     $state.go('dashboard.reward-analytics', { id: rewardId }, {});
   };
-
-  $scope.picker = new Lightpick({
-    field: document.getElementById('datepicker'),
-    singleDate: false,
-    numberOfMonths: 2,
-    onSelect: function (start, end) {
-      $scope.start = start
-      $scope.end = end
-      onDatePickerChange()
-    }
-  });
-
-  $scope.radarSeriesValue = [0];
-  getOverallCoupinStat();
-
-  $scope.picker.setDateRange(moment().subtract(30, 'day'), moment());
-  getRewards($scope.start, $scope.end, $scope.page)
-  getStats($scope.start, $scope.end)
 
   function onDatePickerChange() {
     if ($scope.start && $scope.end) {

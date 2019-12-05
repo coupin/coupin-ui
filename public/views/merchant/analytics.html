@@ -1,8 +1,11 @@
 <div id="analytics-page">
-  <div class="analytics-frontdrop">
-
+  <div class="analytics-frontdrop" ng-if="!shouldAccess">
+    <p class="frontdrop-header">Get Access With A Paid Subscription</p>
+    <p class="frontdrop-body">
+      You do not have an active subscription or reward active at the moment.
+    </p>
   </div>
-  <section class="section-containers blur">
+  <section class="section-containers" ng-class="{'blur': !shouldAccess}">
     <div class="row">
       <div class="col-sm-12 card">
         <span style="margin-right: 10px;">Select data feed period </span>

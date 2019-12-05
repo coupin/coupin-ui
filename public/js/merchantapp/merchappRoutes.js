@@ -45,7 +45,31 @@ function (
         }).state('dashboard.analytics', {
             url: '/analytics',
             templateUrl: '/views/merchant/analytics.html',
-            controller: 'AnalyticsController'
+            controller: 'AnalyticsController',
+            resolve: {
+                shouldAccess: function (StorageService, $q, RewardsService) {
+                    var deferred = $q.defer();
+                    var user = StorageService.getUser();
+                    var billing = user.merchantInfo.billing;
+
+                    if (billing.plan === 'payAsYouGo') {
+                        RewardsService.getMerchRewards({ status: 'active' })
+                            .then(function (result) {
+                                var rewards = result.data;
+                                if (rewards.length > 0) {
+                                    deferred.resolve(true);
+                                } else {
+                                    deferred.resolve(false);
+                                }
+                            })
+                    } else {
+                        hasExpired = (user.merchantInfo.billing.history[0] && moment(new Date()).isAfter(user.merchantInfo.billing.history[0].expiration)) || false;
+                        deferred.resolve(hasExpired);
+                    }
+
+                    return deferred.promise;
+                }
+            }
         }).state('dashboard.reward-analytics', {
             url: '/analytics/rewards/:id',
             templateUrl: '/views/merchant/rewardDetailAnalytics.html',

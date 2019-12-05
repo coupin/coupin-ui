@@ -256,6 +256,7 @@ option {
 
 .merchant-space {
   padding: 20px 60px 20px 60px;
+  height: 100%;
 }
 
 .nav-link:hover {
@@ -1145,7 +1146,15 @@ form .row {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* font-size: 36px; */
+  flex-direction: column;
+}
+
+#analytics-page .analytics-frontdrop .frontdrop-header {
+  font-size: 36px;
+}
+
+#analytics-page .analytics-frontdrop .frontdrop-body {
+  font-size: 16px;
 }
 
 #analytics-page > .section-containers.blur {
