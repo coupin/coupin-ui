@@ -63,8 +63,8 @@ function (
                                 }
                             })
                     } else {
-                        hasExpired = (user.merchantInfo.billing.history[0] && moment(new Date()).isAfter(user.merchantInfo.billing.history[0].expiration)) || false;
-                        deferred.resolve(hasExpired);
+                        var hasExpired = (user.merchantInfo.billing.history[0] && moment(new Date()).isAfter(user.merchantInfo.billing.history[0].expiration)) || false;
+                        deferred.resolve(!hasExpired);
                     }
 
                     return deferred.promise;

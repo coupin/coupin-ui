@@ -121,6 +121,7 @@
                             name="agreeTermsAndCondition"
                             ng-change="setAgreeTermsAndConditionChange()"
                             ng-model="agreeTermsAndCondition"
+                            oninvalid="this.setCustomValidity('Please check this box confirming you\'ve read and understood the terms and conditions')"
                             required>
                         By clicking this, you agree to our <a ui-sref="terms" style="color: #14a580">Terms and Conditions</a>.
                     </label>

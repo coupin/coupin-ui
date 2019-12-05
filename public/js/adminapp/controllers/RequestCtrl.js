@@ -76,6 +76,15 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope.selectMerch = function (x, status) {
         $scope.currentRequest = x;
         $scope.status.value = status;
+        if (status) {
+            if (status === 'rejected') {
+                $scope.status.display = 'decline';
+            } else if (status === 'accepted') {
+                $scope.status.display = 'approve';
+            } else if (status === 'pending') {
+                $scope.status.display = 'de-decline';
+            }
+        }
     };
 
     $scope.selectReward = function (x, status) {
@@ -91,6 +100,10 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.canConfirm = function () {
+        if ($scope.status.value === 'pending') {
+            return true;
+        }
+
         const validate = $scope.status.value === 'rejected' ?
         ($scope.status.reason && $scope.status.reason.length > 10) :
         ($scope.status.rating < 6 && $scope.status.rating > 0 &&

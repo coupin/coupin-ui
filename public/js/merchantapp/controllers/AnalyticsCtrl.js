@@ -11,6 +11,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     redeemed: 0,
   };
   $scope.shouldAccess = shouldAccess;
+  console.log(shouldAccess);
 
   if (shouldAccess) {
     $scope.loadingRewards = true;
@@ -76,7 +77,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     AnalyticsService.getOverallCoupinStat()
     .then(function (res) {
       var data = res.data;
-      var value = (data.redeemed / data.generated) * 100;
+      var value = ((data.redeemed / data.generated) || 0) * 100;
       $scope.radarSeriesValue = [parseFloat(value.toFixed(2))];
     });
   }
