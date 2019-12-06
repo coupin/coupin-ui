@@ -11,7 +11,6 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     redeemed: 0,
   };
   $scope.shouldAccess = shouldAccess;
-  console.log(shouldAccess);
 
   if (shouldAccess) {
     $scope.loadingRewards = true;
@@ -26,11 +25,22 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       onSelect: function (start, end) {
         $scope.start = start
         $scope.end = end
+        localStorage.setItem('startDate', $scope.start);
+        localStorage.setItem('endDate', $scope.end);
         onDatePickerChange()
       }
     });
   
-    $scope.picker.setDateRange(moment().subtract(30, 'day'), moment());
+    if (localStorage.getItem('startDate') && localStorage.getItem('endDate')) {
+      var start = localStorage.getItem('startDate');
+      var end = localStorage.getItem('endDate');
+
+      $scope.picker.setDateRange(moment(start), moment(end));
+    } else {
+      $scope.picker.setDateRange(moment().subtract(30, 'day'), moment());
+    }
+
+
     getRewards($scope.start, $scope.end, $scope.page)
     getStats($scope.start, $scope.end)
   }
