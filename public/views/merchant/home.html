@@ -50,6 +50,14 @@
                                 <i class="fas fa-tags"></i>
                                 Rewards
                             </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
                             <a ui-sref=".profile" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
                                 <i class="fas fa-user"></i>
                                 Profile
@@ -65,14 +73,6 @@
                             <a ui-sref=".billing" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
                                 <i class="fas fa-money-bill"></i>
                                 Billing Info
-                            </a>
-                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
-                                <i class="fas fa-chart-bar"></i>
-                                Analytics
-                            </a>
-                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" class="hidden-sm hidden-xs hidden-md">
-                                <i class="fas fa-chart-bar"></i>
-                                Analytics
                             </a>
                             <a ng-click="logOut()">
                                 <i class="fas fa-sign-out-alt"></i>

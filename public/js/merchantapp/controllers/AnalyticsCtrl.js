@@ -51,8 +51,10 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
 
   function onDatePickerChange() {
     if ($scope.start && $scope.end) {
-       getRewards($scope.start, $scope.end, $scope.page)
-       getStats($scope.start, $scope.end)
+      $scope.loadingRewards = true;
+      $scope.loadingStats = true;
+      getRewards($scope.start, $scope.end, $scope.page)
+      getStats($scope.start, $scope.end)
     }
   }
 
