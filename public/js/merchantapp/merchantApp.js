@@ -1,6 +1,6 @@
 angular.module('coupinApp', [
   'ngEnvVars.config',
-  'httpIntercept',
+  // 'httpIntercept',
   'ngRoute',
   'ngFileUpload',
   'ui.router',

@@ -1,6 +1,5 @@
 angular.module('coupinApp', [
   'ngEnvVars.config',
-  'httpIntercept',
   'ngRoute',
   'ngSessionStorage',
   'ngImgCrop',

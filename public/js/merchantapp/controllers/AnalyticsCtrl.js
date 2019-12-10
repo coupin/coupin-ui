@@ -2,7 +2,8 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
   $scope,
   $state,
   AnalyticsService,
-  shouldAccess
+  shouldAccess,
+  UtilService
 ) {
   $scope.page = 1
   $scope.stats = {
@@ -91,6 +92,27 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       var data = res.data;
       var value = ((data.redeemed / data.generated) || 0) * 100;
       $scope.radarSeriesValue = [parseFloat(value.toFixed(2))];
+    });
+  }
+
+  $scope.getPdf = function () {
+    AnalyticsService.pdf($scope.start, $scope.end)
+    .then(function (res) {
+      UtilService.showInfo('Hey!', 'Your pdf is being generated, download will start when it is ready');
+
+      var interval = setInterval(function () {
+        AnalyticsService.checkPdfStatus(res.data.documentId)
+          .then(function (_res) {
+            if (_res.data.status === 'success') {
+              window.open(_res.data.downloadUrl, '_blank');
+              UtilService.showSuccess('Hey!', 'Your pdf is ready, download will start soon');
+              clearInterval(interval);
+            }
+          }).catch(function (err) {
+            clearInterval(interval);
+            UtilService.showError('Uh oh!', 'There was an error loading your pdf, please try again');
+          });
+      }, 3000);
     });
   }
 });
