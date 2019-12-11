@@ -66,8 +66,13 @@ function (
         headers: authHeader
       });
     },
-    pdf: function (start, end) {
+    allRewardPdf: function (start, end) {
       return $http.get(baseV1Url + '/analytics/pdf/all-rewards?start=' + start + '&end=' + end, {
+        headers: authHeader,
+      })
+    },
+    singleRewardPdf: function (id) {
+      return $http.get(baseV1Url + '/analytics/pdf/reward/' + id, {
         headers: authHeader,
       })
     },

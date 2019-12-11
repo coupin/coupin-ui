@@ -1,8 +1,18 @@
 <div id="reward-analytics-page">
   <section class="section-containers">
     <div class="row">
-      <div class="col-sm-12 card">
+      <div class="col-sm-12 card analytics-header">
         <i data-toggle="tooltip" data-placement="top" title="Click to go back to reward list" class="fas fa-arrow-circle-left reward-back-button" ng-click="goToAnalytics()"></i>
+        <div>
+            <button class="file-download pdf" ng-click="getPdf()">
+              <i class="far fa-file-pdf"></i>
+              Pdf report
+            </button>
+            <!-- <button class="file-download pdf">
+              <i class="far fa-file-excel"></i>
+              Excel report
+            </button> -->
+          </div>
       </div>
     </div>
     <div class="row" style="margin-top: 30px">

@@ -96,7 +96,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
   }
 
   $scope.getPdf = function () {
-    AnalyticsService.pdf($scope.start, $scope.end)
+    AnalyticsService.allRewardPdf($scope.start, $scope.end)
     .then(function (res) {
       UtilService.showInfo('Hey!', 'Your pdf is being generated, download will start when it is ready');
 

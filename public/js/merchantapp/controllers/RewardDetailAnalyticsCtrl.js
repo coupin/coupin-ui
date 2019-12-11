@@ -14,7 +14,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
     data: [0, 0]
   }]
 
-  const id = $state.params.id;
+  $scope.id = $state.params.id;
 
   $scope.goToAnalytics = function () {
     $state.go('dashboard.analytics', {}, {});
@@ -54,8 +54,30 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
     });
   }
 
-  getReward(id);
-  getGenderDistribution(id);
-  getAgeDistribution(id);
-  getGeneratedRedeemedCoupin(id);
+  $scope.getPdf = function () {
+    AnalyticsService.singleRewardPdf($scope.id)
+    .then(function (res) {
+      console.log(res)
+      UtilService.showInfo('Hey!', 'Your pdf is being generated, download will start when it is ready');
+
+      var interval = setInterval(function () {
+        AnalyticsService.checkPdfStatus(res.data.documentId)
+          .then(function (_res) {
+            if (_res.data.status === 'success') {
+              window.open(_res.data.downloadUrl, '_blank');
+              UtilService.showSuccess('Hey!', 'Your pdf is ready, download will start soon');
+              clearInterval(interval);
+            }
+          }).catch(function (err) {
+            clearInterval(interval);
+            UtilService.showError('Uh oh!', 'There was an error loading your pdf, please try again');
+          });
+      }, 3000);
+    });
+  }
+
+  getReward($scope.id);
+  getGenderDistribution($scope.id);
+  getAgeDistribution($scope.id);
+  getGeneratedRedeemedCoupin($scope.id);
 });
