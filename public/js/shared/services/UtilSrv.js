@@ -187,6 +187,20 @@ angular.module('UtilSrv', []).service('UtilService', [
       }).show();
     };
 
+    /**
+     * Show warning alert dialog.
+     * @param {String} title 
+     * @param {String} msg 
+     */
+    service.showWarning = function (title, msg) {
+      new Noty({
+        text: getNotificationTemplate(title, msg),
+        timeout: 7500,
+        closeWith: ['click', 'button'],
+        type: 'warning'
+      }).show();
+    };
+
     service.upload = function (data) {
       return new Promise(function (resolve, reject) {
         Upload.upload({

@@ -12,6 +12,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     redeemed: 0,
   };
   $scope.shouldAccess = shouldAccess;
+  var disableDownload = false;
 
   if (shouldAccess) {
     $scope.loadingRewards = true;
@@ -96,6 +97,13 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
   }
 
   $scope.getPdf = function () {
+    if (disableDownload) {
+      UtilService.showWarning('Hey!', 'You have a pending download, please try again after it is done');
+      return;
+    }
+
+    disableDownload = true;
+
     AnalyticsService.allRewardPdf($scope.start, $scope.end)
     .then(function (res) {
       UtilService.showInfo('Hey!', 'Your pdf is being generated, download will start when it is ready');
@@ -108,9 +116,12 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
               UtilService.showSuccess('Hey!', 'Your pdf is ready, download will start soon');
               clearInterval(interval);
             }
+
+            disableDownload = false;
           }).catch(function (err) {
             clearInterval(interval);
             UtilService.showError('Uh oh!', 'There was an error loading your pdf, please try again');
+            disableDownload = false;
           });
       }, 3000);
     });

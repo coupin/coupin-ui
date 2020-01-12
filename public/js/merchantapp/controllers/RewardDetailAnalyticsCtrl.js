@@ -15,6 +15,7 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
   }]
 
   $scope.id = $state.params.id;
+  var disableDownload = false;
 
   $scope.goToAnalytics = function () {
     $state.go('dashboard.analytics', {}, {});
@@ -55,6 +56,13 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
   }
 
   $scope.getPdf = function () {
+    if (disableDownload) {
+      UtilService.showWarning('Hey!', 'You have a pending download, please try again after it is done');
+      return;
+    }
+
+    disableDownload = true;
+
     AnalyticsService.singleRewardPdf($scope.id)
     .then(function (res) {
       console.log(res)
@@ -68,9 +76,12 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
               UtilService.showSuccess('Hey!', 'Your pdf is ready, download will start soon');
               clearInterval(interval);
             }
+
+            disableDownload = false;
           }).catch(function (err) {
             clearInterval(interval);
             UtilService.showError('Uh oh!', 'There was an error loading your pdf, please try again');
+            disableDownload = false;
           });
       }, 3000);
     });

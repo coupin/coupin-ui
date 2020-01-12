@@ -405,7 +405,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 $('#cropModal').modal('hide');
                 resetUploads();
             } else {
-                Util.showError('Upload Failed', response.data);
+                UtilService.showError('Upload Failed', response.data);
             }
         }, function(percentage) {
             $scope.progress = percentage;
