@@ -61,7 +61,8 @@ td::first-letter {
 }
 
 .error-text {
-    color: #e40000 !important;
+    /* color: #e40000 !important; */
+    color: #ED5653 !important;
   }
 
 .clickable {

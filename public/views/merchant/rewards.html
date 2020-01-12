@@ -132,6 +132,7 @@
                                 <input
                                     id="noOfDate"
                                     class="form-control"
+                                    ng-class="{'has-error': newReward.startDate && form.noOfDays.$dirty && (form.noOfDays.$error.required || form.noOfDays.$error.max)}"
                                     name="noOfDays"
                                     type="number" 
                                     ng-model="noOfDays" 
@@ -141,7 +142,18 @@
                                     required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
-                            <small id="rangeHelp" class="form-text"><b>The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b></small>
+                            <small id="rangeHelp" class="form-text" ng-if="newReward.startDate">
+                                <b ng-if="!isError(form.noOfDays)">The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b>
+                                <b
+                                    ng-if="isError(form.noOfDays) && form.noOfDays.$error.max"
+                                    class="error-text"
+                                    data-toggle="tooltip" 
+                                    title="Your plan expires {{maxDays + 1}} day{{maxDays > 1 ? 's' : ''}} after the selected date."
+                                    style="cursor: pointer;">
+                                    You cannot select more that {{maxDays}} day{{maxDays > 1 ? 's' : ''}} for this reward.
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </b>
+                            </small>
                         </div>
                     </div>
                     <h3 class="text-center" ng-if="showTotal()">Total: <b>&#8358; {{amount}}</b></h3>
