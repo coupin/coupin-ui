@@ -987,6 +987,7 @@ form .row {
 }
 
 @media (max-width: 768px) {
+  .info:not(:first-child),
   .quick-info:not(:first-child) {
     margin-left: 10px;
   }
@@ -1165,29 +1166,51 @@ form .row {
 #analytics-page .analytics-header {
   display: flex;
   justify-content: space-between;
+  position: relative;
+  align-items: center;
 }
 
 #reward-analytics-page .file-download,
 #analytics-page .file-download {
   height: 34px;
-  border: 1px solid #15A580;
+  border: none;
   background-color: transparent;
   color: #15A580;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 100px;
+  width: 115px;
+  text-align: left;
+}
+
+#reward-analytics-page .file-download i,
+#analytics-page .file-download i {
+  margin-right: 10px;
 }
 
 #reward-analytics-page .file-download:hover,
 #analytics-page .file-download:hover {
-  background-color: #15A580;
   color: #fff;
 }
 
-#reward-analytics-page .file-download:not(:first-child),
-#analytics-page .file-download:not(:first-child) {
-  margin-left: 15px;
+#analytics-page .analytics-header .more-button {
+  border: 1px solid #15A580;
+  border-radius: 3px;
+  background-color: transparent;
+  padding: 5px;
+  color: #15A580;
+}
+
+#analytics-page .analytics-header .download-container {
+  position: relative;
+}
+
+#analytics-page .analytics-header .button-container {
+  position: absolute;
+  background-color: #313237;
+  padding: 15px;
+  right: 0;
+  top: 55px;
+  z-index: 50;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.16);
+  /* display: none; */
 }
 
 .lightpick {

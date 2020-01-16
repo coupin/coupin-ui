@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-sm-12 card analytics-header">
         <div>
-          <span style="margin-right: 10px;">Select data feed period </span>
+          <span class="hidden-xs hidden-sm" style="margin-right: 10px;">Select data feed period </span>
           <span class="input-group" style="display: inline-block; width: unset;">
             <input type="text" id="datepicker" class="analytics-datepicker" style="width: 225px; height: 34px;">
             <div class="input-group-addon icons-input col-md-5">
@@ -17,15 +17,20 @@
             </div>
           </span>
         </div>
-        <div style="display: flex;">
-          <button class="file-download pdf" ng-click="getPdf()">
-            <i class="far fa-file-pdf"></i>
-            <span>Pdf report</span>
+        <div class="download-container">
+          <button class="more-button" data-toggle="collapse" data-target="#button-container" aria-expanded="false">
+            <i class="fas fa-ellipsis-v"></i>
           </button>
-          <button class="file-download pdf" ng-click="getExcel()">
-            <i class="far fa-file-excel"></i>
-            <span style="margin-left: 10px;">Excel report</span>
-          </button>
+          <div class="collapse button-container" id="button-container">
+            <button class="file-download" ng-click="getPdf()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+              <i class="far fa-file-pdf"></i>
+              <span>Pdf report</span>
+            </button>
+            <button class="file-download" ng-click="getExcel()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+              <i class="far fa-file-excel"></i>
+              <span>Excel report</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

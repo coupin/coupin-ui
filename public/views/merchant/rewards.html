@@ -147,7 +147,9 @@
                                 <b
                                     ng-if="isError(form.noOfDays) && form.noOfDays.$error.max"
                                     class="error-text"
-                                    data-toggle="tooltip" 
+                                    data-toggle="tooltip"
+                                    bs-tooltip
+                                    data-placement="bottom"
                                     title="Your plan expires {{maxDays + 1}} day{{maxDays > 1 ? 's' : ''}} after the selected date."
                                     style="cursor: pointer;">
                                     You cannot select more that {{maxDays}} day{{maxDays > 1 ? 's' : ''}} for this reward.

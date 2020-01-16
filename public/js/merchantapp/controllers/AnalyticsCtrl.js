@@ -112,7 +112,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
         AnalyticsService.checkPdfStatus(res.data.documentId)
           .then(function (_res) {
             if (_res.data.status === 'success') {
-              window.open(_res.data.downloadUrl, '_blank');
+              window.open(_res.data.downloadUrl);
               UtilService.showSuccess('Hey!', 'Your pdf is ready, download will start soon');
               clearInterval(interval);
             }
@@ -135,6 +135,7 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
 
     AnalyticsService.getExcel($scope.start, $scope.end)
     .then(function (res) {
+      console.log(res.data);
       UtilService.showSuccess('Hey!', 'Your file is being downloaded');
       window.open(window.URL.createObjectURL(res.data));
       disableDownload = false;
