@@ -80,6 +80,12 @@ function (
       return $http.get(baseV1Url + '/pdf/status?documentId=' + documentId, {
         headers: authHeader,
       });
-    }
+    },
+    getExcel: function (start, end) {
+      return $http.get(baseV1Url + '/analytics/excel/all-rewards?start=' + start + '&end=' + end, {
+        headers: authHeader,
+        responseType: 'blob'
+      });
+    },
   }
 }]);
