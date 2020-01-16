@@ -126,4 +126,22 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       }, 3000);
     });
   }
+
+  $scope.getExcel = function () {
+    if (disableDownload) {
+      UtilService.showWarning('Hey!', 'You have a pending download, please try again after it is done');
+      return;
+    }
+
+    AnalyticsService.getExcel($scope.start, $scope.end)
+    .then(function (res) {
+      UtilService.showSuccess('Hey!', 'Your file is being downloaded');
+      window.open(window.URL.createObjectURL(res.data));
+      disableDownload = false;
+    }).catch(function (err) {
+      clearInterval(interval);
+      UtilService.showError('Uh oh!', 'There was an error loading your report, please try again');
+      disableDownload = false;
+    });
+  }
 });
