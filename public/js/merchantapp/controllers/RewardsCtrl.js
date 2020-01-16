@@ -38,7 +38,14 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         dst: null
     };
     $scope.maxDays = 30;
-    $scope.minDate = new Date();
+
+    var cutOffTime = moment().startOf('day').add(17, 'hours'); // set the date to today 5pm
+    if (moment().isBefore(cutOffTime)) {
+        $scope.minDate = moment().subtract(1, 'days').toDate();
+    } else {
+        $scope.minDate = new Date();
+    }
+    console.log($scope.minDate)
     $scope.photos = [];
     $scope.deletePhotos = [];
     $scope.newReward = {

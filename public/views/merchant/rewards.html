@@ -119,7 +119,7 @@
                         <div class="form-group">
                             <label for="startDate">Please pick a start date: </label><br/>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input bs-datepicker class="form-control" id="startDate" name="startDate" ng-class="{'has-error': isError(form.startDate)}" type="text" ng-change="setEndDate(noOfDays)" ng-model="newReward.startDate" data-min-date="{{minDate}}" data-max-date={{maxDate}} required/>
+                                <input bs-datepicker class="form-control" id="startDate" name="startDate" ng-class="{'has-error': isError(form.startDate)}" type="text" ng-change="setEndDate(noOfDays)" ng-model="newReward.startDate" data-min-date="{{minDate}}" data-max-date="{{maxDate}}" required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
                             <small id="rangeHelp" class="form-text">This is when the users will start to see the reward.</small>
