@@ -8,20 +8,22 @@ function (
     StorageService
 ) {
     var baseV1Url = ENV_VARS.apiUrl;
-    var token = StorageService.getToken();
-    var authHeader = {
-        'x-access-token': token
-    };
+    function getAuthHeader() {
+        var token = StorageService.getToken();
+        return {
+            'x-access-token': token
+        };
+    }
 
     return {
         adminCreate: function (data) {
             return $http.post(baseV1Url + '/merchant/register', data, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         changePassword : function (password) {
             return $http.post(baseV1Url + '/auth/password', {password: password}, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         }
         ,
@@ -34,17 +36,17 @@ function (
         },
         get : function() {
             return $http.get(baseV1Url + '/merchant', {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         getAllMerchants : function (page) {
             return $http.get(baseV1Url + '/merchant?page=' + page, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         login : function(details) {
             return $http.post(baseV1Url + '/auth/signin/m', details, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         retrieve : function(id) {
@@ -57,12 +59,12 @@ function (
         },
         update: function (id, user) {
             return $http.put(baseV1Url + '/merchant/' + id, user, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         updateBilling: function (id, billing) {
             return $http.post(baseV1Url + '/merchant/' + id, billing, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         }
     }

@@ -106,8 +106,8 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
 
         const validate = $scope.status.value === 'rejected' ?
         ($scope.status.reason && $scope.status.reason.length > 10) :
-        ($scope.status.rating < 6 && $scope.status.rating > 0 &&
-            UtilService.isDecimal($scope.location.lat) && UtilService.isDecimal($scope.location.long));
+        ($scope.status.rating < 6 /* && $scope.status.rating > 0 &&
+            UtilService.isDecimal($scope.location.lat) && UtilService.isDecimal($scope.location.long) */);
         return validate;
     };
 

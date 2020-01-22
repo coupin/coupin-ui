@@ -112,10 +112,10 @@ $scope.history = $scope.user.merchantInfo.billing.history;
     if ($scope.position && (!('lat' in $scope.position) || !('long' in $scope.position))) {
         UtilService.showError('An error occured', 'Location must have both latitude and longitude');
         return false;
-    } else if ($scope.position && (!UtilService.isDecimal($scope.position.lat.toString()) || !UtilService.isDecimal($scope.position.long.toString()))) {
+    }/*  else if ($scope.position && (!UtilService.isDecimal($scope.position.lat.toString()) || !UtilService.isDecimal($scope.position.long.toString()))) {
         UtilService.showError('An error occured', 'Location, latitude and longitude, must be decimals');
         return false;
-    }
+    } */
 
     return true;
   }
