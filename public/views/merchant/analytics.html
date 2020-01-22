@@ -17,11 +17,19 @@
             </div>
           </span>
         </div>
-        <div class="download-container">
-          <button class="more-button" data-toggle="collapse" data-target="#button-container" aria-expanded="false">
-            <i class="fas fa-ellipsis-v"></i>
+        <div class="download-container hidden-xs hidden-sm">
+          <!-- <button class="more-button" data-toggle="collapse" data-target="#button-container" aria-expanded="false">
+            Export <i class="fas fa-ellipsis-v"></i>
+          </button> -->
+          <button class="file-download" ng-click="getPdf()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-file-pdf"></i>
+            <span>PDF Report</span>
           </button>
-          <div class="collapse button-container" id="button-container">
+          <button class="file-download" ng-click="getExcel()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-file-excel"></i>
+            <span>XLS Data Report</span>
+          </button>
+          <!-- <div class="collapse button-container" id="button-container">
             <button class="file-download" ng-click="getPdf()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
               <i class="far fa-file-pdf"></i>
               <span>Pdf report</span>
@@ -30,12 +38,12 @@
               <i class="far fa-file-excel"></i>
               <span>Excel report</span>
             </button>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 30px;">
-      <div class="col-md-9" style="padding-left: 0;">
+    <div class="row analytics-content" style="margin-top: 30px;">
+      <div class="col-md-9 main">
         <div class="overview-container">
             <div class="card info">
               <h4 ng-if="!loadingStats">
@@ -110,7 +118,7 @@
           </table>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-3 side">
         <div class="card overall-coupin-stat">
           <p class="section-headers">
             Overall Coupins

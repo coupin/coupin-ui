@@ -38,6 +38,7 @@ option {
 
 .portal-header > .logo-block * {
   display: inline-block;
+  text-decoration: none;
 }
 
 .portal-header > .logo-block p {
@@ -46,6 +47,7 @@ option {
   font-weight: 600;
   margin-bottom: 0;
   vertical-align: middle;
+  color: #fff;
 }
 
 .portal-content {
@@ -1172,22 +1174,23 @@ form .row {
 
 #reward-analytics-page .file-download,
 #analytics-page .file-download {
-  height: 34px;
-  border: none;
+  /* height: 34px; */
+  border: 1px solid #15A580;
   background-color: transparent;
   color: #15A580;
-  width: 115px;
-  text-align: left;
+  /* min-width: 115px; */
+  padding: 7px 10px;
 }
 
 #reward-analytics-page .file-download i,
 #analytics-page .file-download i {
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 #reward-analytics-page .file-download:hover,
 #analytics-page .file-download:hover {
   color: #fff;
+  border: 1px solid #fff;
 }
 
 #analytics-page .analytics-header .more-button {
@@ -1211,6 +1214,12 @@ form .row {
   z-index: 50;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.16);
   /* display: none; */
+}
+
+@media (min-width: 769px) {
+  #analytics-page .analytics-content .main {
+    padding-left: 0;
+  }
 }
 
 .lightpick {
