@@ -9,6 +9,9 @@
             <span ng-class="{'active': activeView === 'register'}" ng-click="switchActiveView('register')">Register</span>
             <span class="underline"></span>
         </div>
+        <div class="alert alert-danger" role="alert" ng-if="showSessionExpired">
+            Your session has expired, please login again
+        </div>
         <div class="body" ng-if="activeView === 'signin'">
             <p>Sign in, Welcome back</p>
             <form ng-submit="loginMerch()" name="loginForm">

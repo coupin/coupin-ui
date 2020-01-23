@@ -54,10 +54,19 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * }
      */
     $scope.trialPeriodData = {};
+    $scope.showSessionExpired = false;
 
 
     /* this is for switching pages in the merchant auth area */
     $scope.activeView = 'signin';
+
+    if (localStorage.getItem('jwt-expired')) {
+        $scope.showSessionExpired = true;
+
+        $timeout(function () {
+            localStorage.removeItem('jwt-expired');
+        }, 3000);
+    }
 
     $scope.switchActiveView = function (view) {
         $scope.activeView = view;
@@ -465,6 +474,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Logs merchant into the system
      */
     $scope.loginMerch = function () {
+        $scope.showSessionExpired = false;
+        localStorage.removeItem('jwt-expired');
         let details = {
             email : $scope.formData.loginEmail,
             password : $scope.formData.loginPassword
