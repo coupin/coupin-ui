@@ -8,10 +8,12 @@ function (
   StorageService
 ) {
   var baseV1Url = ENV_VARS.apiUrl;
-  var token = StorageService.getToken();
-  var authHeader = {
-      'x-access-token': token
-  };
+  function getAuthHeader() {
+    var token = StorageService.getToken();
+    return {
+        'x-access-token': token
+    };
+  }
 
   return {
     getStats: function (start, end) {
@@ -21,69 +23,69 @@ function (
       }
 
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getRewards: function (start, end, page) {
       var url = '/analytics/rewards?start=' + start + '&end=' + end + '&page=' + page;
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getOverallCoupinStat: function (start, end, page) {
       var url = '/analytics/get-coupin-stats';
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getRewardGenderDistribution: function (rewardId) {
       var url = '/analytics/reward/' + rewardId +'/gender-distribution';
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getSingleReward: function (rewardId) {
       var url = '/analytics/reward/' + rewardId;
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getRewardAgeDistribution: function (rewardId) {
       var url = '/analytics/reward/' + rewardId +'/age-distribution';
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
 
     getGeneratedRedeemedCoupin: function (rewardId) {
       var url = '/analytics/reward/' + rewardId +'/generated-redeemed-coupin';
       return $http.get(baseV1Url + url, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
     allRewardPdf: function (start, end) {
       return $http.get(baseV1Url + '/analytics/pdf/all-rewards?start=' + start + '&end=' + end, {
-        headers: authHeader,
+        headers: getAuthHeader(),
       })
     },
     singleRewardPdf: function (id) {
       return $http.get(baseV1Url + '/analytics/pdf/reward/' + id, {
-        headers: authHeader,
+        headers: getAuthHeader(),
       })
     },
     checkPdfStatus: function (documentId) {
       return $http.get(baseV1Url + '/pdf/status?documentId=' + documentId, {
-        headers: authHeader,
+        headers: getAuthHeader(),
       });
     },
     getExcel: function (start, end) {
       return $http.get(baseV1Url + '/analytics/excel/all-rewards?start=' + start + '&end=' + end, {
-        headers: authHeader,
+        headers: getAuthHeader(),
         responseType: 'blob'
       });
     },

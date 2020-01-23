@@ -9,10 +9,12 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
       StorageService,
       UtilService
   ) {
-      var token = StorageService.getToken();
-      var authHeader = {
-          'x-access-token': token
-      };
+        function getAuthHeader() {
+            var token = StorageService.getToken();
+            return {
+                'x-access-token': token
+            };
+        }
       var baseV1Url = ENV_VARS.apiUrl;
 
       return {
@@ -30,7 +32,7 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
               return $http({
                   method: 'GET',
                   url: url,
-                  headers: authHeader,
+                  headers: getAuthHeader(),
                   data: query
               });
           }

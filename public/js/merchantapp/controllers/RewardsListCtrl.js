@@ -120,7 +120,7 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
   }
 
   $scope.nextRewards = function () {
-    if ($scope.rewards.length === 10) {
+    if ($scope.rewards && $scope.rewards.length === 10) {
       $scope.page += 1;
       $scope.loadingRewards = true;
       $scope.rewards = [];

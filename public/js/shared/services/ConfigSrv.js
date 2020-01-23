@@ -8,10 +8,12 @@ function(
   StorageService
 ) {
   var baseV1Url = ENV_VARS.apiUrl;
-  var token = StorageService.getToken();
-  var authHeader = {
-      'x-access-token': token
-  };
+  function getAuthHeader() {
+    var token = StorageService.getToken();
+    return {
+        'x-access-token': token
+    };
+  }
 
   return {
     getConfig: function() {
@@ -20,7 +22,7 @@ function(
 
     setTrialConfig: function (data) {
       return $http.put(baseV1Url + '/config/trial-status', data, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     }
   };

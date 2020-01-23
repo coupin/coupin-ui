@@ -8,31 +8,33 @@ angular.module('RequestSrv', []).factory('RequestService', [
   StorageService
 ) {
   var baseV1Url = ENV_VARS.apiUrl;
-  var token = StorageService.getToken();
-  var authHeader = {
-      'x-access-token': token
-  };
+  function getAuthHeader() {
+    var token = StorageService.getToken();
+    return {
+        'x-access-token': token
+    };
+  }
 
   return {
     getRequests: function(status) {
       return $http.get(baseV1Url + '/merchant/status/' + status, {
-          headers: authHeader
+          headers: getAuthHeader()
       });
     },
     getRewards: function() {
       return $http.get(baseV1Url + '/rewards/requests', {
-          headers: authHeader
+          headers: getAuthHeader()
       });
     },
     getMerchantsRewards: function(id) {
       return $http.get(baseV1Url + '/merchant/' + id + '/rewards', {
-          headers: authHeader
+          headers: getAuthHeader()
       });
     },
     // Use to approve or decline
     updateStatus : function(id, details) {
       return $http.put(baseV1Url + '/merchant/' + id + '/status/', details, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     }
   };
