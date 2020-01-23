@@ -41,9 +41,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
     var cutOffTime = moment().startOf('day').add(17, 'hours'); // set the date to today 5pm
     if (moment().isBefore(cutOffTime)) {
-        $scope.minDate = moment().subtract(1, 'days').toDate();
-    } else {
         $scope.minDate = new Date();
+    } else {
+        $scope.minDate = moment().add(1, 'days').toDate();
     }
     console.log($scope.minDate)
     $scope.photos = [];
