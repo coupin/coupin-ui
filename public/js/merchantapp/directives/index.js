@@ -50,7 +50,7 @@ angular.module('coupinApp').directive('showMore', function () {
           plotOptions: {
             radialBar: {
               hollow: {
-                size: '80%',
+                size: '77%',
               },
               dataLabels: {
                 showOn: 'always',
@@ -58,11 +58,12 @@ angular.module('coupinApp').directive('showMore', function () {
                   offsetY: -10,
                   show: true,
                   color: '#EDEFF2',
-                  fontSize: '15px'
+                  fontSize: '1.25rem'
                 },
                 value: {
+                  offsetY: 1,
                   color: '#EDEFF2',
-                  fontSize: '34px',
+                  fontSize: '2.5rem',
                   show: true,
                 }
               },
