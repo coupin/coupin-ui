@@ -1,14 +1,16 @@
 angular.module('coupinApp').directive('showMore', function () {
   return {
     restrict: 'A',
-    link: function (scope, element) {
+    link: function (scope, element, attr) {
       element.addClass('shorten');
       element.css('cursor', 'pointer');
 
-      element.on('click', function (event) {
-        event.stopImmediatePropagation();
-        element.toggleClass('shorten');
-      });
+      if (attr.showMore === "true") {
+        element.on('click', function (event) {
+          event.stopImmediatePropagation();
+          element.toggleClass('shorten');
+        });
+      }
     }
   }
 }).directive('cpLineIndicator', function () {
