@@ -131,7 +131,11 @@
                                     class="form-control" 
                                     id="startDate" 
                                     name="startDate" 
+<<<<<<< HEAD
                                     ng-disabled="newReward.status === 'expired' || newReward.status === 'active'" 
+=======
+                                    ng-disabled="newReward.status === 'expired' || newReward.status === 'approved'" 
+>>>>>>> f8c0e063befc9de7c5e15927bb1293a9426853a1
                                     ng-class="{'has-error': isError(form.startDate)}" 
                                     type="text" 
                                     ng-change="setEndDate(noOfDays)" 
@@ -158,7 +162,11 @@
                                     ng-change="setEndDate(noOfDays)" 
                                     ng-min="1" 
                                     ng-max="{{maxDays}}"
+<<<<<<< HEAD
                                     ng-disabled="newReward.status === 'expired' || newReward.status === 'active'"
+=======
+                                    ng-disabled="newReward.status === 'expired' || newReward.status === 'approved'"
+>>>>>>> f8c0e063befc9de7c5e15927bb1293a9426853a1
                                     required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                             </div>
