@@ -138,7 +138,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         shopping : false,
         entertainment : false,
         healthnbeauty : false, 
-        gadgets : false,
+        technology : false,
         groceries: false,
         tickets : false, 
         travel : false
@@ -532,7 +532,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 shopping : false,
                 entertainment : false,
                 healthnbeauty : false, 
-                gadgets : false, 
+                technology : false, 
                 tickets : false, 
                 travel : false
             }

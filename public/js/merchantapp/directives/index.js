@@ -13,6 +13,29 @@ angular.module('coupinApp').directive('showMore', function () {
       }
     }
   }
+}).directive('allCaps', function () {
+  return {
+    retrict: 'A',
+    require: 'ngModel',
+    link: function (scope, element, attr, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return value.toUpperCase();
+      });
+
+      element.on('blur', function () {
+        ngModel.$setViewValue(ngModel.$modelValue);
+        ngModel.$render();
+      });
+
+      // ngModel.$formatters.push(function(value) {
+      //   if (!value) {
+      //     return;
+      //   }
+      //   console.log(value);
+      //   return value.toUpperCase();
+      // });
+    }
+  }
 }).directive('cpLineIndicator', function () {
   return {
     restrict: 'E',

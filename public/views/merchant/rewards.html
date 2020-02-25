@@ -60,7 +60,7 @@
                         <div class="form-group">
                             <label for="name">Name: </label><span>*</span>
                             <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input type="text" name="name" class="form-control" ng-disabled="newReward.status === 'expired'"  id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
+                                <input all-caps type="text" name="name" class="form-control" ng-disabled="newReward.status === 'expired'"  id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
                                 <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                             </div>
                         </div>
@@ -69,7 +69,18 @@
                         <div class="form-group">
                             <label for="description">Description: </label>
                             <div class="input-group mb-2 mr-sm mb-sm-0">
-                                <textarea type="text" class="form-control" id="description" ng-disabled="newReward.status === 'expired'"  name="description" ng-class="{'has-error': isError(form.description)}" aria-describedby="descriptionHelp" placeholder="Description.." ng-model="newReward.description" required></textarea>
+                                <textarea 
+                                    all-caps 
+                                    style="height: 100px;"
+                                    type="text" 
+                                    class="form-control" 
+                                    id="description" 
+                                    ng-disabled="newReward.status === 'expired'"  
+                                    name="description" 
+                                    ng-class="{'has-error': isError(form.description)}" 
+                                    aria-describedby="descriptionHelp" 
+                                    placeholder="Description.." 
+                                    ng-model="newReward.description" required></textarea>
                                 <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                             </div>
                         </div>
@@ -232,7 +243,7 @@
                     <label>Reward Categories: </label><br/>
                     <input type="checkbox" name="category" id="entertainment" ng-checked="categories.entertainment" ng-click="addCat('entertainment')"> <label for="entertainment">Entertainment </label>
                     <input type="checkbox" name="category" id="foodndrink" ng-checked="categories.foodndrink" ng-click="addCat('foodndrink')"> <label for="foodndrink">Food and Drink </label>
-                    <input type="checkbox" name="category" id="gadgets" ng-checked="categories.gadgets" ng-click="addCat('gadgets')"> <label for="gadgets">Gadgets </label>
+                    <input type="checkbox" name="category" id="technology" ng-checked="categories.technology" ng-click="addCat('technology')"> <label for="technology">Technology </label>
                     <input type="checkbox" name="category" id="groceries" ng-checked="categories.groceries" ng-click="addCat('groceries')"> <label for="groceries">Groceries </label>
                     <input type="checkbox" name="category" id="healthnbeauty" ng-checked="categories.healthnbeauty" ng-click="addCat('healthnbeauty')"> <label for="healthnbeauty">Health &amp; Beauty </label>
                     <input type="checkbox" name="category" id="shopping" ng-checked="categories.shopping" ng-click="addCat('shopping')"> <label for="shopping">Shopping </label>
