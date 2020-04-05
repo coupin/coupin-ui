@@ -20,33 +20,17 @@
             </span>
         </p>
         <i class="fas fa-info-circle" ng-if="newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i>
-        <!-- <span ng-class="newReward.status" class="plan-status">
-            {{newReward.status}}
-        </span> -->
     </div>
-    <div id="accordion" ng-if="showReviews()">
-        <div class="success-card">
-          <div class="success-card-header" id="reviewHeader">
-            <h5 class="mb-0">
-              <button class="success-card-btn" data-toggle="collapse" data-target="#reviewBody" aria-expanded="true" aria-controls="collapseOne">
-                  <i class="fas fa-long-arrow-alt-down"></i>
-                The admin has requested changes for this reward. Click to show details
-                <i class="fas fa-long-arrow-alt-down"></i>
-              </button>
-            </h5>
-          </div>
-      
-          <div id="reviewBody" class="collapse success-card-body" aria-labelledby="reviewHeader" data-parent="#accordion">
-            <div class="card-body">
-              <ul>
-                  <li ng-repeat="review in newReward.review">
-                      <b>{{review.comment}}</b>
-                      <br>
-                      <span class="light">Made on {{review.timeStamp | date:"longDate"}}</span>
-                    </li>
-              </ul>
+    <div ng-if="showReviews()" style="padding: 20px 30px; border-left: solid #F49A40 5px; margin-bottom: 25px; margin-left: 15px;">
+        <i style="display: inline-block; color: #F49A40; margin-right: 25px; vertical-align: top;" class="fas fa-exclamation-circle fa-5x"></i>
+        <div style="display: inline-block;">
+            <p style="margin-bottom: 10px; font-size: 25px;">Admin has requested the following changes for the reward</p>
+            <div ng-repeat="review in newReward.review">
+                <div style="margin-bottom: 5px; line-height: 1.3;" ng-if="!review.seen">
+                    <p style="margin: 0; font-size: 16px;">{{review.comment}}</p>
+                    <p style="margin: 0; color: #94989E; font-size: 12px;">Reviewed on {{review.timeStamp | date:"longDate"}}</p>
+                </div>
             </div>
-          </div>
         </div>
     </div>
     <form name="form">
