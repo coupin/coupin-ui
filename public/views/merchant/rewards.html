@@ -1,401 +1,413 @@
-<div class="info-box card">
-    <div class="loading text-center" ng-if="loading">
-        <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Submiting</span>
-    </div>
-    <!-- <div class="text-center">
-        <h2>Reward Creation</h2>
-    </div> -->
-    <div>
-        <i 
-            data-toggle="tooltip"
-            data-placement="top"
-            title="Click to go back to reward list"
-            class="fas fa-arrow-circle-left reward-back-button"
-            ng-click="goToRewardList()"></i>
-        <p class="section-headers"  style="margin: 25px 0 25px 10px;display:inline-block;">
-            <span ng-if="isNewReward()">Add new reward</span>
-            <span ng-if="!isNewReward() && newReward.status !== 'expired'">Edit existing reward</span>
-            <span ng-if="!isNewReward() && newReward.status === 'expired'">
-                View existing reward
-            </span>
-        </p>
-        <i class="fas fa-info-circle" ng-if="newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i>
-    </div>
-    <div ng-if="showReviews()" style="padding: 20px 30px; border-left: solid #F49A40 5px; margin-bottom: 25px; margin-left: 15px;">
-        <i style="display: inline-block; color: #F49A40; margin-right: 25px; vertical-align: top;" class="fas fa-exclamation-circle fa-5x"></i>
-        <div style="display: inline-block;">
-            <p style="margin-bottom: 10px; font-size: 25px;">Admin has requested the following changes for the reward</p>
-            <div ng-repeat="review in newReward.review">
-                <div style="margin-bottom: 5px; line-height: 1.3;" ng-if="!review.seen">
-                    <p style="margin: 0; font-size: 16px;">{{review.comment}}</p>
-                    <p style="margin: 0; color: #94989E; font-size: 12px;">Reviewed on {{review.timeStamp | date:"longDate"}}</p>
-                </div>
-            </div>
+<div id="reward-details-page">
+    <div class="info-box card">
+        <div class="loading text-center" ng-if="loading">
+            <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Submiting</span>
         </div>
-    </div>
-    <form name="form">
-        <div class="row profile-form-section">
-            <div class="col-md-2">
-                <p>Reward Info</p>
-            </div>
-            <div class="col-md-10">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="name">Name: </label><span>*</span>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input all-caps type="text" name="name" class="form-control" ng-disabled="newReward.status === 'expired'"  id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
-                                <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="description">Description: </label>
-                            <div class="input-group mb-2 mr-sm mb-sm-0">
-                                <textarea 
-                                    all-caps 
-                                    style="height: 100px;"
-                                    type="text" 
-                                    class="form-control" 
-                                    id="description" 
-                                    ng-disabled="newReward.status === 'expired'"  
-                                    name="description" 
-                                    ng-class="{'has-error': isError(form.description)}" 
-                                    aria-describedby="descriptionHelp" 
-                                    placeholder="Description.." 
-                                    ng-model="newReward.description" required></textarea>
-                                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
-                            </div>
-                        </div>
+        <!-- <div class="text-center">
+            <h2>Reward Creation</h2>
+        </div> -->
+        <div>
+            <i 
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Click to go back to reward list"
+                class="fas fa-arrow-circle-left reward-back-button"
+                ng-click="goToRewardList()"></i>
+            <p class="section-headers"  style="margin: 25px 0 25px 10px;display:inline-block;">
+                <span ng-if="isNewReward()">Add new reward</span>
+                <span ng-if="!isNewReward() && newReward.status !== 'expired'">Edit existing reward</span>
+                <span ng-if="!isNewReward() && newReward.status === 'expired'">
+                    View existing reward
+                </span>
+            </p>
+            <i class="fas fa-info-circle" ng-if="newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i>
+        </div>
+        <div ng-if="showReviews()" style="padding: 20px 30px; border-left: solid #F49A40 5px; margin-bottom: 25px; margin-left: 15px;">
+            <i style="display: inline-block; color: #F49A40; margin-right: 25px; vertical-align: top;" class="fas fa-exclamation-circle fa-5x"></i>
+            <div style="display: inline-block;">
+                <p style="margin-bottom: 10px; font-size: 25px;">Admin has requested the following changes for the reward</p>
+                <div ng-repeat="review in newReward.review">
+                    <div style="margin-bottom: 5px; line-height: 1.3;" ng-if="!review.seen">
+                        <p style="margin: 0; font-size: 16px;">{{review.comment}}</p>
+                        <p style="margin: 0; color: #94989E; font-size: 12px;">Reviewed on {{review.timeStamp | date:"longDate"}}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row profile-form-section">
-            <div class="col-md-2">
-                <p>Discount Info</p>
-            </div>
-            <div class="col-md-10">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="">Discount</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input type="text"  ng-value="calculatePercentage(newReward.price.old, newReward.price.new) | number : 2 " disabled>
-                                <div class="input-group-addon icons-input"><i class="fas fa-percentage"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="form-group">
-                            <label for="oldPrice">Old Price: </label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input type="text" name="oldPrice" class="form-control" id="oldPrice" placeholder="0" ng-model="newReward.price.old" ng-disabled="newReward.status === 'expired'" />
-                                <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="form-group">
-                            <label for="newPrice">New Price: </label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input type="text" name="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="newReward.price.new" ng-disabled="newReward.status === 'expired'" />
-                                <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
-                            </div>
-                        </div>
-                    </div>
+        <form name="form">
+            <div class="row profile-form-section">
+                <div class="col-md-2">
+                    <p>Reward Info</p>
                 </div>
-                <!-- <div class="row text-center">
-                    <h3>Your Reward Discount is {{ calculatePercentage(newReward.price.old, newReward.price.new) | number : 2 }}% Off</h3>
-                </div> -->
-            </div>
-        </div>
-        <div class="row profile-form-section">
-            <div class="col-md-2">
-                <p>Reward Date</p>
-            </div>
-            <div class="col-md-10">
-                <div class="row" ng-if="!payRewardIsActive()">
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="startDate">Please pick a start date: </label><br/>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input
-                                    bs-datepicker 
-                                    class="form-control" 
-                                    id="startDate" 
-                                    name="startDate" 
-                                    ng-disabled="newReward.status === 'expired' || newReward.status === 'active'" 
-                                    ng-class="{'has-error': isError(form.startDate)}" 
-                                    type="text" 
-                                    ng-change="setEndDate(noOfDays)" 
-                                    ng-model="newReward.startDate" 
-                                    data-min-date="{{minDate}}" 
-                                    data-max-date="{{maxDate}}" 
-                                    required/>
-                                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                            </div>
-                            <small id="rangeHelp" class="form-text">This is when the users will start to see the reward.</small>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="endDate">Please select number of days: </label><br/>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <input
-                                    id="noOfDate"
-                                    class="form-control"
-                                    ng-class="{'has-error': newReward.startDate && form.noOfDays.$dirty && (form.noOfDays.$error.required || form.noOfDays.$error.max)}"
-                                    name="noOfDays"
-                                    type="number" 
-                                    ng-model="noOfDays" 
-                                    ng-change="setEndDate(noOfDays)" 
-                                    ng-min="1" 
-                                    ng-max="{{maxDays}}"
-                                    ng-disabled="newReward.status === 'expired' || newReward.status === 'active'"
-                                    required/>
-                                <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
-                            </div>
-                            <small id="rangeHelp" class="form-text" ng-if="newReward.startDate">
-                                <b ng-if="!isError(form.noOfDays)">The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b>
-                                <b
-                                    ng-if="isError(form.noOfDays) && form.noOfDays.$error.max"
-                                    class="error-text"
-                                    data-toggle="tooltip"
-                                    bs-tooltip
-                                    data-placement="bottom"
-                                    title="Your plan expires {{maxDays + 1}} day{{maxDays > 1 ? 's' : ''}} after the selected date."
-                                    style="cursor: pointer;">
-                                    You cannot select more that {{maxDays}} day{{maxDays > 1 ? 's' : ''}} for this reward.
-                                    <i class="fas fa-exclamation-circle"></i>
-                                </b>
-                            </small>
-                        </div>
-                    </div>
-                    <h3 class="text-center" ng-if="showTotal()">Total: <b>&#8358; {{amount}}</b></h3>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="appDays">Applicable Days: </label>
-                            <div id="applicable-days-container">
-                                <div class="select-group">
-                                    <div class="button-group">
-                                        <input type="radio" name="data-group" value="all" ng-model="selectedDayOption">
-                                        <button type="button" data-value="all" class="data-group-button" ng-click="selectGroup('all')">All <i class="far fa-check-circle"></i></button>
-                                    </div>
-                                    <div class="button-group">
-                                        <input type="radio" name="data-group" value="weekdays" ng-model="selectedDayOption">
-                                        <button type="button" data-value="weekdays" class="data-group-button" ng-click="selectGroup('weekdays')">Weekdays <i class="far fa-check-circle"></i></button>
-                                    </div>
-                                    <div class="button-group">
-                                        <input type="radio" name="data-group" value="weekends" ng-model="selectedDayOption">
-                                        <button type="button" data-value="weekends" class="data-group-button" ng-click="selectGroup('weekends')">Weekends <i class="far fa-check-circle"></i></button>
-                                    </div>
-                                </div>
-                                <div class="day-group">
-                                    <div class="button-group" ng-repeat="_day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']">
-                                        <input
-                                            type="checkbox"
-                                            name="_day"
-                                            ng-checked="newReward.applicableDays.indexOf($index) > -1"
-                                            ng-value="$index">
-                                        <button
-                                            type="button"
-                                            ng-click="day($index)"
-                                            class="day-group-button">
-                                            {{_day}} <i class="far fa-check-circle"></i>
-                                        </button>
-                                    </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="name">Name: </label><span>*</span>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input all-caps type="text" name="name" class="form-control" ng-disabled="newReward.status === 'expired'"  id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                                 </div>
                             </div>
-                            <div>
-                                <small id="appDaysHelp" class="form-text text-muted">Pick the days of the week that apply to you.</small>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description">Description: </label>
+                                <div class="input-group mb-2 mr-sm mb-sm-0">
+                                    <textarea 
+                                        all-caps 
+                                        style="height: 100px;"
+                                        type="text" 
+                                        class="form-control" 
+                                        id="description" 
+                                        ng-disabled="newReward.status === 'expired'"  
+                                        name="description" 
+                                        ng-class="{'has-error': isError(form.description)}" 
+                                        aria-describedby="descriptionHelp" 
+                                        placeholder="Description.." 
+                                        ng-model="newReward.description" required></textarea>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row profile-form-section">
-            <div class="col-md-2">
-                <p></p>
-            </div>
-            <div class="col-md-10">
-                <div class="form-group">
-                    <div><label>Reward Categories: </label></div>
-                    <label for="entertainment" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="entertainment" ng-checked="categories.entertainment" ng-click="addCat('entertainment')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Entertainment </span>
-                    </label>
-                    <label for="foodndrink" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="foodndrink" ng-checked="categories.foodndrink" ng-click="addCat('foodndrink')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Food and Drink </span>
-                    </label>
-                    <label for="technology" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="technology" ng-checked="categories.technology" ng-click="addCat('technology')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Electronics & Technology </span>
-                    </label>
-                    <label for="groceries" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="groceries" ng-checked="categories.groceries" ng-click="addCat('groceries')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Groceries </span>
-                    </label>
-                    <label for="healthnbeauty" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="healthnbeauty" ng-checked="categories.healthnbeauty" ng-click="addCat('healthnbeauty')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Health & Beauty </span>
-                    </label>
-                    <label for="shopping" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="shopping" ng-checked="categories.shopping" ng-click="addCat('shopping')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Shopping </span>
-                    </label>
-                    <label for="tickets" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="tickets" ng-checked="categories.tickets" ng-click="addCat('tickets')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Tickets </span>
-                    </label>
-                    <label for="travel" class="cp-checkbox-container">
-                        <input type="checkbox" name="category" id="travel" ng-checked="categories.travel" ng-click="addCat('travel')">
-                        <span class="cp-checkbox"></span>
-                        <span class="checkbox-label">Travel & Hotels </span>
-                    </label>
-                    <br/>
-                    <small id="categoryHelp" class="form-text text-muted">Please tick categories that best describe your business.</small>
+            <div class="row profile-form-section">
+                <div class="col-md-2">
+                    <p>Discount Info</p>
                 </div>
-                <div class="form-group">
-                    <div><label>Can this reward be used multiple times: </label></div>
-                    <label for="multiple-yes" class="cp-radio-container">
-                        <input type="radio" name="multiple" id="multiple-yes" ng-model="newReward.multiple.status" ng-value="true"/>
-                        <span class="cp-radio"></span>
-                        <span class="radio-label">Yes</span>
-                    </label>
-                    <label for="multiple-no" class="cp-radio-container">
-                        <input type="radio" name="multiple" id="multiple-no" ng-model="newReward.multiple.status" ng-value="false">
-                        <span class="cp-radio"></span>
-                        <span class="radio-label">No</span> 
-                    </label>
-                </div>
-                <div class="form-group">
-                    <div><label>Can this reward be delivered: </label></div>
-                    <label for="delivery-yes" class="cp-radio-container">
-                        <input type="radio" name="delivery" id="delivery-yes" ng-model="newReward.delivery" ng-value="true"/>
-                        <span class="cp-radio"></span>
-                        <span class="radio-label">Yes</span>
-                    </label>
-                    <label for="delivery-no" class="cp-radio-container">
-                        <input type="radio" name="delivery" id="delivery-no" ng-model="newReward.delivery" ng-value="false">
-                        <span class="cp-radio"></span>
-                        <span class="radio-label">No</span> 
-                    </label>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="">Discount</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input type="text"  ng-value="calculatePercentage(newReward.price.old, newReward.price.new) | number : 2 " disabled>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-percentage"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="oldPrice">Old Price: </label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input type="text" name="oldPrice" class="form-control" id="oldPrice" placeholder="0" ng-model="newReward.price.old" ng-disabled="newReward.status === 'expired'" />
+                                    <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="newPrice">New Price: </label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input type="text" name="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="newReward.price.new" ng-disabled="newReward.status === 'expired'" />
+                                    <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row text-center">
+                        <h3>Your Reward Discount is {{ calculatePercentage(newReward.price.old, newReward.price.new) | number : 2 }}% Off</h3>
+                    </div> -->
                 </div>
             </div>
-        </div>
-        <div class="row profile-form-section">
-            <div class="col-md-2">
-                <p></p>
+            <div class="row profile-form-section">
+                <div class="col-md-2">
+                    <p>Reward Date</p>
+                </div>
+                <div class="col-md-10">
+                    <div class="row" ng-if="!payRewardIsActive()">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="startDate">Please pick a start date: </label><br/>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input
+                                        bs-datepicker 
+                                        class="form-control" 
+                                        id="startDate" 
+                                        name="startDate" 
+                                        ng-disabled="newReward.status === 'expired' || newReward.status === 'active'" 
+                                        ng-class="{'has-error': isError(form.startDate)}" 
+                                        type="text" 
+                                        ng-change="setEndDate(noOfDays)" 
+                                        ng-model="newReward.startDate" 
+                                        data-min-date="{{minDate}}" 
+                                        data-max-date="{{maxDate}}" 
+                                        required/>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                                </div>
+                                <small id="rangeHelp" class="form-text">This is when the users will start to see the reward.</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label for="endDate">Please select number of days: </label><br/>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input
+                                        id="noOfDate"
+                                        class="form-control"
+                                        ng-class="{'has-error': newReward.startDate && form.noOfDays.$dirty && (form.noOfDays.$error.required || form.noOfDays.$error.max)}"
+                                        name="noOfDays"
+                                        type="number" 
+                                        ng-model="noOfDays" 
+                                        ng-change="setEndDate(noOfDays)" 
+                                        ng-min="1" 
+                                        ng-max="{{maxDays}}"
+                                        ng-disabled="newReward.status === 'expired' || newReward.status === 'active'"
+                                        required/>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                                </div>
+                                <small id="rangeHelp" class="form-text" ng-if="newReward.startDate">
+                                    <b ng-if="!isError(form.noOfDays)">The reward will expire on {{newReward.endDate | date: 'longDate'}}.</b>
+                                    <b
+                                        ng-if="isError(form.noOfDays) && form.noOfDays.$error.max"
+                                        class="error-text"
+                                        data-toggle="tooltip"
+                                        bs-tooltip
+                                        data-placement="bottom"
+                                        title="Your plan expires {{maxDays + 1}} day{{maxDays > 1 ? 's' : ''}} after the selected date."
+                                        style="cursor: pointer;">
+                                        You cannot select more that {{maxDays}} day{{maxDays > 1 ? 's' : ''}} for this reward.
+                                        <i class="fas fa-exclamation-circle"></i>
+                                    </b>
+                                </small>
+                            </div>
+                        </div>
+                        <h3 class="text-center" ng-if="showTotal()">Total: <b>&#8358; {{amount}}</b></h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="appDays">Applicable Days: </label>
+                                <div id="applicable-days-container">
+                                    <div class="select-group">
+                                        <div class="button-group">
+                                            <input type="radio" name="data-group" value="all" ng-model="selectedDayOption">
+                                            <button type="button" data-value="all" class="data-group-button" ng-click="selectGroup('all')">All <i class="far fa-check-circle"></i></button>
+                                        </div>
+                                        <div class="button-group">
+                                            <input type="radio" name="data-group" value="weekdays" ng-model="selectedDayOption">
+                                            <button type="button" data-value="weekdays" class="data-group-button" ng-click="selectGroup('weekdays')">Weekdays <i class="far fa-check-circle"></i></button>
+                                        </div>
+                                        <div class="button-group">
+                                            <input type="radio" name="data-group" value="weekends" ng-model="selectedDayOption">
+                                            <button type="button" data-value="weekends" class="data-group-button" ng-click="selectGroup('weekends')">Weekends <i class="far fa-check-circle"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="day-group">
+                                        <div class="button-group" ng-repeat="_day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']">
+                                            <input
+                                                type="checkbox"
+                                                name="_day"
+                                                ng-checked="newReward.applicableDays.indexOf($index) > -1"
+                                                ng-value="$index">
+                                            <button
+                                                type="button"
+                                                ng-click="day($index)"
+                                                class="day-group-button">
+                                                {{_day}} <i class="far fa-check-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <small id="appDaysHelp" class="form-text text-muted">Pick the days of the week that apply to you.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-10">
-                <div class="row">
+            <div class="row profile-form-section">
+                <div class="col-md-2">
+                    <p></p>
+                </div>
+                <div class="col-md-10">
                     <div class="form-group">
-                        <label for="end">Reward Pictures: </label><br/>
-                        <div class="btn btn-success" ng-disabled="loading || uploading || newReward.status === 'expired'" data-toggle="modal" data-target="#croppingModal">Select Files</div>
-                        <small id="endHelp" class="form-text text-muted">Sample Picture of Reward.</small>
+                        <div><label>Reward Categories: </label></div>
+                        <label for="entertainment" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="entertainment" ng-checked="categories.entertainment" ng-click="addCat('entertainment')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Entertainment </span>
+                        </label>
+                        <label for="foodndrink" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="foodndrink" ng-checked="categories.foodndrink" ng-click="addCat('foodndrink')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Food and Drink </span>
+                        </label>
+                        <label for="technology" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="technology" ng-checked="categories.technology" ng-click="addCat('technology')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Electronics & Technology </span>
+                        </label>
+                        <label for="groceries" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="groceries" ng-checked="categories.groceries" ng-click="addCat('groceries')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Groceries </span>
+                        </label>
+                        <label for="healthnbeauty" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="healthnbeauty" ng-checked="categories.healthnbeauty" ng-click="addCat('healthnbeauty')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Health & Beauty </span>
+                        </label>
+                        <label for="shopping" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="shopping" ng-checked="categories.shopping" ng-click="addCat('shopping')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Shopping </span>
+                        </label>
+                        <label for="tickets" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="tickets" ng-checked="categories.tickets" ng-click="addCat('tickets')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Tickets </span>
+                        </label>
+                        <label for="travel" class="cp-checkbox-container">
+                            <input type="checkbox" name="category" id="travel" ng-checked="categories.travel" ng-click="addCat('travel')">
+                            <span class="cp-checkbox"></span>
+                            <span class="checkbox-label">Travel & Hotels </span>
+                        </label>
+                        <br/>
+                        <small id="categoryHelp" class="form-text text-muted">Please tick categories that best describe your business.</small>
                     </div>
-                    <div class="row" ng-if="displayRewardPhotos()">
-                        <div class="progress" ng-if="uploading">
-                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
-                                <span class="text-center">{{progress === 100 ? 'Processing...' : progress + '%'}}</span>
+                    <div class="form-group">
+                        <div><label>Can this reward be used multiple times: </label></div>
+                        <label for="multiple-yes" class="cp-radio-container">
+                            <input type="radio" name="multiple" id="multiple-yes" ng-model="newReward.multiple.status" ng-value="true"/>
+                            <span class="cp-radio"></span>
+                            <span class="radio-label">Yes</span>
+                        </label>
+                        <label for="multiple-no" class="cp-radio-container">
+                            <input type="radio" name="multiple" id="multiple-no" ng-model="newReward.multiple.status" ng-value="false">
+                            <span class="cp-radio"></span>
+                            <span class="radio-label">No</span> 
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div><label>Can this reward be delivered: </label></div>
+                        <label for="delivery-yes" class="cp-radio-container">
+                            <input type="radio" name="delivery" id="delivery-yes" ng-model="newReward.delivery" ng-value="true"/>
+                            <span class="cp-radio"></span>
+                            <span class="radio-label">Yes</span>
+                        </label>
+                        <label for="delivery-no" class="cp-radio-container">
+                            <input type="radio" name="delivery" id="delivery-no" ng-model="newReward.delivery" ng-value="false">
+                            <span class="cp-radio"></span>
+                            <span class="radio-label">No</span> 
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row profile-form-section">
+                <div class="col-md-2">
+                    <p></p>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="end">Reward Pictures: </label><br/>
+                            <div class="btn btn-success" ng-disabled="photos.length > 4 || loading || uploading || newReward.status === 'expired'" data-toggle="modal" data-target="#croppingModal">
+                                Select Image Files
+                            </div>
+                            <!-- <small id="endHelp" class="form-text text-muted">Picture of Reward.</small> -->
+                        </div>
+                        <div ng-if="uploading">
+                            <div class="text-center upload-progress-container">
+                                <div class="upload-label">Image Upload Progress</div>
+                                <div class="upload-progress">{{progress === 100 ? 'Processing...' : progress + '%'}}</div>
+                            </div>
+                            <div class="progress  image-upload-progress-bar">
+                                <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                                </div>
                             </div>
                         </div>
-                        <div class="preview-box" ng-repeat="(index, photo) in photos">
-                            <h5 class="text-center clickable" ng-click="removeImage(index)" ng-hide="newReward.status === 'expired'"><i class="fas fa-2x fa-times-circle"></i></h5>
-                            <img ng-src="{{photo.url}}" height="200" width="200"/>
+                        <div class="row image-preview-container">
+                            <div class="preview-box" ng-repeat="(index, photo) in photos">
+                                <span class="delete-image clickable" ng-click="removeImage(index)" ng-hide="newReward.status === 'expired'"><i class="fas fa-2x fa-times-circle"></i></span>
+                                <img ng-src="{{photo.url}}" height="200" width="200"/>
+                            </div>
+                            <div class="preview-box add-image-preview" role="button" ng-if="photos.length < 4 && newReward.status !== 'expired' && !loading && !uploading" data-toggle="modal" data-target="#croppingModal">
+                                <i class="fas fa-plus fa-3x"></i>
+                                <span>Add Image</span>
+                            </div>
                         </div>
-                        <br>
                         <span>
                             <button class="btn btn-success" ng-if="update && files.length > 0" ng-disabled="loading || uploading" ng-click="upload(newReward._id, false)">Upload</button>
                         </span>
                     </div>
-                </div>
-                <div class="row user-profile-action" ng-hide="newReward.status === 'expired'">
-                    <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="createReward(newReward)" ng-if="displayCreateButton()">Create Reward</button>
-                    <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="updateReward(newReward)" ng-if="displayUpdateButton()">Update Reward</button>
-                    <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="makePayment(newReward)" ng-if="displayPayAndUpdateButton()">Pay and Update Reward</button>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-
-<!-- Croppig Modal -->
-<div class="modal fade" id="croppingModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="screen-rotation-request" data-dismiss="modal">
-                <div class="content">
-                    <p><i class="fas fa-mobile fa-4x"></i></p>
-                    <p>Please rotate your device to continue</p>
+                    <div class="row user-profile-action" ng-hide="newReward.status === 'expired'">
+                        <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="createReward(newReward)" ng-if="displayCreateButton()">Create Reward</button>
+                        <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="updateReward(newReward)" ng-if="displayUpdateButton()">Update Reward</button>
+                        <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="makePayment(newReward)" ng-if="displayPayAndUpdateButton()">Pay and Update Reward</button>
+                    </div>
                 </div>
             </div>
-            <div class="modal-header text-center">
-                <h3>Upload Gallery Image</h3>
-            </div>
-            <div class="modal-body text-center">
-                <div>
-                    <h4>Images Must all be cropped to a 200x200 square.</h4>
-                    <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small> -->
-                    <!-- <div>
-                        <label for="imageupload">Select an Image</label>
-                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src" id="imageupload"/>
-                    </div> -->
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="file-input__container">
-                                <label for="imageupload" class="file-input__container__prompts">
-                                    <div class="file-input__container__prompts__img">
-                                        <i class="fas fa-cloud-upload-alt"></i>
-                                    </div>
-                                    <div class="file-input__container__prompts__text">
-                                        <p>Select an Image</p>
-                                        <p>Note: Image will appear to viewers as cropped.</p>
-                                    </div>
-                                    <input 
-                                        class="form-control" 
-                                        type="file" 
-                                        accept="image/*" 
-                                        img-cropper-fileread image="image.src" 
-                                        id="imageupload"/>
-                                </label>
+        </form>
+    </div>
+    
+    <!-- Croppig Modal -->
+    <div class="modal fade" id="croppingModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="screen-rotation-request" data-dismiss="modal">
+                    <div class="content">
+                        <p><i class="fas fa-mobile fa-4x"></i></p>
+                        <p>Please rotate your device to continue</p>
+                    </div>
+                </div>
+                <div class="modal-header text-center">
+                    <h3>Upload Gallery Image</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div>
+                        <h4>Images Must all be cropped to a 200x200 square.</h4>
+                        <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small> -->
+                        <!-- <div>
+                            <label for="imageupload">Select an Image</label>
+                            <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src" id="imageupload"/>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="file-input__container">
+                                    <label for="imageupload" class="file-input__container__prompts">
+                                        <div class="file-input__container__prompts__img">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-input__container__prompts__text">
+                                            <p>Select an Image</p>
+                                            <p>Note: Image will appear to viewers as cropped.</p>
+                                        </div>
+                                        <input 
+                                            class="form-control" 
+                                            type="file" 
+                                            accept="image/*" 
+                                            img-cropper-fileread image="image.src" 
+                                            id="imageupload"/>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="cropArea">
+                                <canvas
+                                    height="350"
+                                    width="500"
+                                    image="image.src"
+                                    image-cropper
+                                    cropped-image="image.dst"
+                                    crop-height="200"
+                                    crop-width="200"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="cropArea">
-                            <canvas
-                                height="350"
-                                width="500"
-                                image="image.src"
-                                image-cropper
-                                cropped-image="image.dst"
-                                crop-height="200"
-                                crop-width="200"
-                                keep-aspect="true"
-                                touch-radiue="30"
-                                crop-area-bounds="bounds"
-                                ></canvas>
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <div class="modal-footer text-center">
-                <button class="btn btn-primary btn-sm" ng-click="fileCheck(image)">Add Image</button>
-                <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-primary btn-sm" ng-click="fileCheck(image)">Add Image</button>
+                    <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
