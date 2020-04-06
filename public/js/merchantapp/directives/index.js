@@ -157,7 +157,7 @@ angular.module('coupinApp').directive('showMore', function () {
               barHeight: '70%',
             }
           },
-          colors: ['#08AEEA', '#15A580'],
+          colors: ['#08AEEA', '#15A580', '#E7745A'],
           series: [{
             name: 'Female',
             data: [47, 55]
@@ -201,7 +201,8 @@ angular.module('coupinApp').directive('showMore', function () {
           },
           legend: {
             show: true,
-            offsetY: -10,
+            offsetY: 10,
+            height: 24,
             fontFamily: 'Nunito Sans',
             fontSize: '12px',
             position: 'bottom',
@@ -217,7 +218,7 @@ angular.module('coupinApp').directive('showMore', function () {
           dataLabels: {
             enabled: true,
             formatter: function (val, opts) {
-              return val + '%';
+              return val > 0 ? val + '%' : '';
             },
             offsetX: -20,
           },
@@ -320,8 +321,8 @@ angular.module('coupinApp').directive('showMore', function () {
           },
           legend: {
             show: true,
-            // offsetX: -300,
-            offsetY: -10,
+            offsetY: 10,
+            height: 24,
             fontFamily: 'Nunito Sans',
             fontSize: '12px',
             position: 'bottom',
@@ -483,7 +484,8 @@ angular.module('coupinApp').directive('showMore', function () {
           },
           legend: {
             show: true,
-            offsetY: -12,
+            offsetY: 10,
+            height: 24,
             fontFamily: 'Nunito Sans',
             fontSize: '12px',
             position: 'bottom',

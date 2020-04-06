@@ -1271,3 +1271,72 @@ form .row {
 }
 /* end of apex charts styling */
 /* End of Analytics page styling */
+
+#reward-details-page .image-preview-container {
+  padding: 25px 10px;
+  background-color: #252525;
+  box-shadow: inset 0px 0px 1px 0px #74B567;
+  border-radius: 1px;
+}
+
+#reward-details-page .image-preview-container .add-image-preview {
+  border: 5px dashed #313237;
+  border-radius: 5px;
+  color: #313237;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+#reward-details-page .image-preview-container .add-image-preview:hover {
+  border-color: #5b5d67;
+  color: #5b5d67;
+}
+
+#reward-details-page .image-preview-container .add-image-preview  span {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+#reward-details-page .image-preview-container .preview-box {
+  position: relative;
+}
+
+#reward-details-page .image-preview-container .preview-box img{
+  border-radius: 3px;
+}
+
+#reward-details-page .image-preview-container .preview-box span.delete-image {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  padding: 10px;
+  border-radius: 30px;
+  background-color: rgba(0,0,0,0.4);
+}
+
+#reward-details-page .upload-progress-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+#reward-details-page .upload-progress-container .upload-label {
+  text-transform: uppercase;
+  font-weight: 200;
+  font-size: 11px;
+}
+#reward-details-page .upload-progress-container .upload-progress {
+  font-size: 24px;
+  color: #fff;
+}
+
+#reward-details-page .image-upload-progress-bar {
+  height: 5px;
+}
+
+#reward-details-page .image-upload-progress-bar .progress-bar {
+  background-color: #E89D53;
+  border-radius: 50px;
+}
