@@ -1273,10 +1273,12 @@ form .row {
 /* End of Analytics page styling */
 
 #reward-details-page .image-preview-container {
-  padding: 25px 10px;
+  padding: 15px 10px;
   background-color: #252525;
   box-shadow: inset 0px 0px 1px 0px #74B567;
   border-radius: 1px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #reward-details-page .image-preview-container .add-image-preview {
