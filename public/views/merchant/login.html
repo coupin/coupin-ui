@@ -126,7 +126,8 @@
                             ng-model="agreeTermsAndCondition"
                             oninvalid="this.setCustomValidity('Please check this box confirming you\'ve read and understood the terms and conditions')"
                             required>
-                        By clicking this, you agree to our <a ui-sref="terms" target="_blank" style="color: #14a580">Terms and Conditions</a>.
+                        <!-- By clicking this, you agree to our <a href="https://coupinapp.com/terms.html" target="_blank" style="color: #14a580">Terms and Conditions</a>. -->
+                        By clicking this, you agree to our <a ui-sref="terms" target="_blank" style="color: #14a580">Terms and Conditions</a> and <a ui-sref="privacy-policy" target="_blank" style="color: #14a580">Privacy Policy</a> .
                     </label>
                 </div>
                 <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[1]">

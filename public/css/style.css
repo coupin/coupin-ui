@@ -433,10 +433,11 @@ td::first-letter {
 }
 
 .preview-box {
-    display: inline-block;
-    height: 250px;
-    margin: auto 10px;
+    /* display: inline-block; */
+    margin: 10px;
+    height: 200px;
     width: 200px;
+    /* vertical-align: bottom; */
 }
 
 .btn-half {
