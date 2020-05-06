@@ -21,6 +21,11 @@ function (
             templateUrl: '/views/merchant/terms.html',
             // controller: 'AuthController'
         })
+        .state('privacy-policy', {
+            url: '/policy/privacy-policy',
+            templateUrl: '/views/merchant/privacy.html',
+            // controller: 'AuthController'
+        })
         .state('dashboard', {
             url: '/dashboard',
             templateUrl: '/views/merchant/home.html',
