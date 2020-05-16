@@ -15,7 +15,7 @@ option {
 .portal-header {
   height: 60px;
   background-color: #313237;
-  z-index: 999999;
+  z-index: 1049;
   position: fixed;
   right: 0;
   left: 0;
