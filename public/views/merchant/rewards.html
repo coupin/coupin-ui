@@ -45,7 +45,19 @@
                             <div class="form-group">
                                 <label for="name">Name: </label><span>*</span>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                    <input all-caps type="text" name="name" class="form-control" ng-disabled="newReward.status === 'expired'"  id="name" name="name" aria-describedby="nameHelp" placeholder="e.g. Family Meal" ng-model="newReward.name" ng-class="{'has-error': isError(form.name)}" required/>
+                                    <input
+                                        all-caps 
+                                        type="text"
+                                        name="name"
+                                        class="form-control"
+                                        ng-disabled="newReward.status === 'expired'"
+                                        id="name"
+                                        aria-describedby="nameHelp"
+                                        placeholder="e.g. Family Meal"
+                                        ng-model="newReward.name"
+                                        maxlength="40"
+                                        ng-class="{'has-error': isError(form.name)}"
+                                        required/>
                                     <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
                                 </div>
                             </div>
@@ -64,7 +76,8 @@
                                         name="description" 
                                         ng-class="{'has-error': isError(form.description)}" 
                                         aria-describedby="descriptionHelp" 
-                                        placeholder="Description.." 
+                                        placeholder="Description.."
+                                        maxlength="240"
                                         ng-model="newReward.description" required></textarea>
                                     <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
                                 </div>
