@@ -8,16 +8,16 @@ function(
   $urlRouterProvider
 ) {
   $urlRouterProvider
-    .otherwise('/a');
+    .otherwise('/admin');
 
   $stateProvider
     .state('a', {
-      url: '/a',
+      url: '/admin',
       templateUrl: '/views/admin/login.html',
       controller: 'AuthController'
     })
     .state('portal', {
-      url: '/a/dashboard',
+      url: '/admin/dashboard',
       templateUrl: '/views/admin/base.html',
       controller: 'AdminController'
     })
