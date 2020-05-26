@@ -12,7 +12,7 @@ function (
 
     $stateProvider
         .state('auth', {
-            url: '/auth',
+            url: '/merchant',
             templateUrl: '/views/merchant/login.html',
             controller: 'AuthController'
         })
