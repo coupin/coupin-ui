@@ -294,8 +294,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     date: new Date(),
                     reference: 'complete-registration'
                 };
-                updateUser().then(function () {
-                    UtilService.showSuccess('Confirmation Success', data.message);
+                updateUser().then(function (data) {
+                    var responseMessage = data && data.message || 'success';
+                    UtilService.showSuccess('Confirmation Success', responseMessage);
                     $window.location.href = '/auth';
                 });
                 break;
