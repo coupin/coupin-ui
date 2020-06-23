@@ -10,6 +10,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     Upload,
     UtilService
 ) {
+    $scope.user = StorageService.getUser();
     const expires = ($scope.user.merchantInfo.billing.history[0] && moment($scope.user.merchantInfo.billing.history[0].expiration)) || true;
     const id = $state.params.id;
     const errTitle = 'Error!';
