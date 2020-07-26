@@ -120,7 +120,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
      */
     $scope.fileCheck = function() {
         var image = $scope.image;
-        var limit = 200000;
+        var limit = 1000000;
         var file;
         
         if (UtilService.isDefined(image.src)) {
