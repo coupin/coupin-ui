@@ -157,7 +157,7 @@ angular.module('AddRewardCtrl', []).controller('AddRewardController', function(
    * @param {*} image 
    */
   $scope.fileCheck = function(image, isLogo) {
-    var limit = 200000;
+    var limit = 1000000;
     var file;
 
     if ($scope.photos.length === 4) {
