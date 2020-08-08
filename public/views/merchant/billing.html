@@ -9,17 +9,17 @@
         </p>
         <button 
           class="btn btn-outline-primary btn-sm" 
-          ng-if="displayRenew()" 
+          ng-if="displayRenew() && billing.plan !== 'trial'" 
           ng-click="updateBilling(true)"
           style="margin-left:15px;">
           Renew Plan
         </button>
       </div>
     <div class="plans">
-      <div class="plan-disable-frontdrop" ng-if="billing.plan === 'trial'">
+      <div class="plan-disable-frontdrop" ng-if="isValidTrialPlan()">
         You don't have to select a plan, you have an active free plan
       </div>
-      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
         <input type="radio" name="billing-plan" class="billing-plan" value="payAsYouGo" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
           <div class="plan-header">
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
         <input type="radio" name="billing-plan" class="billing-plan" value="monthly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('monthly'); updateBilling()">
           <div class="plan-header">
@@ -53,7 +53,7 @@
           </div>
         </div>
       </div>
-      <div class="plan" ng-class="{ 'trial-plan': billing.plan === 'trial' }">
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
         <input type="radio" name="billing-plan" class="billing-plan" value="yearly" ng-model="billing.plan">
         <div class="card" ng-click="setPlan('yearly'); updateBilling()">
           <div class="plan-header">

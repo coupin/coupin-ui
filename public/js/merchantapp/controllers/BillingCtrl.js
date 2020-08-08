@@ -43,7 +43,11 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
       date: new Date()
     };
     $scope.historyLoading = false;
-  })
+  });
+
+  $scope.isValidTrialPlan = function () {
+    return billing.plan === 'trial' && !hasExpired;
+  };
 
   $scope.setShowRest = function () {
     $scope.showRest = !$scope.showRest;
