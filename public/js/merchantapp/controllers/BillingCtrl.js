@@ -46,7 +46,7 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
   });
 
   $scope.isValidTrialPlan = function () {
-    return billing.plan === 'trial' && !hasExpired;
+    return $scope.billing.plan === 'trial' && !hasExpired;
   };
 
   $scope.setShowRest = function () {
