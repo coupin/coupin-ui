@@ -5,8 +5,8 @@
     </div>
     <div class="card" style="position: relative; padding-bottom: 40px;">
         <div class="header">
-            <span ng-class="{'active': activeView === 'signin'}" ng-click="switchActiveView('signin')">Sign In</span>
             <span ng-class="{'active': activeView === 'register'}" ng-click="switchActiveView('register')">Register</span>
+            <span ng-class="{'active': activeView === 'signin'}" ng-click="switchActiveView('signin')">Sign In</span>
             <span class="underline"></span>
         </div>
         <div class="alert alert-danger" role="alert" ng-if="showSessionExpired">
