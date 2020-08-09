@@ -58,7 +58,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
 
     /* this is for switching pages in the merchant auth area */
-    $scope.activeView = 'signin';
+    $scope.activeView = 'register';
 
     if (localStorage.getItem('jwt-expired')) {
         $scope.showSessionExpired = true;
