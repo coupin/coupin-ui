@@ -1,6 +1,6 @@
 <div class="min-h-screen admin-container relative lg:flex block relative">
     <div
-        class="side-nav min-h-screen absolute lg:relative z-50"
+        class="side-nav h-screen absolute lg:sticky top-0 z-50"
         ng-class="{ 'expanded':sidebarExpanded  }"
         ng-mouseenter="setSidebarExpanded(true)"
         ng-mouseleave="setSidebarExpanded(false)"
@@ -32,9 +32,15 @@
                     <p class="show-expanded ml-4">Rewards</p>
                 </div>
             </a>
-            <a ui-sref=".featured" class="block my-6 side-nav-menu-item hover:no-underline" ui-sref-active="active">
+            <a ui-sref=".view-merchs" class="block my-6 side-nav-menu-item hover:no-underline" ui-sref-active="active">
                 <div class="flex items-center pl-6 py-4 text-gray-600 mx-3 rounded">
                     <i class="fas fa-store-alt  t3xt-4xl"></i>
+                    <p class="show-expanded ml-4">View Merchants</p>
+                </div>
+            </a>
+            <a ui-sref=".featured" class="block my-6 side-nav-menu-item hover:no-underline" ui-sref-active="active">
+                <div class="flex items-center pl-6 py-4 text-gray-600 mx-3 rounded">
+                    <i class="fas fa-fire-alt  t3xt-4xl"></i>
                     <p class="show-expanded ml-4">Hot & Features Merchants</p>
                 </div>
             </a>
