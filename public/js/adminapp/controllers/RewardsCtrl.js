@@ -11,8 +11,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   AdminRewardsService,
   UtilService
 ) {
-  $scope.page = 1;
-  $scope.maxPage = 1;
+  $scope.page = 0;
+  $scope.maxPage = 0;
 
   $scope.loading = false;
   $scope.merchants = [{
@@ -99,7 +99,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
 
     AdminRewardsService.getMerchRewardsCount($scope.selectedMerch._id, query).then(function (result) {
       $scope.rewardsCount = result.data.count;
-      $scope.maxPage = Math.ceil($scope.rewardsCount / 10)
+      $scope.maxPage = Math.ceil($scope.rewardsCount / 10);
     });
   };
 
