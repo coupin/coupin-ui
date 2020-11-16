@@ -7,7 +7,8 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     Upload,
     UtilService
 ) {
-    var page = 0;
+    $scope.page = 0;
+    $scope.maxPage = 0;
     $scope.loading = false;
     $scope.merchants = [];
 
@@ -24,14 +25,14 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     };
 
     $scope.getPageCount = function() {
-        const start = page * 10;
+        const start = $scope.page * 10;
         const end = start + $scope.merchants.length;
         return start - end;
     };
 
     $scope.loadMerchants = function() {
         $scope.loading = true;
-        MerchantService.getAllMerchants(page)
+        MerchantService.getAllMerchants($scope.page)
         .then(function (res) {
             $scope.merchants = res.data;
             $timeout(function() {
@@ -42,23 +43,25 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
             $scope.loading = false;
             UtilService.showError('Error', err.data.message);
         });
+
+        MerchantService.getAllMerchantsCount()
+        .then(function (res) {
+            $scope.merchantsCount = res.data.count;
+            $scope.maxPage = Math.ceil($scope.merchantsCount / 10);
+        })
     };
 
     $scope.nextPage = function() {
-        if ($scope.merchants.length === 10) {
-            page++;
+        if ($scope.page < ($scope.maxPage - 1)) {
+            $scope.page += 1;
             $scope.loadMerchants();
-        } else {
-            UtilService.showInfo('Uh Oh', 'There are no more merchants');
         }
     };
 
     $scope.previousPage = function() {
-        if (page > 0) {
-            page--;
+        if ($scope.page > 0) {
+            $scope.page -= 1;
             $scope.loadMerchants();
-        } else {
-            UtilService.showInfo('Uh Oh', 'You are at the beginning.');
         }
     };
 

@@ -44,6 +44,11 @@ function (
                 headers: getAuthHeader()
             });
         },
+        getAllMerchantsCount : function (page) {
+            return $http.get(baseV1Url + '/merchant/count', {
+                headers: getAuthHeader()
+            });
+        },
         login : function(details) {
             return $http.post(baseV1Url + '/auth/signin/m', details, {
                 headers: getAuthHeader()

@@ -26,6 +26,19 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
           getMerchRewards: function (id, query) {
               var url = baseV1Url + '/merchant/' + id + '/rewards';
               if (UtilService.isDefined(query)) {
+                  url = url + '?status=' + query.status + '&limit=' + query.limit + '&page=' + query.page;
+              }
+              
+              return $http({
+                  method: 'GET',
+                  url: url,
+                  headers: getAuthHeader(),
+                  data: query
+              });
+          },
+          getMerchRewardsCount: function (id, query) {
+              var url = baseV1Url + '/merchant/' + id + '/rewards/count';
+              if (UtilService.isDefined(query)) {
                   url = url + '?status=' + query.status
               }
               

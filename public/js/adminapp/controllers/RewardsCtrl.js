@@ -11,7 +11,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   AdminRewardsService,
   UtilService
 ) {
-  var page = 0;
+  $scope.page = 0;
+  $scope.maxPage = 0;
 
   $scope.loading = false;
   $scope.merchants = [{
@@ -55,18 +56,34 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   };
 
   $scope.getPage = function() {
-    var _page = page + 1
-    return "Page" + _page;
+    var page = $scope.page + 1
+    return "Page " + page;
+  };
+
+  $scope.previousPage = function() {
+    if ($scope.page > 0) {
+      $scope.page -= 1;
+      $scope.loadRewards();    
+    }
   };
 
   $scope.nextPage = function() {
-    if ($scope.merchants.lenght === 10)
-    $scope.loadRewards();    
-    page++;
+    if ($scope.page < ($scope.maxPage - 1)) {
+      $scope.page += 1;
+      $scope.loadRewards();    
+    }
+  };
+
+  $scope.selectPage = function(page) {
+
   };
 
   $scope.loadRewards = function () {
-    var query = {};
+    var query = {
+      limit: 10,
+      page: $scope.page,
+    };
+
     $scope.loading = true;
 
     if (UtilService.isDefined($scope.selectedStatus)) {
@@ -79,9 +96,14 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
     }).catch(function (err) {
         $scope.loading = false;
     });
+
+    AdminRewardsService.getMerchRewardsCount($scope.selectedMerch._id, query).then(function (result) {
+      $scope.rewardsCount = result.data.count;
+      $scope.maxPage = Math.ceil($scope.rewardsCount / 10);
+    });
   };
 
   $scope.resetPage = function() {
-    page = 0;
+    $scope.page = 0;
   };
 }]);

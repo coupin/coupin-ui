@@ -13,6 +13,16 @@ angular.module('AdminCtrl', []).controller('AdminController', function(
     // Boolean variables for error or success
     $scope.showError = false;
     $scope.showSuccess = false;
+    $scope.sidebarExpanded = false;
+    $scope.isMenuOpen = false;
+
+    $scope.setSidebarExpanded = function (value) {
+        $scope.sidebarExpanded = value;
+    }
+
+    $scope.toggleMenu = function () {
+        $scope.isMenuOpen = !$scope.isMenuOpen;
+    }
 
     // Add New Admin
     $scope.addAdmin = function () {
