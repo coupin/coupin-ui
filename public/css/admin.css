@@ -90,7 +90,7 @@
   background-color: #F8FFFE;
 }
 
-.login-button {
+.login-button, .add-admin-button {
   background-color: #50AA89;
 }
 
@@ -223,4 +223,16 @@
   display: inline-block;
   border-color: transparent;
   border-top-color: #50AA89;
+}
+
+.actions .action-primary-button {
+  background-color: #50AA89;
+}
+
+.title .back-button {
+  color: #50AA89;
+}
+
+.add-admin-list {
+  
 }
