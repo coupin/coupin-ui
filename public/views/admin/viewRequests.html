@@ -58,7 +58,7 @@
         <!-- End Request Counter -->
     </header>
     <div class="content">
-        <div class="w-10/12 pt-24 mx-auto">
+        <div class="w-10/12 pt-16 mx-auto">
             <div class="tab-content">
                 <!-- Merchant Request -->
                 <div class="row tab-pane fade in active" id="merch" role="tabpanel" aria-labelledby="merch">
@@ -96,8 +96,8 @@
                             Completed
                         </a>
                     </div>
-                    <div class="col-sm-12" ng-if="loading">
-                        <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
+                    <div class="flex justify-around mt-6" ng-if="loading">
+                        <div class="loader"></div>
                     </div>
 
                     <div ng-if="!loading" style="height: 700px; overflow-y: scroll;">
@@ -152,8 +152,8 @@
                 </div>
                 <!-- Reward Request -->
                 <div class="row tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards">
-                    <div class="col-sm-12" ng-if="loading">
-                        <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
+                    <div class="flex justify-around mt-6" ng-if="loading">
+                        <div class="loader"></div>
                     </div>
                     <div ng-if="!loading" style="height: 700px; overflow-y: scroll;">
                         <table class="min-w-full divide-y divide-gray-200">
