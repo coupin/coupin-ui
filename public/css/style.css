@@ -324,8 +324,8 @@ td::first-letter {
 }
 
 .table-holder {
-    padding: 2% 5%;
-    margin: 5px auto;
+    /* padding: 2% 5%;
+    margin: 5px auto; */
 }
 
 /* Vertical Divider */

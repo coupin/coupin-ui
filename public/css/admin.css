@@ -163,3 +163,27 @@
 .top-nav {
   background-color: #F8F9FB;
 }
+
+.page-top-header {
+  background-color: #F8F9FB;
+}
+
+.tabs .tab {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.tabs .tab.active {
+  color: #50AA89;
+}
+
+.tabs .tab.active::after {
+  position: absolute;
+  height: 2px;
+  background-color: #50AA89;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  content: "";
+}
