@@ -26,17 +26,6 @@ const rules = ENV => {
       test: /\.js$/,
       exclude: [path.resolve(ROOT, 'node_modules')],
       use: [
-        {
-          loader: 'string-replace-loader',
-          query: {
-            multiple: [
-              {
-                search: '__VERSION__',
-                replace: spawnSync('git', ['describe', '--always']).stdout.toString().trim()
-              },
-            ],
-          },
-        },
         'ng-annotate-loader?ngAnnotate=ng-annotate-patched',
         'babel-loader'
       ]

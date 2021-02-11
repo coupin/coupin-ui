@@ -16,18 +16,15 @@ const environment = require(path.resolve(__dirname, 'environment/' + ENV));
 
 const config = {
   context: ROOT,
-
   target: 'web',
-
-  // Main file of application
   entry: {
     app: path.resolve(ROOT, 'app', 'index.js'),
   },
 
-  node: {
-    fs: 'empty',
-    tls: 'mock'
-  },
+  // node: {
+  //   fs: 'empty',
+  //   tls: 'mock'
+  // },
 
   module: {
     noParse: [

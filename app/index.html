@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" ng-app="coupinApp">
+  <head>
+    <base href="/">
+    <meta charset="utf-8">
+    <title ng-bind-html="title"></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="HandheldFriendly" content="true">
+  </head>
+
+  <body>
+    <div class="ng-cloak main-container" id="main-container">
+      <ui-view></ui-view>
+    </div>
+    <script>
+      window.API_URL = '$API_URL';
+    </script>
+  </body>
+</html>

@@ -22,12 +22,12 @@ module.exports = function (config, ROOT) {
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(ROOT, 'app', 'index.html'),
-      favicon: path.resolve(ROOT, 'app', 'favicon-new.png')
+      // favicon: path.resolve(ROOT, 'app', 'favicon-new.png')
     })
   ];
 
   config.optimization = {
-    occurrenceOrder: true,
+    // occurrenceOrder: true,
     noEmitOnErrors: true,
     minimize: true,
     minimizer: [
