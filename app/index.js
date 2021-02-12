@@ -51,3 +51,5 @@ app
 /* end of directives */
 
 require('components').default(app);
+require('services').default(app);
+require('factories').default(app);
