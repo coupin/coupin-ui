@@ -19,7 +19,7 @@ export class RequestService {
 
     if (withAuth) {
       headers = {
-        ...headers,
+        ...req.headers,
         ...this.setAuthHeader(),
       }
     }
@@ -31,6 +31,7 @@ export class RequestService {
       url: apiAddress,
       data: req.data,
       params: req.params,
+      responseType: req.responseType || 'json',
       headers
     });
   }

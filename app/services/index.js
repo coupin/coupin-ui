@@ -7,4 +7,6 @@ export default app => [
   require('./coupin'),
   require('./payment'),
   require('./reward'),
+  require('./analytics'),
+  require('./merchant'),
 ].forEach(entry => entry.default(app));
