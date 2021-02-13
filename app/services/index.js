@@ -9,4 +9,7 @@ export default app => [
   require('./reward'),
   require('./analytics'),
   require('./merchant'),
+  require('./admin'),
+  require('./adminRequest'),
+  require('./adminReward'),
 ].forEach(entry => entry.default(app));
