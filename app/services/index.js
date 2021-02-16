@@ -2,6 +2,7 @@ export default app => [
   require('./auth'),
   require('./util'),
   require('./requests'),
+  require('./storage'),
   require('./auth'),
   require('./config'),
   require('./coupin'),

@@ -24,7 +24,7 @@ export class RequestService {
       }
     }
 
-    let apiAddress = apiAddress = this.apiUrl(path);;
+    let apiAddress = this.apiUrl(path);;
 
     return this.$http({
       method,

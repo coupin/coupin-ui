@@ -21,7 +21,7 @@ export class StorageService {
 
   getUser() {
     try {
-      return JSON.parse(localStorage.getItem('user'));
+      return angular.fromJson(localStorage.getItem('user'));
     } catch (err) {
       return;
     }
@@ -52,7 +52,7 @@ export class StorageService {
   }
 
   setUser(user) {
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('user', angular.toJson(user));
   }
 }
 

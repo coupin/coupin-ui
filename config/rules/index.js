@@ -51,9 +51,9 @@ const rules = ENV => {
       use: [
         {
           loader: 'file-loader',
-          options: {
-            name: 'public/fonts/[name].[ext]'
-          }
+          // options: {
+          //   name: 'public/fonts/[name].[ext]'
+          // }
         }
       ]
     },
