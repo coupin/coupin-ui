@@ -5,9 +5,18 @@ export function routesConfig(
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
-    .state('home', {
+    .state('merchant', {
       url: '/',
-      component: 'home',
+      component: 'merchantHome',
+    })
+    .state('dashboard', {
+      parent: 'merchant',
+      url: '/dashboard',
+      component: ''
+    })
+    .state('merchant-auth', {
+      url: '/merchant',
+      component: 'merchantAuth'
     })
     .state('admin', {
       url: '/admin',

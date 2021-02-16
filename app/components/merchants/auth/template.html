@@ -1,0 +1,202 @@
+<div class="MerchantAuth">
+  <div class="MerchantAuth__container">
+    <div class="MerchantAuth__logo-container">
+      <a href="https://coupinapp.com">
+        <img src="../../../images/logo@2x-fs8.png" alt="logo" class="MerchantAuth__logo">
+      </a>
+    </div>
+    <div class="card MerchantAuth__body">
+      <div class="MerchantAuth__body-header">
+        <span class="MerchantAuth__view-button" ng-class="{'active': vm.activeView === 'register'}"
+          ng-click="vm.switchActiveView('register')">Register</span>
+        <span class="MerchantAuth__view-button" ng-class="{'active': vm.activeView === 'signin'}"
+          ng-click="vm.switchActiveView('signin')">Sign In</span>
+        <span class="MerchantAuth__view-button-indicator"></span>
+      </div>
+
+      <div class="MerchantAuth__alert--danger alert alert-danger" role="alert" ng-if="vm.showSessionExpired">
+        Your session has expired, please login again
+      </div>
+
+      <div class="MerchantAuth__auth-container" ng-if="vm.activeView === 'signin'">
+        <p>Sign</p>
+        <form name="loginForm" ng-submit="vm.loginMerchant()">
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="loginEmail">Email: </label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="email"
+                class="form-control MerchantAuth__form-input"
+                name="loginEmail"
+                ng-class="{'has-error': vm.isError(loginForm.loginEmail)}" 
+                id="loginEmail"
+                aria-describedby="loginEmailHelp" 
+                placeholder="name@example.com" 
+                ng-model="vm.formData.loginEmail"
+                required
+              >
+              <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="loginPassword">Password: </label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="password"
+                class="form-control MerchantAuth__form-input"
+                id="loginPassword"
+                name="loginPassword"
+                ng-class="{'has-error': vm.isError(loginForm.loginPassword)}"
+                aria-describedby="loginPasswordHelp"
+                placeholder="*******"
+                ng-model="vm.formData.loginPassword"
+                required>
+              <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+            </div>
+            <small class="forgot-password form-text text-muted light" ng-click="vm.goToPasswordResetRequestPage()">
+              <b>Forgot your password? Click here</b>
+            </small>
+          </div>
+          <button class="btn btn-default btn-primary" type="submit" ng-disabled="vm.loading[0]">
+            <span ng-hide="vm.loading[0]">Sign In</span>
+            <span ng-show="vm.loading[0]">
+              Loading
+              <i class="fas fa-spinner fa-spin fa-fw"></i>
+            </span>
+          </button>
+        </form>
+      </div>
+
+      <div class="MerchantAuth__auth-container" ng-if="vm.activeView === 'register'">
+        <p>Sign up with us to start now</p>
+        <form name="registrationForm" ng-submit="vm.registerMerchant()">
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="company-name">Business Name:</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="text" 
+                name="company-name" 
+                id="company-name" 
+                class="form-control MerchantAuth__form-input"
+                aria-describedby="nameHelp"
+                placeholder="e.g. Chisco's Burgers'"
+                ng-model="vm.formData.companyName"
+                required>
+              <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
+            </div>
+            <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="address">Address:</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="text"
+                class="form-control MerchantAuth__form-input"
+                id="address"
+                minlength="20"
+                maxlength="40"
+                name="registrationAddress"
+                ng-class="{'has-error': vm.isError(registrationForm.registrationAddress)}"
+                aria-describedby="addressHelp"
+                placeholder="e.g. 2 bank road, ikoyi"
+                ng-model="vm.formData.address" required>
+              <div class="input-group-addon icons-input"><i class="fas fa-home"></i></div>
+            </div>
+            <small id="addressHelp" class="form-text text-muted">Street address with area</small>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="city">City:</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="text"
+                class="form-control MerchantAuth__form-input"
+                id="city"
+                minlength="3"
+                maxlength="15"
+                aria-describedby="cityHelp"
+                placeholder="e.g. Benin"
+                ng-model="vm.formData.city"
+                required
+              >
+              <div class="input-group-addon icons-input"><i class="fas fa-map-marker"></i></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="state">State:</label>
+            <select 
+              class="form-control MerchantAuth__form-input"
+              id="state"
+              aria-describedby="stateHelp"
+              ng-model="vm.formData.state"
+              ng-options="state for state in vm.states"
+              required
+            >
+              <option value="">Select State</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="email">Email:</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="email"
+                class="form-control MerchantAuth__form-input"
+                id="email"
+                aria-describedby="emailHelp"
+                placeholder="example@example.com"
+                ng-model="fvm.ormData.email"
+                required
+              >
+              <div class="input-group-addon icons-input">
+                <i class="fas fa-at"></i>
+              </div>
+            </div>
+            <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="mobileNumber">Mobile Number:</label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input
+                type="tel"
+                class="form-control MerchantAuth__form-input"
+                id="mobileNumber"
+                aria-describedby="mobileNumberHelp"
+                placeholder="e.g. 08056748930"
+                maxlength="11"
+                ng-model="vm.formData.mobileNumber"
+                required
+              >
+              <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
+            </div>
+            <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
+          </div>
+          <div class="form-group">
+            <label class="MerchantAuth__form-label" for="agreeTermsAndCondition">
+              <input
+                type="checkbox"
+                name="agreeTermsAndCondition"
+                ng-change="setAgreeTermsAndConditionChange()"
+                ng-model="vm.agreeTermsAndCondition"
+                oninvalid="vm.setCustomValidity('Please check this box confirming you\'ve read and understood the terms and conditions')"
+                required
+              >
+              <!-- By clicking this, you agree to our <a href="https://coupinapp.com/terms.html" target="_blank" style="color: #14a580">Terms and Conditions</a>. -->
+              By clicking this, you agree to our <a ui-sref="terms" target="_blank" style="color: #14a580">Terms and Conditions</a> and <a ui-sref="privacy-policy" target="_blank" style="color: #14a580">Privacy Policy</a> .
+            </label>
+          </div>
+          <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[1]">
+            <span ng-hide="loading[1]">Submit Request</span>
+            <span ng-show="loading[1]">
+              Loading
+              <i class="fas fa-spinner fa-spin fa-fw"></i>
+            </span>
+          </button>
+        </form>
+      </div>
+      <div class="row footer MerchantAuth__auth-footer">
+        <div class="row text-center">
+          <small id="descrHelp" class="form-text">Copyright of Coupin &copy;</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
