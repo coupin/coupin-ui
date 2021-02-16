@@ -1,0 +1,210 @@
+.btn-full {
+  width: 100%;
+}
+.btn {
+  border-radius: 0;
+}
+.btn-primary {
+  background-color: #f49a40;
+  outline: none;
+  border: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  &:active {
+    background-color: rgb(206, 130, 54) !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+    outline: none;
+  }
+  &:hover {
+    background-color: rgb(218, 136, 53);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1.5px);
+    &:disabled {
+      background-color: rgb(218, 136, 53);
+      box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1.5px);
+    }
+  }
+  &:focus {
+    background-color: #f49a40;
+    outline: none;
+    border: 0;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+.btn-primary.active {
+  background-color: rgb(206, 130, 54) !important;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px);
+  outline: none;
+}
+.open {
+  > .dropdown-toggle.btn-outline-primary {
+    background-color: rgb(206, 130, 54) !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+    outline: none;
+    color: #fff;
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+    background-image: none;
+    &:hover {
+      color: #fff;
+      background-color: rgb(206, 130, 54);
+      border-color: rgb(206, 130, 54);
+    }
+    &:focus {
+      color: #fff;
+      background-color: rgb(206, 130, 54);
+      border-color: rgb(206, 130, 54);
+    }
+  }
+  > .dropdown-toggle.btn-outline-primary.focus {
+    color: #fff;
+    background-color: rgb(206, 130, 54);
+    border-color: rgb(206, 130, 54);
+  }
+}
+.btn-primary.focus {
+  background-color: #f49a40;
+  outline: none;
+  border: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.btn-secondary {
+  background-color: transparent;
+  outline: none;
+  border: 1px solid #5cb85c;
+  color: #5cb85c;
+  transition: all 0.3s ease 0s;
+  &:hover {
+    background-color: #5cb85c;
+    outline: none;
+    border: 1px solid #5cb85c;
+    color: #fff;
+    transition: all 0.3s ease 0s;
+  }
+  &:active {
+    background-color: #5cb85c;
+    outline: none;
+    border: 1px solid #5cb85c;
+    color: #fff;
+    transition: all 0.3s ease 0s;
+  }
+  &:focus {
+    background-color: #5cb85c;
+    outline: none;
+    border: 1px solid #5cb85c;
+    color: #fff;
+    transition: all 0.3s ease 0s;
+  }
+}
+.btn-outline-primary {
+  color: #f49a40;
+  background-color: #252525;
+  border: 1px solid #f49a40;
+  &:focus {
+    color: #fff;
+    background-color: rgb(228, 144, 60);
+  }
+  &:hover {
+    color: #fff;
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+  &:active {
+    color: #fff;
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+    background-image: none;
+    &:hover {
+      color: #fff;
+      background-color: rgb(206, 130, 54);
+      border-color: rgb(206, 130, 54);
+    }
+    &:focus {
+      color: #fff;
+      background-color: rgb(206, 130, 54);
+      border-color: rgb(206, 130, 54);
+    }
+  }
+  &:active.focus {
+    color: #fff;
+    background-color: rgb(206, 130, 54);
+    border-color: rgb(206, 130, 54);
+  }
+  .badge {
+    color: rgb(218, 136, 53);
+    background-color: #fff;
+  }
+}
+.btn-outline-primary.focus {
+  color: #fff;
+  background-color: rgb(228, 144, 60);
+}
+.btn-outline-primary.active {
+  color: #fff;
+  background-color: rgb(218, 136, 53);
+  border-color: rgb(218, 136, 53);
+  background-image: none;
+  &:hover {
+    color: #fff;
+    background-color: rgb(206, 130, 54);
+    border-color: rgb(206, 130, 54);
+  }
+  &:focus {
+    color: #fff;
+    background-color: rgb(206, 130, 54);
+    border-color: rgb(206, 130, 54);
+  }
+}
+.btn-outline-primary.active.focus {
+  color: #fff;
+  background-color: rgb(206, 130, 54);
+  border-color: rgb(206, 130, 54);
+}
+.btn-outline-primary.disabled {
+  &:hover {
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+  &:focus {
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+}
+.btn-outline-primary[disabled] {
+  &:hover {
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+  &:focus {
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+}
+fieldset[disabled] {
+  .btn-outline-primary {
+    &:hover {
+      background-color: rgb(218, 136, 53);
+      border-color: rgb(218, 136, 53);
+    }
+    &:focus {
+      background-color: rgb(218, 136, 53);
+      border-color: rgb(218, 136, 53);
+    }
+  }
+  .btn-outline-primary.focus {
+    background-color: rgb(218, 136, 53);
+    border-color: rgb(218, 136, 53);
+  }
+}
+.btn-outline-primary.disabled.focus {
+  background-color: rgb(218, 136, 53);
+  border-color: rgb(218, 136, 53);
+}
+.btn-outline-primary[disabled].focus {
+  background-color: rgb(218, 136, 53);
+  border-color: rgb(218, 136, 53);
+}
