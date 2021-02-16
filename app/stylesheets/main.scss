@@ -3,3 +3,33 @@
 @tailwind components;
 
 @tailwind utilities;
+
+// bootstrap stuff
+$icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
+@import "bootstrap-sass/assets/stylesheets/bootstrap";
+
+// fontawesome
+$fa-font-path: "@fortawesome/fontawesome-free/webfonts";
+@import "@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "@fortawesome/fontawesome-free/scss/solid.scss";
+@import "@fortawesome/fontawesome-free/scss/regular.scss";
+@import "@fortawesome/fontawesome-free/scss/brands.scss";
+
+// noty
+@import "noty/src/noty.scss";
+@import "noty/src/themes/mint.scss";
+
+@import './fonts';
+@import './form';
+@import './buttons';
+@import './card';
+
+body {
+  /* background-color: #F8FFFE; */
+  background-color: #252525;
+  color: #fff;
+  height: 100%;
+  /* background-color: #dffffa; */
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 14px;
+}

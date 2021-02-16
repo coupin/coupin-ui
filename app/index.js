@@ -18,6 +18,8 @@ import 'angular-file-upload';
 import 'ng-file-upload';
 import 'angular-img-crop';
 
+import 'bootstrap';
+
 import {routesConfig} from './routes';
 
 const ENV = '__ENV__';
@@ -51,5 +53,5 @@ app
 /* end of directives */
 
 require('components').default(app);
-require('services').default(app);
 require('factories').default(app);
+require('services').default(app);

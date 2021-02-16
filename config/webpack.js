@@ -7,7 +7,10 @@ const webpackWeb = require('webpack');
 
 
 const handsontablePlugin = new webpackWeb.ProvidePlugin({
-  Handsontable: 'handsontable/dist/handsontable.full.js'
+  Handsontable: 'handsontable/dist/handsontable.full.js',
+  jQuery: 'jquery',
+  $: 'jquery',
+  jquery: 'jquery'
 });
 
 const ROOT = path.resolve(__dirname, '..');
