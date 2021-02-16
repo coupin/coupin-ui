@@ -1,3 +1,5 @@
+import Noty from 'noty';
+
 export class UtilService {
   constructor() {
     'ngInject';
@@ -45,6 +47,31 @@ export class UtilService {
 
     return false;
   }
+
+  getNotificationTemplate(title, body) {
+    const titleStyle = 'font-weight: bold; text-transform: capitalize; font-size: 17px; margin-bottom: 0;';
+    return `<p style="${titleStyle}">${title}</p>
+      <div>${body}</div>`;
+  }
+
+  showError(title, msg) {
+    let text;
+
+    if (!this.isDefined(msg)) {
+      text = 'An error occured and error message is not well formatted.';
+    } else if (typeof msg === 'object') {
+      text = msg.message || msg.error;
+    } else {
+      text = msg;
+    }
+
+    new Noty({
+      text: this.getNotificationTemplate(title, text),
+      timeout: 5000,
+      closeWith: ['click', 'button'],
+      type: 'error'
+    }).show();
+  };
 }
 
 export let utilService;
