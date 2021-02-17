@@ -4,6 +4,8 @@
 
 @tailwind utilities;
 
+@import 'normalize.css/normalize.css';
+
 // bootstrap stuff
 $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
@@ -23,6 +25,7 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import './form';
 @import './buttons';
 @import './card';
+@import './nav-bar-fixed-side';
 
 body {
   /* background-color: #F8FFFE; */
@@ -32,4 +35,9 @@ body {
   /* background-color: #dffffa; */
   font-family: 'Nunito Sans', sans-serif;
   font-size: 14px;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
 }

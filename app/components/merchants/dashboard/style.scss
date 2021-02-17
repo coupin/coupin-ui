@@ -1,0 +1,140 @@
+.MerchantDashboard {
+  width: 100%;
+
+  .container-fluid {
+    padding: 0;
+  }
+
+  &__header {
+    height: 60px;
+    background-color: #313237;
+    z-index: 1049;
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-bottom: 2px solid #252525;
+    padding-left: 20px;
+    margin: 0;
+
+    &::before {
+      content: '';
+      height: 100%;
+      width: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  &__logo-container {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &__logo {
+    display: inline-block;
+    text-decoration: none;
+    height: 35px;
+  }
+
+  &__header-text {
+    margin-left: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 0;
+    vertical-align: middle;
+    color: #fff;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  &__body {
+    margin-top: 60px;
+
+    @media (max-width: 1199px) {
+      margin-top: 0px;
+    }
+  }
+
+  &__menu {
+    padding: 0;
+  }
+
+  &__mobile-logo {
+    height: 25px;
+  }
+
+  &__navbar {
+    // border: 0px !important;
+    // width: 250px;
+    // height: 100vh;
+    // background: #313237;
+  }
+
+  .navbar {
+    // border: 0px !important;
+    // width: 250px;
+    // height: 100vh;
+    background: #313237;
+    border: 0;
+  }
+
+  &__menu-item {
+    display: block;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    color: #94989E;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      color: #15A580;
+      background-color: transparent;
+      text-decoration: none;
+    }
+
+    &.active::after,
+    &:hover::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background-color: #15A580;
+    }
+
+    @media (max-width: 1024px) {
+      text-align: center;
+      padding-left: 0;
+      font-size: 18px;
+    }
+  }
+
+  &__menu-icon {
+    margin-right: 10px;
+    font-weight: 12px;
+
+    @media (max-width: 1024px) {
+      display: none;
+    }
+  }
+
+  &__body-content {
+    padding: 20px 60px 20px 60px;
+    height: 100%;
+
+    @media (min-width: 320px) and (max-width: 786px) {
+      padding: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      margin-top: 60px;
+    }
+  }
+}

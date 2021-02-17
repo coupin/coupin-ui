@@ -2,21 +2,20 @@ export function routesConfig(
   $stateProvider, $locationProvider, $urlRouterProvider
 ) {
   $locationProvider.html5Mode(true).hashPrefix('!');
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/dashboard');
 
   $stateProvider
-    .state('merchant', {
-      url: '/',
-      component: 'merchantHome',
+    // .state('merchant', {
+    //   url: '/',
+    //   component: 'merchantHome',
+    // })
+    .state('merchant-auth', {
+      url: '/merchant-auth',
+      component: 'merchantAuth'
     })
     .state('dashboard', {
-      parent: 'merchant',
       url: '/dashboard',
-      component: ''
-    })
-    .state('merchant-auth', {
-      url: '/merchant',
-      component: 'merchantAuth'
+      component: 'merchantDashboard'
     })
     .state('admin', {
       url: '/admin',
