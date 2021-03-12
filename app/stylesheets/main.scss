@@ -26,10 +26,11 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import './buttons';
 @import './card';
 @import './nav-bar-fixed-side';
+@import './variables';
 
 body {
   /* background-color: #F8FFFE; */
-  background-color: #252525;
+  background-color: $background;
   color: #fff;
   height: 100%;
   /* background-color: #dffffa; */
