@@ -1,3 +1,5 @@
+@import '../../../stylesheets/variables';
+
 .MerchantDashboard {
   width: 100%;
 
@@ -7,14 +9,14 @@
 
   &__header {
     height: 60px;
-    background-color: #313237;
+    background-color: $background-light;
     z-index: 1049;
     position: fixed;
     right: 0;
     left: 0;
     top: 0;
     width: 100%;
-    border-bottom: 2px solid #252525;
+    border-bottom: 2px solid $background;
     padding-left: 20px;
     margin: 0;
 
@@ -69,15 +71,53 @@
     // border: 0px !important;
     // width: 250px;
     // height: 100vh;
-    // background: #313237;
+    // background: $background-light;
   }
 
   .navbar {
     // border: 0px !important;
     // width: 250px;
     // height: 100vh;
-    background: #313237;
+    background: $background-light;
     border: 0;
+  }
+
+  &__merchant-info {
+    padding-top: 50px;
+    padding-bottom: 30px;
+  }
+
+  &__merchant-name {
+    font-size: 16px;
+    font-weight: 600;
+    max-width: 200px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: capitalize;
+    color: #B4BBC5;
+    -ms-overflow-style: none;
+    -moz-overflow-style: none;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__merchant-email {
+    font-size: 13px;
+    color: #B4BBC5;
+    text-align: center;
+  }
+
+  &__merchant-logo {
+    background-color: #efefef;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+    height: 7.25rem;
+    width: 7.25rem;
+    margin: auto;
   }
 
   &__menu-item {

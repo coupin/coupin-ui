@@ -26,13 +26,16 @@
               </button>
             </div>
             <div class="collapse navbar-collapse MerchantDashboard__menu" id="merchant-menu">
-              <section class="merchant-information">
-                <div class="merchant-logo" ng-style="{'background-image': 'url({{user.merchantInfo.logo.url}})'}"></div>
-                <h3 class="merchant-name">
-                  {{user.merchantInfo.companyName}}
+              <section class="MerchantDashboard__merchant-info">
+                <div
+                  class="merchant-logo MerchantDashboard__merchant-logo"
+                  ng-style="{'background-image': 'url({{vm.user.merchantInfo.logo.url}})'}"
+                ></div>
+                <h3 class="MerchantDashboard__merchant-name">
+                  {{vm.user.merchantInfo.companyName}}
                 </h3>
-                <h4 class="merchant-email">
-                  {{user.email}}
+                <h4 class="MerchantDashboard__merchant-email">
+                  {{vm.user.email}}
                 </h4>
               </section>
               <section class="MerchantDashboard__menu">

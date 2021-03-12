@@ -7,15 +7,18 @@ class MerchantDashboard {
     return { };
   }
 
-  constructor($alert, StorageService, $state) {
+  constructor($alert, StorageService, $state, $rootScope) {
     'ngInject';
 
     this.$alert = $alert;
     this.StorageService = StorageService;
     this.$state = $state;
+    this.$rootScope = $rootScope;
   }
 
-  $onInit() { }
+  $onInit() {
+    this.user = this.StorageService.getUser();
+  }
 
   isExpired() {
     return this.StorageService.isExpired();
