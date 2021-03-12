@@ -160,7 +160,6 @@ class MerchantAuth {
     if (this.checkAuth && this.StorageService.isLoggedIn()) {
       this.user = this.StorageService.getUser();
       if (this.user.role > 1) {
-        console.log(this.user.role, 'logged in dashboard home');
         this.$state.go('dashboard.home', {});
       } else {
         console.log(this.user.role, 'portal');
@@ -499,7 +498,7 @@ class MerchantAuth {
       .then((response) => {
         this.setUserInfo(response.data, true);
         this.loading[0] = false;
-        this.$state.go('dashboard.home', {});
+        this.$state.go('dashboard', {});
       }).catch((err) => {
         this.loading[0] = false;
         this.UtilService.showError('Request Failed', err.data);

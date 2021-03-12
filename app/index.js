@@ -22,6 +22,9 @@ import 'bootstrap';
 
 import {routesConfig} from './routes';
 
+import config from 'config';
+import {runBlock} from 'run';
+
 const ENV = '__ENV__';
 const VERSION = '__VERSION__';
 
@@ -39,8 +42,10 @@ const app = angular.module('coupinApp', [
   'daterangepicker',
 ])
   .config(routesConfig)
+  .config(config)
   .constant('ENV', ENV)
-  .constant('VERSION', VERSION);
+  .constant('VERSION', VERSION)
+  .run(runBlock);
 
 
 /* directive */
