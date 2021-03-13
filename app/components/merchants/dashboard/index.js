@@ -7,13 +7,14 @@ class MerchantDashboard {
     return { };
   }
 
-  constructor($alert, StorageService, $state, $rootScope) {
+  constructor($alert, StorageService, $state, $rootScope, $window) {
     'ngInject';
 
     this.$alert = $alert;
     this.StorageService = StorageService;
     this.$state = $state;
     this.$rootScope = $rootScope;
+    this.$window = $window;
   }
 
   $onInit() {
@@ -27,6 +28,12 @@ class MerchantDashboard {
   analyticsState() {
     return this.$state.includes('dashboard.analytics') || 
       this.$state.includes('dashboard.reward-analytics');
+  }
+
+  logOut() {
+    this.StorageService.clearAll();
+    this.$state.go('merchant-auth', {});
+    this.$window.location.reload();
   }
 }
 

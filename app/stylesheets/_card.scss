@@ -1,7 +1,6 @@
 .card {
   border-radius: 5px;
-  background: #313237;
-  /* box-shadow: 0px 1px 4px rgba(21, 165, 128, 0.23); */
+  background: $background-light;
   padding: 20px;
   transition: all 0.3s;
 }

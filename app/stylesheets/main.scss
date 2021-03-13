@@ -21,12 +21,12 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 @import "noty/src/noty.scss";
 @import "noty/src/themes/mint.scss";
 
+@import './variables';
 @import './fonts';
 @import './form';
 @import './buttons';
 @import './card';
 @import './nav-bar-fixed-side';
-@import './variables';
 
 body {
   /* background-color: #F8FFFE; */
