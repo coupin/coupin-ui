@@ -21,6 +21,10 @@ export function routesConfig(
       url: '/home',
       component: 'merchantVerify'
     })
+    .state('dashboard.rewards', {
+      url: '/rewards',
+      component: 'merchantRewards'
+    })
     .state('admin', {
       url: '/admin',
       component: ''

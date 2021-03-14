@@ -1,0 +1,93 @@
+<div class="MerchantRewards">
+  <div class="MerchantRewards__section-header">
+    Rewards
+  </div>
+
+  <section class="row MerchantRewards__search-container-row">
+    <div class="col-md-6 col-ms-12 MerchantRewards__search-container">
+      <div class="input-group">
+        <input 
+          ng-keyup="$event.keyCode === 13 && loadRewards()"
+          class="form-control MerchantRewards__reward-search" 
+          ng-model="query" 
+          type="text" 
+          placeholder="Search by name or description"/>
+        <div class="input-group-addon icons-input">
+          <i class="fas fa-search MerchantRewards__search-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <button
+        class="btn btn-primary MerchantRewards__add-reward-button"
+        ng-if="!isExpired()"
+        ng-click="goToNewReward()"
+      >
+          <i class="fas fa-plus"></i> Add Reward
+      </button>
+    </div>
+  </section>
+
+  <section class="row MerchantRewards__reward-table-container-row">
+    <div class="col-md-12 col-xs-12 MerchantRewards__reward-table-container">
+      <p>Click individual active rewards to modify editable contents</p>
+
+      <table class="table" class="MerchantRewards__reward-list-table">
+        <thead class="hidden-xs hidden-sm">
+          <tr>
+            <th width="20px">S/N</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Expires</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="(index, discount) in vm.rewards" ng-click="vm.goToReward(discount._id)">
+            <td scope="row" class="hidden-xs hidden-sm">{{ (10 * (page - 1)) + (index + 1) }}</td>
+            <td class="icon">{{ discount.name }}</td>
+            <td class="icon" show-more>{{ discount.description }}</td>
+            <td>
+              <span ng-class="discount.status" class="plan-status">
+                {{discount.status}}
+              </span>
+            </td>
+            <td>{{ discount.endDate | date: 'longDate'}}</td>
+            <td class="action hidden-xs hidden-sm">
+              <i 
+                ng-class="discount.isActive ? 'fas fa-eye icon' : 'fas fa-eye-slash icon'" 
+                data-toggle="tooltip"
+                data-placement="top" 
+                title="Hide/Show" 
+                ng-click="vm.changeStatus($event, index, discount.isActive, 0)"
+                class="activate"
+              ></i>
+            </td>
+          </tr>
+          <tr ng-if="vm.loadingRewards" class="loading-row">
+            <td class="hidden-xs hidden-sm"><div></div></td>
+            <td><div></div></td>
+            <td><div></div></td>
+            <td><div></div></td>
+            <td><div></div></td>
+            <td></td>
+          </tr>
+          <tr ng-if="!vm.loadingRewards && vm.rewards.length === 0" class="empty-row">
+            <td colspan="6">
+              No Rewards to display
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="MerchantRewards__reward-list-pagination">
+        <button class="MerchantRewards__reward-list-pagination-button" ng-click="vm.previousRewards()">
+            <i class="fa fa-chevron-left"></i>
+        </button>
+        <button class="MerchantRewards__reward-list-pagination-button" ng-click="vm.nextRewards()">
+            <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
