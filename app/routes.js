@@ -17,6 +17,10 @@ export function routesConfig(
       url: '/dashboard',
       component: 'merchantDashboard'
     })
+    .state('dashboard.home', {
+      url: '/home',
+      component: 'merchantVerify'
+    })
     .state('admin', {
       url: '/admin',
       component: ''

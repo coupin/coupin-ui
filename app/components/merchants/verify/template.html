@@ -1,0 +1,147 @@
+<div class="MerchantVerify">
+  <section class="MerchantVerify__reward-overview section-container">
+    <p class="MerchantVerify__section-header">Overview of the last 30 days</p>
+
+    <div class="MerchantVerify__overview-containers">
+      <div class="card MerchantVerify__quick-info">
+        <h4 class="MerchantVerify__info-value" ng-if="!vm.loadingStats">
+          {{vm.stats.active}}
+        </h4>
+        <h4 class="MerchantVerify__info-value" ng-if="vm.loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </h4>
+        <h5 class="MerchantVerify__info-key">
+          Active Rewards
+        </h5>
+      </div>
+      <div class="card MerchantVerify__quick-info">
+        <h4 class="MerchantVerify__info-value" ng-if="!vm.loadingStats">
+          {{vm.stats.generated}}
+        </h4>
+        <h4 class="MerchantVerify__info-value" ng-if="vm.loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </h4>
+        <h5 class="MerchantVerify__info-key">
+          Generated Coupins
+        </h5>
+      </div>
+      <div class="card MerchantVerify__quick-info">
+        <h4 class="MerchantVerify__info-value" ng-if="!vm.loadingStats">
+          {{vm.stats.redeemed}}
+        </h4>
+        <h4 class="MerchantVerify__info-value" ng-if="vm.loadingStats">
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </h4>
+        <h5 class="MerchantVerify__info-key">
+          Redeemed Coupins
+        </h5>
+      </div>
+    </div>
+
+    <p class="MerchantVerify__quick-info-help-text">
+      For more insights about your customer preferences go over to the Analytics
+        dashboard or click <a ui-sref="dashboard.analytics">here</a>
+    </p>
+
+  </section>
+
+  <section class="MerchantVerify__reward-overview">
+    <p class="MerchantVerify__section-header">Customer Code Verification</p>
+
+    <div class="row MerchantVerify__search-section-row">
+      <div class="col-sm-12 MerchantVerify__search-section">
+        <div class="form-group">
+          <input type="text" class="MerchantVerify__coupin-search" placeholder="Type in code to be verified.." ng-model="vm.pin">
+          <button class="btn btn-success btn-md" type="button" ng-click="vm.verify(vm.pin)" ng-disabled="lvm.oading">
+            Verify
+            <i class="fas fa-search" ng-if="!vm.loading"></i>
+            <i class="fas fa-spin fa-spinner" ng-if="vm.loading"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="vm.empty">
+      <div class="card col-sm-9 MerchantVerify__empty-container">
+        <h2 class="MerchantVerify__empty-message">
+          <i class="fas fa-exclamation-triangle MerchantVerify__empty-message-icon"></i>
+          This Coupon does not exist or has been used.
+        </h2>
+      </div>
+    </div>
+
+    <div class="row MerchantVerify__customer-section-row" ng-if="vm.showTable() && !vm.empty">
+      <div class="card col-sm-12">
+        <p class="MerchantVerify__customer-header">Customer Details</p>
+        <h5 class="MerchantVerify__customer-rider-message">Ask for verification of one of the following:</h5>
+        <div class="row">
+          <div class="col-md-4 col-sm-12 MerchantVerify__customer-info-block">
+            <span class="MerchantVerify__customer-info">
+              <p class="MerchantVerify__customer-info-label">Name</p>
+              <p class="capitalize MerchantVerify__customer-info-value">{{vm.booking.userId.name}}</p>
+            </span>
+          </div>
+          <div class="col-sm-12 col-md-4 MerchantVerify__customer-info-block">
+            <span class="MerchantVerify__customer-info">
+              <p class="MerchantVerify__customer-info-label">Email</p>
+              <p show-more class="break-word MerchantVerify__customer-info-value">{{vm.booking.userId.email}}</p>
+            </span>
+          </div>
+          <div class="col-sm-12 col-md-4 MerchantVerify__customer-info-block">
+            <span class="MerchantVerify__customer-info">
+              <p class="MerchantVerify__customer-info-label">Mobile Number</p>
+              <p class="MerchantVerify__customer-info-value">{{vm.booking.userId.mobileNumber}} </p>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="MerchantVerify__redeem-section" ng-if="vm.showTable() && !vm.empty">
+      <h4 class="MerchantVerify__redeem-section-message">Redeem: {{use.length + ' rewards'}}</h4>
+      <button class="btn btn-success MerchantVerify__redeeem-button" ng-disabled="disableButton()" ng-click="redeem()">
+        Redeem Selected
+      </button>
+    </div>
+
+    <div ng-if="vm.showTable() && !vm.empty">
+      <table class="table Merchant__verify-reward-table">
+        <thead>
+          <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Expires On</th>
+            <th>Status</th>
+            <th>Expired</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            ng-repeat="(index, reward) in vm.rewards"
+            ng-attr-id="{{'reward-' + index}}"
+            ng-class="{'selected': vm.isRewardSelected(index)}"
+            ng-click="vm.toggleReward(index, reward.status)"
+          >
+            <td
+              scope="row"
+              class="hidden-xs hidden-sm"
+            >
+              <span ng-if="!vm.isRewardSelected(index)">{{ index + 1 }}</span>
+              <span ng-if="vm.isRewardSelected(index)">
+                <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox"
+                  ng-checked="vm.isRewardSelected(index)">
+              </span>
+            </td>
+            <td class="icon">{{ reward.id.name }}</td>
+            <td class="icon break-word" show-more>{{ reward.id.description }}</td>
+            <td class="icon">{{ reward.id.endDate | date: 'longDate' }}</td>
+            <td class="capitalize">{{ reward.status }}</td>
+            <td>{{ vm.expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <small><b>Note:</b> Select rewards to redeem by simply clicking on them to select/deselect</small>
+    </div>
+  </section>
+</div>

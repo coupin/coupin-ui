@@ -1,0 +1,177 @@
+.MerchantVerify {
+  &__reward-overview  {
+    margin: 50px 0;
+    width: 100%;
+  }
+
+  &__customer-header,
+  &__section-header,
+  &__section-header *:not(button)  {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: left;
+    color: #FDFFFF;
+    margin-bottom: 30px;
+    font-family: montserrat;
+    text-transform: uppercase;
+    display: inline-block;
+
+  }
+
+  &__customer-header:before,
+  &__section-header:before {
+    background: none repeat scroll 0 0 #F49A40 ;
+    bottom: -22px;
+    content: "";
+    display: block;
+    height: 1px;
+    position: relative;
+  }
+
+  &__overview-containers {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    -moz-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__quick-info {
+    width: 250px;
+    display: inline-block;
+
+    &:not(:first-child) {
+      margin-left: 30px;
+    }
+  }
+
+  &__info-value {
+    font-weight: 700;
+    font-size: 35px;
+    text-align: left;
+    margin: 0;
+  }
+
+  &__info-key {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: left;
+    color: #878D93;
+    margin: 12px 0 5px 0;
+  }
+
+  &__quick-info-help-text {
+    margin-top: 10px;
+
+    a {
+      color: #15A580;
+    }
+  }
+
+  &__coupin-search {
+    width: 500px !important;
+
+    @media (min-width: 320px) and (max-width: 786px) {
+      width: 216px !important;
+    }
+  }
+
+  &__search-section-row {
+    margin-bottom: 15px;;
+  }
+
+  &__search-section {
+    padding: 0;
+  }
+
+  &__empty-container {
+    // margin-top: 15px;
+  }
+
+  &__empty-message {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #94989E;
+  }
+
+  &__empty-message-icon {
+    font-size: 19px;
+    margin-right: 10px;
+  }
+
+  &__customer-section-row {
+    margin-bottom: 40px;
+  }
+
+  &__customer-info-block {
+    padding-left: 0;
+  }
+
+  &__customer-info {
+    display: inline-block;
+    width: 100%;
+  }
+
+  &__customer-info-label {
+    margin: 0;
+    font-weight: 300;
+    color: #94989E;
+  }
+
+  &__customer-info-value {
+    font-size: 20px;
+  }
+
+  &__customer-header {
+    margin-bottom: 20px;
+  }
+
+  &__customer-rider-message {
+    margin-bottom: 20px;
+    color: #94989E;
+  }
+
+  &__redeem-section {
+    margin-bottom: 15px;
+  }
+
+  &__redeem-button {
+    float:right;
+    margin-right:10px;
+  }
+
+  &__redeem-section-message {
+    display: inline-block;
+  }
+
+  &__verify-reward-table {
+    margin-bottom: 10px;
+
+    td {
+      &:nth-of-type(1):before {
+        content: "S/N";
+      }
+      &:nth-of-type(2):before {
+        content: "Name";
+      }
+      &:nth-of-type(3):before {
+        content: "Description";
+      }
+      &:nth-of-type(4):before {
+        content: "Expires On";
+      }
+      &:nth-of-type(5):before {
+        content: "Status";
+      }
+      &:nth-of-type(6):before {
+        content: "Expired";
+      }
+    }
+  }
+}
