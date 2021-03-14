@@ -1,25 +1,25 @@
-<div class="MerchantRewards">
-  <div class="MerchantRewards__section-header">
+<div class="MerchantRewardsList">
+  <div class="MerchantRewardsList__section-header">
     Rewards
   </div>
 
-  <section class="row MerchantRewards__search-container-row">
-    <div class="col-md-6 col-ms-12 MerchantRewards__search-container">
+  <section class="row MerchantRewardsList__search-container-row">
+    <div class="col-md-6 col-ms-12 MerchantRewardsList__search-container">
       <div class="input-group">
         <input 
           ng-keyup="$event.keyCode === 13 && loadRewards()"
-          class="form-control MerchantRewards__reward-search" 
+          class="form-control MerchantRewardsList__reward-search" 
           ng-model="query" 
           type="text" 
           placeholder="Search by name or description"/>
         <div class="input-group-addon icons-input">
-          <i class="fas fa-search MerchantRewards__search-icon"></i>
+          <i class="fas fa-search MerchantRewardsList__search-icon"></i>
         </div>
       </div>
     </div>
     <div class="col-md-6 col-sm-12">
       <button
-        class="btn btn-primary MerchantRewards__add-reward-button"
+        class="btn btn-primary MerchantRewardsList__add-reward-button"
         ng-if="!isExpired()"
         ng-click="goToNewReward()"
       >
@@ -28,11 +28,11 @@
     </div>
   </section>
 
-  <section class="row MerchantRewards__reward-table-container-row">
-    <div class="col-md-12 col-xs-12 MerchantRewards__reward-table-container">
+  <section class="row MerchantRewardsList__reward-table-container-row">
+    <div class="col-md-12 col-xs-12 MerchantRewardsList__reward-table-container">
       <p>Click individual active rewards to modify editable contents</p>
 
-      <table class="table" class="MerchantRewards__reward-list-table">
+      <table class="table" class="MerchantRewardsList__reward-list-table">
         <thead class="hidden-xs hidden-sm">
           <tr>
             <th width="20px">S/N</th>
@@ -80,11 +80,11 @@
           </tr>
         </tbody>
       </table>
-      <div class="MerchantRewards__reward-list-pagination">
-        <button class="MerchantRewards__reward-list-pagination-button" ng-click="vm.previousRewards()">
+      <div class="MerchantRewardsList__reward-list-pagination">
+        <button class="MerchantRewardsList__reward-list-pagination-button" ng-click="vm.previousRewards()">
             <i class="fa fa-chevron-left"></i>
         </button>
-        <button class="MerchantRewards__reward-list-pagination-button" ng-click="vm.nextRewards()">
+        <button class="MerchantRewardsList__reward-list-pagination-button" ng-click="vm.nextRewards()">
             <i class="fa fa-chevron-right"></i>
         </button>
       </div>

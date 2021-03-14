@@ -3,5 +3,5 @@ export default app => [
   require('./merchants/dashboard'),
   require('./merchants/auth'),
   require('./merchants/verify'),
-  require('./merchants/rewards'),
+  require('./merchants/rewardsList'),
 ].forEach(entry => entry.default(app));

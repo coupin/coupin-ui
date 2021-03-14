@@ -2,7 +2,7 @@
 
 import angular from 'angular';
 
-class MerchantRewards {
+class MerchantRewardsList {
   static bindings() {
     return { };
   }
@@ -134,15 +134,15 @@ class MerchantRewards {
 }
 
 export default app => app.component(
-  'merchantRewards', {
+  'merchantRewardsList', {
     template: require('./template.html'),
     styles: [
       require('stylesheets/main.scss'),
       require('./style.scss')
     ],
-    controller: MerchantRewards,
+    controller: MerchantRewardsList,
     controllerAs: 'vm',
-    bindings: MerchantRewards.bindings(),
-    require: MerchantRewards.require()
+    bindings: MerchantRewardsList.bindings(),
+    require: MerchantRewardsList.require()
   }
 );
