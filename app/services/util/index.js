@@ -1,8 +1,11 @@
 import Noty from 'noty';
 
 export class UtilService {
-  constructor() {
+  constructor(Upload, apiUrl) {
     'ngInject';
+
+    this.Upload = Upload;
+    this.apiUrl = apiUrl;
   }
 
   isDecimal(number) {
@@ -54,6 +57,11 @@ export class UtilService {
       <div>${body}</div>`;
   }
 
+  /**
+   * Show error alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
   showError(title, msg) {
     let text;
 
@@ -71,6 +79,115 @@ export class UtilService {
       closeWith: ['click', 'button'],
       type: 'error'
     }).show();
+  }
+
+  /**
+    * Show error alert dialog.
+    * @param {String} title 
+    * @param {String} msg 
+    */
+   showInfo(title, msg) {
+    new Noty({
+      text: getNotificationTemplate(title, msg),
+      timeout: 7500,
+      closeWith: ['click', 'button'],
+      type: 'info'
+    }).show();
+  }
+
+  /**
+   * Show success alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
+  showSuccess(title, msg) {
+    new Noty({
+      text: getNotificationTemplate(title, msg),
+      timeout: 7500,
+      closeWith: ['click', 'button'],
+      type: 'success'
+    }).show();
+  }
+
+  /**
+   * Show warning alert dialog.
+   * @param {String} title 
+   * @param {String} msg 
+   */
+  showWarning(title, msg) {
+    new Noty({
+      text: getNotificationTemplate(title, msg),
+      timeout: 7500,
+      closeWith: ['click', 'button'],
+      type: 'warning'
+    }).show();
+  }
+
+  upload(data) {
+    return new Promise(function (resolve, reject) {
+      this.Upload.upload({
+        url: this.apiUrl('/upload'),
+        method: 'POST',
+        arrayKey: '',
+        data: {
+          data: data
+        }
+      }).then(function (res) {
+        resolve(res);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  };
+
+  fileCheck(x, isLogo) {
+    if (this.isDefined(x)) {
+      return true;
+    } else {
+      var msg = isLogo ? 'Please make sure image is at least 200x200 and is at most 2MB.'
+        : 'Please make sure image is at least 950x323 and is at most 3MB.';
+      this.showError('Invalid Image', msg)
+      return false;
+    }
+  };
+
+  uploadProfile(picture, name, isLogo, cb, pcb) {
+    if (fileCheck(picture, isLogo)) {
+      var filename = isLogo ? name + '-logo' : name + '-banner';
+      this.Upload.upload({
+        url: this.apiUrl('/upload'),
+        method: 'POST',
+        file: picture,
+        fields: {
+          public_id: filename
+        }
+      }).then(function (resp) {
+        cb({
+          success: true,
+          data: resp.data
+        });
+      }, function (err) {
+        cb({
+          success: false,
+          data: err
+        });
+      }, function (evt) {
+        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+        pcb(progressPercentage);
+      }).catch(function (err) {
+        cb({
+          success: false,
+          data: err
+        });
+      });
+    } else {
+      cb({
+        success: false,
+        data: {
+          data: 'File cannot be empty and must be an image'
+        }
+      });
+    }
   };
 }
 
