@@ -37,7 +37,7 @@ class MerchantRewardsList {
    */
    loadRewards() {
     this.loadingRewards = true;
-    var details = {};
+    const details = {};
 
     if (angular.isDefined(this.query)) {
       details['query'] = this.query;
@@ -99,7 +99,7 @@ class MerchantRewardsList {
   }
 
   goToNewReward() {
-    this.$state.go('dashboard.reward-add', {}, {});
+    this.$state.go('dashboard.reward', {}, {});
   }
 
   /**

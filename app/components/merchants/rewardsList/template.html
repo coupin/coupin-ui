@@ -7,9 +7,9 @@
     <div class="col-md-6 col-ms-12 MerchantRewardsList__search-container">
       <div class="input-group">
         <input 
-          ng-keyup="$event.keyCode === 13 && loadRewards()"
+          ng-keyup="$event.keyCode === 13 && vm.loadRewards()"
           class="form-control MerchantRewardsList__reward-search" 
-          ng-model="query" 
+          ng-model="vm.query" 
           type="text" 
           placeholder="Search by name or description"/>
         <div class="input-group-addon icons-input">
@@ -20,8 +20,8 @@
     <div class="col-md-6 col-sm-12">
       <button
         class="btn btn-primary MerchantRewardsList__add-reward-button"
-        ng-if="!isExpired()"
-        ng-click="goToNewReward()"
+        ng-if="!vm.isExpired()"
+        ng-click="vm.goToNewReward()"
       >
           <i class="fas fa-plus"></i> Add Reward
       </button>
@@ -45,11 +45,11 @@
         </thead>
         <tbody>
           <tr ng-repeat="(index, discount) in vm.rewards" ng-click="vm.goToReward(discount._id)">
-            <td scope="row" class="hidden-xs hidden-sm">{{ (10 * (page - 1)) + (index + 1) }}</td>
+            <td scope="row" class="hidden-xs hidden-sm">{{ (10 * (vm.page - 1)) + (index + 1) }}</td>
             <td class="icon">{{ discount.name }}</td>
             <td class="icon" show-more>{{ discount.description }}</td>
             <td>
-              <span ng-class="discount.status" class="plan-status">
+              <span ng-class="discount.status" class="MerchantRewardsList__plan-status">
                 {{discount.status}}
               </span>
             </td>
