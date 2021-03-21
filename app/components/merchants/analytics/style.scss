@@ -1,0 +1,163 @@
+@import '../../../stylesheets/variables';
+
+.MerchantAnalytics {
+  &__analytics-frontdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, .75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  &__frontdrop-header {
+    font-size: 36px;
+  }
+
+  &__frontdrop-body {
+    font-size: 16px;
+  }
+
+  &__blur {
+    filter: blur(5px);
+  }
+
+  &__analytics-content {
+    margin-top: 30px;
+  }
+
+  &__analytics-header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    align-items: center;
+  }
+
+  &__datepicker-label {
+    margin-right: 10px;
+  }
+
+  &__datepicker-input-group {
+    display: inline-block;
+    width: unset;
+  }
+
+  &__analytics-datepicker#datepicker {
+    width: 225px;
+    height: 34px;
+    color: #fff;
+    background-color: $background !important;
+    border: 0;
+    font-weight: 600;
+
+    & ~ .MerchantAnalytics__analytics-datepicker-icon i {
+      color: #F49A40;
+    }
+  }
+
+  &__download-container {
+    position: relative;
+  }
+
+  &__file-download {
+    border: 1px solid #15A580;
+    background-color: transparent;
+    color: #15A580;
+    padding: 7px 10px;
+
+    &:hover {
+      color: #fff;
+      border: 1px solid #fff;
+    }
+  }
+
+  &__file-download-icon {
+    margin-right: 5px;
+  }
+
+  &__analytics-main {
+    @media (min-width: 769px) {
+      padding-left: 0;
+    }
+  }
+
+  &__overview-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    -moz-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+
+    display: flex;
+    justify-content: space-between;
+    overflow: none; 
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__info {
+    width: 260px;
+    flex: 0 0 31%;
+  }
+
+  &__info-label {
+    font-weight: 700;
+    font-size: 35px;
+    text-align: left;
+    margin: 0;
+  }
+
+  &__info-value {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: left;
+    color: #878D93;
+    margin: 12px 0 5px 0;
+  }
+
+  &__reward-list {
+    margin-top: 30px;
+  }
+
+  &__overall-coupin-stat {
+    padding: 0 0 20px;
+
+    .MerchantAnalytics__section-header {
+      padding: 20px 20px 0;
+      display: block;
+
+      &:before {
+        bottom: -28px;
+      }
+    }
+  }
+
+  &__section-header {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 15px;
+    text-align: left;
+    color: #FDFFFF;
+    font-family: montserrat;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 25px 0 25px 10px;
+  }
+
+  &__section-header:before {
+    background: none repeat scroll 0 0 #F49A40 ;
+    bottom: -22px;
+    content: "";
+    display: block;
+    height: 1px;
+    position: relative;
+  }
+}

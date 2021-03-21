@@ -1,0 +1,138 @@
+<div class="MerchantAnalytics">
+  <div class="MerchantAnalytics__analytics-frontdrop" ng-if="!vm.shouldAccess">
+    <p class="MerchantAnalytics__frontdrop-header">Get Access With A Paid Subscription</p>
+    <p class="MerchantAnalytics__frontdrop-body">
+      You do not have an active subscription or reward active at the moment.
+    </p>
+  </div>
+
+  <section class="MerchantAnalytics__section-containers" ng-class="{ 'MerchantAnalytics__blur': !vm.shouldAccess }">
+    <div class="row">
+      <div class="col-sm-12 card MerchantAnalytics__analytics-header">
+        <div>
+          <span class="hidden-xs hidden-sm MerchantAnalytics__datepicker-label">Select data feed period </span>
+          <span class="input-group MerchantAnalytics__datepicker-input-group">
+            <input type="text" id="datepicker" class="MerchantAnalytics__analytics-datepicker">
+            <div
+              class="MerchantAnalytics__analytics-datepicker-icon icons-input input-group-addon col-md-5"
+              id="icons-input"
+            >
+              <i class="far fa-calendar-alt"></i>
+            </div>
+          </span>
+        </div>
+        <div class="MerchantAnalytics__download-container hidden-xs hidden-sm">
+          <button
+            class="MerchantAnalytics__file-download"
+            ng-click="vm.getPdf()"
+            data-target="#button-container" 
+            data-toggle="collapse" 
+            aria-haspopup="true" 
+            aria-expanded="false"
+          >
+            <i class="far fa-file-pdf MerchantAnalytics__file-download-icon"></i>
+            <span>PDF Report</span>
+          </button>
+          <button
+            class="MerchantAnalytics__file-download"
+            ng-click="vm.getExcel()"
+            data-target="#button-container" 
+            data-toggle="collapse" 
+            aria-haspopup="true" 
+            aria-expanded="false"
+          >
+            <i class="far fa-file-excel MerchantAnalytics__file-download-icon"></i>
+            <span>XLS Data Report</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row MerchantAnalytics__analytics-content">
+      <div class="col-md-9 MerchantAnalytics__analytics-main">
+        <div class="MerchantAnalytics__overview-container">
+          <div class="card MerchantAnalytics__info">
+            <h4 class="MerchantAnalytics__info-label" ng-if="!vm.loadingStats">
+              {{vm.stats.active}}
+            </h4>
+            <h4 class="MerchantAnalytics__info-label" ng-if="vm.loadingStats">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </h4>
+            <h5 class="MerchantAnalytics__info-value">
+              Active Rewards
+            </h5>
+          </div>
+          <div class="card MerchantAnalytics__info">
+            <h4 class="MerchantAnalytics__info-label" ng-if="!vm.loadingStats">
+              {{vm.stats.generated}}
+            </h4>
+            <h4 class="MerchantAnalytics__info-label" ng-if="vm.loadingStats">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </h4>
+            <h5 class="MerchantAnalytics__info-value">
+              Generated Coupins
+            </h5>
+          </div>
+          <div class="card MerchantAnalytics__info">
+            <h4 class="MerchantAnalytics__info-label" ng-if="!vm.loadingStats">
+              {{vm.stats.redeemed}}
+            </h4>
+            <h4 class="MerchantAnalytics__info-label" ng-if="vm.loadingStats">
+              <i class="fas fa-circle-notch fa-spin"></i>
+            </h4>
+            <h5 class="MerchantAnalytics__info-value">
+              Redeemed Coupins
+            </h5>
+          </div>
+        </div>
+
+        <div class="MerchantAnalytics__reward-list">
+          <p>Click specific promotions / rewards to get better insights</p>
+          <table class="MerchantAnalytics__reward-list-table table">
+            <thead class="hidde-xs hidden-sm">
+              <tr>
+                <th width="20px">S/N</th>
+                <th>Name</th>
+                <th>Start</th>
+                <th>Expires</th>
+                <th>Coupins</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="(index, discount) in vm.rewards" ng-click="vm.goToReward(discount._id)" ng-if="!vm.loadingRewards">
+                <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
+                <td class="icon">{{ discount.name }}</td>
+                <td class="icon">{{ discount.start }}</td>
+                <td class="icon">{{ discount.expires }}</td>
+                <td>
+                  <cp-line-indicator coupins="discount.coupins" class="{{discount._id}}-coupin-indicator"></cp-line-indicator>
+                </td>
+              </tr>
+              <tr ng-if="vm.loadingRewards" class="loading-row">
+                <td class="hidden-xs hidden-sm"><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td></td>
+              </tr>
+              <tr ng-if="vm.rewards.length === 0" class="empty-row">
+                <td colspan="6">
+                  No Rewards to display
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-3 MerchantAnalytics__analytics-side">
+        <div class="card MerchantAnalytics__overall-coupin-stat">
+          <p class="MerchantAnalytics__section-header">
+            Overall Coupins
+          </p>
+          <cp-radar-chart redeemed-value="vm.radarSeriesValue"></cp-radar-chart>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
