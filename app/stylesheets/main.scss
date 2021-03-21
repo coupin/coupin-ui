@@ -20,8 +20,10 @@ $fa-font-path: "@fortawesome/fontawesome-free/webfonts";
 // noty
 @import "noty/src/noty.scss";
 @import "noty/src/themes/mint.scss";
+@import "lightpick/scss/lightpick.scss";
 
 @import './variables';
+@import './lightpick';
 @import './fonts';
 @import './modal';
 @import './form';

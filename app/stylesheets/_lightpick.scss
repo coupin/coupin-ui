@@ -1,0 +1,41 @@
+.lightpick {
+  background-color: $background;
+  color: #fff;
+}
+
+.lightpick .lightpick__toolbar button {
+  background-color: $background-light;
+}
+
+.lightpick .lightpick__month {
+  background-color: $background;
+  color: #fff;
+}
+
+.lightpick .lightpick__month .lightpick__select {
+  width: initial;
+  color: #fff;
+  background-color: $background !important;
+}
+
+.lightpick .lightpick__month .lightpick__day.is-today {
+  color: #F49A40;
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='rgba(244, 154, 64,0.4)' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range.is-start-date,
+.lightpick .lightpick__month .lightpick__day.is-in-range.is-end-date {
+  background-color: #15A580;
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range {
+  background-color: rgba(21, 165, 128, 0.1);
+}
+
+.lightpick .lightpick__month .lightpick__day.is-in-range:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='rgba(21, 165, 128, 0.4)' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
+}
+
+.lightpick .lightpick__month .lightpick__day:hover {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle fill='%23111' cx='16' cy='16' r='16'/%3E%3C/svg%3E");
+}
