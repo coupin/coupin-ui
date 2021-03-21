@@ -20,7 +20,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.amount = 0;
     var showTotal = true;
 
-
     // could either be all, weekdays or weekends
     $scope.selectedDayOption = '';
 

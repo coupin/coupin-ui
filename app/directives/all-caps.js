@@ -4,16 +4,17 @@ export class AllCaps {
     this.restrict = 'A';
     this.$window = $window;
     this.scope = {};
+    this.require = 'ngModel';
   }
 
-  link(scope, element, atts, ngModel) {
-    ngModel.$parsers.push(function(value) {
+  link(scope, element, attrs, modelCtrl) {
+    modelCtrl.$parsers.push(function(value) {
       return value.toUpperCase();
     });
 
     element.on('blur', function () {
-      ngModel.$setViewValue(ngModel.$modelValue);
-      ngModel.$render();
+      modelCtrl.$setViewValue(modelCtrl.$modelValue);
+      modelCtrl.$render();
     });
   }
 }

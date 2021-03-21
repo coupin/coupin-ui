@@ -158,7 +158,7 @@ select.has-error {
 .cp-checkbox-container input[type="checkbox"]:checked ~ .cp-checkbox:before {
     content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
     position: absolute;
-    top: 1px;
+    top: 0px;
     left: 1px;
 }
 
@@ -222,6 +222,56 @@ select.has-error {
 .cp-radio-container input[type="radio"]:checked ~ .cp-radio:after {
     content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='feather feather-check'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
     position: absolute;
-    top: 3px;
+    top: 1px;
     left: 3px;
 }
+
+/** file upload styling **/
+.file-input__container__prompts {
+    cursor: pointer;
+    min-width: 500px;
+    background-color: #313237;
+    height: 60px;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    margin: 30px auto;
+    border: 1px dashed #5f5f5f;
+    border-radius: 2px;
+  }
+  
+  .file-input__container__prompts__img {
+    height: 40px;
+    width: 40px;
+    background-color: #252525;
+    /* background-color: #F8FFFE; */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+  }
+  
+  .file-input__container__prompts__img {
+    color: #15A580;
+  }
+  
+  .file-input__container__prompts__text > p {
+    font-size: 14px;
+    line-height: 18px;
+    margin: 0;
+    color: #15A580;
+    text-align: left;
+  }
+  
+  .file-input__container__prompts__text > p:nth-of-type(2) {
+    font-size: 12px;
+    color: #999;
+    font-weight: 400;
+  }
+  
+  .file-input__container__prompts input[type="file"] {
+    display: none;
+  }
+  /** end of file upload styling **/
