@@ -1,0 +1,518 @@
+<div class="MerchantReward">
+  <div class="MerchantReward__info-box card">
+    <div class="loading text-center" ng-if="loading">
+      <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Submiting</span>
+    </div>
+
+    <div>
+      <i 
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Click to go back to reward list"
+        class="fas fa-arrow-circle-left MerchantReward__reward-back-button"
+        ng-click="vm.goToRewardList()"
+      ></i>
+
+      <p class="MerchantReward__section-header">
+        <span ng-if="vm.isNewReward">Add new reward</span>
+        <span ng-if="!vm.isNewReward && vm.newReward.status !== 'expired'">Edit existing reward</span>
+        <span ng-if="!vm.isNewReward && vm.newReward.status === 'expired'">
+            View existing reward
+        </span>
+      </p>
+
+      <i class="fas fa-info-circle" ng-if="vm.newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i>
+    </div>
+
+    <div class="MerchantReward__review-container" ng-if="vm.showReviews()">
+      <i lass="MerchantReward__review-icon fas fa-exclamation-circle fa-5x"></i>
+      <div class="MerchantReward__review-block">
+          <p class="MerchantReward__review-title">Admin has requested the following changes for the reward</p>
+          <div ng-repeat="review in vm.newReward.review">
+              <div class="MerchantReward__review-block" ng-if="!review.seen">
+                <p class="MerchantReward__review-block-comment">{{review.comment}}</p>
+                <p class="MerchantReward__review-block-time">Reviewed on {{review.timeStamp | date:"longDate"}}</p>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <form name="vm.form" class="MerchantReward__form">
+      <div class="MerchantReward__profile-form-section row">
+        <div class="col-md-2 MerchantReward__profile-form-section-header-container">
+          <p class="MerchantReward__profile-form-section-header">Reward Info</p>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="name">Name: </label><span>*</span>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                  <input
+                    all-caps
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    ng-disabled="vm.newReward.status === 'expired'"
+                    id="name"
+                    aria-describedby="nameHelp"
+                    placeholder="e.g. Family Meal"
+                    ng-model="vm.newReward.name"
+                    ng-maxlength="40"
+                    ng-class="{'has-error': vm.isError(vm.form.name)}"
+                    required
+                  />
+                  <div class="input-group-addon icons-input"><i class="fas fa-tags"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="description">Description: </label>
+                <div class="input-group mb-2 mr-sm mb-sm-0">
+                  <textarea
+                    all-caps
+                    style="height: 100px;"
+                    type="text"
+                    class="form-control"
+                    id="description"
+                    ng-disabled="vm.newReward.status === 'expired'"
+                    name="description"
+                    ng-class="{'has-error': vm.isError(vm.form.description)}"
+                    aria-describedby="descriptionHelp"
+                    placeholder="Description.."
+                    ng-maxlength="240"
+                    ng-model="vm.newReward.description"
+                    required
+                  ></textarea>
+                  <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="MerchantReward__profile-form-section row">
+        <div class="col-md-2 MerchantReward__profile-form-section-header-container">
+          <p class="MerchantReward__profile-form-section-header">Discount Info</p>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="">Discount</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text"  ng-value="vm.calculatePercentage(vm.newReward.price.old, vm.newReward.price.new) | number : 2 " disabled>
+                        <div class="input-group-addon icons-input"><i class="fas fa-percentage"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="oldPrice">Old Price: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" name="oldPrice" class="form-control" id="oldPrice" placeholder="0" ng-model="vm.newReward.price.old" ng-disabled="vm.newReward.status === 'expired'" />
+                        <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <label for="newPrice">New Price: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" name="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="vm.newReward.price.new" ng-disabled="vm.newReward.status === 'expired'" />
+                        <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="MerchantReward__profile-form-section row">
+        <div class="col-md-2 MerchantReward__profile-form-section-header-container">
+          <p class="MerchantReward__profile-form-section-header">Reward Date</p>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row" ng-if="!vm.payRewardIsActive">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="startDate">Please pick a start date: </label><br/>
+                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <input
+                      bs-datepicker 
+                      class="form-control" 
+                      id="startDate" 
+                      name="startDate" 
+                      ng-disabled="vm.newReward.status === 'expired' || vm.newReward.status === 'active'" 
+                      ng-class="{'has-error': vm.isError(vm.form.startDate)}" 
+                      type="text" 
+                      ng-change="vm.setEndDate(vm.noOfDays)" 
+                      ng-model="vm.newReward.startDate" 
+                      data-min-date="{{vm.minDate}}" 
+                      data-max-date="{{vm.maxDate}}" 
+                      required/>
+                    <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                  </div>
+                  <small id="rangeHelp" class="form-text">This is when the users will start to see the reward.</small>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group">
+                <label for="endDate">Please select number of days: </label><br/>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                  <input
+                    id="noOfDate"
+                    class="form-control"
+                    ng-class="{'has-error': vm.newReward.startDate && vm.form.noOfDays.$dirty && (vm.form.noOfDays.$error.required || vm.form.noOfDays.$error.max)}"
+                    name="noOfDays"
+                    type="number" 
+                    ng-model="vm.noOfDays" 
+                    ng-change="vm.setEndDate(vm.noOfDays)" 
+                    ng-min="1" 
+                    ng-max="{{vm.maxDays}}"
+                    ng-disabled="vm.newReward.status === 'expired' || vm.newReward.status === 'active'"
+                    required/>
+                  <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                </div>
+                <small id="rangeHelp" class="form-text" ng-if="vm.newReward.startDate">
+                  <b ng-if="!vm.isError(vm.form.noOfDays)">The reward will expire on {{vm.newReward.endDate | date: 'longDate'}}.</b>
+                  <b
+                    ng-if="vm.isError(vm.form.noOfDays) && vm.form.noOfDays.$error.max"
+                    class="error-text"
+                    data-toggle="tooltip"
+                    bs-tooltip
+                    data-placement="bottom"
+                    title="Your plan expires {{maxDays + 1}} day{{maxDays > 1 ? 's' : ''}} after the selected date."
+                    style="cursor: pointer;"
+                  >
+                    You cannot select more that {{maxDays}} day{{maxDays > 1 ? 's' : ''}} for this reward.
+                    <i class="fas fa-exclamation-circle"></i>
+                  </b>
+                </small>
+              </div>
+            </div>
+            <h3 class="text-center" ng-if="vm.shouldShowTotal">Total: <b>&#8358; {{vm.amount}}</b></h3>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="appDays">Applicable Days: </label>
+                <div class="MerchantReward__applicable-days-container">
+                  <div class="MerchantReward__applicable-select-group">
+                    <div class="MerchantReward__applicable-button-group">
+                      <input
+                        type="radio" 
+                        name="data-group"
+                        value="all"
+                        ng-model="vm.selectedDayOption"
+                      >
+                      <button
+                        class="MerchantReward__applicable-button"
+                        type="button" 
+                        data-value="all"
+                        ng-click="vm.selectGroup('all')"
+                      >
+                        All
+                        <i class="far fa-check-circle MerchantReward__applicable-button-icon"></i>
+                      </button>
+                    </div>
+                    <div class="MerchantReward__applicable-button-group">
+                      <input
+                        type="radio" 
+                        name="data-group"
+                        value="weekdays"
+                        ng-model="vm.selectedDayOption"
+                      >
+                      <button
+                        class="MerchantReward__applicable-button"
+                        type="button" 
+                        data-value="weekdays"
+                        ng-click="vm.selectGroup('weekdays')"
+                      >
+                        Weekdays
+                        <i class="far fa-check-circle MerchantReward__applicable-button-icon"></i>
+                      </button>
+                    </div>
+                    <div class="MerchantReward__applicable-button-group">
+                      <input
+                        type="radio" 
+                        name="data-group"
+                        value="weekends"
+                        ng-model="vm.selectedDayOption"
+                      >
+                      <button
+                        class="MerchantReward__applicable-button"
+                        type="button" 
+                        data-value="weekends"
+                        ng-click="vm.selectGroup('weekends')"
+                      >
+                        Weekends
+                        <i class="far fa-check-circle MerchantReward__applicable-button-icon"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="MerchantReward__applicable-day-group">
+                    <div class="MerchantReward__applicable-button-group" ng-repeat="_day in ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']">
+                      <input
+                        type="checkbox"
+                        name="_day"
+                        ng-checked="vm.newReward.applicableDays.indexOf($index) > -1"
+                        ng-value="$index"
+                      >
+                      <button
+                        class="MerchantReward__applicable-button"
+                        type="button"
+                        ng-click="vm.day($index)"
+                      >
+                        {{_day}}
+                        <i class="far fa-check-circle MerchantReward__applicable-button-icon"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <small id="appDaysHelp" class="form-text text-muted">Pick the days of the week that apply to you.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="MerchantReward__profile-form-section row">
+        <div class="col-md-2 MerchantReward__profile-form-section-header-container">
+          <p class="MerchantReward__profile-form-section-header"></p>
+        </div>
+
+        <div class="col-md-10">
+          <div class="form-group">
+            <div><label>Reward Categories: </label></div>
+            <label for="entertainment" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="entertainment" ng-checked="vm.categories.entertainment"
+                ng-click="vm.addCat('entertainment')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Entertainment </span>
+            </label>
+            <label for="foodndrink" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="foodndrink" ng-checked="vm.categories.foodndrink"
+                ng-click="vm.addCat('foodndrink')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Food and Drink </span>
+            </label>
+            <label for="technology" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="technology" ng-checked="vm.categories.technology"
+                ng-click="vm.addCat('technology')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Electronics & Technology </span>
+            </label>
+            <label for="groceries" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="groceries" ng-checked="vm.categories.groceries"
+                ng-click="vm.addCat('groceries')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Groceries </span>
+            </label>
+            <label for="healthnbeauty" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="healthnbeauty" ng-checked="vm.categories.healthnbeauty"
+                ng-click="vm.addCat('healthnbeauty')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Health & Beauty </span>
+            </label>
+            <label for="shopping" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="shopping" ng-checked="vm.categories.shopping"
+                ng-click="vm.addCat('shopping')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Shopping </span>
+            </label>
+            <label for="tickets" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="tickets" ng-checked="vm.categories.tickets" ng-click="vm.addCat('tickets')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Tickets </span>
+            </label>
+            <label for="travel" class="cp-checkbox-container">
+              <input type="checkbox" name="category" id="travel" ng-checked="vm.categories.travel" ng-click="vm.addCat('travel')">
+              <span class="cp-checkbox"></span>
+              <span class="checkbox-label">Travel & Hotels </span>
+            </label>
+            <br />
+            <small id="categoryHelp" class="form-text text-muted">
+              Please tick categories that best describe your business.
+            </small>
+          </div>
+          <div class="form-group">
+            <div><label>Can this reward be used multiple times: </label></div>
+            <label for="multiple-yes" class="cp-radio-container">
+              <input type="radio" name="multiple" id="multiple-yes" ng-model="vm.newReward.multiple.status" ng-value="true" />
+              <span class="cp-radio"></span>
+              <span class="radio-label">Yes</span>
+            </label>
+            <label for="multiple-no" class="cp-radio-container">
+              <input type="radio" name="multiple" id="multiple-no" ng-model="vm.newReward.multiple.status" ng-value="false">
+              <span class="cp-radio"></span>
+              <span class="radio-label">No</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <div><label>Can this reward be delivered: </label></div>
+            <label for="delivery-yes" class="cp-radio-container">
+              <input type="radio" name="delivery" id="delivery-yes" ng-model="vm.newReward.delivery" ng-value="true" />
+              <span class="cp-radio"></span>
+              <span class="radio-label">Yes</span>
+            </label>
+            <label for="delivery-no" class="cp-radio-container">
+              <input type="radio" name="delivery" id="delivery-no" ng-model="vm.newReward.delivery" ng-value="false">
+              <span class="cp-radio"></span>
+              <span class="radio-label">No</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="MerchantReward__profile-form-section row">
+        <div class="col-md-2 MerchantReward__profile-form-section-header-container">
+          <p class="MerchantReward__profile-form-section-header"></p>
+        </div>
+
+        <div class="col-md-10">
+          <div class="row">
+            <div class="form-group">
+              <div
+                class="btn btn-success"
+                ng-disabled="vm.photos.length > 4 || vm.loading || vm.uploading || vm.newReward.status === 'expired'"
+                data-toggle="modal"
+                data-target="#croppingModal"
+              >
+                Select Image Files
+            </div>
+            </div>
+            <div ng-if="vm.uploading">
+              <div class="text-center MerchantReward__upload-progress-container">
+                <div class="MerchantReward__upload-label">Image Upload Progress</div>
+                <div class="MerchantReward__upload-progress">{{vm.progress === 100 ? 'Processing...' : vm.progress + '%'}}</div>
+              </div>
+              <div class="progress MerchantReward__image-upload-progress-bar">
+                <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': vm.progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+            <div class="MerchantReward__image-preview-container">
+              <div
+                class="MerchantReward__preview-box"
+                ng-repeat="(index, photo) in vm.photos"
+              >
+                <span
+                  class="MerchantReward__delete-image clickable"
+                  ng-click="vm.removeImage(index)"
+                  ng-hide="vm.newReward.status === 'expired'"
+                >
+                  <i class="fas fa-2x fa-times-circle"></i>
+                </span>
+                <img ng-src="{{photo.url}}" class="MerchantReward__preview-image" height="200" width="200"/>
+              </div>
+              <div
+                class="MerchantReward__preview-box MerchantReward__add-image-preview"
+                role="button"
+                ng-if="vm.photos.length < 4 && vm.newReward.status !== 'expired' && !vm.loading && !vm.uploading" 
+                data-toggle="modal" 
+                data-target="#croppingModal"
+              >
+                <i class="fas fa-plus fa-3x"></i>
+                <span class="MerchantReward__add-image-preview-text">Add Image</span>
+              </div>
+            </div>
+            <span>
+              <button
+                class="btn btn-success"
+                ng-if="vm.update && vm.files.length > 0"
+                ng-disabled="vm.loading || vm.uploading" 
+                ng-click="vm.upload(vm.newReward._id, false)"
+              >
+                Upload
+              </button>
+            </span>
+          </div>
+          <div class="row MerchantReward__user-profile-action" ng-hide="vm.newReward.status === 'expired'">
+            <button
+              class="btn btn-primary btn-lg MerchantReward__user-profile-action-button" 
+              ng-disabled="vm.loading || vm.uploading || vm.isFormError(vm.form)"
+              ng-click="vm.createReward(vm.newReward)" 
+              ng-if="vm.displayCreateButton()"
+            >
+              Create Reward
+            </button>
+            <button
+              class="btn btn-primary btn-lg MerchantReward__user-profile-action-button" 
+              ng-disabled="vm.loading || vm.uploading || vm.isFormError(vm.form)"
+              ng-click="vm.updateReward(vm.newReward)" 
+              ng-if="vm.displayUpdateButton()"
+            >
+              Update Reward
+            </button>
+            <button
+              class="btn btn-primary btn-lg MerchantReward__user-profile-action-button" 
+              ng-disabled="vm.loading || vm.uploading || vm.isFormError(vm.form)"
+              ng-click="vm.makePayment(vm.newReward)" 
+              ng-if="vm.displayPayAndUpdateButton()"
+            >
+              Pay and Update Reward
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Croppig Modal -->
+  <div class="modal fade" id="croppingModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="screen-rotation-request" data-dismiss="modal">
+          <div class="content">
+            <p><i class="fas fa-mobile fa-4x"></i></p>
+            <p>Please rotate your device to continue</p>
+          </div>
+        </div>
+        <div class="modal-header text-center">
+          <h3>Upload Gallery Image</h3>
+        </div>
+        <div class="modal-body text-center">
+          <div>
+            <h4>Images Must all be cropped to a 320x320 square.</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="file-input__container">
+                  <label for="imageupload" class="file-input__container__prompts">
+                    <div class="file-input__container__prompts__img">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="file-input__container__prompts__text">
+                      <p>Select an Image</p>
+                      <p>Note: Image will appear to viewers as cropped.</p>
+                    </div>
+                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="vm.image.src"
+                      id="imageupload" />
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="cropArea">
+                <canvas height="350" width="500" image="vm.image.src" image-cropper cropped-image="vm.image.dst"
+                  crop-height="320" crop-width="320" keep-aspect="true" touch-radiue="30"
+                  crop-area-bounds="bounds"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer text-center">
+          <button class="btn btn-primary btn-sm" ng-click="vm.fileCheck(vm.image)">Add Image</button>
+          <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
+</div>

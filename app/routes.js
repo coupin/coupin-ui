@@ -25,9 +25,16 @@ export function routesConfig(
       url: '/rewards',
       component: 'merchantRewardsList'
     })
-    .state('dashboard.rewards', {
-      url: '/merchants/rewards',
-      component: 'merchantRewards'
+    .state('dashboard.reward', {
+      url: '/merchants/reward',
+      component: 'merchantReward'
+    })
+    .state('dashboard.reward-edit', {
+      url: '/merchants/reward/:id',
+      component: 'merchantReward',
+      // params: {
+      //   param1: 'id'
+      // }
     })
     .state('admin', {
       url: '/admin',

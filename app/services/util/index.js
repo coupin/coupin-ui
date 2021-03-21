@@ -88,7 +88,7 @@ export class UtilService {
     */
    showInfo(title, msg) {
     new Noty({
-      text: getNotificationTemplate(title, msg),
+      text: this.getNotificationTemplate(title, msg),
       timeout: 7500,
       closeWith: ['click', 'button'],
       type: 'info'
@@ -102,7 +102,7 @@ export class UtilService {
    */
   showSuccess(title, msg) {
     new Noty({
-      text: getNotificationTemplate(title, msg),
+      text: this.getNotificationTemplate(title, msg),
       timeout: 7500,
       closeWith: ['click', 'button'],
       type: 'success'
@@ -116,7 +116,7 @@ export class UtilService {
    */
   showWarning(title, msg) {
     new Noty({
-      text: getNotificationTemplate(title, msg),
+      text: this.getNotificationTemplate(title, msg),
       timeout: 7500,
       closeWith: ['click', 'button'],
       type: 'warning'

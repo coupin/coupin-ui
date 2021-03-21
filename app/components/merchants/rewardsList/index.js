@@ -107,7 +107,7 @@ class MerchantRewardsList {
    * @param {rewardId} id 
    */
   goToEditReward(id) {
-    this.$state.go('dashboard.reward-add-edit', { id: id }, {});
+    this.$state.go('dashboard.reward-edit', { id: id }, {});
   }
 
   /**
@@ -116,15 +116,16 @@ class MerchantRewardsList {
    */
   goToReward(id) {
     if (angular.isUndefined(id)) {
-      this.RewardService.getReward(_id).then((result) => {
-          if (result.status === 200) {
-              this.reward = result.data;
-          } else {
-            this.UtilService.showError('errTitle', 'errMsg');
-          }
-      }).catch();
+      // this.RewardService.getReward(_id).then((result) => {
+      //     if (result.status === 200) {
+      //         this.reward = result.data;
+      //     } else {
+      //       this.UtilService.showError('errTitle', 'errMsg');
+      //     }
+      // }).catch();
+      return;
     } else {
-        this.$state.go('dashboard.reward-add-edit', { id: id }, {});
+        this.$state.go('dashboard.reward-edit', { id: id }, {});
     }
   }
 

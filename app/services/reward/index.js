@@ -26,7 +26,7 @@ export class RewardService {
   }
 
   getReward(id) {
-    return this.RequestService.sendRequest('GET', `/rewards/ ${id}`);
+    return this.RequestService.sendRequest('GET', `/rewards/${id}`);
   }
 
   update(id, data) {
