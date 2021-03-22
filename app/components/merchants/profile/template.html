@@ -1,0 +1,257 @@
+<div class="MerchantProfile">
+  <div class="MerchantProfile__banner-display" ng-disabled="vm.updating" ng-style="vm.bannerStyle">
+    <div class="MerchantProfile__banner-inner hidden-xs hidden-sm">
+      <span data-toggle="modal" data-target="#cropModal" ng-click="vm.isLogo = false">
+        Upload new banner <i class="fas fa-plus"></i>
+      </span>
+    </div>
+    <div class="MerchantProfile__logo-container">
+      <div class="MerchantProfile__logo-box" ng-class="{'MerchantProfile__logo-box-show': vm.uploadingLogo}"
+        ng-style="vm.logoStyle">
+        <div class="MerchantProfile__logo-box-inner" data-toggle="modal" data-target="#cropModal"
+          ng-click="vm.isLogo = true">
+          <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+          <small ng-if="vm.uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card MerchantProfile__profile-section-card">
+    <div class="row MerchantProfile__profile-form-section">
+      <div class="col-md-2">
+        <p class="MerchantProfile__profile-form-section-label">Company Info</p>
+      </div>
+      <div class="col-md-10">
+        <form>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12">
+              <label for="name">Company Name: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="text" class="form-control" id="name" placeholder="example@domain.com"
+                  ng-model="vm.user.merchantInfo.companyName" required />
+                <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
+              </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-12">
+              <label for="name">Branch Phone Number: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="text" class="form-control" id="phoneNumber" minlength="11" maxlength="11"
+                  placeholder="e.g. 08032455555" ng-model="vm.user.merchantInfo.mobileNumber" required />
+                <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label for="name">Company Email: </label>
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+              <input type="email" class="form-control" id="email" placeholder="example@domain.com"
+                ng-model="vm.user.email" required />
+              <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12 col-sm-12">
+              <label for="name">Company Description: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <textarea type="text" class="form-control" id="detail" placeholder="Company Details.."
+                  ng-model="vm.user.merchantInfo.companyDetails" required rows="4"></textarea>
+                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-12 col-sm-12">
+              <label for="address">Branch Street Address: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="text" class="form-control" id="address" aria-describedby="addressHelp"
+                  placeholder="e.g. 3 example street, off another drive" ng-model="vm.user.merchantInfo.address"
+                  required />
+                <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-md-6 col-sm-12">
+              <label for="city">City:</label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="text" class="form-control" id="city" minlength="3" maxlength="15"
+                  aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="vm.user.merchantInfo.city" required>
+                <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
+              </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-12">
+              <label for="state">State:</label>
+              <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="vm.user.merchantInfo.state"
+                ng-options="state for state in vm.states" required></select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row MerchantProfile__profile-form-section">
+      <div class="col-md-2">
+        <p class="MerchantProfile__profile-form-section-label">Geo Location</p>
+      </div>
+      <div class="col-md-10">
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="latitude">Latitude: </label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                  <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655"
+                    ng-model="vm.position.lat" />
+                  <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <label for="longitude">Longitude: </label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                  <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655"
+                    ng-model="vm.position.long" />
+                  <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 MerchantProfile__location-button-container">
+              <div class="form group">
+                <button class="btn btn-outline-primary MerchantProfile__get-user-location btn-lg"
+                  ng-click="vm.getLocation()" ng-disabled="vm.loadingPosition === true">
+                  <i class="fas fa-map-marked-alt" ng-hide="vm.loadingPosition"></i>
+                  <i class="fas fa-spin fa-spinner" ng-show="vm.loadingPosition"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row MerchantProfile__user-profile-action">
+            <button class="btn btn-primary btn-lg MerchantProfile__user-update-button" ng-disabled="vm.updating"
+              ng-click="vm.update()" tabindex="-1">Update
+              Profile <i class="fas fa-spin fa-spinner" ng-show="vm.updating"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="row MerchantProfile__profile-form-section">
+      <div class="col-md-2">
+        <p class="MerchantProfile__profile-form-section-label">Password</p>
+      </div>
+      <div class="col-md-10">
+        <form ng-submit="vm.changePassword(vm.password, vm.confirm)">
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="password">New Password: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="password" class="form-control" id="password" placeholder="Enter new password.."
+                  ng-model="vm.password" required />
+                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="confirm">Confirm Password: </label>
+              <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <input type="password" class="form-control" id="confirm" placeholder="Confirm Password"
+                  ng-model="vm.confirm" required />
+                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="row MerchantProfile__user-profile-action">
+            <button class="btn btn-primary btn-lg MerchantProfile__user-update-button" ng-disabled="vm.updatingPassword">Change Password <i
+                class="fas fa-spin fa-spinner" ng-show="vm.updatingPassword"></i></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Crop Modal -->
+  <div class="modal fade" id="cropModal">
+    <div class="modal-dialog" ng-class="{'modal-banner': !vm.isLogo}">
+      <div class="modal-content">
+        <div class="screen-rotation-request" data-dismiss="modal">
+          <div class="content">
+            <p><i class="fas fa-mobile fa-4x"></i></p>
+            <p>Please rotate your device to continue</p>
+          </div>
+        </div>
+        <div class="modal-header text-center">
+          <h3>Upload Business Logo</h3>
+        </div>
+        <div class="modal-body text-center">
+          <div ng-if="vm.isLogo">
+            <h4>Images Must all be cropped to a 320x320 square.</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="file-input__container">
+                  <label for="imageupload" class="file-input__container__prompts">
+                    <div class="file-input__container__prompts__img">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="file-input__container__prompts__text">
+                      <p>Select an Image</p>
+                      <p>Note: Image will appear to viewers as cropped.</p>
+                    </div>
+                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="vm.image.src"
+                      id="imageupload" />
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="cropArea">
+                <canvas height="350" width="500" image="vm.image.src" image-cropper cropped-image="vm.image.dst"
+                  crop-height="320" crop-width="320" keep-aspect="true" touch-radius="30" id="logo"></canvas>
+              </div>
+            </div>
+          </div>
+          <div ng-if="!vm.isLogo">
+            <h4>Images Must all be cropped to a 950x323 square.</h4>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="file-input__container">
+                  <label for="imageupload" class="file-input__container__prompts">
+                    <div class="file-input__container__prompts__img">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="file-input__container__prompts__text">
+                      <p>Select an Image</p>
+                      <p>Note: Image will appear to viewers as cropped.</p>
+                    </div>
+                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="vm.image.src"
+                      id="imageupload" />
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="cropArea-banner">
+                <canvas height="400" width="1000" image="vm.image.src" image-cropper cropped-image="vm.image.dst"
+                  crop-height="323" crop-width="950" keep-aspect="true" touch-radius="30" id="banner"></canvas>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div ng-if="vm.uploading">
+            <div class="text-center MerchantProfile__upload-progress-container">
+              <div class="MerchantProfile__upload-label">Image Upload Progress</div>
+              <div class="MerchantProfile__upload-progress">{{vm.progress === 100 ? 'Processing...' : vm.progress + '%'}}</div>
+            </div>
+            <div class="progress MerchantProfile__image-upload-progress-bar">
+              <div class="progress-bar bg-success" role="progressbar" ng-style="{'width': vm.progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer text-center">
+          <button class="btn btn-primary" ng-click="vm.uploadImage(vm.image, vm.isLogo)">Upload Image</button>
+          <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

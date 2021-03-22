@@ -35,6 +35,10 @@ export function routesConfig(
       url: '/merchants/reward/:id',
       component: 'merchantReward',
     })
+    .state('dashboard.profile', {
+      url: '/profile',
+      component: 'merchantProfile',
+    })
     .state('dashboard.analytics', {
       url: '/analytics',
       component: 'merchantAnalytics',

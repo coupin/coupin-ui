@@ -20,6 +20,31 @@
   display: none;
 }
 
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+}
+
+.modal-backdrop.am-fade>.ng-enter {
+  opacity: 0;
+}
+
+.modal-backdrop.am-fade>.ng-enter>.ng-enter-active {
+  opacity: .5;
+}
+
+.modal-backdrop.am-fade>.ng-leave {
+  opacity: .5;
+}
+
+.modal-backdrop.am-fade>.ng-leave>.ng-leave-active {
+  opacity: 0;
+}
+
+.modal-banner {
+  width: 1040px;
+}
+
 @media (max-width: 542px) and (orientation: portrait) {
   .modal-dialog .modal-content .screen-rotation-request {
     position: absolute;
