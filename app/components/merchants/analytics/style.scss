@@ -129,15 +129,6 @@
 
   &__overall-coupin-stat {
     padding: 0 0 20px;
-
-    .MerchantAnalytics__section-header {
-      padding: 20px 20px 0;
-      display: block;
-
-      &:before {
-        bottom: -28px;
-      }
-    }
   }
 
   &__section-header {
@@ -148,13 +139,13 @@
     color: #FDFFFF;
     font-family: montserrat;
     text-transform: uppercase;
-    display: inline-block;
-    margin: 25px 0 25px 10px;
+    padding: 20px 20px 0;
+    margin-bottom: 30px;
   }
 
   &__section-header:before {
     background: none repeat scroll 0 0 #F49A40 ;
-    bottom: -22px;
+    bottom: -28px;
     content: "";
     display: block;
     height: 1px;

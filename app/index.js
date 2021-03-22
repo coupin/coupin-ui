@@ -51,10 +51,20 @@ const app = angular.module('coupinApp', [
 /* directive */
 import { ShowMore } from './directives/show-more';
 import { AllCaps } from './directives/all-caps';
+import { CpLineIndicator } from './directives/charts/cp-line-indicator';
+import { CpRadarChart } from './directives/charts/cp-radar-chart';
+import { CpRewardAnalyticsAgeDistribution } from './directives/charts/cp-reward-analytics-age-distribution';
+import { CpRewardAnalyticsGenderDistribution } from './directives/charts/cp-reward-analytics-gender-distribution';
+import { CpRewardAnalyticsGeneratedVsRedeemedCoupins } from './directives/charts/cp-reward-analytics-generated-vs-redeemed-coupins';
 
 app
   .directive('showMore', ['$window', $window => new ShowMore($window)])
-  .directive('allCaps', ['$window', $window => new AllCaps($window)]);
+  .directive('allCaps', ['$window', $window => new AllCaps($window)])
+  .directive('cpLineIndicator', ['$window', $window => new CpLineIndicator($window)])
+  .directive('cpRadarChart', ['$window', $window => new CpRadarChart($window)])
+  .directive('cpRewardAnalyticsAgeDistribution', ['$window', $window => new CpRewardAnalyticsAgeDistribution($window)])
+  .directive('cpRewardAnalyticsGenderDistribution', ['$window', $window => new CpRewardAnalyticsGenderDistribution($window)])
+  .directive('cpRewardAnalyticsGeneratedVsRedeemedCoupins', ['$window', $window => new CpRewardAnalyticsGeneratedVsRedeemedCoupins($window)]);
 /* end of directives */
 
 require('components').default(app);
