@@ -7,17 +7,14 @@ export function routesConfig(
   $urlRouterProvider.otherwise('/dashboard');
 
   $stateProvider
-    // .state('merchant', {
-    //   url: '/',
-    //   component: 'merchantHome',
-    // })
     .state('merchant-auth', {
       url: '/merchant-auth',
       component: 'merchantAuth'
     })
     .state('dashboard', {
       url: '/dashboard',
-      component: 'merchantDashboard'
+      component: 'merchantDashboard',
+      redirectTo: 'dashboard.home'
     })
     .state('dashboard.home', {
       url: '/home',

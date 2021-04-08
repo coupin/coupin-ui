@@ -498,7 +498,7 @@ class MerchantAuth {
       .then((response) => {
         this.setUserInfo(response.data, true);
         this.loading[0] = false;
-        this.$state.go('dashboard', {});
+        this.$state.go('dashboard.home', {});
       }).catch((err) => {
         this.loading[0] = false;
         this.UtilService.showError('Request Failed', err.data);
