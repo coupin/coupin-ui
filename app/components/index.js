@@ -7,4 +7,5 @@ export default app => [
   require('./merchants/reward'),
   require('./merchants/analytics'),
   require('./merchants/profile'),
+  require('./merchants/billing'),
 ].forEach(entry => entry.default(app));

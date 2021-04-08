@@ -1,0 +1,175 @@
+.MerchantBilling {
+  &__billing-plans {
+    padding-top: 30px;
+    padding-bottom: 50px;
+  }
+
+  &__plans {
+    display: flex;
+    position: relative;
+
+    @media (max-width: 992px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__plan-disable-frontdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 99999;
+    background-color: rgba(0, 0, 0, .65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+  }
+
+  &__plan {
+    width: 250px;
+    margin-right: 20px;
+    cursor: pointer;
+
+    .card {
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+      border-top: transparent solid 5px;
+      position: relative;
+      padding-top: 15px;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-top-color: #15A580;
+    }
+
+    .card:active {
+      transform: translateY(2px);
+    }
+
+    @media (max-width: 992px) {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+  }
+
+  &__select-indicator {
+    display: block;
+    border: solid 2px #15A580;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    top: 3px;
+    right: 0;
+    transition: 0.5s all;
+
+    &:before {
+      content: '';
+      height: 11.5px;
+      width: 11.5px;
+      background-color: #15A580;
+      transform: scale(0);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 50%;
+      transition: all 0.2s ease-out;
+      transform-origin: 5px 5px;
+    }
+  }
+
+  &__billing-plan {
+    visibility: hidden;
+    position: absolute;
+
+    &:checked ~ .card {
+      border-top-color: #15A580;
+
+      .MerchantBilling__select-indicator:before {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__trial-plan {
+    filter: blur(4px);
+  }
+
+  &__plan-header {
+    padding: 0 0 10px;
+    font-weight: 600;
+    font-size: 17px;
+    position: relative;
+    border-bottom: 1px solid #252525;
+  }
+
+  &__plan-body {
+    min-height: 160px;
+    padding: 20px 0 10px;
+    margin: 0;
+
+    @media (max-width: 992px) {
+      min-height: 0;
+    }
+  }
+
+  &__plan-body-detail {
+    font-size: 12px;
+  }
+
+  &__plan-footer {
+    padding: 16px 0 0;
+    font-weight: 600;
+    font-size: 17px;
+    border-top: 1px solid #252525;
+  }
+
+  &__plan-status {
+    height: 23px;
+    border-radius: 11.5px;
+    background: #f0f0f0;
+    font-size: 11px;
+    padding: 5px 7px;
+    text-transform: capitalize;
+
+    &.expired {
+      background: transparent;
+      border: 1px solid #e93e46;
+      color: #e93e46;
+    }
+    
+    &.active {
+      background: transparent;
+      border: 1px solid #15A580;
+      color: #15A580;
+    }
+    
+    &.draft {
+      background: #fff;
+      color: #8A8A8A;
+      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.16);
+    }
+    &.isPending {
+      background: transparent;
+      border: 1px solid #F49A40;
+      color: #F49A40;
+    }
+    
+    &.review {
+      background: transparent;
+      border: 1px solid #5677FC;
+      color: #5677FC;
+    }
+    
+    &.inactive {
+      background: transparent;
+      color: #F0F0F0;
+    }
+  }
+}

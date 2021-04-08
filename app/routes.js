@@ -67,6 +67,10 @@ export function routesConfig(
         }]
       }
     })
+    .state('dashboard.billing', {
+      url: '/billing',
+      component: 'merchantBilling',
+    })
     .state('admin', {
       url: '/admin',
       component: ''
