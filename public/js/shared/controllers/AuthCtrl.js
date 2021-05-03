@@ -12,7 +12,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     StorageService,
     PaymentService,
     UtilService,
-    ConfigService
+    ConfigService,
 ) {
     // scope variable to hold form data
     $scope.formData = {};
@@ -74,7 +74,45 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /* end of switching pages in the merchant auth area */
     
     // States
-    $scope.states = ['Abuja', 'Lagos', 'Rivers State'];
+    $scope.states = [
+        'Abia',
+        'Adamawa',
+        'Akwa Ibom',
+        'Anambra',
+        'Bauchi',
+        'Bayelsa',
+        'Benue',
+        'Borno',
+        'Cross River',
+        'Delta',
+        'Ebonyi',
+        'Edo',
+        'Ekiti',
+        'Enugu',
+        'FCT - Abuja',
+        'Gombe',
+        'Imo',
+        'Jigawa',
+        'Kaduna',
+        'Kano',
+        'Katsina',
+        'Kebbi',
+        'Kogi',
+        'Kwara',
+        'Lagos',
+        'Nasarawa',
+        'Niger',
+        'Ogun',
+        'Ondo',
+        'Osun',
+        'Oyo',
+        'Plateau',
+        'Rivers',
+        'Sokoto',
+        'Taraba',
+        'Yobe',
+        'Zamfara',
+      ];
     
     // Get current merchant if merchant route called
     if($location.absUrl().indexOf('confirm') > -1) {
