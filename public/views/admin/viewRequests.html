@@ -1,6 +1,5 @@
 <div>
-    <!-- Request Counter -->
-    <div class="jumbotron no-space-below dashboard-request">
+    <!-- <div class="jumbotron no-space-below dashboard-request">
         <div class="row padding-20-y text-center">
             <div class="col-sm-12 text-center">
                 <h3>Merchant Request Status</h3>
@@ -21,87 +20,199 @@
                 </a>
             </div>
         </div>
-    </div>
-    <!-- End Request Counter -->
-    <div class="tab-content">
-        <!-- Merchant Request -->
-        <div class="row tab-pane fade in active" id="merch" role="tabpanel" aria-labelledby="merch">
-            <div class="home-nav" ng-init="getRequests('pending', 0)">
-                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'pending'}" ng-click="getRequests('pending', 0)">
-                    <h3>Pending <i class="fas fa-hand-paper"></i></h3>
+    </div> -->
+    <header class="page-top-header">
+        <!-- Request Counter -->
+        <div class="w-10/12 pt-20 mx-auto">
+            <div class="flex pb-16 justify-between">
+                <div class="title">
+                    <h2 class="text-5xl">Merchant Requests Status</h2>
                 </div>
-                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'accepted'}"ng-click="getRequests('accepted', 0)">
-                    <h3>Accepted <i class="fas fa-check"></i></h3>
-                </div>
-                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'rejected'}" ng-click="getRequests('rejected', 0)">
-                    <h3>Declined <i class="fas fa-times"></i></h3>
-                </div>
-                <div ng-class="{'col-sm-3 text-center clickable': true, 'home-active': group === 'completed'}" ng-click="getRequests('completed', 0)">
-                    <h3>Completed <i class="fas fa-handshake"></i></h3>
-                </div>
+                <div class="actions"></div>
             </div>
-            <div class="col-sm-12" ng-if="loading">
-                <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
-            </div>
-            <div class="table-holder" ng-if="!loading">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Name</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="(index, request) in totalReq">
-                            <th>{{index+1}}</th>
-                            <td>{{request.name}}</td>
-                            <td>{{request.details}}</td>
-                            <td class="clickable" data-toggle="modal" data-target="#selectedMerch" ng-click="selectMerch(request)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
-                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'accepted')"><i class="fas fa-check" data-title="Accept Offer" bs-tooltip></i></td>
-                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(request, 'rejected')"><i class="fas fa-times" data-title="Decline Offer" bs-tooltip></i></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4 ng-show="totalReq.length === 0">There are no current requests</h4>
+            <div class="tabs flex flex-col sm:flex-row" role="tablist" ng-init="getRequests('pending', 0)">
+                <a 
+                    role="tab"
+                    data-toggle="tab"
+                    aria-controls="merch"
+                    href="#merch"
+                    class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                    ng-click="getRequests('pending', 0); tab = 'merch'"
+                    ng-class="{ 'active': tab === 'merch' }"
+                >
+                    New Merchant Requests
+                </a>
+                <a 
+                    role="tab"
+                    data-toggle="tab"
+                    aria-controls="rewards"
+                    href="#rewards"
+                    class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                    ng-click="getRewards(); tab = 'rewards'"
+                    ng-class="{ 'active': tab === 'rewards' }"
+                >
+                    New Reward Requests
+                </a>
             </div>
         </div>
-        <!-- Reward Request -->
-        <div class="row tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards">
-            <div class="col-sm-12" ng-if="loading">
-                <div class="loading-screen text-center"><i class="fas fa-spinner fa-spin fa-4x fa-fw"></i></div>
-            </div>
-            <div class="table-holder" ng-if="!loading">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>S/N</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Starts</th>
-                            <th>Ends</th>
-                            <th>Created</th>
-                            <th>Status</th>
-                            <th>Is Active</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="(index, reward) in totalRewards">
-                            <th>{{index+1}}</th>
-                            <td class="capitalize">{{reward.name}}</td>
-                            <td class="capitalize">{{reward.description}}</td>
-                            <td>{{reward.startDate | date:'longDate'}}</td>
-                            <td>{{reward.endDate | date:'longDate'}}</td>
-                            <td>{{reward.createdDate | date:'longDate'}}</td>
-                            <td class="capitalize">{{reward.status}}</td>
-                            <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
-                            <td class="clickable" data-toggle="modal" data-target="#selectedReward" ng-click="selectReward(reward)"><i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i></td>
-                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'rejected')"><i class="fas fa-times" data-title="Edit Reward" bs-tooltip></i></td>
-                            <td class="clickable" ng-if="isPending()" data-toggle="modal" data-target="#reviewRewardStatus" ng-click="selectReward(reward, 'accepted')"><i class="fas fa-check" data-title="Accept Reward" bs-tooltip></i></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <h4 ng-if="totalRewards.length === 0">There are no current pending rewards</h4>
+        <!-- End Request Counter -->
+    </header>
+    <div class="content">
+        <div class="w-10/12 pt-16 mx-auto">
+            <div class="tab-content">
+                <!-- Merchant Request -->
+                <div class="row tab-pane fade in active" id="merch" role="tabpanel" aria-labelledby="merch">
+                    <div class="tabs flex flex-col sm:flex-row border-b border-gray-200" role="tablist" ng-init="getRequests('pending', 0)">
+                        <a
+                            ng-class="{'active': group === 'pending'}"
+                            class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                            ng-click="getRequests('pending', 0)"
+                        >
+                        <i class="fas fa-hand-paper mr-1"></i>
+                            Pending
+                        </a>
+                        <a
+                            ng-class="{'active': group === 'accepted'}"
+                            class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                            ng-click="getRequests('accepted', 0)"
+                        >
+                            <i class="fas fa-check mr-1"></i>
+                            Accepted
+                        </a>
+                        <a
+                            ng-class="{'active': group === 'rejected'}"
+                            class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                            ng-click="getRequests('rejected', 0)"
+                        >
+                            <i class="fas fa-times mr-1"></i>
+                            Declined
+                        </a>
+                        <a
+                            ng-class="{'active': group === 'completed'}"
+                            class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                            ng-click="getRequests('completed', 0)"
+                        >
+                            <i class="fas fa-handshake mr-1"></i>
+                            Completed
+                        </a>
+                    </div>
+                    <div class="flex justify-around mt-6" ng-if="loading">
+                        <div class="loader"></div>
+                    </div>
+                    <div ng-if="!loading" style="height: 700px; overflow-y: scroll;">
+                    <!-- <div class="shadow border-b border-gray-200 sm:rounded-lg" ng-if="!loading"> -->
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Details</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr ng-repeat="(index, request) in totalReq">
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{index+1}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{request.name}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{request.details}}</td>
+                                    <td class="clickable px-10 py-6 whitespace-no-wrap text-2xl">
+                                        <button
+                                            class="m-2" 
+                                            data-toggle="modal"
+                                            data-target="#selectedMerch"
+                                            ng-click="selectMerch(request)"
+                                        >
+                                            <i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i>
+                                        </button>
+                                        <button
+                                            ng-if="isPending()"
+                                            class="m-2" 
+                                            data-toggle="modal"
+                                            data-target="#reviewStatus"
+                                            ng-click="selectMerch(request, 'accepted')"
+                                        >
+                                            <i class="fas fa-check" data-title="Accept Offer" bs-tooltip></i>
+                                        </button>
+                                        <button
+                                            ng-if="isPending()"
+                                            class="m-2" 
+                                            data-toggle="modal"
+                                            data-target="#reviewStatus"
+                                            ng-click="selectMerch(request, 'rejected')"
+                                        >
+                                            <i class="fas fa-times" data-title="Decline Offer" bs-tooltip></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4 ng-show="totalReq.length === 0">There are no current requests</h4>
+                    </div>
+                </div>
+                <!-- Reward Request -->
+                <div class="row tab-pane fade" id="rewards" role="tabpanel" aria-labelledby="rewards">
+                    <div class="flex justify-around mt-6" ng-if="loading">
+                        <div class="loader"></div>
+                    </div>
+                    <div ng-if="!loading" style="height: 700px; overflow-y: scroll;">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Description</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Starts</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Ends</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Created</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Is Active</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr ng-repeat="(index, reward) in totalRewards">
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{index+1}}</t>
+                                    <td class="capitalize px-10 py-6 whitespace-no-wrap text-2xl">{{reward.name}}</td>
+                                    <td class="capitalize px-10 py-6 whitespace-no-wrap text-2xl">{{reward.description}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.startDate | date:'longDate'}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.endDate | date:'longDate'}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.createdDate | date:'longDate'}}</td>
+                                    <td class="capitalize">{{reward.status}}</td>
+                                    <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
+                                    <td class="clickable px-10 py-6 whitespace-no-wrap text-2xl">
+                                        <button
+                                            class="m-2"
+                                            data-toggle="modal"
+                                            data-target="#selectedReward"
+                                            ng-click="selectReward(reward)"
+                                        >
+                                            <i class="fas fa-info-circle" data-title="More Info" bs-tooltip></i>
+                                        </button>
+                                        <button
+                                            class="m-2"
+                                            ng-if="isPending()"
+                                            data-toggle="modal"
+                                            data-target="#reviewRewardStatus"
+                                            ng-click="selectReward(reward, 'rejected')"
+                                        >
+                                            <i class="fas fa-times" data-title="Edit Reward" bs-tooltip></i>
+                                        </button>
+                                        <button
+                                            class="m-2"
+                                            ng-if="isPending()"
+                                            data-toggle="modal"
+                                            data-target="#reviewRewardStatus"
+                                            ng-click="selectReward(reward, 'accepted')"
+                                        >
+                                            <i class="fas fa-check" data-title="Accept Reward" bs-tooltip></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4 ng-if="totalRewards.length === 0">There are no current pending rewards</h4>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

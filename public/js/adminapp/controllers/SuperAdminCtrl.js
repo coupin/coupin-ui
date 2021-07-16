@@ -12,8 +12,10 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     $scope.error = false;
 
     var counter = 0;
+    $scope.loading = true;
 
     AdminService.get().then(function(data) {
+        $scope.loading = false;
         $scope.admins = data.data;
         if($scope.admins.length == 0) {
             $scope.empty = true;

@@ -17,6 +17,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         reason: '',
         value: null
     };
+    $scope.tab = 'merch';
 
     // loading value
     $scope.loading = false;
