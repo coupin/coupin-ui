@@ -18,7 +18,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     const plan = $scope.user.merchantInfo.billing.plan;
 
     $scope.amount = 0;
-    var showTotal = true;
+    var isPayAsYouGo = true;
 
 
     // could either be all, weekdays or weekends
@@ -46,7 +46,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     } else {
         $scope.minDate = moment().add(1, 'days').toDate();
     }
-    console.log($scope.minDate)
     $scope.photos = [];
     $scope.deletePhotos = [];
     $scope.newReward = {
@@ -77,7 +76,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     }
 
     if ($scope.user.merchantInfo.billing.plan !== 'payAsYouGo') {
-        showTotal = false;
+        isPayAsYouGo = false;
         $scope.maxDays = expires.diff(new Date(), 'days');
         $scope.maxDate = expires.toDate();
     } else {
@@ -108,47 +107,13 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             categories: [],
             multiple: {},
             pictures: [],
-            status: showTotal ? 'draft' : 'isPending'
+            status: 'isPending'
         };
     }
 
     $scope.isNewReward = function () {
         return !id;
     }
-
-    /**
-     * Make payment with paystack
-     */
-    function payWithPayStack(reward, cb) {
-        var date = new Date();
-        const reference = reward._id + '-' + $scope.user.merchantInfo.companyName.split(' ')[0] +'-'+ date.getFullYear() +'-'+ date.getMonth() +'-'+ date.getDate() +'-'+ date.getTime();
-
-        var handler = PaystackPop.setup({
-            key: ENV_VARS.payStackId,
-            email: $scope.user.email,
-            amount: $scope.amount * 100,
-            ref: reference,
-            metadata: {
-                custom_fields: [
-                    {
-                        display_name: "Reward Name",
-                        variable_name: "The name of the reward",
-                        value: reward.name
-                    }
-                ]
-            },
-            callback: function (response) {
-                if (cb && typeof cb === 'function') {
-                    cb(response);
-                }
-            },
-            onClose: function () {
-                $scope.loading = false;
-                UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-            }
-        });
-        handler.openIframe();
-    };
 
     $scope.addCat = function (category) {
         if ($scope.newReward.categories.indexOf(category) == -1) {
@@ -171,6 +136,37 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         return ((oldPrice - newPrice) / oldPrice) * 100;
     };
 
+    var oldPriceMap = {
+        old: '',
+        new: ''
+    };
+
+    $scope.customerBearsCostChange = function () {
+        if ($scope.newReward.price.old && $scope.newReward.price.new) {
+            if ($scope.newReward.price.customerBearsCost) {
+                oldPriceMap.old = $scope.newReward.price.old;
+                oldPriceMap.new = $scope.newReward.price.new;
+
+                var oldPriceCommission = $scope.newReward.price.old * 0.03;
+                var newPriceCommission = $scope.newReward.price.new * 0.03;
+
+                if (newPriceCommission < 350) {
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 350;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 350;
+                } else if (newPriceCommission > 3500) {
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 3500;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 3500;
+                } else {
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + oldPriceCommission;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + newPriceCommission;
+                }
+            } else {
+                $scope.newReward.price.old = oldPriceMap.old;
+                $scope.newReward.price.new = oldPriceMap.new;
+            }
+        }
+    };
+
     /**
      * Create new reward
      * @param {Object} reward 
@@ -183,17 +179,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.loading = false;
             if ($scope.files.length > 0) {
                 $scope.upload(result.data._id, function () {
-                    if (bill) {
-                        UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
-                        $scope.makePayment(result.data);
-                    } else {
-                        UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
-                        $state.go('dashboard.rewards', {});
-                    }
+                UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
+                $state.go('dashboard.rewards', {});
                 });
-            } else if (plan === 'payAsYouGo') {
-                UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
-                $scope.makePayment(result.data);
             } else {
                 UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
                 $state.go('dashboard.rewards', {});
@@ -374,7 +362,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.payRewardIsActive = function () {
-        return $scope.newReward.status !== 'draft' && plan === 'payAsYouGo';
+        return $scope.newReward.status !== 'isPending' && plan === 'payAsYouGo';
     };
 
     /**
@@ -392,7 +380,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.setEndDate = function (days) {
-        if (!showTotal) {
+        if (!isPayAsYouGo) {
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days') || 0;
         }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
@@ -405,6 +393,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.showTotal = function () {
+        return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+    };
+
+    $scope.isPayAsYouGo = function () {
         return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     };
 
