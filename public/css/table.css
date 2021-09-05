@@ -159,3 +159,7 @@ only screen and (max-width: 768px) {
   #payment-history-table tr td:nth-of-type(5):before { content: "Reference" }
   #payment-history-table tr td:nth-of-type(6):before { content: "" }
 }
+
+th.dow {
+  color: #333 !important;
+}

@@ -1,7 +1,7 @@
 .modal-dialog .modal-content {
   background-color: #252525;
   position: relative;
-  min-height: 350px;
+  /* min-height: 350px; */
 }
 
 .modal-dialog .modal-content .modal-header {
