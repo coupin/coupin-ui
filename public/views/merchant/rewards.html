@@ -508,10 +508,10 @@
                                     <select
                                         class="form-control"
                                         id="banks"
-                                        ng-model="bankInfo.accountBankCode"
+                                        ng-model="bankInfo.accountBank"
                                         ng-options="bank as bank.name for bank in banks track by bank.id"
                                         required>
-                                        <option value="">Select Bank</option>
+                                        <option value="" disabled>Select Bank</option>
                                     </select>
                                     <div class="input-group-addon icons-input"><i class="fas fa-university"></i></div>
                                 </div>
@@ -522,8 +522,28 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button class="btn btn-primary btn-sm">Confirm Account details</button>
-                    <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        ng-click="saveMerchantAccountDetails()"
+                        ng-if="showSaveAccount"
+                    >
+                        Save Account details
+                    </button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        ng-click="confirmAccountDetails()"
+                        ng-disabled="confirmAccountLoading"
+                        ng-if="!showSaveAccount"
+                    >
+                        Confirm Account details
+                    </button>
+                    <button
+                        class="btn btn-secondary btn-sm"
+                        data-dismiss="modal"
+                        ng-disabled="confirmAccountLoading"
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>

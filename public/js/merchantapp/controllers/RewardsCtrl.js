@@ -21,8 +21,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.amount = 0;
     var isPayAsYouGo = true;
 
-    $('#accountInfoModal').modal('show');
-
     // could either be all, weekdays or weekends
     $scope.selectedDayOption = '';
 
@@ -76,6 +74,12 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         accountBank: '',
     };
 
+    $scope.customerAccountDetails = null;
+
+    $scope.showSaveAccount = false;
+    $scope.confirmAccountLoading = false;
+    $scope.accountConfirmationError = '';
+
     var url = window.location.origin;
 
     if (StorageService.isExpired()) {
@@ -116,6 +120,18 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             pictures: [],
             status: 'isPending'
         };
+    }
+
+    function hasAccountDetails() {
+        const accountDetails = $scope.user.merchantInfo.accountDetails
+        const accountKeys = Object.keys(accountDetails);
+
+        const values = ['accountNumber',
+        'bankName',
+        'accountName',
+        'bankCode'].every((field) => accountDetails[field]);
+
+        return accountKeys.length > 0 && values
     }
 
     BankService.getBanks()
@@ -191,13 +207,20 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             if ($scope.files.length > 0) {
                 $scope.upload(result.data._id, function () {
                     UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
-                    $state.go('dashboard.rewards', {});
-                    $('#accountInfoModal').modal('show');
+
+                    if (!hasAccountDetails()) {
+                        $('#accountInfoModal').modal('show');
+                    } else {
+                        $state.go('dashboard.rewards', {});
+                    }
                 });
             } else {
                 UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
-                $state.go('dashboard.rewards', {});
-                $('#accountInfoModal').modal('show');
+                if (!hasAccountDetails()) {
+                    $('#accountInfoModal').modal('show');
+                } else {
+                    $state.go('dashboard.rewards', {});
+                }
             }
 
         }).catch(function (err) {
@@ -506,4 +529,50 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.goToRewardList = function () {
         $state.go('dashboard.rewards', {});
     }
+
+    $scope.confirmAccountDetails = function () {
+        const { accountNumber, accountBank } = $scope.bankInfo;
+        $scope.confirmAccountLoading = true;
+
+        const payload = {
+            accountNumber,
+            accountBankCode: accountBank.code,
+        };
+
+        MerchantService
+            .confirmAccountDetails(payload)
+            .then(({ data }) => {
+                $scope.confirmAccountLoading = false;
+                $scope.showSaveAccount = true;
+
+                // save merchants account details here
+                $scope.customerAccountDetails = {
+                    accountNumber,
+                    bankName: accountBank.name,
+                    accountName: data.account_name,
+                    bankCode: accountBank.code,
+                };
+
+                UtilService.showSuccess('Success', 'Account details have been confirmed');
+            }).catch((error) => {
+                $scope.confirmAccountLoading = false;
+                $scope.accountConfirmationError = error.data.message;
+                UtilService.showError('Error', error.data.message);
+
+            });
+    };
+
+    $scope.saveMerchantAccountDetails = function () {
+        MerchantService
+            .saveAccountDetails($scope.customerAccountDetails)
+            .then(() => {
+                UtilService.showSuccess('Success', 'Account details have been stored');
+                $('#accountInfoModal').modal('hide');
+                MerchantService.refreshUser($scope.user.id);
+                $state.go('dashboard.rewards', {});
+            }).catch((error) => {
+                $scope.accountSavingError = error.data.message;
+                UtilService.showError('Error', error.data.message);
+            })
+    };
 });
