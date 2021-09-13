@@ -25,6 +25,7 @@ angular.module('coupinApp', [
   'CoupinSrv',
   'ConfigSrv',
   'PaymentSrv',
+  'BankSrv',
   'RewardsSrv',
   'AuthSrv',
   'UtilSrv'

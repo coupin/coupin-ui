@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label for="newPrice">New Price: </label>
+                                <label for="newPrice">New Price(Ensure VAT Included): </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input type="text" name="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="newReward.price.new" ng-disabled="newReward.status === 'expired'" />
                                     <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
@@ -147,9 +147,11 @@
                                     name="customer-bears-amount" 
                                     id="customer-bears-amount" 
                                     ng-model="newReward.price.customerBearsCost"
-                                    ng-change="customerBearsCostChange()">
+                                    ng-change="customerBearsCostChange()"
+                                    ng-disabled="!(newReward.price.old && newReward.price.new)"
+                                >
                                 <span class="cp-checkbox"></span>
-                                <span class="checkbox-label">Customer bears commission cost </span>
+                                <span class="checkbox-label">Price adjustment: Customer bears commission fee.</span>
                             </label>
                         </div>
                     </div>
@@ -177,11 +179,10 @@
                                         name="startDate" 
                                         ng-disabled="newReward.status === 'expired' || newReward.status === 'active'" 
                                         ng-class="{'has-error': isError(form.startDate)}" 
-                                        type="text" 
                                         ng-change="setEndDate(noOfDays)" 
                                         ng-model="newReward.startDate" 
                                         data-min-date="{{minDate}}" 
-                                        data-max-date="{{maxDate}}" 
+                                        data-max-date="{{maxDate}}"
                                         required/>
                                     <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
                                 </div>
@@ -462,6 +463,87 @@
                 <div class="modal-footer text-center">
                     <button class="btn btn-primary btn-sm" ng-click="fileCheck(image)">Add Image</button>
                     <button class="btn btn-secondary btn-sm" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- account informstion modal -->
+    <div class="modal fade" id="accountInfoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-heaer text-center">
+                    <h3>Please enter your bank details</h3>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>
+                                Please provide or update account details for payout
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="accountNumber"
+                                        ng-model="bankInfo.accountNumber"
+                                        required>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-money-check-alt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="banks">Bank:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <select
+                                        class="form-control"
+                                        id="banks"
+                                        ng-model="bankInfo.accountBank"
+                                        ng-options="bank as bank.name for bank in banks track by bank.id"
+                                        required>
+                                        <option value="" disabled>Select Bank</option>
+                                    </select>
+                                    <div class="input-group-addon icons-input"><i class="fas fa-university"></i></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-primary btn-sm"
+                        ng-click="saveMerchantAccountDetails()"
+                        ng-if="showSaveAccount"
+                    >
+                        Save Account details
+                    </button>
+                    <button
+                        class="btn btn-primary btn-sm"
+                        ng-click="confirmAccountDetails()"
+                        ng-disabled="confirmAccountLoading"
+                        ng-if="!showSaveAccount"
+                    >
+                        Confirm Account details
+                    </button>
+                    <button
+                        class="btn btn-secondary btn-sm"
+                        data-dismiss="modal"
+                        ng-disabled="confirmAccountLoading"
+                    >
+                        Cancel
+                    </button>
                 </div>
             </div>
         </div>

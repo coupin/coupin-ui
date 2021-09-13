@@ -15,6 +15,12 @@ function (
         };
     }
 
+    function retrieve(id) {
+        return $http.get(baseV1Url + '/merchant/' + id, {
+            headers: getAuthHeader()
+        });
+    }
+
     return {
         adminCreate: function (data) {
             return $http.post(baseV1Url + '/merchant/register', data, {
@@ -54,14 +60,7 @@ function (
                 headers: getAuthHeader()
             });
         },
-        retrieve : function(id) {
-            var token = StorageService.getToken();
-            return $http.get(baseV1Url + '/merchant/' + id, {
-                headers: {
-                    'x-access-token': token
-                }
-            });
-        },
+        retrieve : retrieve,
         update: function (id, user) {
             return $http.put(baseV1Url + '/merchant/' + id, user, {
                 headers: getAuthHeader()
@@ -70,6 +69,21 @@ function (
         updateBilling: function (id, billing) {
             return $http.post(baseV1Url + '/merchant/' + id, billing, {
                 headers: getAuthHeader()
+            });
+        },
+        confirmAccountDetails: function(params) {
+            return $http.post(baseV1Url + '/accounts/confirm', params, {
+                headers: getAuthHeader()
+            });
+        },
+        saveAccountDetails: function(params) {
+            return $http.post(baseV1Url + '/merchant/account', params, {
+                headers: getAuthHeader()
+            });
+        },
+        refreshUser: function(id) {
+            return retrieve(id).then(({ data }) => {
+                StorageService.setUser(data);
             });
         }
     }
