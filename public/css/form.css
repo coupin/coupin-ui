@@ -117,7 +117,6 @@ select.has-error {
 
 .cp-checkbox-container {
     display: inline-block;
-    cursor: pointer;
     margin-right: 7px;
     position: relative;
 }
@@ -140,6 +139,23 @@ select.has-error {
     background-size: 0% 0%;
     background-repeat: no-repeat;
     transition: background-size 0.5s ease-out;
+    cursor: pointer;
+}
+
+.cp-checkbox-container .checkbox-label {
+    cursor: pointer;
+}
+
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .cp-checkbox,
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .checkbox-label {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    color: #94989E;
+}
+
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .cp-checkbox {
+    border-color: #94989E !important;
+    background-image: radial-gradient(#94989E 60%, transparent 40px);
 }
 
 .cp-checkbox-container:hover .checkbox-label {
