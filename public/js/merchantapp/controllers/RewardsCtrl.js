@@ -161,7 +161,11 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * @param {number} newPrice 
      */
     $scope.calculatePercentage = function (oldPrice, newPrice) {
-        return ((oldPrice - newPrice) / oldPrice) * 100;
+        if (oldPrice && newPrice && !isNaN(oldPrice) && !isNaN(newPrice)) {
+            return ((oldPrice - newPrice) / oldPrice) * 100;
+        }
+
+        return 0;
     };
 
     var oldPriceMap = {
