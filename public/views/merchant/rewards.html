@@ -148,8 +148,21 @@
                                     ng-disabled="!(newReward.price.old && newReward.price.new)"
                                 >
                                 <span class="cp-checkbox"></span>
-                                <span class="checkbox-label">Price adjustment: Customer bears commission fee.</span>
+                                <span class="checkbox-label">
+                                    Price adjustment: Customer bears commission fee.
+                                </span>
                             </label>
+                            <i
+                                class="fas fa-info-circle"
+                                bs-tooltip
+                                data-placement="bottom"
+                                data-title="
+                                    Use this to adjust the prices, 
+                                    so the paying customer bears the commision 
+                                    fee. And you get paid out the exact initial 
+                                    discounted price!
+                                "
+                            ></i>
                         </div>
                     </div>
                     <div class="row payment-info-section" ng-if="!payRewardIsActive()">
@@ -351,7 +364,7 @@
                             <p>Please be advised that the item to be delivered should not exceed the following dimensions</p>
                             <p>Max weight is 20kg</p>
                             <p>Dimensions are 0.5m x 0.5m</p>
-                            <p class="delivery-no-charge">NB: Delivery is at no charge to you.</p>
+                            <p>NB: Delivery is at no charge to you.</p>
                         </div>
                     </div>
                 </div>
