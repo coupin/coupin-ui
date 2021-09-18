@@ -161,7 +161,20 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * @param {number} newPrice 
      */
     $scope.calculatePercentage = function (oldPrice, newPrice) {
-        return ((oldPrice - newPrice) / oldPrice) * 100;
+        if (oldPrice && newPrice && !isNaN(oldPrice) && !isNaN(newPrice)) {
+            $scope.commission = $scope.newReward.price.new * 0.03;
+            $scope.oldPriceDifference = $scope.newReward.price.old * 0.03;
+
+            if ($scope.commission < 200) {
+                $scope.commission = 200;
+            } else if ($scope.commission > 3500) {
+                $scope.commission = 3500;
+            }
+
+            return ((oldPrice - newPrice) / oldPrice) * 100;
+        }
+
+        return 0;
     };
 
     var oldPriceMap = {
@@ -175,18 +188,17 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 oldPriceMap.old = $scope.newReward.price.old;
                 oldPriceMap.new = $scope.newReward.price.new;
 
-                var oldPriceCommission = $scope.newReward.price.old * 0.03;
-                var newPriceCommission = $scope.newReward.price.new * 0.03;
-
-                if (newPriceCommission < 200) {
+                if ($scope.commission < 200) {
+                    $scope.commission = 200;
                     $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 200;
                     $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 200;
-                } else if (newPriceCommission > 3500) {
+                } else if ($scope.commission > 3500) {
+                    $scope.commission = 3500;
                     $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 3500;
                     $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 3500;
                 } else {
-                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + oldPriceCommission;
-                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + newPriceCommission;
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + $scope.oldPriceDifference;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + $scope.commission;
                 }
             } else {
                 $scope.newReward.price.old = oldPriceMap.old;
@@ -194,6 +206,26 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             }
         }
     };
+
+    $scope.$watch('newReward.price.new', function (val) {
+        if (val) {
+            if ($scope.newReward.price.customerBearsCost) {
+                $scope.payoutAmount = val - $scope.commission;
+            } else {
+                $timeout(function () {
+                    if ($scope.commission === 200) {
+                        $scope.payoutAmount = val - 200;
+                    } else if ($scope.commission === 3500) {
+                        $scope.payoutAmount = val - 3500;
+                    } else {
+                        $scope.payoutAmount = val * 0.97;
+                    }
+                });
+            }
+        } else {
+            $scope.payoutAmount = 0;
+        }
+    });
 
     /**
      * Create new reward

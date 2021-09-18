@@ -1358,3 +1358,15 @@ form .row {
   height: 150px;
   margin-bottom: 15px
 }
+
+.commission-label,
+.payout-label {
+  font-size: 13px;
+  color: #94989E;
+  font-weight: 600;
+}
+
+.gokada-deliver-message p.delivery-no-charge {
+  color: #F49A40;
+  font-weight: 600;
+}
