@@ -1365,3 +1365,8 @@ form .row {
   color: #94989E;
   font-weight: 600;
 }
+
+.gokada-deliver-message p.delivery-no-charge {
+  color: #F49A40;
+  font-weight: 600;
+}
