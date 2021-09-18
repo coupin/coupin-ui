@@ -5,7 +5,6 @@ input[type="number"],
 input[type="tel"],
 textarea,
 select {
-    height: 40px !important;
     width: 100%;
     border-radius: 2px;
     border: 1px solid #f2f3f4;
@@ -18,6 +17,15 @@ select {
     outline: 0;
     transition: all .15s ease-in;
     border-radius: 0 !important;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+select {
+    height: 40px !important;
 }
 
 input[type="text"],
