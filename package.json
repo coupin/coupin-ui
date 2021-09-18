@@ -19,7 +19,7 @@
     "gulp-ng-config": "^1.5.0",
     "jsonwebtoken": "^8.0.1",
     "lodash": "^4.17.21",
-    "method-override": "~2.0.2",
+    "method-override": "~2.3.10",
     "moment": ">=2.19.3",
     "mongoose": "^5.7.5",
     "mongoose-seed": "^0.3.2",
