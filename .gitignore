@@ -3,3 +3,4 @@ public/libs
 .vscode
 .env
 *.DS_Store
+config.json

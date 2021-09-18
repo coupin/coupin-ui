@@ -20,6 +20,7 @@ angular.module('coupinApp', [
   'ConfigSrv',
   'PaymentSrv',
   'MerchantSrv',
+  'BankSrv',
   'AnalyticsSrv',
   'AdminMerchantCtrl',
   'AuthCtrl',

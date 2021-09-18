@@ -1342,3 +1342,31 @@ form .row {
   background-color: #E89D53;
   border-radius: 50px;
 }
+
+.gokada-deliver-message {
+  margin-top: 15px;
+}
+
+.gokada-deliver-message p {
+  margin-bottom: 2px;
+  font-size: 14px;
+  color: #94989E;
+  font-weight: 600;
+}
+
+.gokada-image {
+  height: 150px;
+  margin-bottom: 15px
+}
+
+.commission-label,
+.payout-label {
+  font-size: 13px;
+  color: #94989E;
+  font-weight: 600;
+}
+
+.gokada-deliver-message p.delivery-no-charge {
+  color: #F49A40;
+  font-weight: 600;
+}

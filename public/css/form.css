@@ -5,22 +5,11 @@ input[type="number"],
 input[type="tel"],
 textarea,
 select {
-    /* font-size: 17px;
-    line-height: 1.5 !important;
-    padding: .5em 1em !important;
-    background-color: rgba(255, 255, 255, 0.6) !important;
-    border: 0 !important;
-    box-shadow: unset !important;
-    border-bottom: 1px solid #c5cbd5 !important;
-    border-radius: 0 !important;
-    transition: border 0.3s; */
-
-    height: 40px;
+    height: 40px !important;
     width: 100%;
     border-radius: 2px;
     border: 1px solid #f2f3f4;
     background-color: #f2f3f4 !important;
-    /* margin-top: 12px; */
     font-size: 14px;
     font-weight: 500;
     color: #4c5358;
@@ -28,6 +17,7 @@ select {
     box-sizing: border-box;
     outline: 0;
     transition: all .15s ease-in;
+    border-radius: 0 !important;
 }
 
 input[type="text"],
@@ -35,7 +25,6 @@ input[type="password"],
 input[type="number"],
 input[type="tel"],
 input[type="email"] {
-    /* max-width: 500px; */
     width: 100%;
 }
 
@@ -47,7 +36,6 @@ input[type="tel"]:focus,
 textarea:focus,
 select:focus
 {
-    /* border-bottom-color: #15A580 !important; */
     border: 1px solid rgba(76,83,88,.3);
 }
 
@@ -91,13 +79,8 @@ select:focus
 
 .icons-input {
     border: 0;
-    /* border-bottom: 1px solid #c5cbd5 !important; */
     border-radius: 0;
-    /* background-color: white; */
-    /* background-color: #f2f3f4; */
     background-color: transparent;
-    /* color: #14a580; */
-    /* color: #cbcbcb; */
     color: #7a858c;
     padding-right: 0;
     position: absolute;
@@ -108,7 +91,6 @@ select:focus
     z-index: 999;
     display: flex;
     align-items: center;
-    /* border: 1px solid rgba(76,83,88,.3); */
   }
 
 input[type="text"].has-error,
@@ -135,7 +117,6 @@ select.has-error {
 
 .cp-checkbox-container {
     display: inline-block;
-    cursor: pointer;
     margin-right: 7px;
     position: relative;
 }
@@ -158,6 +139,23 @@ select.has-error {
     background-size: 0% 0%;
     background-repeat: no-repeat;
     transition: background-size 0.5s ease-out;
+    cursor: pointer;
+}
+
+.cp-checkbox-container .checkbox-label {
+    cursor: pointer;
+}
+
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .cp-checkbox,
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .checkbox-label {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    color: #94989E;
+}
+
+.cp-checkbox-container input[type="checkbox"][disabled] ~ .cp-checkbox {
+    border-color: #94989E !important;
+    background-image: radial-gradient(#94989E 60%, transparent 40px);
 }
 
 .cp-checkbox-container:hover .checkbox-label {
@@ -243,10 +241,3 @@ select.has-error {
     top: 3px;
     left: 3px;
 }
-
-/* input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="email"]:focus,
-input[type="number"]:focus,
-textarea:focus,
-select:focus */

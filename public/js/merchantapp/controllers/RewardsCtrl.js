@@ -5,6 +5,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     ENV_VARS,
     PaymentService,
     MerchantService,
+    BankService,
     RewardsService,
     StorageService,
     Upload,
@@ -18,8 +19,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     const plan = $scope.user.merchantInfo.billing.plan;
 
     $scope.amount = 0;
-    var showTotal = true;
-
+    var isPayAsYouGo = true;
 
     // could either be all, weekdays or weekends
     $scope.selectedDayOption = '';
@@ -46,7 +46,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     } else {
         $scope.minDate = moment().add(1, 'days').toDate();
     }
-    console.log($scope.minDate)
     $scope.photos = [];
     $scope.deletePhotos = [];
     $scope.newReward = {
@@ -70,6 +69,17 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         value: 3
     }];
 
+    $scope.bankInfo = {
+        accountNumber: '',
+        accountBank: '',
+    };
+
+    $scope.customerAccountDetails = null;
+
+    $scope.showSaveAccount = false;
+    $scope.confirmAccountLoading = false;
+    $scope.accountConfirmationError = '';
+
     var url = window.location.origin;
 
     if (StorageService.isExpired()) {
@@ -77,7 +87,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     }
 
     if ($scope.user.merchantInfo.billing.plan !== 'payAsYouGo') {
-        showTotal = false;
+        isPayAsYouGo = false;
         $scope.maxDays = expires.diff(new Date(), 'days');
         $scope.maxDate = expires.toDate();
     } else {
@@ -108,47 +118,30 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             categories: [],
             multiple: {},
             pictures: [],
-            status: showTotal ? 'draft' : 'isPending'
+            status: 'isPending'
         };
     }
+
+    function hasAccountDetails() {
+        const accountDetails = $scope.user.merchantInfo.accountDetails
+        const accountKeys = Object.keys(accountDetails);
+
+        const values = ['accountNumber',
+        'bankName',
+        'accountName',
+        'bankCode'].every((field) => accountDetails[field]);
+
+        return accountKeys.length > 0 && values
+    }
+
+    BankService.getBanks()
+        .then(({ data }) => {
+            $scope.banks = data.banks;
+        });
 
     $scope.isNewReward = function () {
         return !id;
     }
-
-    /**
-     * Make payment with paystack
-     */
-    function payWithPayStack(reward, cb) {
-        var date = new Date();
-        const reference = reward._id + '-' + $scope.user.merchantInfo.companyName.split(' ')[0] +'-'+ date.getFullYear() +'-'+ date.getMonth() +'-'+ date.getDate() +'-'+ date.getTime();
-
-        var handler = PaystackPop.setup({
-            key: ENV_VARS.payStackId,
-            email: $scope.user.email,
-            amount: $scope.amount * 100,
-            ref: reference,
-            metadata: {
-                custom_fields: [
-                    {
-                        display_name: "Reward Name",
-                        variable_name: "The name of the reward",
-                        value: reward.name
-                    }
-                ]
-            },
-            callback: function (response) {
-                if (cb && typeof cb === 'function') {
-                    cb(response);
-                }
-            },
-            onClose: function () {
-                $scope.loading = false;
-                UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-            }
-        });
-        handler.openIframe();
-    };
 
     $scope.addCat = function (category) {
         if ($scope.newReward.categories.indexOf(category) == -1) {
@@ -168,37 +161,100 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
      * @param {number} newPrice 
      */
     $scope.calculatePercentage = function (oldPrice, newPrice) {
-        return ((oldPrice - newPrice) / oldPrice) * 100;
+        if (oldPrice && newPrice && !isNaN(oldPrice) && !isNaN(newPrice)) {
+            $scope.commission = $scope.newReward.price.new * 0.03;
+            $scope.oldPriceDifference = $scope.newReward.price.old * 0.03;
+
+            if ($scope.commission < 200) {
+                $scope.commission = 200;
+            } else if ($scope.commission > 3500) {
+                $scope.commission = 3500;
+            }
+
+            return ((oldPrice - newPrice) / oldPrice) * 100;
+        }
+
+        return 0;
     };
+
+    var oldPriceMap = {
+        old: '',
+        new: ''
+    };
+
+    $scope.customerBearsCostChange = function () {
+        if ($scope.newReward.price.old && $scope.newReward.price.new) {
+            if ($scope.newReward.price.customerBearsCost) {
+                oldPriceMap.old = $scope.newReward.price.old;
+                oldPriceMap.new = $scope.newReward.price.new;
+
+                if ($scope.commission < 200) {
+                    $scope.commission = 200;
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 200;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 200;
+                } else if ($scope.commission > 3500) {
+                    $scope.commission = 3500;
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + 3500;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + 3500;
+                } else {
+                    $scope.newReward.price.old = parseInt($scope.newReward.price.old, 10) + $scope.oldPriceDifference;
+                    $scope.newReward.price.new = parseInt($scope.newReward.price.new, 10) + $scope.commission;
+                }
+            } else {
+                $scope.newReward.price.old = oldPriceMap.old;
+                $scope.newReward.price.new = oldPriceMap.new;
+            }
+        }
+    };
+
+    $scope.$watch('newReward.price.new', function (val) {
+        if (val) {
+            if ($scope.newReward.price.customerBearsCost) {
+                $scope.payoutAmount = val - $scope.commission;
+            } else {
+                $timeout(function () {
+                    if ($scope.commission === 200) {
+                        $scope.payoutAmount = val - 200;
+                    } else if ($scope.commission === 3500) {
+                        $scope.payoutAmount = val - 3500;
+                    } else {
+                        $scope.payoutAmount = val * 0.97;
+                    }
+                });
+            }
+        } else {
+            $scope.payoutAmount = 0;
+        }
+    });
 
     /**
      * Create new reward
      * @param {Object} reward 
      */
     $scope.createReward = function (reward) {
-        const bill = plan === 'payAsYouGo';
         $scope.loading = true;
         RewardsService.create(reward).then(function (result) {
             $scope.newReward = result.data;
             $scope.loading = false;
             if ($scope.files.length > 0) {
                 $scope.upload(result.data._id, function () {
-                    if (bill) {
-                        UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
-                        $scope.makePayment(result.data);
+                    UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
+
+                    if (!hasAccountDetails()) {
+                        $('#accountInfoModal').modal('show');
                     } else {
-                        UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
                         $state.go('dashboard.rewards', {});
                     }
                 });
-            } else if (plan === 'payAsYouGo') {
-                UtilService.showSuccess('Success', 'Reward Created Successfully as a Draft until payment is complete..');
-                $scope.makePayment(result.data);
             } else {
                 UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
-                $state.go('dashboard.rewards', {});
-
+                if (!hasAccountDetails()) {
+                    $('#accountInfoModal').modal('show');
+                } else {
+                    $state.go('dashboard.rewards', {});
+                }
             }
+
         }).catch(function (err) {
             $scope.loading = false;
             UtilService.showError(errTitle, errMsg);
@@ -374,7 +430,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.payRewardIsActive = function () {
-        return $scope.newReward.status !== 'draft' && plan === 'payAsYouGo';
+        return $scope.newReward.status !== 'isPending' && plan === 'payAsYouGo';
     };
 
     /**
@@ -392,7 +448,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.setEndDate = function (days) {
-        if (!showTotal) {
+        if (!isPayAsYouGo) {
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days') || 0;
         }
         $scope.newReward.endDate = moment($scope.newReward.startDate).add(days, 'day').toDate();
@@ -405,6 +461,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.showTotal = function () {
+        return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
+    };
+
+    $scope.isPayAsYouGo = function () {
         return $scope.user.merchantInfo.billing.plan === 'payAsYouGo';
     };
 
@@ -450,9 +510,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your reward images failed to upload. Please try again.');
             }, function (evt) {
-                // var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 $scope.progress = parseInt(100.0 * evt.loaded / evt.total);
-                // $scope.progress = progressPercentage;
             }).catch(function (err) {
                 $scope.uploading = false;
                 UtilService.showError('Uh Oh!', 'Your pictures failed to upload. Please try again.')
@@ -503,4 +561,50 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.goToRewardList = function () {
         $state.go('dashboard.rewards', {});
     }
+
+    $scope.confirmAccountDetails = function () {
+        const { accountNumber, accountBank } = $scope.bankInfo;
+        $scope.confirmAccountLoading = true;
+
+        const payload = {
+            accountNumber,
+            accountBankCode: accountBank.code,
+        };
+
+        MerchantService
+            .confirmAccountDetails(payload)
+            .then(({ data }) => {
+                $scope.confirmAccountLoading = false;
+                $scope.showSaveAccount = true;
+
+                // save merchants account details here
+                $scope.customerAccountDetails = {
+                    accountNumber,
+                    bankName: accountBank.name,
+                    accountName: data.account_name,
+                    bankCode: accountBank.code,
+                };
+
+                UtilService.showSuccess('Success', 'Account details have been confirmed');
+            }).catch((error) => {
+                $scope.confirmAccountLoading = false;
+                $scope.accountConfirmationError = error.data.message;
+                UtilService.showError('Error', error.data.message);
+
+            });
+    };
+
+    $scope.saveMerchantAccountDetails = function () {
+        MerchantService
+            .saveAccountDetails($scope.customerAccountDetails)
+            .then(() => {
+                UtilService.showSuccess('Success', 'Account details have been stored');
+                $('#accountInfoModal').modal('hide');
+                MerchantService.refreshUser($scope.user.id);
+                $state.go('dashboard.rewards', {});
+            }).catch((error) => {
+                $scope.accountSavingError = error.data.message;
+                UtilService.showError('Error', error.data.message);
+            })
+    };
 });
