@@ -1,4 +1,4 @@
-angular.module('AuthCtrl', []).controller('AuthController', function(
+angular.module('AuthCtrl', []).controller('AuthController', function (
     $scope,
     $http,
     $timeout,
@@ -18,8 +18,8 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.formData = {};
 
     const strings = $location.absUrl().match(/\w+/g);
-    
-    
+
+
     // to show error and loading
     var amount = 0;
     var confirmed = false;
@@ -72,7 +72,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.activeView = view;
     }
     /* end of switching pages in the merchant auth area */
-    
+
     // States
     $scope.states = [
         'Abia',
@@ -112,10 +112,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         'Taraba',
         'Yobe',
         'Zamfara',
-      ];
-    
+    ];
+
     // Get current merchant if merchant route called
-    if($location.absUrl().indexOf('confirm') > -1) {
+    if ($location.absUrl().indexOf('confirm') > -1) {
         checkAuth = false;
         merchId = strings[strings.length - 2];
 
@@ -131,11 +131,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
             $scope.showBilling = true;
         });
-        
+
         if (merchId && merchId.length === 24) {
-            MerchantService.confirm(merchId).then(function(response) {
+            MerchantService.confirm(merchId).then(function (response) {
                 $scope.user = response.data;
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err);
                 $scope.showErrors('Retrieval Failed', err.data);
             });
@@ -143,16 +143,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             UtilService.showError('Uh Oh', 'Invalid id.');
         }
     }
-    
+
     // Confirm Id if for change of password
-    if($location.absUrl().indexOf('forgot-password') > -1) {
+    if ($location.absUrl().indexOf('forgot-password') > -1) {
         checkAuth = false;
         var encodedString = UtilService.getQueryVariable('query');
 
-        AuthService.confirmEncodedString(encodedString).then(function(result) {
+        AuthService.confirmEncodedString(encodedString).then(function (result) {
             confirmed = true;
             merchId = result.data.id;
-        }).catch(function(err) {
+        }).catch(function (err) {
             if (err.status === 500) {
                 UtilService.showError('Uh Oh', 'Could not confirm id. Please contact us at care@coupinapp.com');
             } else {
@@ -172,21 +172,21 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
     // to hold categories
     $scope.categories = {
-        foodndrinks : false,
-        shopping : false,
-        entertainment : false,
-        healthnbeauty : false, 
-        technology : false,
+        foodndrinks: false,
+        shopping: false,
+        entertainment: false,
+        healthnbeauty: false,
+        technology: false,
         groceries: false,
-        tickets : false, 
-        travel : false
+        tickets: false,
+        travel: false
     }
 
     // Non-scope variables
     var multipleAlerts = [];
     var hideAllAlerts = function () {
-        if(multipleAlerts.length > 0) {
-            for(var j = 0; j < multipleAlerts.length; j++) {
+        if (multipleAlerts.length > 0) {
+            for (var j = 0; j < multipleAlerts.length; j++) {
                 multipleAlerts[j].hide();
             }
         }
@@ -197,7 +197,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * @param {Number} x index
      */
     $scope.addCat = function (x) {
-        if($scope.categories[x] === false) {
+        if ($scope.categories[x] === false) {
             $scope.categories[x] = true;
         } else {
             $scope.categories[x] = false;
@@ -205,7 +205,9 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     };
 
     function setUserInfo(data, setExpiration) {
-        if (setExpiration && data.user.merchantInfo.billing.history[0]) {
+        console.log(data.user.merchantInfo.billing.history, 'history');
+
+        if (setExpiration && data.user.merchantInfo.billing.history[0] && data.user.merchantInfo.billing.history[0].plan !== 'payAsYouGo') {
             var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
             StorageService.setExpired(moment(expirationDate).isBefore());
         }
@@ -225,17 +227,17 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.showError = false;
 
         // only go through if the object has 2 keys
-        if(Object.keys($scope.formData).length == 2) {
+        if (Object.keys($scope.formData).length == 2) {
             // check if the login details are correct, if so log in and redirect else show error
             AuthService.signinA($scope.formData)
-            .then(function(response){
-                setUserInfo(response.data, false);
-                $state.go('portal.home', {});
-            }, function(err) {
-                $scope.loading[0] = false;
-                $scope.loginError = 'Email or Password is invalid.'
-                $scope.showError = true;
-            });
+                .then(function (response) {
+                    setUserInfo(response.data, false);
+                    $state.go('portal.home', {});
+                }, function (err) {
+                    $scope.loading[0] = false;
+                    $scope.loginError = 'Email or Password is invalid.'
+                    $scope.showError = true;
+                });
         } else {
             $scope.loading[0] = false;
             $scope.loginError = 'Email and Password Cannot Be Empty';
@@ -247,7 +249,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Check for plan
      * @param {Number} index 
      */
-    $scope.planCheck = function(index) {
+    $scope.planCheck = function (index) {
         return $scope.planIndex === index;
     };
 
@@ -255,7 +257,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * Select a plan
      * @param {Number} index 
      */
-    $scope.planSelect = function(index) {
+    $scope.planSelect = function (index) {
         if (index === 0) {
             $scope.planIndex = 0;
             plan = 'payAsYouGo';
@@ -268,12 +270,12 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             amount = 750000;
             plan = 'yearly';
         }
-     }
+    }
 
-     /**
-      * Make payment using paystack
-      */
-     function makePayment() {
+    /**
+     * Make payment using paystack
+     */
+    function makePayment() {
         const paymentObject = {
             callbackUrl: url + '/auth',
             amount: amount,
@@ -291,25 +293,25 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 window.location = authorizationUrl;
             }, 3000)
         });
-     }
+    }
 
-     /**
-      * Update user data
-      */
-     function updateUser() {
+    /**
+     * Update user data
+     */
+    function updateUser() {
         $scope.loading[1] = true;
         return MerchantService.complete(merchId, $scope.formData)
-     }
+    }
 
     /**
      * Used to complete merchants registration
      */
-    $scope.completeMerch = function() {
+    $scope.completeMerch = function () {
         if ($scope.formData.password !== $scope.formData.password2) {
             UtilService.showError('Error', 'Passwords do not match');
             return;
         }
-        
+
         if (!$scope.formData.logo || !$scope.formData.logo.url) {
             UtilService.showError('Error', 'Please upload an image for the logo');
             return;
@@ -325,7 +327,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             return;
         }
 
-        switch($scope.planIndex) {
+        switch ($scope.planIndex) {
             case 0:
                 $scope.formData['billing'] = {
                     plan: plan,
@@ -340,7 +342,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                 break;
             case 1:
             case 2:
-                updateUser().then(function(response) {
+                updateUser().then(function (response) {
                     // Get response data
                     let data = response.data;
 
@@ -350,7 +352,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
                     // Handle service response
                     UtilService.showSuccess('Confirmation Success', data.message);
                     makePayment();
-                }).catch(function(err){
+                }).catch(function (err) {
                     $scope.loading[1] = false;
                     UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
                 });
@@ -379,15 +381,15 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    $scope.submitPassword = function() {
+    $scope.submitPassword = function () {
         $scope.loading[1] = true;
         if ($scope.formData.password === $scope.formData.password2) {
-            AuthService.changePassword(merchId, $scope.formData.password, encodedString).then(function(result) {
+            AuthService.changePassword(merchId, $scope.formData.password, encodedString).then(function (result) {
                 UtilService.showSuccess('Success!', 'Password change successful.');
                 $scope.loading[1] = false;
                 $scope.formData = {};
                 // $window.location.href="/auth"
-            }).catch(function(err) {
+            }).catch(function (err) {
                 $scope.loading[1] = false;
                 UtilService.showError('Uh Oh', err.data);
             });
@@ -397,14 +399,14 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    $scope.submitPasswordResetRequest = function() {
+    $scope.submitPasswordResetRequest = function () {
         $scope.loading[1] = true;
         if ($scope.formData.resetPasswordEmail) {
-            AuthService.requestPasswordChange($scope.formData.resetPasswordEmail).then(function(result) {
+            AuthService.requestPasswordChange($scope.formData.resetPasswordEmail).then(function (result) {
                 UtilService.showSuccess('Success!', 'Request sent successful.');
                 $scope.loading[1] = false;
                 $scope.formData = {};
-            }).catch(function(err) {
+            }).catch(function (err) {
                 $scope.loading[1] = false;
                 UtilService.showError('Uh Oh', err.data);
             });
@@ -437,7 +439,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             $scope.uploadingBanner = true;
         }
 
-        UtilService.uploadProfile(image, name, isLogo, function(response) {
+        UtilService.uploadProfile(image, name, isLogo, function (response) {
             if (response.success) {
                 if (isLogo) {
                     $scope.formData['logo'] = {
@@ -455,7 +457,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             } else {
                 UtilService.showError('Upload Failed', response.data);
             }
-        }, function(percentage) {
+        }, function (percentage) {
             $scope.progress = percentage;
         });
     }
@@ -463,14 +465,14 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Determine whether to show banner or not
      */
-    $scope.showBanner = function() {
+    $scope.showBanner = function () {
         return UtilService.isDefined($scope.formData.banner);
     };
 
     /**
      * Determine whether to show logo or not
      */
-    $scope.showLogo = function() {
+    $scope.showLogo = function () {
         return UtilService.isDefined($scope.formData.logo);
     };
 
@@ -479,7 +481,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * @param {*} image 
      * @param {*} isLogo 
      */
-    $scope.fileCheck = function(image, isLogo) {
+    $scope.fileCheck = function (image, isLogo) {
         var limit = isLogo ? 500000 : 900000;
         var file;
 
@@ -487,15 +489,15 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             isuploading = true;
             var dataurl = image.dst;
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            
+
             try {
-                file = new File([u8arr], "" + image.src.length, {type:mime});
+                file = new File([u8arr], "" + image.src.length, { type: mime });
             } catch (err) {
-                file = new Blob([u8arr], {type:mime});
+                file = new Blob([u8arr], { type: mime });
                 file.name = "" + image.src.length;
                 file.lastModified = new Date();
             }
@@ -516,16 +518,16 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.showSessionExpired = false;
         localStorage.removeItem('jwt-expired');
         let details = {
-            email : $scope.formData.loginEmail,
-            password : $scope.formData.loginPassword
+            email: $scope.formData.loginEmail,
+            password: $scope.formData.loginPassword
         };
         $scope.loading[0] = true;
 
-        AuthService.signinM(details).then(function(response) {
+        AuthService.signinM(details).then(function (response) {
             setUserInfo(response.data, true);
             $scope.loading[0] = false;
             $state.go('dashboard.home', {});
-        }).catch(function(err) {
+        }).catch(function (err) {
             $scope.loading[0] = false;
             UtilService.showError('Request Failed', err.data);
         });
@@ -546,11 +548,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             UtilService.showError('Missing field', 'Please agree to our terms and conditions');
             return;
         }
-        
+
         // Get final categories picked
         var finalCat = [];
-        for(x in $scope.categories) {
-            if($scope.categories[x] === true)
+        for (x in $scope.categories) {
+            if ($scope.categories[x] === true)
                 finalCat[finalCat.length] = x;
         }
         $scope.formData.categories = finalCat;
@@ -560,50 +562,50 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
         // User service to register merchant
         AuthService.registerMerch($scope.formData)
-        .then(function(response) {
-            // Hide loading icon
-            $scope.loading[1] = false;
+            .then(function (response) {
+                // Hide loading icon
+                $scope.loading[1] = false;
 
-            // Reset form data
-            $scope.formData = {};
-            $scope.categories = {
-                foodndrinks : false,
-                shopping : false,
-                entertainment : false,
-                healthnbeauty : false, 
-                technology : false, 
-                tickets : false, 
-                travel : false
-            }
+                // Reset form data
+                $scope.formData = {};
+                $scope.categories = {
+                    foodndrinks: false,
+                    shopping: false,
+                    entertainment: false,
+                    healthnbeauty: false,
+                    technology: false,
+                    tickets: false,
+                    travel: false
+                }
 
-            // Send out success alert
-            UtilService.showSuccess('Success', response.data.message);
-        })
-        .catch(function(err) {
-            console.log(err);
-            $scope.loading[1] = false;
-            if (err.data.code && err.data.code == 11000) {
-                UtilService.showError('Request Failed', 'A merchant with that email address already exists.');
-            } else {
-                UtilService.showError('Request Failed', err.data.message);
-            }
-        });
+                // Send out success alert
+                UtilService.showSuccess('Success', response.data.message);
+            })
+            .catch(function (err) {
+                console.log(err);
+                $scope.loading[1] = false;
+                if (err.data.code && err.data.code == 11000) {
+                    UtilService.showError('Request Failed', 'A merchant with that email address already exists.');
+                } else {
+                    UtilService.showError('Request Failed', err.data.message);
+                }
+            });
     };
 
     /**
      * Used to show errors from the service response
      */
-    $scope.showErrors = function(title, response) {
+    $scope.showErrors = function (title, response) {
         var data = '';
-        if(UtilService.isDefined(response.data)) {
+        if (UtilService.isDefined(response.data)) {
             data = response.data.message;
         } else {
             data = 'Error occured while trying to log in';
         }
-        
+
         // check if errorArray is an object, if so send an alert for each item
-        if(typeof data === 'object') {
-            for(var i = 0; i < data.length; i++) {
+        if (typeof data === 'object') {
+            for (var i = 0; i < data.length; i++) {
                 /* multipleAlerts[multipleAlerts.length] = $alert({
                     'title': title,
                     'content': data[i].msg,
@@ -620,7 +622,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         StorageService.clearAll();
         $state.go('auth', {});
         $window.location.reload();
@@ -634,7 +636,7 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         if ($scope.formData.password !== $scope.formData.password2) {
             return false;
         }
-        
+
         if (!$scope.formData.logo || !$scope.formData.logo.url) {
             return false;
         }
