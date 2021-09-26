@@ -525,7 +525,7 @@
                                         class="form-control"
                                         id="banks"
                                         ng-model="bankInfo.accountBank"
-                                        ng-options="bank as bank.name for bank in banks track by bank.id"
+                                        ng-options="bank as bank.name for bank in banks track by bank.code"
                                         required>
                                         <option value="" disabled>Select Bank</option>
                                     </select>
