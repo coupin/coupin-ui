@@ -37,7 +37,6 @@ app.use(morgan('dev'));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img
-app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
 // Cloudinary config
