@@ -16,6 +16,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     $scope.updatingPassword = false;
     $scope.states = ['lagos'];
     $scope.settings = 'personal';
+    $scope.user = StorageService.getUser();
     $scope.position = {
         long: $scope.user.merchantInfo.location[0],
         lat: $scope.user.merchantInfo.location[1]
@@ -49,6 +50,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     }
 
     $scope.accountDetails = $scope.user.merchantInfo.accountDetails;
+    console.log($scope.accountDetails, '$scope.accountDetails');
     $scope.accountDetails.bank = {
         name: $scope.user.merchantInfo.accountDetails.bankName,
         code: $scope.user.merchantInfo.accountDetails.bankCode,
@@ -393,11 +395,8 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     };
 
     $scope.onAccountDetailsChange = function() {
-        console.log('this changes');
-
         $scope.hideAccountName = true;
         $scope.enableAccountConfirmationButton = true;
-        // $scope.enableAccountUpdateButton = true;
     }
 
     $scope.confirmAccountDetails = function() {
@@ -445,7 +444,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
                 UtilService.showSuccess('Success', 'Account details have been stored');
                 MerchantService.refreshUser($scope.user.id);
 
-                location.reload();
+                // location.reload();
             }).catch((error) => {
                 $scope.savingAccountLoading = false;
                 $scope.accountSavingError = error.data.message;
