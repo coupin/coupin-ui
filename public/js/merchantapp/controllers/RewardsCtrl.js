@@ -75,6 +75,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.customerAccountDetails = null;
+    $('#accountInfoModal').modal('show');
 
     $scope.showSaveAccount = false;
     $scope.confirmAccountLoading = false;
@@ -585,6 +586,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                     bankCode: accountBank.code,
                 };
 
+                console.log($scope.customerAccountDetails, 'customerAccountDetails');
+
                 UtilService.showSuccess('Success', 'Account details have been confirmed');
             }).catch((error) => {
                 $scope.confirmAccountLoading = false;
@@ -607,4 +610,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 UtilService.showError('Error', error.data.message);
             })
     };
+
+    $scope.accountInfoChange = function() {
+        $scope.showSaveAccount = false;
+    }
 });
