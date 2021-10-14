@@ -607,4 +607,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
                 UtilService.showError('Error', error.data.message);
             })
     };
+
+    $scope.accountInfoChange = function() {
+        $scope.showSaveAccount = false;
+    }
 });

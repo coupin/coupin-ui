@@ -153,6 +153,85 @@
                 </form>
             </div>
         </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Account Information</p>
+            </div>
+            <div class="col-md-10">
+                <!-- <form ng-submit=""> -->
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="accountNumber">Account Number </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="accountNumber"
+                                    placeholder="Enter account number"
+                                    ng-model="accountDetails.accountNumber"
+                                    ng-change="onAccountDetailsChange()"
+                                    minlength="10"
+                                    maxlength="10"
+                                    required
+                                />
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="banks">Bank:</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <select
+                                    class="form-control"
+                                    id="banks"
+                                    ng-model="accountDetails.bank"
+                                    ng-options="bank as bank.name for bank in banks track by bank.code"
+                                    ng-change="onAccountDetailsChange()"
+                                    required>
+                                    <option value="" disabled>Select Bank</option>
+                                </select>
+                                <div class="input-group-addon icons-input"><i class="fas fa-university"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                <span>
+                                    <span style="font-weight: 700; font-size: 15px;">Account name:</span>
+                                    <span ng-if="hideAccountName">Please confirm your account</span>
+                                    <span ng-if="accountDetails.accountName && !hideAccountName">{{ accountDetails.accountName }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="accountConfirmationError">
+                        <div class="col-md-12">
+                            <p>{{ accountConfirmationError }}</p>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button
+                            class="btn btn-primary btn-lg"
+                            ng-if="enableAccountUpdateButton && !enableAccountConfirmationButton"
+                            type="button"
+                            ng-click="saveMerchantAccountDetails()"
+                        >
+                            Update Account Information <i class="fas fa-spin fa-spinner" ng-show="savingAccountLoading"></i>
+                        </button>
+                        <button
+                            class="btn btn-primary btn-lg"
+                            ng-if="!(enableAccountUpdateButton && !enableAccountConfirmationButton)"
+                            ng-disabled="!enableAccountConfirmationButton"
+                            type="button"
+                            ng-click="confirmAccountDetails()"
+                        >
+                            Confirm Account Details <i class="fas fa-spin fa-spinner" ng-show="confirmAccountLoading"></i>
+                        </button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </section>
     </div>
     
     <!-- Crop Modal -->
