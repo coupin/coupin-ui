@@ -109,6 +109,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.photos = $scope.newReward.pictures;
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
             $scope.amount = getTotal($scope.noOfDays);
+            $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
         }).catch(function (error) {
             UtilService.showError(errTitle, error.data);
         });

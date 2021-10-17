@@ -212,7 +212,11 @@
                                     <input
                                         id="noOfDate"
                                         class="form-control"
-                                        ng-class="{'has-error': newReward.startDate && form.noOfDays.$dirty && (form.noOfDays.$error.required || form.noOfDays.$error.max)}"
+                                        ng-class="{
+                                            'has-error': newReward.startDate && 
+                                                        form.noOfDays.$dirty && 
+                                                        (form.noOfDays.$error.required || form.noOfDays.$error.max)
+                                        }"
                                         name="noOfDays"
                                         type="number" 
                                         ng-model="noOfDays" 
