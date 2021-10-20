@@ -252,10 +252,10 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     $scope.setPlan = function (plan) {
         $scope.billing.plan = plan;
         if (plan === 'monthly') {
-            amount = 57000;
+            amount = 30000;
             bill = true;
         } else if (plan === 'yearly') {
-            amount = 750000;
+            amount = 330000;
             bill = true;
         } else {
             bill = false;

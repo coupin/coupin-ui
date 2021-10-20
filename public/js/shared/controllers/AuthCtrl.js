@@ -263,11 +263,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function (
             plan = 'payAsYouGo';
         } else if (index === 1) {
             $scope.planIndex = 1;
-            amount = 57000;
+            amount = 30000;
             plan = 'monthly';
         } else if (index === 2) {
             $scope.planIndex = 2;
-            amount = 750000;
+            amount = 330000;
             plan = 'yearly';
         }
     }
