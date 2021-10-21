@@ -128,7 +128,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label for="newPrice">Current Price(Ensure VAT Included): </label>
+                                <label for="newPrice">Current Price(Ensure VAT is Included): </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input type="number" name="newPrice" class="form-control" id="newPrice" placeholder="0" ng-model="newReward.price.new" ng-disabled="newReward.status === 'expired'" />
                                     <div class="input-group-addon icons-input"><i class="fas cu-naira"></i></div>
@@ -143,7 +143,7 @@
                                     type="checkbox" 
                                     name="customer-bears-amount" 
                                     id="customer-bears-amount" 
-                                    ng-model="newReward.price.customerBearsCost"
+                                    ng-model="newReward.customerBearsCost"
                                     ng-change="customerBearsCostChange()"
                                     ng-disabled="!(newReward.price.old && newReward.price.new)"
                                 >
@@ -167,12 +167,13 @@
                     </div>
                     <div class="row payment-info-section" ng-if="!payRewardIsActive()">
                         <div class="col-md-12" ng-if="payoutAmount" >
-                            <span class="payout-label">payout amount</span> <span>N{{ payoutAmount | number : 2 }}</span>
+                            <span class="payout-label">Payout amount: </span> <span>N{{ payoutAmount | number : 2 }}</span>
                         </div>
                         <div class="col-md-12" ng-if="newReward.price.new">
-                            <span class="commission-label">commission</span>
+                            <span class="commission-label">Commission: </span>
                             <span>N{{commission | number : 2}}</span>
-                            <span ng-if="commission > 200 && commission < 3500">(3% of N{{newReward.price.new | number: 2}})</span>
+                            <span ng-if="commission > 200 && commission < 3500 && !newReward.customerBearsCost">(3% of N{{newReward.price.new | number: 2}})</span>
+                            <span ng-if="commission > 200 && commission < 3500 && newReward.customerBearsCost">(3% of N{{payoutAmount | number: 2}} i.e. Customer Charge)</span>
                         </div>
                     </div>
                 </div>
