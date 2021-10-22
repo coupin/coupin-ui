@@ -61,10 +61,10 @@ angular.module('BillingCtrl', []).controller('BillingController', function (
     previousPlan = $scope.billing.plan;
     $scope.billing.plan = plan;
     if (plan === 'monthly') {
-      $scope.amount = 57000;
+      $scope.amount = 30000;
       bill = true;
     } else if (plan === 'yearly') {
-      $scope.amount = 750000;
+      $scope.amount = 330000;
       bill = true;
     } else {
       bill = false;
