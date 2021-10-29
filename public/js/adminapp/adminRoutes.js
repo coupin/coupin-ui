@@ -79,7 +79,19 @@ function(
       controller: 'FeaturedController',
       resolve: {
         merchants: function(AdminService) {
-          return AdminService.getMerchNames().then(function(response) {
+          return AdminService.getMerchNames(true).then(function(response) {
+            return response.data;
+          });
+        }
+      }
+    })
+    .state('portal.config', {
+      url: '/config',
+      templateUrl: 'views/admin/config.html',
+      controller: 'ConfigController',
+      resolve: {
+        config: function(ConfigService) {
+          return ConfigService.getConfig().then(function(response) {
             return response.data;
           });
         }

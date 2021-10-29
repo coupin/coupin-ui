@@ -12,8 +12,10 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     $scope.error = false;
 
     var counter = 0;
+    $scope.loading = true;
 
     AdminService.get().then(function(data) {
+        $scope.loading = false;
         $scope.admins = data.data;
         if($scope.admins.length == 0) {
             $scope.empty = true;
@@ -43,7 +45,6 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
     $scope.delete = function(id) {
         AdminService.delete(id)
         .then(function(data) {
-            console.log(data);
             if(data.data.success) {
                 $scope.admins = $scope.admins.filter( function(admin) {
                     return admin._id !== $scope.currentAdmin._id;
@@ -52,7 +53,7 @@ angular.module('SuperAdminCtrl', []).controller('SuperAdminController', function
                     'title': "Success",
                     'content': $scope.currentAdmin.local.email + data.data.message,
                     'duration': 5,
-                    'placement': 'top-right',
+                    'placement': 'center-center',
                     'show' : true ,
                     'type' : 'success'
                 });

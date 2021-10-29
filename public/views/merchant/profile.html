@@ -1,371 +1,348 @@
-<div class="info-box padding-none">
+<div id="profile">
     <div class="banner-display" ng-disabled="updating === true" ng-style="bannerStyle">
-        <div class="banner-inner">
+        <div class="banner-inner hidden-xs hidden-sm">
             <span data-toggle="modal" data-target="#cropModal" ng-click="isLogo = false">
                 Upload new banner <i class="fas fa-plus"></i>
             </span>
         </div>
-        <!-- <div class="row">
-            <div class="col-md-4 col-xs-12"> -->
-            <div class="logo-container">
-                <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
-                    <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
-                        <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
-                        <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
-                    </div>
+        <div class="logo-container">
+            <div ng-class="{'logo-box': true, 'box-show': uploadingLogo}" ng-style="logoStyle">
+                <div class="inner" data-toggle="modal" data-target="#cropModal" ng-click="isLogo = true">
+                    <i ng-if="!uploadingLogo" class="fas fa-2x fa-camera-retro"></i>
+                    <small ng-if="uploadingLogo">{{'Upload at ' + logoPer + '%'}}</small>
                 </div>
             </div>
-                <br>
-            <!-- </div>
-        </div> -->
-    </div>
-    <div class="row">
-        <div class="col-md-2 col-xs-12 padding-x-none settings-sub">
-            <h3 class="text-center">Settings</h3>
-            <h5 ng-click="setSettings('personal')" ng-class="{'active': settings === 'personal'}">Personal Details</h5>
-            <h5 ng-click="setSettings('company')" ng-class="{'active': settings === 'company'}">Company Info</h5>
-            <h5 ng-click="setSettings('billing')" ng-class="{'active': settings === 'billing'}">Billing Info</h5>
         </div>
-        <div class="col-md-10 col-xs-12" ng-switch="settings">
-            <div ng-switch-when="personal" class="row margin-y-sm">
+    </div>
+    <div class="card profile-section-card">
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Company Info</p>
+            </div>
+            <div class="col-md-10">
                 <form>
-                    <div class="form-group">
-                        <label for="name">Email: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.email" required/>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Company Name: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="name" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
+                            </div>
                         </div>
-                        <small id="emailHelp" class="form-text text-muted">User email.</small>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="name">Branch Phone Number: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">Change Password</button>
-                    <br><br>
-                    <button class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
+                    <div class="form-group col-md-12">
+                        <label for="name">Company Email: </label>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <input type="email" class="form-control" id="email" placeholder="example@domain.com" ng-model="user.email" required/>
+                            <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label for="name">Company Description: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <textarea
+                                type="text" 
+                                class="form-control" 
+                                id="detail" 
+                                placeholder="Company Details.." 
+                                ng-model="user.merchantInfo.companyDetails" 
+                                required 
+                                rows="4"></textarea>
+                                <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12 col-sm-12">
+                            <label for="address">Branch Street Address: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="city">City:</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
+                                <div class="input-group-addon icons-input"><i class="fas fa-city"></i></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <label for="state">State:</label>
+                            <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="user.merchantInfo.state" ng-options="state for state in states" required></select>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <div ng-switch-when="company" class="row margin-y-sm">
+        </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Geo Location</p>
+            </div>
+            <div class="col-md-10">
                 <form>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Name: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-meetup"></i></div>
-                            <input type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="example@domain.com" ng-model="user.merchantInfo.companyName" required/>
-                        </div>
-                        <small id="nameHelp" class="form-text text-muted">Company Name.</small>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="name">Phone Number: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
-                            <input type="text" class="form-control" id="phoneNumber"  minlength="11" maxlength="11"  aria-describedby="emailHelp" placeholder="e.g. 08032455555" ng-model="user.merchantInfo.mobileNumber" required/>
-                        </div>
-                        <small id="nameHelp" class="form-text text-muted">Branch Phone Number.</small>
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12">
-                        <label for="name">Details: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-info"></i></div>
-                            <textarea type="text" class="form-control" id="detail" aria-describedby="emailHelp" placeholder="Company Details.." ng-model="user.merchantInfo.companyDetails" required></textarea>
-                        </div>
-                        <small id="detailHelp" class="form-text text-muted">Company Details.</small>
-                    </div>
-                    <div class="form-group col-md-12 col-sm-12">
-                        <label for="email">Address: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-map-signs"></i></div>
-                            <input type="text" class="form-control" id="address" aria-describedby="addressHelp" placeholder="e.g. 3 example street, off another drive" ng-model="user.merchantInfo.address" required/>
-                        </div>
-                        <small id="addressHelp" class="form-text text-muted">Branch Address</small>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="city">City:</label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-map-marker"></i></div>
-                            <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="user.merchantInfo.city" required>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="state">State:</label>
-                        <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="user.merchantInfo.state" ng-options="state for state in states" required></select>
-                    </div>
-                    <h3>Geolocation Details</h3>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">Longitude: </label>
+                                <label for="latitude">Latitude: </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input type="text" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
                                     <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                    <input type="text" maxlength="8" minlength="8" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="email">Latitude: </label>
+                                <label for="longitude">Longitude: </label>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <input type="text" class="form-control" id="longitude" placeholder="e.g. 3.474655" ng-model="position.long"/>
                                     <div class="input-group-addon icons-input"><i class="fas fa-map-pin"></i></div>
-                                    <input type="text" maxlength="8" minlength="8" class="form-control" id="latitude" placeholder="e.g. 6.473655" ng-model="position.lat"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1 location-button-container">
+                            <div class="form group">
+                                <button class="btn btn-outline-primary get-user-location btn-lg" ng-click="getLocation()" ng-disabled="loadingPosition === true">
+                                    <i class="fas fa-map-marked-alt" ng-hide="loadingPosition"></i>
+                                    <i class="fas fa-spin fa-spinner" ng-show="loadingPosition"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button class="btn btn-primary btn-lg" ng-disabled="updating" ng-click="update()" tabindex="-1">Update Profile <i class="fas fa-spin fa-spinner" ng-show="updating"></i></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Password</p>
+            </div>
+            <div class="col-md-10">
+                <form ng-submit="changePassword(password, confirm)">
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="password">New Password: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="confirm">Confirm Password: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button class="btn btn-primary btn-lg" ng-disabled="updatingPassword">Change Password <i class="fas fa-spin fa-spinner" ng-show="updatingPassword"></i></button>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <section class="row profile-form-section">
+            <div class="col-md-2">
+                <p>Account Information</p>
+            </div>
+            <div class="col-md-10">
+                <!-- <form ng-submit=""> -->
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="accountNumber">Account Number </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="accountNumber"
+                                    placeholder="Enter account number"
+                                    ng-model="accountDetails.accountNumber"
+                                    ng-change="onAccountDetailsChange()"
+                                    minlength="10"
+                                    maxlength="10"
+                                    required
+                                />
+                                <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="banks">Bank:</label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <select
+                                    class="form-control"
+                                    id="banks"
+                                    ng-model="accountDetails.bank"
+                                    ng-options="bank as bank.name for bank in banks track by bank.code"
+                                    ng-change="onAccountDetailsChange()"
+                                    required>
+                                    <option value="" disabled>Select Bank</option>
+                                </select>
+                                <div class="input-group-addon icons-input"><i class="fas fa-university"></i></div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-success">
+                                <span>
+                                    <span style="font-weight: 700; font-size: 15px;">Account name:</span>
+                                    <span ng-if="hideAccountName">Please confirm your account</span>
+                                    <span ng-if="accountDetails.accountName && !hideAccountName">{{ accountDetails.accountName }}</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="accountConfirmationError">
+                        <div class="col-md-12">
+                            <p>{{ accountConfirmationError }}</p>
+                        </div>
+                    </div>
+                    <div class="row user-profile-action">
+                        <button
+                            class="btn btn-primary btn-lg"
+                            ng-if="enableAccountUpdateButton && !enableAccountConfirmationButton"
+                            type="button"
+                            ng-click="saveMerchantAccountDetails()"
+                        >
+                            Update Account Information <i class="fas fa-spin fa-spinner" ng-show="savingAccountLoading"></i>
+                        </button>
+                        <button
+                            class="btn btn-primary btn-lg"
+                            ng-if="!(enableAccountUpdateButton && !enableAccountConfirmationButton)"
+                            ng-disabled="!enableAccountConfirmationButton"
+                            type="button"
+                            ng-click="confirmAccountDetails()"
+                        >
+                            Confirm Account Details <i class="fas fa-spin fa-spinner" ng-show="confirmAccountLoading"></i>
+                        </button>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </section>
+    </div>
+    
+    <!-- Crop Modal -->
+    <div class="modal fade" id="cropModal">
+        <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
+            <div class="modal-content">
+                <div class="screen-rotation-request" data-dismiss="modal">
+                    <div class="content">
+                        <p><i class="fas fa-mobile fa-4x"></i></p>
+                        <p>Please rotate your device to continue</p>
+                    </div>
+                </div>
+                <div class="modal-header text-center">
+                    <h3>Upload Business Logo</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <div ng-if="isLogo">
+                        <h4>Images Must all be cropped to a 320x320 square.</h4>
+                        <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="file-input__container">
+                                    <label for="imageupload" class="file-input__container__prompts">
+                                        <div class="file-input__container__prompts__img">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="file-input__container__prompts__text">
+                                            <p>Select an Image</p>
+                                            <p>Note: Image will appear to viewers as cropped.</p>
+                                        </div>
+                                        <input 
+                                            class="form-control" 
+                                            type="file" 
+                                            accept="image/*" 
+                                            img-cropper-fileread image="image.src" 
+                                            id="imageupload"/>
+                                    </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6 col-md-offset-3">
-                                <button class="btn btn-primary btn-full" ng-click="getLocation()">Use My Current Location <i class="fas fa-spin fa-spinner" ng-disabled="loadingPosition === true" ng-show="loadingPosition"></i></button>
+                            <div class="cropArea">
+                                <canvas
+                                    height="350"
+                                    width="500"
+                                    image="image.src"
+                                    image-cropper
+                                    cropped-image="image.dst"
+                                    crop-height="320"
+                                    crop-width="320"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
                             </div>
                         </div>
                     </div>
-                    <br><br>
-                    <button class="btn btn-primary btn-full" ng-click="update()">Update Profile <i class="fas fa-spin fa-spinner" ng-disabled="updating === true" ng-show="updating"></i></button>
-                </form>
-            </div>
-            <div ng-switch-when="billing" class="row margin-y-sm">
-                <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <label>Bill Plan: </label>
-                        <span class="capitalize">{{user.merchantInfo.billing.plan}}</span>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <label>Last Payment: </label>
-                        <span>{{user.merchantInfo.billing.history[0].date | date: 'longDate'}}</span>
-                    </div>
-                    <div class="col-md-4 col-sm-12">
-                        <label>Expiration Date: </label>
-                        <span>{{user.merchantInfo.billing.history[0].expiration | date: 'longDate'}}</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <button class="btn btn-success" data-toggle="modal" data-target="#billingModal">Change Billing Plan</button>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h4 class="text-center">Billing History</h4>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table table-striped">
-                            <thead>
-                                <th>S/N</th>
-                                <th>Plan</th>
-                                <th>Paid On</th>
-                                <th>reference</th>
-                                <th>Expires On</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-if="showHistory()" ng-repeat="(index, bill) in history">
-                                    <td>{{index + 1}}</td>
-                                    <td class="capitalize">{{bill.plan}}</td>
-                                    <td>{{bill.date | date: 'longDate'}}</td>
-                                    <td>{{bill.reference}}</td>
-                                    <td>{{bill.expiration | date: 'longDate'}}</td>
-                                </tr>
-                                <tr ng-if="!showHistory()">
-                                    <td colspan="5">
-                                        <div class="row padding-10-all">
-                                            <div class="col-sm-12 text-center">
-                                                <i class="fas fa-box-open fa-3x"></i>
-                                                <h5>Sorry there is no payment history.</h5>
-                                            </div>
+                    <div ng-if="!isLogo">
+                        <h4>Images Must all be cropped to a 950x323 square.</h4>
+                        <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small>
+                        <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="file-input__container">
+                                    <label for="imageupload" class="file-input__container__prompts">
+                                        <div class="file-input__container__prompts__img">
+                                            <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Billing Modal -->
-<div class="modal fade" id="billingModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Billing Change</h3>
-            </div>
-            <div class="modal-body">
-                <form ng-submit="changePassword(password, confirm)">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="my-card">
-                                <div class="my-card-head">
-                                    <h4 class="text-center light">Pay As You Go</h4>
-                                </div>
-                                <div class="my-card-body">
-                                    <p>The Pay as you go plan covers: </p>
-                                    <ul>
-                                        <li>
-                                            Single Reward Payments at:
-                                            <ul>
-                                                <li>
-                                                    <del>N</del>500 per day
-                                                </li>
-                                                <li>15% off any reward that exceeds 7 days</li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="my-card-footer">
-                                    <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'payAsYouGo'}" ng-click="setPlan('payAsYouGo')">
-                                        <span ng-if="billing.plan !== 'payAsYouGo'">Select Plan</span>
-                                        <i class="fa fa-check" ng-if="billing.plan === 'payAsYouGo'"></i>
-                                    </button>
+                                        <div class="file-input__container__prompts__text">
+                                            <p>Select an Image</p>
+                                            <p>Note: Image will appear to viewers as cropped.</p>
+                                        </div>
+                                        <input 
+                                            class="form-control" 
+                                            type="file" 
+                                            accept="image/*" 
+                                            img-cropper-fileread image="image.src" 
+                                            id="imageupload"/>
+                                    </label>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12">
-                            <div class="my-card">
-                                <div class="my-card-head">
-                                    <h4 class="text-center light">Start Up Plan: <span>&#8358;57,000</span></h4>
-                                </div>
-                                <div class="my-card-body">
-                                    <p>The Monthly plan covers: </p>
-                                    <ul>
-                                        <li>Unlimited Rewards within Month of Payment</li>
-                                        <li>Dedicated Tech Support</li>
-                                    </ul>
-                                </div>
-                                <div class="my-card-footer">
-                                    <button  ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'monthly'}" ng-click="setPlan('monthly')">
-                                        <span ng-if="billing.plan !== 'monthly'">Select Plan</span>
-                                        <i class="fa fa-check" ng-if="billing.plan === 'monthly'"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="my-card">
-                                <div class="my-card-head">
-                                    <h4 class="text-center light">Corporate Plan: <span>&#8358;750,000</span></h4>
-                                </div>
-                                <div class="my-card-body">
-                                    <p>The Yearly plan covers: </p>
-                                    <ul>
-                                        <li>Unlimited Rewards within Year of Payment</li>
-                                        <li>Dedicated Tech Support</li>
-                                        <li>Coupin Concierge at Merchant Location</li>
-                                    </ul>
-                                </div>
-                                <div class="my-card-footer">
-                                    <button ng-class="{'btn btn-outline-primary center-item': true, 'active': billing.plan === 'yearly'}" ng-click="setPlan('yearly')">
-                                        <span ng-if="billing.plan !== 'yearly'">Select Plan</span>
-                                        <i class="fa fa-check" ng-if="billing.plan === 'yearly'"></i>
-                                    </button>
-                                </div>
+                        <div class="row">
+                            <div class="cropArea-banner">
+                                <canvas
+                                    height="400"
+                                    width="1000"
+                                    image-cropper
+                                    image="image.src"
+                                    cropped-image="image.dst"
+                                    crop-height="323"
+                                    crop-width="950"
+                                    keep-aspect="true"
+                                    touch-radiue="30"
+                                    crop-area-bounds="bounds"
+                                    ></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <button class="btn btn-success btn-full" ng-click="updateBilling()">Update Billing Info</button>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                            <button class="btn btn-def btn-full" data-dismiss="modal">Cancel</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Password Modal -->
-<div class="modal fade" id="passwordModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Password Change</h3>
-            </div>
-            <div class="modal-body">
-                <form ng-submit="changePassword(password, confirm)">
-                    <div class="form-group">
-                        <label for="email">New Passowrd: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="password" placeholder="Enter new password.." ng-model="password" required/>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Confirm Passowrd: </label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
-                            <input type="password" class="form-control" id="confirm" placeholder="Confirm Password" ng-model="confirm" required/>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn-full">Change Passowrd <i class="fas fa-spin fa-spinner" ng-disabled="changing === true" ng-show="changing"></i></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Crop Modal -->
-<div class="modal fade" id="cropModal">
-    <div ng-class="{'modal-dialog': true, 'modal-banner': !isLogo}">
-        <div class="modal-content">
-            <div class="modal-header text-center">
-                <h3>Image Crop</h3>
-            </div>
-            <div class="modal-body text-center">
-                <div ng-if="isLogo">
-                    <h4>Images Must all be cropped to a 200x200 square.</h4>
-                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
                     <br>
-                    <br>
-                    <div class="row">
-                        <div class="cropArea">
-                            <canvas
-                                height="350"
-                                width="500"
-                                image="image.src"
-                                image-cropper
-                                cropped-image="image.dst"
-                                crop-height="200"
-                                crop-width="200"
-                                keep-aspect="true"
-                                touch-radiue="30"
-                                crop-area-bounds="bounds"
-                                ></canvas>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
+                            <span class="text-center">{{progress + '%'}}</span>
                         </div>
                     </div>
                 </div>
-                <div ng-if="!isLogo">
-                    <h4>Images Must all be cropped to a 950x323 square.</h4>
-                    <small><b>Note:</b>Image will appear to viewers as cropped.</small>
-                    <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
-                    <br>
-                    <div class="row">
-                        <div class="cropArea-banner">
-                            <canvas
-                                height="400"
-                                width="1000"
-                                image-cropper
-                                image="image.src"
-                                cropped-image="image.dst"
-                                crop-height="323"
-                                crop-width="950"
-                                keep-aspect="true"
-                                touch-radiue="30"
-                                crop-area-bounds="bounds"
-                                ></canvas>
-                        </div>
-                    </div>
+                <div class="modal-footer text-center">
+                    <button class="btn btn-primary" ng-click="fileCheck(image, isLogo)">Upload Image</button>
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
-                <br>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" ng-style="{'width': progress + '%'}" aria-valuemin="0" aria-valuemax="100">
-                        <span class="text-center">{{progress + '%'}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer text-center">
-                <button class="btn btn-success" ng-click="fileCheck(image, isLogo)">Upload Image</button>
-                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

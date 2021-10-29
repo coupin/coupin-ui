@@ -1,17 +1,19 @@
 angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
     '$http',
-    'config',
+    'ENV_VARS',
     'StorageService',
     function (
         $http,
-        config,
+        ENV_VARS,
         StorageService
     ) {
-        var token = StorageService.getToken();
-        var authHeader = {
-            'x-access-token': token
-        };
-        var baseV1Url = config.baseUrl;
+        function getAuthHeader() {
+            var token = StorageService.getToken();
+            return {
+                'x-access-token': token
+            };
+        }
+        var baseV1Url = ENV_VARS.apiUrl;
 
         return {
             activate: function (id) {
@@ -19,7 +21,7 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
             },
             create: function (details) {
                 return $http.post(baseV1Url + '/rewards', details, {
-                    headers: authHeader
+                    headers: getAuthHeader()
                 });
             },
             deactivate: function (id) {
@@ -33,22 +35,22 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
                     method: 'GET',
                     url: baseV1Url + '/rewards',
                     params: details,
-                    headers: authHeader
+                    headers: getAuthHeader()
                 });
             },
             getReward: function (id) {
                 return $http.get(baseV1Url + '/rewards/' + id, {
-                    headers: authHeader
+                    headers: getAuthHeader()
                 });
             },
-            update: function(id, details) {
-                return $http.put(baseV1Url + '/rewards/' + id, details,  {
-                    headers: authHeader
+            update: function (id, details) {
+                return $http.put(baseV1Url + '/rewards/' + id, details, {
+                    headers: getAuthHeader()
                 });
             },
-            updateReview: function(id, details) {
-                return $http.post(baseV1Url + '/rewards/status/' + id, details,  {
-                    headers: authHeader
+            updateReview: function (id, details) {
+                return $http.post(baseV1Url + '/rewards/status/' + id, details, {
+                    headers: getAuthHeader()
                 });
             }
         }

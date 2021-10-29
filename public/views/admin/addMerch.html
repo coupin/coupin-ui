@@ -96,7 +96,7 @@
             <div class="btn-group" role="group" aria-label="Categories">
                 <button type="button" id="entertainment" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('entertainment')}" ng-click="toggleCategory('entertainment')">Entertainment</button>
                 <button type="button" id="foodndrink" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('foodndrink')}" ng-click="toggleCategory('foodndrink')">Food n'Drinks</button>
-                <button type="button" id="gadgets" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('gadgets')}" ng-click="toggleCategory('gadgets')">Gadgets</button>
+                <button type="button" id="technology" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('technology')}" ng-click="toggleCategory('technology')">Technology</button>
                 <button type="button" id="groceries" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('groceries')}" ng-click="toggleCategory('groceries')">Groceries</button>
                 <button type="button" id="healthnbeauty" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('healthnbeauty')}" ng-click="toggleCategory('healthnbeauty')">Health n'Beauty</button>
                 <button type="button" id="shopping" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('shopping')}" ng-click="toggleCategory('shopping')">Shopping</button>
@@ -174,20 +174,6 @@
         </div>
         <div class="form-row">
             <div class="form-group col-sm-6">
-                <label for="longitude">Longitude:</label>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                    <input
-                        type="number"
-                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.longitude)}"
-                        id="longitude"
-                        name="longitude"
-                        placeholder="e.g. 3.433345"
-                        step="any"
-                        ng-model="formData.longitude" required>
-                </div>
-            </div>
-            <div class="form-group col-sm-6">
                 <label for="latitude">Latitude:</label>
                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                     <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
@@ -199,6 +185,20 @@
                         placeholder="e.g. 6.342345"
                         step="any"
                         ng-model="formData.latitude" required>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label for="longitude">Longitude:</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                    <input
+                        type="number"
+                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.longitude)}"
+                        id="longitude"
+                        name="longitude"
+                        placeholder="e.g. 3.433345"
+                        step="any"
+                        ng-model="formData.longitude" required>
                 </div>
             </div>
         </div>
@@ -215,7 +215,7 @@
             </div>
             <div class="modal-body text-center">
                 <div>
-                    <h4>Images Must all be cropped to a 200x200 square.</h4>
+                    <h4>Images Must all be cropped to a 320x320 square.</h4>
                     <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                     <input class="form-control" type="file" accept="image/*" img-cropper-fileread image="image.src"/>
                     <br>
@@ -228,8 +228,8 @@
                                 image="image.src"
                                 image-cropper
                                 cropped-image="image.dst"
-                                crop-height="200"
-                                crop-width="200"
+                                crop-height="320"
+                                crop-width="320"
                                 keep-aspect="true"
                                 touch-radiue="30"
                                 crop-area-bounds="bounds"

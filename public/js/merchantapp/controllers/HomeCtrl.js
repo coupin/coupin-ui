@@ -1,17 +1,23 @@
 angular.module('HomeCtrl', []).controller('HomeController', function(
-  $alert,
   $location,
   $scope,
   StorageService,
   CoupinService,
   RewardsService,
-  UtilService
+  UtilService,
+  AnalyticsService
 ) {
   $scope.user = StorageService.getUser();
   $scope.booking = {};
   $scope.rewards = [];
   $scope.empty = false;
   $scope.loading = false;
+  $scope.loadingStats = true;
+  $scope.stats = {
+    active: 0,
+    generated: 0,
+    redeemed: 0,
+  };
   $scope.select = {
     all: false
   };
@@ -70,7 +76,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
    */
   $scope.toggleReward = function(index, status) {
     const location = $scope.use.indexOf(index);
-    var toggle = false;
+    // var toggle = false;
 
     if(location > -1) {
       toggle = true;
@@ -82,9 +88,13 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
       UtilService.showError('Uh Oh', 'Sorry the reward has expired');
     }
 
-    if (toggle) {
-      $('#reward-'+index).toggleClass('selected');
-    }
+    // if (toggle) {
+    //   $('#reward-'+index).toggleClass('selected');
+    // }
+  };
+
+  $scope.isRewardSelected = function (index) {
+    return $scope.use.indexOf(index) > -1
   };
 
   $scope.showTable = function() {
@@ -104,7 +114,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     $scope.empty = false;
 
     CoupinService.verify(pin).then(function(response) {
-      console.log(response);
       $scope.loading = false;
       $scope.booking = response.data;
       $scope.rewards = response.data.rewardId;
@@ -118,18 +127,13 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     });
   };
 
-  // $scope.$watch(function() {
-  //   $location.path();
-  // }, function() {
-  //   console.log('Change');
-  //   var pathArray = $location.path().split("/");
-  //   var page = pathArray[pathArray.length - 1];
-  //   if (page === 'home' || page === 'rewards' || page === 'profile') {
-  //     $(`#${page}`).toggleClass('nav-active');
-  //   }
-  // });
-
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);
   });
+
+  AnalyticsService.getStats()
+    .then(function (res) {
+      $scope.loadingStats = false;
+      $scope.stats = res.data;
+    });
 });

@@ -1,4 +1,5 @@
 angular.module('authapp', [
+  'ngEnvVars.config',
   'ngRoute',
   'ngFileUpload',
   'ngSessionStorage',
@@ -9,11 +10,10 @@ angular.module('authapp', [
   'mgcrea.ngStrap',
   'AuthCtrl',
   'AuthSrv',
+  'PaymentSrv',
   'MerchantSrv',
   'RewardsSrv',
   'StorageSrv',
+  'ConfigSrv',
   'UtilSrv'
-]).constant('config', {
-  baseUrl: 'https://coupin.herokuapp.com/api/v1',
-  paystackId: 'pk_test_e34c598056e00361d0ecceefac6299eef29b7e46'
-});
+]);

@@ -1,0 +1,134 @@
+<div id="billing-info">
+  <div class="loading text-center" ng-if="loading">
+    <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Loading Payment page</span>
+  </div>
+  <section class="billing-plans">
+      <div class="section-header-container">
+        <p class="section-headers">
+          Billing plans
+        </p>
+        <button 
+          class="btn btn-outline-primary btn-sm" 
+          ng-if="displayRenew() && billing.plan !== 'trial'" 
+          ng-click="updateBilling(true)"
+          style="margin-left:15px;">
+          Renew Plan
+        </button>
+      </div>
+    <div class="plans">
+      <div class="plan-disable-frontdrop" ng-if="isValidTrialPlan()">
+        You don't have to select a plan, you have an active free plan
+      </div>
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
+        <input type="radio" name="billing-plan" class="billing-plan" value="payAsYouGo" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('payAsYouGo'); updateBilling()">
+          <div class="plan-header">
+            Commission
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>Single Reward Payments</p>
+            <p>Access to Customer Insights Through the Analytics Dashboard</p>
+          </div>
+          <div class="plan-footer">
+            3% fee per purchase
+          </div>
+        </div>
+      </div>
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
+        <input type="radio" name="billing-plan" class="billing-plan" value="monthly" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('monthly'); updateBilling()">
+          <div class="plan-header">
+            Start Up Plan
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>Unlimited Rewards Addition within Month of Payment</p>
+            <p>Dedicated Tech Support</p>
+            <p>Access to Customer Insights Through the Analytics Dashboard</p>
+          </div>
+          <div class="plan-footer">
+            &#8358;30,000 per Month
+          </div>
+        </div>
+      </div>
+      <div class="plan" ng-class="{ 'trial-plan': isValidTrialPlan() }">
+        <input type="radio" name="billing-plan" class="billing-plan" value="yearly" ng-model="billing.plan">
+        <div class="card" ng-click="setPlan('yearly'); updateBilling()">
+          <div class="plan-header">
+            Corporate Plan
+            <span class="select-indicator"></span>
+          </div>
+          <div class="plan-body">
+            <p>All of start up plan Options</p>
+            <p>Coupin Concierge at Merchant Location</p>
+          </div>
+          <div class="plan-footer">
+            &#8358;330,000 per Year
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="billing-history">
+    <!-- <div class="row">
+      <div class="col-sm-12"> -->
+        <p class="section-headers">
+          Billing History
+        </p>
+        <table class="table" id="payment-history-table">
+          <thead>
+            <th>S/N</th>
+            <th>Plan</th>
+            <th>Paid On</th>
+            <th>Expires On</th>
+            <th>reference</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr ng-if="showHistory() && (index < 5 || showRest)" ng-repeat="(index, bill) in history">
+              <td class="hidden-xs hidden-sm">{{index + 1}}</td>
+              <td class="capitalize">{{bill.plan}}</td>
+              <td>{{bill.date | date: 'longDate'}}</td>
+              <td>
+                <span ng-if="bill.expiration">
+                    {{bill.expiration | date: 'longDate'}}
+                </span>
+                <span ng-if="!bill.expiration">--</span>
+              </td>
+              <td show-more="true">
+                <span ng-if="bill.reference">{{bill.reference}}</span>
+                <span ng-if="!bill.reference">--</span>
+              </td>
+              <td>
+                <span ng-if="index === 0 && planStatus()" ng-class="planStatus()" class="plan-status">
+                  {{planStatus()}}
+                </span>
+              </td>
+            </tr>
+            <tr ng-if="historyLoading" class="loading-row">
+                <td class="hidden-xs hidden-sm"><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td><div></div></td>
+                <td></td>
+            </tr>
+            <tr ng-if="!historyLoading && !showHistory()">
+              <td colspan="5">
+                <div class="row padding-10-all">
+                  <div class="col-sm-12 text-center">
+                    <i class="fas fa-box-open fa-3x"></i>
+                    <h5>Sorry there is no payment history.</h5>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="cursor: pointer;" ng-if="history.length > 5 && !showRest" ng-click="setShowRest()">Show more</div>
+        <div style="cursor: pointer;" ng-if="history.length > 5 && showRest" ng-click="setShowRest()">Show less</div>
+      <!-- </div>
+    </div> -->
+  </section>
+</div>

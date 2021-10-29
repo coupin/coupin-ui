@@ -1,38 +1,40 @@
 angular.module('RequestSrv', []).factory('RequestService', [
   '$http',
-  'config',
+  'ENV_VARS',
   'StorageService'
 , function(
   $http,
-  config,
+  ENV_VARS,
   StorageService
 ) {
-  var baseV1Url = config.baseUrl;
-  var token = StorageService.getToken();
-  var authHeader = {
-      'x-access-token': token
-  };
+  var baseV1Url = ENV_VARS.apiUrl;
+  function getAuthHeader() {
+    var token = StorageService.getToken();
+    return {
+        'x-access-token': token
+    };
+  }
 
   return {
     getRequests: function(status) {
-      return $http.get(`${baseV1Url}/merchant/status/${status}`, {
-          headers: authHeader
+      return $http.get(baseV1Url + '/merchant/status/' + status, {
+          headers: getAuthHeader()
       });
     },
     getRewards: function() {
-      return $http.get(`${baseV1Url}/rewards/requests`, {
-          headers: authHeader
+      return $http.get(baseV1Url + '/rewards/requests', {
+          headers: getAuthHeader()
       });
     },
     getMerchantsRewards: function(id) {
-      return $http.get(`${baseV1Url}/merchant/${id}/rewards`, {
-          headers: authHeader
+      return $http.get(baseV1Url + '/merchant/' + id + '/rewards', {
+          headers: getAuthHeader()
       });
     },
     // Use to approve or decline
     updateStatus : function(id, details) {
-      return $http.put(`${baseV1Url}/merchant/${id}/status/`, details, {
-        headers: authHeader
+      return $http.put(baseV1Url + '/merchant/' + id + '/status/', details, {
+        headers: getAuthHeader()
       });
     }
   };

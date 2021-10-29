@@ -1,33 +1,92 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-2 col-lg-1">
+    <div class="row portal-header hidden-xs hidden-sm hidden-md">
+        <div class="logo-block">
+            <a ui-sref=".home">
+                <img src="img/logo@2x-fs8.png" alt="logo" class="desktop-logo" />
+                <p>Merchant Dashboard</p>
+            </a>
+        </div>
+    </div>
+    <div class="row portal-content">
+        <div class="col-xs-12 col-sm-12 col-lg-2">
             <nav class="navbar navbar-default navbar-fixed-side">
                 <div class="container">
                     <div class="navbar-header">
-                        <button class="navbar-toggle" data-target="#merchant-menu" data-toggle+"collapse">
-                            <span class="sr-only">Toggle Navigation</span>
+                        <div class="brand hidden-lg">
+                            <!-- Coupin Merchant Dashboard -->
+                            <img src="img/logo@2x-fs8.png" alt="logo" class="mobile-logo hidden-lg">
+                        </div>
+                        <button class="navbar-toggle collapsed" data-target="#merchant-menu" data-toggle="collapse">
+                            <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <!-- <a class="navbar-brand" href="/merchant"><img class="center-item" src="/img/logo.png" style="display:block" width="180px"/></a> -->
-                        <h2>LOGO</h2>
                     </div>
                     <div class="collapse navbar-collapse" id="merchant-menu">
-                        <ul class="nav navbar-nav">
-                            <li><a class="nav-merch text-center" href="" ng-disabled="true"><b>{{user.merchantInfo.companyName}}</b></a></li>
-                            <li><a id="home" class="nav-merch text-center" ui-sref=".home">Home</a></li>
-                            <li><a id="rewards" class="nav-merch text-center" ui-sref=".rewards">Rewards</a></li>
-                            <li><a id="profile" class="nav-merch text-center" ui-sref=".profile">Profile</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a class="nav-merch text-center" ng-click="logOut()">Sign Out</a></li>
-                        </ul>
+                        <section class="merchant-information">
+                            <div class="merchant-logo" ng-style="{'background-image': 'url({{user.merchantInfo.logo.url}})'}"></div>
+                            <h3 class="merchant-name">
+                                {{user.merchantInfo.companyName}}
+                            </h3>
+                            <h4 class="merchant-email">
+                                {{user.email}}
+                            </h4>
+                        </section>
+                        <section class="menu">
+                            <a ui-sref=".home" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
+                            <a ui-sref=".home" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-home"></i>
+                                Home
+                            </a>
+                            <a ui-sref=".rewards" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-tags"></i>
+                                Rewards
+                            </a>
+                            <a ui-sref=".rewards" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-tags"></i>
+                                Rewards
+                            </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
+                            <a ui-sref=".analytics" ng-class="{active: analyticsState()}" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
+                            <a ui-sref=".profile" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                            <a ui-sref=".profile" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                            <a ui-sref=".billing" ui-sref-active="active" data-toggle="collapse" data-target="#merchant-menu" class="hidden-lg">
+                                <i class="fas fa-money-bill"></i>
+                                Billing Info
+                            </a>
+                            <a ui-sref=".billing" ui-sref-active="active" class="hidden-sm hidden-xs hidden-md">
+                                <i class="fas fa-money-bill"></i>
+                                Billing Info
+                            </a>
+                            <a ng-click="logOut()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Signout
+                            </a>
+                        </section>
                     </div>
                 </div>
             </nav>
         </div>
-        <div class="col-sm-10 col-lg-11 merchant-space">
+        <div class="col-xs-12 col-sm-12 col-lg-10 merchant-space">
+            <div class="alert alert-danger" role="alert" ng-if="isExpired()">
+                Your Subscription has expired! Click <a class="red-link" ui-sref=".billing">here</a> go to <b>Billing Info</b> to renew or activate a new plan!
+            </div>
             <!-- Dynamic Angular Content -->
             <div ui-view></div>
             <!-- <ui-view></ui-view> -->

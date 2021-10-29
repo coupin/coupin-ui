@@ -1,4 +1,6 @@
 angular.module('coupinApp', [
+  'ngEnvVars.config',
+  // 'httpIntercept',
   'ngRoute',
   'ngFileUpload',
   'ui.router',
@@ -9,20 +11,46 @@ angular.module('coupinApp', [
   'daterangepicker',
   'merchappRoutes',
   'AuthCtrl',
+  'AnalyticsCtrl',
+  'RewardDetailAnalyticsCtrl',
   'HomeCtrl',
   'BaseMCtrl',
+  'BillingCtrl',
   'ProfileCtrl',
   'MerchantSrv',
+  'AnalyticsSrv',
   'RewardsCtrl',
   'RewardsListCtrl',
   'StorageSrv',
   'CoupinSrv',
+  'ConfigSrv',
+  'PaymentSrv',
+  'BankSrv',
   'RewardsSrv',
   'AuthSrv',
   'UtilSrv'
-]).constant('config', {
-  baseUrl: 'https://coupin.herokuapp.com/api/v1',
-  paystackId: 'pk_test_e34c598056e00361d0ecceefac6299eef29b7e46'
+]).config(function ($httpProvider) {
+  $httpProvider.interceptors.push(function ($state, $window, $q) {
+    return {
+      responseError: function (res) {
+        if (res.status === 401 && res.data === 'TokenExpired') {
+          localStorage.removeItem('ctk');
+          localStorage.removeItem('hasExpired');
+          localStorage.removeItem('isMerchant');
+          localStorage.removeItem('user');
+          localStorage.clear();
+
+          localStorage.setItem('jwt-expired', true);
+
+          $state.go('auth', {});
+          $window.location.reload();
+          $q.reject(res);
+        }
+
+        return $q.reject(res);
+      },
+    }
+  });
 }).run(function($rootScope, $state, $stateParams, $transitions, StorageService, UtilService) {
   $rootScope.$state = $state;
   $rootScope.$stateParams = $stateParams;
@@ -30,7 +58,7 @@ angular.module('coupinApp', [
   $transitions.onBefore( {to: 'dashboard.**' }, function(trans) {
     if (!StorageService.isLoggedIn()) {
       return trans.router.stateService.target('auth', trans.targetState().params());
-    } else if (StorageService.isLoggedIn() && !UtilService.isDefined($rootScope.user)) {
+    } else if (StorageService.isLoggedIn() && StorageService.isMerchant() && !UtilService.isDefined($rootScope.user)) {
       $rootScope['user'] = StorageService.getUser();
     }
   });

@@ -1,15 +1,18 @@
-angular.module('AuthCtrl', []).controller('AuthController', function(
+angular.module('AuthCtrl', []).controller('AuthController', function (
     $scope,
     $http,
+    $timeout,
     $location,
     $state,
     $window,
     $alert,
-    config,
+    ENV_VARS,
     MerchantService,
     AuthService,
     StorageService,
-    UtilService
+    PaymentService,
+    UtilService,
+    ConfigService,
 ) {
     // scope variable to hold form data
     $scope.formData = {};
@@ -19,7 +22,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
     // to show error and loading
     var amount = 0;
+    var confirmed = false;
+    var checkAuth = true;
     var merchId = '';
+    var encodedString = '';
     var plan = 'payAsYouGo';
     $scope.bounds = {
         left: 0,
@@ -37,21 +43,99 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     $scope.showError = false;
     $scope.uploadingBanner = false;
     $scope.uploadingLogo = false;
+    $scope.showBilling = false;
+    $scope.agreeTermsAndCondition = false;
+    var url = window.location.origin;
+    /**
+     * {
+     *  enabled: boolean,
+     *  endDate: date,
+     *  duration: number,
+     * }
+     */
+    $scope.trialPeriodData = {};
+    $scope.showSessionExpired = false;
+
+
+    /* this is for switching pages in the merchant auth area */
+    $scope.activeView = 'register';
+
+    if (localStorage.getItem('jwt-expired')) {
+        $scope.showSessionExpired = true;
+
+        $timeout(function () {
+            localStorage.removeItem('jwt-expired');
+        }, 3000);
+    }
+
+    $scope.switchActiveView = function (view) {
+        $scope.activeView = view;
+    }
+    /* end of switching pages in the merchant auth area */
 
     // States
-    $scope.states = ['lagos'];
+    $scope.states = [
+        'Abia',
+        'Adamawa',
+        'Akwa Ibom',
+        'Anambra',
+        'Bauchi',
+        'Bayelsa',
+        'Benue',
+        'Borno',
+        'Cross River',
+        'Delta',
+        'Ebonyi',
+        'Edo',
+        'Ekiti',
+        'Enugu',
+        'FCT - Abuja',
+        'Gombe',
+        'Imo',
+        'Jigawa',
+        'Kaduna',
+        'Kano',
+        'Katsina',
+        'Kebbi',
+        'Kogi',
+        'Kwara',
+        'Lagos',
+        'Nasarawa',
+        'Niger',
+        'Ogun',
+        'Ondo',
+        'Osun',
+        'Oyo',
+        'Plateau',
+        'Rivers',
+        'Sokoto',
+        'Taraba',
+        'Yobe',
+        'Zamfara',
+    ];
 
     // Get current merchant if merchant route called
-    if($location.absUrl().includes('confirm')) {
+    if ($location.absUrl().indexOf('confirm') > -1) {
+        checkAuth = false;
         merchId = strings[strings.length - 2];
-        console.log(merchId);
-        console.log(strings);
+
+        ConfigService.getConfig().then(function (res) {
+            var config = res.data;
+            $scope.trialPeriodData = config.trialPeriod || {};
+
+            if ($scope.trialPeriodData.enabled) {
+                $scope.planIndex = 3;
+                plan = 'trial';
+                console.log(plan)
+            }
+
+            $scope.showBilling = true;
+        });
 
         if (merchId && merchId.length === 24) {
-            MerchantService.confirm(merchId).then(function(response) {
+            MerchantService.confirm(merchId).then(function (response) {
                 $scope.user = response.data;
-                console.log(response.data);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err);
                 $scope.showErrors('Retrieval Failed', err.data);
             });
@@ -60,7 +144,24 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     }
 
-    if (StorageService.isLoggedIn()) {
+    // Confirm Id if for change of password
+    if ($location.absUrl().indexOf('forgot-password') > -1) {
+        checkAuth = false;
+        var encodedString = UtilService.getQueryVariable('query');
+
+        AuthService.confirmEncodedString(encodedString).then(function (result) {
+            confirmed = true;
+            merchId = result.data.id;
+        }).catch(function (err) {
+            if (err.status === 500) {
+                UtilService.showError('Uh Oh', 'Could not confirm id. Please contact us at care@coupinapp.com');
+            } else {
+                UtilService.showError('Uh Oh', err.data);
+            }
+        });
+    }
+
+    if (checkAuth && StorageService.isLoggedIn()) {
         $scope.user = StorageService.getUser();
         if ($scope.user.role > 1) {
             $state.go('dashboard.home', {});
@@ -71,60 +172,72 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
     // to hold categories
     $scope.categories = {
-        foodndrinks : false,
-        shopping : false,
-        entertainment : false,
-        healthnbeauty : false, 
-        gadgets : false,
+        foodndrinks: false,
+        shopping: false,
+        entertainment: false,
+        healthnbeauty: false,
+        technology: false,
         groceries: false,
-        tickets : false, 
-        travel : false
+        tickets: false,
+        travel: false
     }
 
     // Non-scope variables
     var multipleAlerts = [];
-    var hideAllAlerts = () => {
-        if(multipleAlerts.length > 0) {
-            for(var j = 0; j < multipleAlerts.length; j++) {
+    var hideAllAlerts = function () {
+        if (multipleAlerts.length > 0) {
+            for (var j = 0; j < multipleAlerts.length; j++) {
                 multipleAlerts[j].hide();
             }
         }
     };
 
-    // Add selected category to Object
-    $scope.addCat = (x) => {
-        if($scope.categories[x] === false) {
+    /**
+     * Add selected category to object
+     * @param {Number} x index
+     */
+    $scope.addCat = function (x) {
+        if ($scope.categories[x] === false) {
             $scope.categories[x] = true;
         } else {
             $scope.categories[x] = false;
         }
     };
 
-    function setUserInfo(data) {
+    function setUserInfo(data, setExpiration) {
+        console.log(data.user.merchantInfo.billing.history, 'history');
+
+        if (setExpiration && data.user.merchantInfo.billing.history[0] && data.user.merchantInfo.billing.history[0].plan !== 'payAsYouGo') {
+            var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
+            StorageService.setExpired(moment(expirationDate).isBefore());
+        }
+        StorageService.setIsMerchant(setExpiration);
         StorageService.setToken(data.token);
         StorageService.setUser(data.user);
         $scope.user = data.user;
     }
 
-    // For Admin Login
-    $scope.signInA = () => {
+    /**
+     * Sign in Admin
+     */
+    $scope.signInA = function () {
         // show loading
         $scope.loading[0] = true;
         // reset show error back to false
         $scope.showError = false;
 
         // only go through if the object has 2 keys
-        if(Object.keys($scope.formData).length == 2) {
+        if (Object.keys($scope.formData).length == 2) {
             // check if the login details are correct, if so log in and redirect else show error
             AuthService.signinA($scope.formData)
-            .then(function(response){
-                setUserInfo(response.data);
-                $state.go('portal.home', {});
-            }, function(err) {
-                $scope.loading[0] = false;
-                $scope.loginError = 'Email or Password is invalid.'
-                $scope.showError = true;
-            });
+                .then(function (response) {
+                    setUserInfo(response.data, false);
+                    $state.go('portal.home', {});
+                }, function (err) {
+                    $scope.loading[0] = false;
+                    $scope.loginError = 'Email or Password is invalid.'
+                    $scope.showError = true;
+                });
         } else {
             $scope.loading[0] = false;
             $scope.loginError = 'Email and Password Cannot Be Empty';
@@ -132,97 +245,180 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         }
     };
 
-    $scope.planCheck = function(index) {
+    /**
+     * Check for plan
+     * @param {Number} index 
+     */
+    $scope.planCheck = function (index) {
         return $scope.planIndex === index;
     };
 
-    $scope.planSelect = function(index) {
-        // if (!UtilService.isDefined($scope.formData.logo) || !UtilService.isDefined($scope.formData.banner)) {
-        //     UtilService.showError('Uh Oh', 'Must have a logo and a banner.');
-        // }
+    /**
+     * Select a plan
+     * @param {Number} index 
+     */
+    $scope.planSelect = function (index) {
         if (index === 0) {
             $scope.planIndex = 0;
             plan = 'payAsYouGo';
         } else if (index === 1) {
             $scope.planIndex = 1;
-            amount = 57000;
+            amount = 30000;
             plan = 'monthly';
         } else if (index === 2) {
             $scope.planIndex = 2;
-            amount = 750000;
+            amount = 330000;
             plan = 'yearly';
         }
-     }
+    }
 
-     function makePayment() {
-         var date = new Date();
-        var handler = PaystackPop.setup({
-            key: config.paystackId,
+    /**
+     * Make payment using paystack
+     */
+    function makePayment() {
+        const paymentObject = {
+            callbackUrl: url + '/auth',
+            amount: amount,
             email: $scope.user.email,
-            amount: amount * 100,
-            ref: `${plan}-${merchId}-${date.getFullYear()}-${date.getMonth()}-${date.getDate()}-${date.getTime()}`,
-            metadata: {
-                custom_fields: [
-                    {
-                        display_name: "Plan",
-                        variable_name: "Billing_Plan",
-                        value: `${$scope.user.merchantInfo.companyName} - registration - ${plan}-${date.getTime()}`
-                    }
-                ]
-            },
-            callback: function(response){
-                $scope.formData['billing'] = {
-                    plan: plan,
-                    date: date,
-                    reference: response.reference
-                };
-                updateUser();
-            },
-            onClose: function(){
-                $scope.loading = false;
-                UtilService.showInfo('Payment Cancelled', 'Pay when you are ready.');
-            }
+            type: 'billing',
+            billingPlan: plan,
+            companyName: $scope.user.merchantInfo.companyName,
+            userId: $scope.user._id,
+        };
+
+        PaymentService.initiatePayment(paymentObject).then(function (result) {
+            var authorizationUrl = result.data['authorization_url'];
+            UtilService.showInfo('Hey!', 'You\'ll be redirected to a payment page to pay for the billing');
+            $timeout(function () {
+                window.location = authorizationUrl;
+            }, 3000)
         });
-        handler.openIframe();
-     }
+    }
 
-     function updateUser() {
-         $scope.loading[1] = true;
-         MerchantService.complete(merchId, $scope.formData).then(function(response){
-            // Get response data
-            let data = response.data;
-
-            // Show loading icon/screen
-            $scope.loading[1] = false;
-
-            // Handle service response
-            UtilService.showSuccess('Confirmation Success', data.message);
-            $window.location.href = '/auth';
-        }).catch(function(err){
-            $scope.loading[1] = false;
-            UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
-        });
-     }
+    /**
+     * Update user data
+     */
+    function updateUser() {
+        $scope.loading[1] = true;
+        return MerchantService.complete(merchId, $scope.formData)
+    }
 
     /**
      * Used to complete merchants registration
      */
-    $scope.completeMerch = () => {
-        switch($scope.planIndex) {
+    $scope.completeMerch = function () {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            UtilService.showError('Error', 'Passwords do not match');
+            return;
+        }
+
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            UtilService.showError('Error', 'Please upload an image for the logo');
+            return;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            UtilService.showError('Error', 'Please upload an image for the banner');
+            return;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            UtilService.showError('Error', 'Please add a description for your company');
+            return;
+        }
+
+        switch ($scope.planIndex) {
             case 0:
                 $scope.formData['billing'] = {
                     plan: plan,
                     date: new Date(),
                     reference: 'complete-registration'
                 };
-                updateUser();
+                updateUser().then(function (data) {
+                    var responseMessage = data && data.message || 'success';
+                    UtilService.showSuccess('Confirmation Success', responseMessage);
+                    $window.location.href = '/auth';
+                });
                 break;
             case 1:
             case 2:
-                makePayment();
+                updateUser().then(function (response) {
+                    // Get response data
+                    let data = response.data;
+
+                    // Show loading icon/screen
+                    $scope.loading[1] = false;
+
+                    // Handle service response
+                    UtilService.showSuccess('Confirmation Success', data.message);
+                    makePayment();
+                }).catch(function (err) {
+                    $scope.loading[1] = false;
+                    UtilService.showError('Confirmation Failed', 'Your information failed to update, please check connection and try again.');
+                });
                 break;
+            case 3:
+                // for the free trial option
+                $scope.formData['billing'] = {
+                    plan: 'trial',
+                    date: new Date(),
+                    reference: $scope.trialPeriodData.duration + '-months-trial-complete-registration',
+                    expiration: moment(new Date()).add($scope.trialPeriodData.duration, 'months').toDate(),
+                };
+                updateUser().then(function (response) {
+                    // Get response data
+                    let data = response.data;
+
+                    // Show loading icon/screen
+                    $scope.loading[1] = false;
+
+                    UtilService.showSuccess('Confirmation Success', data.message);
+                    $window.location.href = '/auth';
+                });
+                break;
+            default:
+                UtilService.showError('Please select Valid Plan', 'Please select a valid billing plan!');
         }
     };
+
+    $scope.submitPassword = function () {
+        $scope.loading[1] = true;
+        if ($scope.formData.password === $scope.formData.password2) {
+            AuthService.changePassword(merchId, $scope.formData.password, encodedString).then(function (result) {
+                UtilService.showSuccess('Success!', 'Password change successful.');
+                $scope.loading[1] = false;
+                $scope.formData = {};
+                // $window.location.href="/auth"
+            }).catch(function (err) {
+                $scope.loading[1] = false;
+                UtilService.showError('Uh Oh', err.data);
+            });
+        } else {
+            $scope.loading[1] = false;
+            UtilService.showError('Uh Oh', 'Passwords do not match. Please try again');
+        }
+    };
+
+    $scope.submitPasswordResetRequest = function () {
+        $scope.loading[1] = true;
+        if ($scope.formData.resetPasswordEmail) {
+            AuthService.requestPasswordChange($scope.formData.resetPasswordEmail).then(function (result) {
+                UtilService.showSuccess('Success!', 'Request sent successful.');
+                $scope.loading[1] = false;
+                $scope.formData = {};
+            }).catch(function (err) {
+                $scope.loading[1] = false;
+                UtilService.showError('Uh Oh', err.data);
+            });
+        } else {
+            $scope.loading[1] = false;
+            UtilService.showError('Uh Oh', 'Please enter your email!');
+        }
+    };
+
+    $scope.goToPasswordResetRequestPage = function () {
+        $window.location.href = '/auth/request-password-change';
+    }
 
     function resetUploads() {
         $scope.progress = 0;
@@ -230,6 +426,12 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
         $scope.uploadingBanner = false;
     }
 
+    /**
+     * Upload image and banner
+     * @param {File} image The image.
+     * @param {String} name The name of the image being uploaded.
+     * @param {Boolean} isLogo true if logo and false if banner.
+     */
     function upload(image, name, isLogo) {
         if (isLogo) {
             $scope.uploadingLogo = true;
@@ -237,34 +439,40 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
             $scope.uploadingBanner = true;
         }
 
-        UtilService.uploadProfile(image, name, isLogo, function(response) {
+        UtilService.uploadProfile(image, name, isLogo, function (response) {
             if (response.success) {
                 if (isLogo) {
                     $scope.formData['logo'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 } else {
                     $scope.formData['banner'] = {
                         id: response.data.public_id,
-                        url: response.data.url
+                        url: response.data.secure_url
                     };
                 }
                 $('#cropModal').modal('hide');
                 resetUploads();
             } else {
-                Util.showError('Upload Failed', response.data);
+                UtilService.showError('Upload Failed', response.data);
             }
-        }, function(percentage) {
+        }, function (percentage) {
             $scope.progress = percentage;
         });
     }
 
-    $scope.showBanner = function() {
+    /**
+     * Determine whether to show banner or not
+     */
+    $scope.showBanner = function () {
         return UtilService.isDefined($scope.formData.banner);
     };
 
-    $scope.showLogo = function() {
+    /**
+     * Determine whether to show logo or not
+     */
+    $scope.showLogo = function () {
         return UtilService.isDefined($scope.formData.logo);
     };
 
@@ -273,22 +481,30 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
      * @param {*} image 
      * @param {*} isLogo 
      */
-    $scope.fileCheck = function(image, isLogo) {
+    $scope.fileCheck = function (image, isLogo) {
         var limit = isLogo ? 500000 : 900000;
+        var file;
+
         if (UtilService.isDefined(image.src)) {
             isuploading = true;
             var dataurl = image.dst;
             var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-            bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
+                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+            while (n--) {
                 u8arr[n] = bstr.charCodeAt(n);
             }
-            
-            var file = new File([u8arr], 'testing', {type:mime});
+
+            try {
+                file = new File([u8arr], "" + image.src.length, { type: mime });
+            } catch (err) {
+                file = new Blob([u8arr], { type: mime });
+                file.name = "" + image.src.length;
+                file.lastModified = new Date();
+            }
 
             if (file.size > limit) {
                 limit = limit / 100;
-                showError('Uh Oh!', `File is too large, must be ${temp}KB or less.`);
+                showError('Uh Oh!', 'File is too large, must be ' + temp + 'KB or less.');
             } else {
                 upload(file, $scope.user._id, isLogo);
             }
@@ -298,32 +514,45 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
     /**
      * Logs merchant into the system
      */
-    $scope.loginMerch = () => {
+    $scope.loginMerch = function () {
+        $scope.showSessionExpired = false;
+        localStorage.removeItem('jwt-expired');
         let details = {
-            email : $scope.formData.loginEmail,
-            password : $scope.formData.loginPassword
+            email: $scope.formData.loginEmail,
+            password: $scope.formData.loginPassword
         };
+        $scope.loading[0] = true;
 
-        AuthService.signinM(details).then(function(response) {
-            setUserInfo(response.data);
+        AuthService.signinM(details).then(function (response) {
+            setUserInfo(response.data, true);
+            $scope.loading[0] = false;
             $state.go('dashboard.home', {});
-        }).catch(function(err) {
-            $scope.loading[1] = false;
+        }).catch(function (err) {
+            $scope.loading[0] = false;
             UtilService.showError('Request Failed', err.data);
         });
+    }
+
+    $scope.setAgreeTermsAndConditionChange = function () {
+        $scope.agreeTermsAndCondition = !$scope.agreeTermsAndCondition;
     }
 
     /**
      * Used to register a merchant after they have been approved
      */
-    $scope.registerMerch = () => {
+    $scope.registerMerch = function () {
         // Hide any existing alert
-        hideAllAlerts();
-        
+        // hideAllAlerts();
+
+        if (!$scope.agreeTermsAndCondition) {
+            UtilService.showError('Missing field', 'Please agree to our terms and conditions');
+            return;
+        }
+
         // Get final categories picked
         var finalCat = [];
-        for(x in $scope.categories) {
-            if($scope.categories[x] === true)
+        for (x in $scope.categories) {
+            if ($scope.categories[x] === true)
                 finalCat[finalCat.length] = x;
         }
         $scope.formData.categories = finalCat;
@@ -333,75 +562,93 @@ angular.module('AuthCtrl', []).controller('AuthController', function(
 
         // User service to register merchant
         AuthService.registerMerch($scope.formData)
-        .then(function(response) {
-            // Hide loading icon
-            $scope.loading[1] = false;
+            .then(function (response) {
+                // Hide loading icon
+                $scope.loading[1] = false;
 
-            // Reset form data
-            $scope.formData = {};
-            $scope.categories = {
-                foodndrinks : false,
-                shopping : false,
-                entertainment : false,
-                healthnbeauty : false, 
-                gadgets : false, 
-                tickets : false, 
-                travel : false
-            }
+                // Reset form data
+                $scope.formData = {};
+                $scope.categories = {
+                    foodndrinks: false,
+                    shopping: false,
+                    entertainment: false,
+                    healthnbeauty: false,
+                    technology: false,
+                    tickets: false,
+                    travel: false
+                }
 
-            // Send out success alert
-            UtilService.showSuccess('Success', response.data.message);
-        })
-        .catch(function(err) {
-            console.log(err);
-            $scope.loading[1] = false;
-            if (err.data.code && err.data.code == 11000) {
-                UtilService.showError('Request Failed', 'A merchant with that email address already exists.');
-            } else {
-                UtilService.showError('Request Failed', err.data.message);
-            }
-        });
+                // Send out success alert
+                UtilService.showSuccess('Success', response.data.message);
+            })
+            .catch(function (err) {
+                console.log(err);
+                $scope.loading[1] = false;
+                if (err.data.code && err.data.code == 11000) {
+                    UtilService.showError('Request Failed', 'A merchant with that email address already exists.');
+                } else {
+                    UtilService.showError('Request Failed', err.data.message);
+                }
+            });
     };
 
     /**
      * Used to show errors from the service response
      */
-    $scope.showErrors = function(title, response) {
+    $scope.showErrors = function (title, response) {
         var data = '';
-        if(UtilService.isDefined(response.data)) {
-            console.log(response);
+        if (UtilService.isDefined(response.data)) {
             data = response.data.message;
         } else {
             data = 'Error occured while trying to log in';
         }
-        
+
         // check if errorArray is an object, if so send an alert for each item
-        if(typeof data === 'object') {
-            for(var i = 0; i < data.length; i++) {
-                multipleAlerts[multipleAlerts.length] = $alert({
+        if (typeof data === 'object') {
+            for (var i = 0; i < data.length; i++) {
+                /* multipleAlerts[multipleAlerts.length] = $alert({
                     'title': title,
                     'content': data[i].msg,
                     'duration': 5,
-                    'placement': 'top-right',
+                    'placement': 'center-center',
                     'show' : true ,
                     'type' : 'danger'
-                });
+                }); */
+                UtilService.showError(title, data[i].msg)
             }
         } else {
             // else just show the message
-            $alert({
-                'title': title,
-                'content': data,
-                'duration': 5,
-                'placement': 'top-right',
-                'show' : true ,
-                'type' : 'danger'
-            });
+            UtilService.showError(title, data);
         }
     };
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         StorageService.clearAll();
         $state.go('auth', {});
+        $window.location.reload();
     };
+
+    $scope.isError = function (x) {
+        return UtilService.isError(x);
+    };
+
+    $scope.disableMerchantConfirmationButton = function () {
+        if ($scope.formData.password !== $scope.formData.password2) {
+            return false;
+        }
+
+        if (!$scope.formData.logo || !$scope.formData.logo.url) {
+            return false;
+        }
+
+        if (!$scope.formData.banner || !$scope.formData.banner.url) {
+            return false;
+        }
+
+        if (!$scope.formData.companyDetails) {
+            return false;
+        }
+
+        return true;
+    }
 });

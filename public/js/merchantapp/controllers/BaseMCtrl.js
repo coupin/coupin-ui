@@ -1,13 +1,14 @@
 angular.module('BaseMCtrl', []).controller('BaseMController', function (
     $scope,
     $alert,
-    $location,
-    $state,
-    $window,
     StorageService,
-    MerchantService,
+    $state
 ) {
     $scope.position = {};
+
+    $scope.isExpired = function() {
+        return StorageService.isExpired();
+    };
 
     /**
      * Show error alert dialog.
@@ -19,9 +20,15 @@ angular.module('BaseMCtrl', []).controller('BaseMController', function (
             'title': title,
             'content': msg,
             'duration': 5,
-            'placement': 'top-right',
+            'placement': 'center-center',
             'show' : true ,
             'type' : 'danger'
         });
     };
+
+
+  $scope.analyticsState = function() {
+    return $state.includes('dashboard.analytics') || 
+      $state.includes('dashboard.reward-analytics');
+  }
 });

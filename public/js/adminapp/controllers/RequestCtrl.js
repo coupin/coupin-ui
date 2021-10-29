@@ -1,12 +1,10 @@
 angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope,
-    $alert,
     MerchantService,
     RequestService,
     RewardsService,
     UtilService
 ){
-    console.log($scope.user);
     $scope.requests = [];
     $scope.currentRequest = {};
     $scope.currentReward = {};
@@ -19,6 +17,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         reason: '',
         value: null
     };
+    $scope.tab = 'merch';
 
     // loading value
     $scope.loading = false;
@@ -50,9 +49,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
         $scope.group = status;
         RequestService.getRequests(status).then(function(response) {
-            // $scope.requests = response.data;
-            console.log(response.data);
-
             $scope.totalReq = response.data;
             $scope.loading = false;
         }).catch(function(err) {
@@ -65,7 +61,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
 
         RequestService.getRewards().then(function(response) {
-            console.log(response);
             $scope.totalRewards = response.data;
             $scope.loading = false;
         });
@@ -79,12 +74,21 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         }
     }
 
-    $scope.selectMerch = (x, status) => {
+    $scope.selectMerch = function (x, status) {
         $scope.currentRequest = x;
         $scope.status.value = status;
+        if (status) {
+            if (status === 'rejected') {
+                $scope.status.display = 'decline';
+            } else if (status === 'accepted') {
+                $scope.status.display = 'approve';
+            } else if (status === 'pending') {
+                $scope.status.display = 'de-decline';
+            }
+        }
     };
 
-    $scope.selectReward = (x, status) => {
+    $scope.selectReward = function (x, status) {
         $scope.currentReward = x;
         $scope.status.value = status;
     };
@@ -97,10 +101,14 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.canConfirm = function () {
+        if ($scope.status.value === 'pending') {
+            return true;
+        }
+
         const validate = $scope.status.value === 'rejected' ?
         ($scope.status.reason && $scope.status.reason.length > 10) :
-        ($scope.status.rating < 6 && $scope.status.rating > 0 &&
-            UtilService.isDecimal($scope.location.lat) && UtilService.isDecimal($scope.location.long));
+        ($scope.status.rating < 6 /* && $scope.status.rating > 0 &&
+            UtilService.isDecimal($scope.location.lat) && UtilService.isDecimal($scope.location.long) */);
         return validate;
     };
 
@@ -131,7 +139,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.loading = true;
         RewardsService.updateReview($scope.currentReward._id, data).then(function() {
             $scope.loading = false;
-            UtilService.showSuccess('Success', `${$scope.currentReward.name} has been ${$scope.status.value} and email has been sent`);
+            UtilService.showSuccess('Success', $scope.currentReward.name + " has been " + $scope.status.value + " and email has been sent");
 
             $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
                 return reward.id !== $scope.currentReward.id;
@@ -163,7 +171,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         RequestService.updateStatus($scope.currentRequest.id, data).then(function() {
             $scope.loading = false;
             // Send an alert that approval has been successful
-            UtilService.showSuccess('Success', `${$scope.currentRequest.name} has been ${$scope.status.value} and email has been sent`);
+            UtilService.showSuccess('Success', $scope.currentRequest.name + " has been " + $scope.status.value + " and email has been sent");
 
             // Change it in the data being shown
             $scope.totalReq = $scope.totalReq.filter(function(request) {

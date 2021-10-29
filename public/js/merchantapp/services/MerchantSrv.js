@@ -1,27 +1,35 @@
 angular.module('MerchantSrv', []).factory('MerchantService', [
-    'config',
+    'ENV_VARS',
     '$http',
     'StorageService',
 function (
-    config,
+    ENV_VARS,
     $http,
     StorageService
 ) {
-    var baseV1Url = config.baseUrl;
-    var token = StorageService.getToken();
-    var authHeader = {
-        'x-access-token': token
-    };
+    var baseV1Url = ENV_VARS.apiUrl;
+    function getAuthHeader() {
+        var token = StorageService.getToken();
+        return {
+            'x-access-token': token
+        };
+    }
+
+    function retrieve(id) {
+        return $http.get(baseV1Url + '/merchant/' + id, {
+            headers: getAuthHeader()
+        });
+    }
 
     return {
         adminCreate: function (data) {
             return $http.post(baseV1Url + '/merchant/register', data, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         changePassword : function (password) {
             return $http.post(baseV1Url + '/auth/password', {password: password}, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         }
         ,
@@ -34,30 +42,48 @@ function (
         },
         get : function() {
             return $http.get(baseV1Url + '/merchant', {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         getAllMerchants : function (page) {
             return $http.get(baseV1Url + '/merchant?page=' + page, {
-                headers: authHeader
+                headers: getAuthHeader()
+            });
+        },
+        getAllMerchantsCount : function (page) {
+            return $http.get(baseV1Url + '/merchant/count', {
+                headers: getAuthHeader()
             });
         },
         login : function(details) {
-            return $http.post(baseV1Url + '/auth/signin/m', details, );
-        },
-        retrieve : function(id) {
-            return $http.get(baseV1Url + '/merchant/' + id, {
-                headers: authHeader
+            return $http.post(baseV1Url + '/auth/signin/m', details, {
+                headers: getAuthHeader()
             });
         },
+        retrieve : retrieve,
         update: function (id, user) {
             return $http.put(baseV1Url + '/merchant/' + id, user, {
-                headers: authHeader
+                headers: getAuthHeader()
             });
         },
         updateBilling: function (id, billing) {
             return $http.post(baseV1Url + '/merchant/' + id, billing, {
-                headers: authHeader
+                headers: getAuthHeader()
+            });
+        },
+        confirmAccountDetails: function(params) {
+            return $http.post(baseV1Url + '/accounts/confirm', params, {
+                headers: getAuthHeader()
+            });
+        },
+        saveAccountDetails: function(params) {
+            return $http.post(baseV1Url + '/merchant/account', params, {
+                headers: getAuthHeader()
+            });
+        },
+        refreshUser: function(id) {
+            return retrieve(id).then(({ data }) => {
+                StorageService.setUser(data);
             });
         }
     }

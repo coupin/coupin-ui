@@ -1,19 +1,21 @@
 angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsService', [
   '$http',
-  'config',
+  'ENV_VARS',
   'StorageService',
   'UtilService',
   function (
       $http,
-      config,
+      ENV_VARS,
       StorageService,
       UtilService
   ) {
-      var token = StorageService.getToken();
-      var authHeader = {
-          'x-access-token': token
-      };
-      var baseV1Url = config.baseUrl;
+        function getAuthHeader() {
+            var token = StorageService.getToken();
+            return {
+                'x-access-token': token
+            };
+        }
+      var baseV1Url = ENV_VARS.apiUrl;
 
       return {
           // create: function (details) {
@@ -22,17 +24,28 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
           //     });
           // },
           getMerchRewards: function (id, query) {
-              var url = `${baseV1Url}/merchant/${id}/rewards`;
-              console.log(id);
-              console.log(query);
+              var url = baseV1Url + '/merchant/' + id + '/rewards';
               if (UtilService.isDefined(query)) {
-                  url = `${url}?status=${query.status}`
+                  url = url + '?status=' + query.status + '&limit=' + query.limit + '&page=' + query.page;
               }
               
               return $http({
                   method: 'GET',
                   url: url,
-                  headers: authHeader,
+                  headers: getAuthHeader(),
+                  data: query
+              });
+          },
+          getMerchRewardsCount: function (id, query) {
+              var url = baseV1Url + '/merchant/' + id + '/rewards/count';
+              if (UtilService.isDefined(query)) {
+                  url = url + '?status=' + query.status
+              }
+              
+              return $http({
+                  method: 'GET',
+                  url: url,
+                  headers: getAuthHeader(),
                   data: query
               });
           }

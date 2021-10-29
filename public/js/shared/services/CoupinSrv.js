@@ -1,29 +1,31 @@
 angular.module('CoupinSrv', []).factory('CoupinService', [
   '$http',
-  'config',
+  'ENV_VARS',
   'StorageService'
 , function(
   $http,
-  config,
+  ENV_VARS,
   StorageService
 ) {
-  var baseV1Url = config.baseUrl;
-  var token = StorageService.getToken();
-  var authHeader = {
-      'x-access-token': token
-  };
+  var baseV1Url = ENV_VARS.apiUrl;
+  function getAuthHeader() {
+    var token = StorageService.getToken();
+    return {
+        'x-access-token': token
+    };
+  }
 
   return {
     redeem: function(id, rewards) {
-      return $http.post(`${baseV1Url}/coupin/${id}/redeem`, {
+      return $http.post(baseV1Url + "/coupin/" + id + "/redeem", {
         rewards: rewards
       }, {
-        headers: authHeader
+        headers: getAuthHeader()
       });
     },
     verify: function(pin) {
-      return $http.get(`${baseV1Url}/coupin/${pin}/verify`, {
-        headers: authHeader
+      return $http.get(baseV1Url + "/coupin/" + pin + "/verify", {
+        headers: getAuthHeader()
       });
     }
   };

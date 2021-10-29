@@ -1,98 +1,154 @@
-<div class="registration">
-  <div class="row text-center">
-      <h1 class="light"> <b>Merchant</b> Login and Registration Form </h1>
-      <h4 class="light"> One thing you should know, is that <b>we are glad to have you on the team</b> </h4>
+<div class="merchant-auth">
+  <div class="auth-container">
+    <div style="margin: 30px;" class="auth-logo-container">
+        <a href="https://coupinapp.com"><img src="img/logo@2x-fs8.png" alt="logo" style="height: 50px;"></a>
+    </div>
+    <div class="card" style="position: relative; padding-bottom: 40px;">
+        <div class="header">
+            <span ng-class="{'active': activeView === 'register'}" ng-click="switchActiveView('register')">Register</span>
+            <span ng-class="{'active': activeView === 'signin'}" ng-click="switchActiveView('signin')">Sign In</span>
+            <span class="underline"></span>
+        </div>
+        <div class="alert alert-danger" role="alert" ng-if="showSessionExpired">
+            Your session has expired, please login again
+        </div>
+        <div class="body" ng-if="activeView === 'signin'">
+            <p>Sign in, Welcome back</p>
+            <form ng-submit="loginMerch()" name="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="loginEmail"
+                            ng-class="{'has-error': isError(loginForm.loginEmail)}"
+                            id="loginEmail"
+                            aria-describedby="loginEmailHelp"
+                            placeholder="name@example.com"
+                            ng-model="formData.loginEmail"
+                            required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password: </label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="loginPassword"
+                            name="loginPassword"
+                            ng-class="{'has-error': isError(loginForm.loginPassword)}"
+                            aria-describedby="loginPasswordHelp"
+                            placeholder="*******"
+                            ng-model="formData.loginPassword"
+                            required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                    </div>
+                    <small class="forgot-password form-text text-muted light" ng-click="goToPasswordResetRequestPage()">
+                        <b>Forgot your password? Click here</b>
+                    </small>
+                </div>
+                <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[0]">
+                    <span ng-hide="loading[0]">Sign In</span>
+                    <span ng-show="loading[0]">
+                        Loading
+                        <i class="fas fa-spinner fa-spin fa-fw"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+        <div class="body"  ng-if="activeView === 'register'">
+            <p>Sign up with us to start now</p>
+            <form name="registrationForm" ng-submit="registerMerch()">
+                <div class="form-group">
+                    <label for="companyName">Business Name:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" class="form-control" id="companyName" aria-describedby="nameHelp" placeholder="e.g. Chisco's Burgers'" ng-model="formData.companyName" required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-building"></i></div>
+                    </div>
+                    <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            minlength="20"
+                            maxlength="40"
+                            name="registrationAddress"
+                            ng-class="{'has-error': isError(registrationForm.registrationAddress)}"
+                            aria-describedby="addressHelp"
+                            placeholder="e.g. 2 bank road, ikoyi"
+                            ng-model="formData.address" required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-home"></i></div>
+                    </div>
+                    <small id="addressHelp" class="form-text text-muted">Street address with area</small>
+                </div>
+                <div class="form-group">
+                    <label for="city">City:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="formData.city" required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-map-marker"></i></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="formData.state" ng-options="state for state in states" required>
+                        <option value="">Select State</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com" ng-model="formData.email" required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-at"></i></div>
+                    </div>
+                    <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
+                </div>
+                <div class="form-group">
+                    <label for="mobileNumber">Mobile Number:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="tel" class="form-control" id="mobileNumber" aria-describedby="mobileNumberHelp" placeholder="e.g. 08056748930" maxlength="11" ng-model="formData.mobileNumber" required>
+                        <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
+                    </div>
+                    <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
+                </div>
+                <div class="form-group">
+                    <label for="agreeTermsAndCondition">
+                        <input
+                            type="checkbox"
+                            name="agreeTermsAndCondition"
+                            ng-change="setAgreeTermsAndConditionChange()"
+                            ng-model="agreeTermsAndCondition"
+                            oninvalid="this.setCustomValidity('Please check this box confirming you\'ve read and understood the terms and conditions')"
+                            required>
+                        <!-- By clicking this, you agree to our <a href="https://coupinapp.com/terms.html" target="_blank" style="color: #14a580">Terms and Conditions</a>. -->
+                        By clicking this, you agree to our <a ui-sref="terms" target="_blank" style="color: #14a580">Terms and Conditions</a> and <a ui-sref="privacy-policy" target="_blank" style="color: #14a580">Privacy Policy</a> .
+                    </label>
+                </div>
+                <button class="btn btn-default btn-primary" type="submit" ng-disabled="loading[1]">
+                    <span ng-hide="loading[1]">Submit Request</span>
+                    <span ng-show="loading[1]">
+                        Loading
+                        <i class="fas fa-spinner fa-spin fa-fw"></i>
+                    </span>
+                </button>
+            </form>
+        </div>
+        <div class="row footer auth-footer">
+            <div class="row text-center">
+                <small id="descrHelp" class="form-text">Copyright of Coupin &copy;</small>
+            </div>
+        </div>
+    </div>
   </div>
-  <div class="row row-divided">
-      <div class="col-md-5 col-xs-12">
-          <h3 class="light bottom-space"><b>Sign in</b> welcome back</h3>
-          <div class="merchantRegBox">
-              <form ng-submit="loginMerch()">
-                  <div class="form-group">
-                      <label for="loginEmail">Email: </label>
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div class="input-group-addon"><i class="fas fa-at"></i></div>
-                          <input type="text" class="form-control" id="loginEmail" aria-describedby="loginEmailHelp" placeholder="Email" ng-model="formData.loginEmail" required>
-                      </div>
-                      <small id="loginEmailHelp" class="form-text text-muted">Email you registered with</small>
-                  </div>
-                  <div class="form-group">
-                      <label for="loginPassword">Password: </label>
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                          <input type="password" class="form-control" id="loginPassword" aria-describedby="loginPasswordHelp" placeholder="Password" ng-model="formData.loginPassword" required>
-                      </div>
-                      <small id="loginPasswordHelp" class="form-text text-muted">Email you registered with</small>
-                  </div>
-                  <button class="btn btn-default" type="submit">Sign In</button><i ng-show="loading[0]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-              </form>
-              <small class="form-text text-muted light" style="margin-left:20px;">Forgot your password? Click <b>here</b></small>
-          </div>
-      </div>
-      <div class="vertical-divider hidden-sm hidden-xs"><span>or</span></div>
-      <div class="col-md-7 col-xs-12">
-          <h3 class="light bottom-space"><b>Sign up</b> with us to start now...</h3>
-          <div class="merchantRegBox">
-              <form>
-                  <div class="form-group">
-                      <label for="companyName">Business Name:</label>
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <div class="input-group-addon"><i class="fas fa-building"></i></div>
-                          <input type="text" class="form-control" id="companyName" aria-describedby="nameHelp" placeholder="e.g. Chisco's Burgers'" ng-model="formData.companyName" required>
-                      </div>
-                      <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
-                  </div>
-                  <div class="form-group">
-                        <label for="address">Address:</label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon"><i class="fas fa-home"></i></div>
-                            <input type="text" class="form-control" id="address" minlength="20" maxlength="40" aria-describedby="addressHelp" placeholder="e.g. 2 bank road, ikoyi" ng-model="formData.address" required>
-                        </div>
-                        <small id="addressHelp" class="form-text text-muted">Street address with area</small>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="city">City:</label>
-                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                                <input type="text" class="form-control" id="city" minlength="3" maxlength="15" aria-describedby="cityHelp" placeholder="e.g. Benin" ng-model="formData.city" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label for="state">State:</label>
-                            <select class="form-control" id="state" aria-describedby="stateHelp" ng-model="formData.state" ng-options="state for state in states" required>
-                                <option value="">Select State</option>
-                            </select>
-                            <small id="addressHelp" class="form-text text-muted">Street address with area</small>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="email">Email:</label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon"><i class="fas fa-at"></i></div>
-                            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="example@example.com" ng-model="formData.email" required>
-                        </div>
-                        <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-12">
-                        <label for="mobileNumber">Mobile Number:</label>
-                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                            <div class="input-group-addon"><i class="fas fa-phone"></i></div>
-                            <input type="tel" class="form-control" id="mobileNumber" aria-describedby="mobileNumberHelp" placeholder="e.g. 08056748930" maxlength="11" ng-model="formData.mobileNumber" required>
-                        </div>
-                        <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
-                    </div>
-                  
-                  <button class="btn btn-default" type="submit" ng-click="registerMerch()">Submit Request</button><i ng-show="loading[1]" class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-              </form>
-          </div>
-      </div>
-  </div>
-  <div class="row footer">
+  <!-- <div class="row footer auth-footer">
       <div class="row text-center">
-          <small id="descrHelp" class="form-text">Copyrite of CoupinApp &copy;</small>
+          <small id="descrHelp" class="form-text">Copyright of Coupin &copy;</small>
       </div>
-  </div>
+  </div> -->
 </body>

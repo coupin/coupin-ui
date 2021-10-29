@@ -1,0 +1,132 @@
+<div id="analytics-page">
+  <div class="analytics-frontdrop" ng-if="!shouldAccess">
+    <p class="frontdrop-header">Get Access With A Paid Subscription</p>
+    <p class="frontdrop-body">
+      You do not have an active subscription or reward active at the moment.
+    </p>
+  </div>
+  <section class="section-containers" ng-class="{'blur': !shouldAccess}">
+    <div class="row">
+      <div class="col-sm-12 card analytics-header">
+        <div>
+          <span class="hidden-xs hidden-sm" style="margin-right: 10px;">Select data feed period </span>
+          <span class="input-group" style="display: inline-block; width: unset;">
+            <input type="text" id="datepicker" class="analytics-datepicker" style="width: 225px; height: 34px;">
+            <div class="input-group-addon icons-input col-md-5">
+              <i class="far fa-calendar-alt"></i>
+            </div>
+          </span>
+        </div>
+        <div class="download-container hidden-xs hidden-sm">
+          <!-- <button class="more-button" data-toggle="collapse" data-target="#button-container" aria-expanded="false">
+            Export <i class="fas fa-ellipsis-v"></i>
+          </button> -->
+          <button class="file-download" ng-click="getPdf()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-file-pdf"></i>
+            <span>PDF Report</span>
+          </button>
+          <button class="file-download" ng-click="getExcel()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+            <i class="far fa-file-excel"></i>
+            <span>XLS Data Report</span>
+          </button>
+          <!-- <div class="collapse button-container" id="button-container">
+            <button class="file-download" ng-click="getPdf()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+              <i class="far fa-file-pdf"></i>
+              <span>Pdf report</span>
+            </button>
+            <button class="file-download" ng-click="getExcel()" data-target="#button-container" data-toggle="collapse" aria-haspopup="true" aria-expanded="false">
+              <i class="far fa-file-excel"></i>
+              <span>Excel report</span>
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="row analytics-content" style="margin-top: 30px;">
+      <div class="col-md-9 main">
+        <div class="overview-container">
+            <div class="card info">
+              <h4 ng-if="!loadingStats">
+                {{stats.active}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </h4>
+              <h5>
+                Active Rewards
+              </h5>
+            </div>
+            <div class="card info">
+              <h4 ng-if="!loadingStats">
+                {{stats.generated}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </h4>
+              <h5>
+                Generated Coupins
+              </h5>
+            </div>
+            <div class="card info">
+              <h4 ng-if="!loadingStats">
+                {{stats.redeemed}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </h4>
+              <h5>
+                Redeemed Coupins
+              </h5>
+            </div>
+        </div>
+        <div class="reward-list" style="margin-top: 30px;">
+          <p>Click specific promotions / rewards to get better insights</p>
+          <table class="table" id="reward-list-table">
+            <thead class="hidden-xs hidden-sm">
+                <tr>
+                    <th width="20px">S/N</th>
+                    <th>Name</th>
+                    <th>Start</th>
+                    <th>Expires</th>
+                    <th>Coupins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)" ng-if="!loadingRewards">
+                    <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
+                    <td class="icon">{{ discount.name }}</td>
+                    <td class="icon">{{ discount.start }}</td>
+                    <td class="icon">{{ discount.expires }}</td>
+                    <td>
+                      <cp-line-indicator coupins="discount.coupins" class="{{discount._id}}-coupin-indicator"></cp-line-indicator>
+                    </td>
+                </tr>
+                <tr ng-if="loadingRewards" class="loading-row">
+                    <td class="hidden-xs hidden-sm"><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td><div></div></td>
+                    <td></td>
+                </tr>
+                <tr ng-if="rewards.length === 0" class="empty-row">
+                    <td colspan="6">
+                        No Rewards to display
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-3 side">
+        <div class="card overall-coupin-stat" style="padding: 0 0 20px;">
+          <p class="section-headers" style="padding: 20px 20px 0;">
+            Overall Coupins
+          </p>
+          <!-- <div id="overall-coupin-stat_radar"></div> -->
+          <cp-radar-chart redeemed-value="radarSeriesValue"></cp-radar-chart>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

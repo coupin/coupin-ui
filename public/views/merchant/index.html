@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta lang="en"/>
@@ -7,53 +8,75 @@
 
         <title>CoupinApp: Merchant Home </title>
         <!-- CSS -->
-        <link rel="stylesheet" href="/libs/bootstrap/dist/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="/libs/bootstrap-daterangepicker/daterangepicker.css"/>
-        <link rel="stylesheet" href="/libs/font-awesome/web-fonts-with-css/css/fontawesome-all.css">
-        <link rel="stylesheet" href="/libs/angular-motion/dist/angular-motion.css"/>
-        <link rel="stylesheet" href="/libs/ng-img-crop/compile/minified/ng-img-crop.css"/>
+        <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.css"/>
+        <link rel="stylesheet" href="/node_modules/angular-motion/dist/angular-motion.css"/>
+        <link rel="stylesheet" href="/node_modules/ng-img-crop/compile/minified/ng-img-crop.css"/>
+        <link rel="stylesheet" href="/node_modules/noty/lib/noty.css"/>
+        <link rel="stylesheet" href="/node_modules/bootstrap-daterangepicker/daterangepicker.css"/>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="/node_modules/lightpick/css/lightpick.css"/>
+        <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300i,400,600,700&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800&display=swap" rel="stylesheet"/>
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/style.css"/>
+        <link rel="stylesheet" href="/css/table.css"/>
+        <link rel="stylesheet" href="/css/buttons.css"/>
+        <link rel="stylesheet" href="/css/form.css"/>
         <link rel="stylesheet" href="/css/merchant-portal.css"/>
+        <link rel="stylesheet" href="/css/modal.css"/>
         <link rel="stylesheet" href="/css/navbar-fixed-side.css"/>
+        <link rel="stylesheet" href="/css/merchant-auth.css">
 
         <!-- JS -->
-        <script src="/libs/angular/angular.js"></script>
-        <script src="/libs/angular-route/angular-route.js"></script>
-        <script src="/libs/angular-sessionstorage/angular-sessionstorage.js"></script>
-        <script src="/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
-        <script src="/libs/angular-ui-router/release/stateEvents.min.js"></script>
-        <script src="/libs/angular-strap/dist/angular-strap.min.js"></script>
-        <script src="/libs/angular-strap/dist/angular-strap.tpl.min.js"></script>
-        <script src="/libs/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
-        <script src="/libs/ng-file-upload/ng-file-upload.min.js"></script>
-        <script src="/libs/ng-img-crop/compile/minified/ng-img-crop.js"></script>
-        <script src="/libs/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
-        <!-- <script src="/libs/jquery/jquery.js"></script> -->
+        <script src="/node_modules/angular/angular.js"></script>
+        <script src="/node_modules/angular-route/angular-route.js"></script>
+        <script src="/node_modules/angular-sessionstorage/angular-sessionstorage.js"></script>
+        <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/node_modules/angular-ui-router/release/stateEvents.js"></script>
+        <script src="/node_modules/angular-strap/dist/angular-strap.min.js"></script>
+        <script src="/node_modules/angular-strap/dist/angular-strap.tpl.min.js"></script>
+        <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+        <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+        <script src="/node_modules/noty/lib/noty.min.js"></script>
+        <script src="/node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
+        <script src="/node_modules/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
+        <script src="/node_modules/apexcharts/dist/apexcharts.min.js"></script>
 
         <!-- ANGULAR CUSTOM -->
         <script src="/js/merchantapp/controllers/BaseMCtrl.js"></script>
         <script src="/js/merchantapp/controllers/HomeCtrl.js"></script>
+        <script src="/js/merchantapp/controllers/BillingCtrl.js"></script>
         <script src="/js/merchantapp/controllers/RewardsCtrl.js"></script>
         <script src="/js/merchantapp/controllers/RewardsListCtrl.js"></script>
+        <script src="/js/merchantapp/controllers/AnalyticsCtrl.js"></script>
+        <script src="/js/merchantapp/controllers/RewardDetailAnalyticsCtrl.js"></script>
         <script src="/js/merchantapp/controllers/ProfileCtrl.js"></script>
         <script src="/js/shared/controllers/AuthCtrl.js"></script>
         <script src="/js/shared/services/AuthSrv.js"></script>
         <script src="/js/shared/services/StorageSrv.js"></script>
         <script src="/js/shared/services/CoupinSrv.js"></script>
+        <script src="/js/shared/services/ConfigSrv.js"></script>
         <script src="/js/shared/services/RewardsSrv.js"></script>
         <script src="/js/shared/services/UtilSrv.js"></script>
+        <script src="/js/shared/services/PaymentSrv.js"></script>
         <script src="/js/merchantapp/services/MerchantSrv.js"></script>
+        <script src="/js/merchantapp/services/BankSrv.js"></script>
+        <script src="/js/merchantapp/services/AnalyticsSrv.js"></script>
+        <script src="/js/config.js"></script>
         <script src="/js/merchantapp/merchappRoutes.js"></script>
         <script src="/js/merchantapp/merchantApp.js"></script>
+        <script src="/js/merchantapp/directives/index.js"></script>
+
     </head>
     <body ng-app="coupinApp" ng-controller="AuthController">
-        <div ui-view></div>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-        <script src="/libs/jQuery/dist/jquery.js"></script>
-        <script src="/libs/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="/libs/moment/moment.js"></script>
-        <script src="/libs/bootstrap-daterangepicker/daterangepicker.js"></script>
-        <script src="/libs/angular-daterangepicker/js/angular-daterangepicker.js"></script>
+        <div ui-view autoscroll="true"></div>
+        <!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
+        <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/node_modules/moment/min/moment.min.js"></script>
+        <script src="/node_modules/lightpick/lightpick.js"></script>
+        <script src="/node_modules/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="/node_modules/angular-daterangepicker/js/angular-daterangepicker.js"></script>
     </body>
 </html>

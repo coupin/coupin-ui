@@ -1,4 +1,5 @@
 angular.module('coupinApp', [
+  'ngEnvVars.config',
   'ngRoute',
   'ngSessionStorage',
   'ngImgCrop',
@@ -16,9 +17,13 @@ angular.module('coupinApp', [
   'RewardsSrv',
   'StorageSrv',
   'CoupinSrv',
+  'ConfigSrv',
+  'PaymentSrv',
   'MerchantSrv',
+  'BankSrv',
+  'AnalyticsSrv',
   'AdminMerchantCtrl',
-  'AuthCtrl'
-]).constant('config', {
-  baseUrl: 'https://coupin.herokuapp.com/api/v1'
-});
+  'AuthCtrl',
+  'AnalyticsCtrl',
+  'RewardDetailAnalyticsCtrl'
+]);

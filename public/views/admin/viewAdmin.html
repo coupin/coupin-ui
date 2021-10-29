@@ -1,26 +1,74 @@
 <div>
-    <!-- No Admins -->
-    <div class="row text-center" ng-show="empty">
-        <h2> There are no current admins.</h2>
-    </div>
-    <!-- No Admins -->
-
-    <!-- Error Occured -->
-    <div class="row text-center" ng-show="error">
-        <h2> {{errorMessage}} </h2>
-    </div>
-    <!-- An Error Occured -->
-
-    <!-- List Of Admins -->
-    <div class="row admin-list-view" ng-repeat="(index, admin) in admins track by $index">
-        <div class="col-md-1 col-xs-1"><h5>{{index + 1}}</h5></div>
-        <div class="col-md-9 col-xs-7"><h5>{{admin.email}}</h5></div>
-        <div class="col-md-1 col-xs-2">
-            <button data-toggle="modal" data-target="#statusModal" ng-click="selectAdmin(index)" type="button">{{admin.isActive ? 'Deactivate' : 'Activate'}}</button>
+    <header class="page-top-header">
+        <div class="w-10/12 pt-20 mx-auto">
+            <div class="flex pb-16 justify-between">
+                <div class="title">
+                    <h2 class="text-5xl">Admins</h2>
+                </div>
+                <div class="actions">
+                    <a
+                        class="rounded-md px-8 py-4 action-primary-button text-white hover:text-white hover:no-underline cursor-pointer"
+                        ui-sref="portal.add-admins"
+                    >
+                        <i class="fas fa-user-plus"></i> add admin
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="col-md-1 col-xs-2"><button data-toggle="modal" data-target="#deleteModal" ng-click="selectAdmin(index)" type="button">Delete</button></div>
+    </header>
+
+    <div class="content">
+        <div class="w-10/12 pt-16 mx-auto">
+            <!-- Error Occured -->
+            <p class="my-8 border border-red-600 rounded text-red-600 py-4 px-6 flex justify-between lg:w-1/3 w-full" ng-show="error">
+                <span>{{errorMessage}}</span>
+                <i class="far fa-times-circle text-3xl"></i>
+            </p>
+            <!-- An Error Occured -->
+
+            <div class="flex justify-around mt-6" ng-if="loading">
+                <div class="loader"></div>
+            </div>
+            <div ng-if="!loading" style="height: 700px; overflow-y: scroll;">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">E-mail</th>
+                            <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr ng-repeat="(index, admin) in admins track by $index">
+                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{index+1}}</td>
+                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{admin.email}}</td>
+                            <td class="clickable px-10 py-6 whitespace-no-wrap text-2xl text-right">
+                                <button
+                                    class="m-2 text-green-600"
+                                    data-toggle="modal"
+                                    data-target="#statusModal"
+                                    ng-click="selectAdmin(index)"
+                                    type="button"
+                                >
+                                    {{admin.isActive ? 'Deactivate' : 'Activate'}}
+                                </button>
+                                <button
+                                    data-toggle="modal"
+                                    data-target="#deleteModal"
+                                    ng-click="selectAdmin(index)"
+                                    type="button"
+                                    class="text-red-600"
+                                >
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4 ng-show="admins.length === 0">There are no current admins</h4>
+            </div>
+        </div>
     </div>
-    <!-- List Of Admins End -->
 
     <!-- Modal To Confirm Activation-->
     <div class="modal fade" id="statusModal" role="dialog">

@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
+const path = require('path');
 // server module
 const express = require('express');
 const methodOverride = require('method-override');
@@ -7,7 +8,6 @@ const methodOverride = require('method-override');
 // For logging all request
 const morgan = require('morgan');
 // For token validation
-const fs = require('fs-extra');
 const cloudinary = require('cloudinary');
 const cors = require('cors');
 const multer = require('multer');
@@ -37,6 +37,7 @@ app.use(morgan('dev'));
 app.use(methodOverride('X-HTTP-Method-Override'));
 
 // set the static files location /public/img will be /img
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 app.use(express.static(__dirname + '/public'));
 
 // Cloudinary config
@@ -45,11 +46,6 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET
 });
-
-// frontend routers
-// app.get('/', function(req, res) {
-//   res.sendfile('./public/views/welcome.html');
-// });
 
 // Sign Up Routes
 app.get('/signup', function(req, res) {
@@ -111,7 +107,7 @@ app.post('/uploads', upload.array('photos'), function (req, res) {
           counter++;
           urls.push({
             id: result.public_id,
-            url: result.url
+            url: result.secure_url
           });
           if (counter === total) {
             res.status(200).send(urls);
@@ -126,13 +122,21 @@ app.get(['/a', '/a/*'], function(req, res) {
   res.sendfile('./public/views/admin/index.html');
 });
 
-app.get('/homepage', function(req, res) {
-  // load the home page
-  res.sendfile('./public/views/base.html');
+// app.get('/homepage', function(req, res) {
+//   // load the home page
+//   res.sendfile('./public/views/base.html');
+// });
+
+// app.get('/merchant/register', function(req, res) {
+//   res.sendfile('./public/views/shared/merchantReg.html');
+// });
+
+app.get('/auth/forgot-password', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/views/shared/forgotPassword.html'));
 });
 
-app.get('/merchant/register', function(req, res) {
-  res.sendfile('./public/views/shared/merchantReg.html');
+app.get('/auth/request-password-change', function(req, res) {
+  res.sendFile(path.join(__dirname + '/public/views/shared/requestPasswordChange.html'));
 });
 
 app.get('/merchant/:id/confirm', function(req, res) {

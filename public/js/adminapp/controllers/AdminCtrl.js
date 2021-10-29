@@ -13,13 +13,23 @@ angular.module('AdminCtrl', []).controller('AdminController', function(
     // Boolean variables for error or success
     $scope.showError = false;
     $scope.showSuccess = false;
+    $scope.sidebarExpanded = false;
+    $scope.isMenuOpen = false;
+
+    $scope.setSidebarExpanded = function (value) {
+        $scope.sidebarExpanded = value;
+    }
+
+    $scope.toggleMenu = function () {
+        $scope.isMenuOpen = !$scope.isMenuOpen;
+    }
 
     // Add New Admin
-    $scope.addAdmin = () => {
+    $scope.addAdmin = function () {
         $scope.errorMessages = {};
         AdminService.create($scope.newAdminData).then(function(data) {
             var response = data.data;
-            UtilService.showSuccess('Success!', `${$scope.newAdminData.email} was added successfully.`);
+            UtilService.showSuccess('Success!', $scope.newAdminData.email + " was added successfully.");
             $scope.newAdminData = {};
         }).catch(function (err){
             if(err.data.errors) {
@@ -34,12 +44,12 @@ angular.module('AdminCtrl', []).controller('AdminController', function(
     };
 
     // Function to change views
-    $scope.changeView = (view) => {
+    $scope.changeView = function (view) {
         $location.path(view);
     };
 
     // Function to log user out
-    $scope.logout = () => {
+    $scope.logout = function () {
         StorageService.clearAll();
         $state.go('a', {});
     };
