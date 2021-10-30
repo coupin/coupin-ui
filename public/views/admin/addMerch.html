@@ -222,7 +222,13 @@
                     <br>
                     <div class="row">
                         <div class="crop-area-modal center-img">
-                            <canvas
+                            <img-crop
+                                image="image.src"
+                                result-image="image.dst"
+                                area-type="square"
+                                result-image-size="320"
+                            ></img-crop>
+                            <!-- <canvas
                                 height="200"
                                 width="200"
                                 image="image.src"
@@ -233,7 +239,7 @@
                                 keep-aspect="true"
                                 touch-radiue="30"
                                 crop-area-bounds="bounds"
-                                ></canvas>
+                                ></canvas> -->
                         </div>
                     </div>
                 </div>

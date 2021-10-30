@@ -290,9 +290,15 @@
                         </div>
                         <div class="row">
                             <div class="cropArea">
-                                <canvas height="350" width="500" image="image.src" image-cropper
+                                <img-crop
+                                    image="image.src"
+                                    result-image="image.dst"
+                                    area-type="square"
+                                    result-image-size="320"
+                                ></img-crop>
+                                <!-- <canvas height="350" width="500" image="image.src" image-cropper
                                     cropped-image="image.dst" crop-height="320" crop-width="320" keep-aspect="true"
-                                    touch-radiue="30" crop-area-bounds="bounds"></canvas>
+                                    touch-radiue="30" crop-area-bounds="bounds"></canvas> -->
                             </div>
                         </div>
                     </div>

@@ -29,9 +29,9 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     $scope.bounds = {
         left: 0,
-        right: 0,
+        // right: 0,
         top: 0,
-        bottom: 0
+        // bottom: 0
     };
     $scope.files = [];
     $scope.image = {
