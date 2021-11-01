@@ -24,13 +24,14 @@
     <script src="/node_modules/noty/lib/noty.min.js"></script>
     <script src="/node_modules/angular/angular.js"></script>
     <script src="/node_modules/angular-route/angular-route.js"></script>
-    <script src="/node_modules/angular-sessionstorage/angular-sessionstorage.j"></script>
+    <script src="/node_modules/angular-sessionstorage/angular-sessionstorage.js"></script>
     <script src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="/node_modules/angular-ui-router/release/stateEvents.min.js"></script>
     <script src="/node_modules/angular-strap/dist/angular-strap.min.js"></script>
     <script src="/node_modules/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="/node_modules/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
-    <script src="/node_modules/ng-file-upload/ng-file-upload.min.js"></script>
+    <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
+    <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
     <script src="/node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
     <script src="/node_modules/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
     <script src="/node_modules/moment/moment.js"></script>
@@ -75,7 +76,7 @@
                                             value="0" ng-checked="planIndex===0">
                                         <div class="card" ng-click="planSelect(0)">
                                             <div class="plan-header">
-                                                Commission Based Plan
+                                                <span style="padding-right:15px">Commission Based Plan</span>
                                                 <span class="select-indicator"></span>
                                             </div>
                                             <div class="plan-body">
