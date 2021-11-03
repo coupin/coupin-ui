@@ -29,7 +29,6 @@
     <script src="/node_modules/angular-ui-router/release/stateEvents.min.js"></script>
     <script src="/node_modules/angular-strap/dist/angular-strap.min.js"></script>
     <script src="/node_modules/angular-strap/dist/angular-strap.tpl.min.js"></script>
-    <script src="/node_modules/ng-file-upload/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
     <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
     <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
     <script src="/node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
@@ -184,7 +183,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
                                             <input 
-                                                type="password" 
+                                                type="{{passwordVisible ? 'text' : 'password'}}"
                                                 class="form-control" 
                                                 id="password"
                                                 aria-describedby="passwordHelp"
@@ -193,6 +192,7 @@
                                                 name="password"
                                                 ng-class="{'has-error': merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password}"
                                                 required>
+                                            <div class="input-group-addon icons-input-right clickable" ng-click="passwordVisible = !passwordVisible"><i ng-class="{'fas': true, 'fa-eye': !loginPasswordVisible, 'fa-eye-slash': loginPasswordVisible}"></i></div>
                                         </div>
                                         <small id="passwordHelp" class="form-text text-muted">This is the password linked with
                                             your email for login.</small>
@@ -204,7 +204,7 @@
                                         <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                             <div class="input-group-addon  icons-input"><i class="fas fa-key"></i></div>
                                             <input
-                                                type="password"
+                                                type="{{confirmPasswordVisible ? 'text' : 'password'}}"
                                                 class="form-control"
                                                 id="password2"
                                                 aria-describedby="password2lHelp"
@@ -213,6 +213,7 @@
                                                 name="confirmPassword"
                                                 ng-class="{'has-error': merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password}"
                                                 required>
+                                            <div class="input-group-addon icons-input-right clickable" ng-click="confirmPasswordVisible = !confirmPasswordVisible"><i ng-class="{'fas': true, 'fa-eye': !loginPasswordVisible, 'fa-eye-slash': loginPasswordVisible}"></i></div>
                                         </div>
                                         <small id="password2Help" class="form-text text-muted" ng-show="!(merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password)">Please confirm your password.</small>
                                         <small id="password2Help" class="form-text error-text" ng-show="merchantConfirmation.confirmPassword.$dirty && formData.password2 !== formData.password">Password and confirm password must match</small>

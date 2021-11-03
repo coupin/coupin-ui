@@ -114,6 +114,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function (
         'Zamfara',
     ];
 
+    $scope.adminLoginPasswordVisible = false;
+    $scope.confirmPasswordVisible = false;
+    $scope.loginPasswordVisible = false;
+    $scope.passwordVisible = false;
+
     // Get current merchant if merchant route called
     if ($location.absUrl().indexOf('confirm') > -1) {
         checkAuth = false;

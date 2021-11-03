@@ -35,7 +35,7 @@
                     <label for="loginPassword">Password: </label>
                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                         <input
-                            type="password"
+                            type="{{loginPasswordVisible ? 'text' : 'password'}}"
                             class="form-control"
                             id="loginPassword"
                             name="loginPassword"
@@ -44,7 +44,7 @@
                             placeholder="*******"
                             ng-model="formData.loginPassword"
                             required>
-                        <div class="input-group-addon icons-input"><i class="fas fa-key"></i></div>
+                    <div class="input-group-addon icons-input-right clickable" ng-click="loginPasswordVisible = !loginPasswordVisible"><i ng-class="{'fas': true, 'fa-eye': !loginPasswordVisible, 'fa-eye-slash': loginPasswordVisible}"></i></div>
                     </div>
                     <small class="forgot-password form-text text-muted light" ng-click="goToPasswordResetRequestPage()">
                         <b>Forgot your password? Click here</b>
