@@ -205,7 +205,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
                     public_id: filename
                 }
             }).then(function (resp) {
-                console.log(resp.data)
                 if (isLogo) {
                     $scope.user.merchantInfo.logo = {
                         id: resp.data.public_id,

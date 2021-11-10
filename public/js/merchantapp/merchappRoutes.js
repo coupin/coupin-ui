@@ -38,7 +38,10 @@ function (
         }).state('dashboard.rewards', {
             url: '/rewards',
             templateUrl: '/views/merchant/rewardsList.html',
-            controller: 'RewardsListController'
+            controller: 'RewardsListController',
+            params: {
+                newReward: null
+            },
         }).state('dashboard.profile', {
             url: '/profile',
             templateUrl: '/views/merchant/profile.html',
