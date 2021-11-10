@@ -453,37 +453,32 @@
                                             <p>Select an Image</p>
                                             <p>Note: Image will appear to viewers as cropped.</p>
                                         </div>
-                                        <input 
+                                        <!-- <input 
                                             class="form-control" 
                                             type="file" 
                                             accept="image/*" 
                                             img-cropper-fileread image="image.src" 
-                                            id="imageupload"/>
+                                            id="imageupload"/> -->
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="cropArea">
-                                <img-crop
+                                <!-- <img-crop
                                     image="image.src"
                                     result-image="image.dst"
                                     area-type="square"
                                     result-image-size="320"
-                                ></img-crop>
-                                <!-- <canvas
-                                    id="canvas"
-                                    height="350"
-                                    width="500"
-                                    image="image.src"
-                                    image-cropper
-                                    cropped-image="image.dst"
-                                    crop-height="320"
-                                    crop-width="320"
-                                    keep-aspect="true"
-                                    touch-radiue="30"
-                                    crop-area-bounds="bounds"
-                                    ></canvas> -->
+                                ></img-crop> -->
+                                <ui-cropper
+                                image="image.src"
+                                init-max-area="true"
+                                result-image="image.dst"
+                                result-image-size="{w:320,h:320}"
+                                area-type="square"
+                                cropject="crobject"
+                                ></ui-cropper>
                             </div>
                         </div>
                     </div>
