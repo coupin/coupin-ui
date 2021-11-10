@@ -1,6 +1,8 @@
 angular.module('RewardsListCtrl', []).controller('RewardsListController', function(
   $scope,
   $state,
+  $location,
+  BankService,
   MerchantService,
   UtilService,
   RewardsService,
@@ -8,6 +10,46 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
 ) {
   $scope.loadingRewards = false;
   $scope.page = 1;
+  $scope.user = StorageService.getUser();
+
+  // .newReward || $location.search() ? $location.search().newReward : {};
+  const query = $state.params.newReward || $location.search().newReward;
+
+  if (query && query.newReward && !hasAccountDetails()) {
+    $('#accountInfoModal').modal('show');
+  }
+
+  // Account Info Variables
+  $scope.bankInfo = {
+    accountNumber: '',
+    accountBank: '',
+  };
+  $scope.customerAccountDetails = null;
+  $scope.showSaveAccount = false;
+  $scope.confirmAccountLoading = false;
+  $scope.accountConfirmationError = '';
+
+  function getBanks() {
+    BankService.getBanks()
+        .then(({ data }) => {
+            $scope.banks = data.banks;
+        });
+  }
+
+  function hasAccountDetails() {
+    const accountDetails = $scope.user.merchantInfo.accountDetails
+    const accountKeys = Object.keys(accountDetails);
+
+    const values = ['accountNumber',
+    'bankName',
+    'accountName',
+    'bankCode'].every((field) => accountDetails[field]);
+
+    return accountKeys.length > 0 && values
+  }
+
+  getBanks();
+
   /**
    * Change status of a reward
    * @param {*} index 
@@ -51,6 +93,56 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
       });
     }
   }
+
+  $scope.accountInfoChange = function() {
+    $scope.showSaveAccount = false;
+};
+
+  $scope.confirmAccountDetails = function () {
+    const { accountNumber, accountBank } = $scope.bankInfo;
+    $scope.confirmAccountLoading = true;
+
+    const payload = {
+        accountNumber,
+        accountBankCode: accountBank.code,
+    };
+
+    MerchantService
+        .confirmAccountDetails(payload)
+        .then(({ data }) => {
+            $scope.confirmAccountLoading = false;
+            $scope.showSaveAccount = true;
+
+            // save merchants account details here
+            $scope.customerAccountDetails = {
+                accountNumber,
+                bankName: accountBank.name,
+                accountName: data.account_name,
+                bankCode: accountBank.code,
+            };
+
+            UtilService.showSuccess('Success', 'Account details have been confirmed');
+        }).catch((error) => {
+            $scope.confirmAccountLoading = false;
+            $scope.accountConfirmationError = error.data.message;
+            UtilService.showError('Error', error.data.message);
+
+        });
+  };
+
+  $scope.saveMerchantAccountDetails = function () {
+    MerchantService
+        .saveAccountDetails($scope.customerAccountDetails)
+        .then(() => {
+            UtilService.showSuccess('Success', 'Account details have been stored');
+            $('#accountInfoModal').modal('hide');
+            MerchantService.refreshUser($scope.user.id);
+            $state.go('dashboard.rewards', {});
+        }).catch((error) => {
+            $scope.accountSavingError = error.data.message;
+            UtilService.showError('Error', error.data.message);
+        })
+  };
 
   $scope.goToNewReward = function() {
     $state.go('dashboard.reward-add', {}, {});
