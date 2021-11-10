@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.css"/>
     <link rel="stylesheet" href="/node_modules/angular-motion/dist/angular-motion.css">
     <link rel="stylesheet" href="/node_modules/ng-img-crop/compile/minified/ng-img-crop.css" />
+    <link rel="stylesheet" href="/node_modules/ui-cropper/compile/minified/ui-cropper.css" />
     <link rel="stylesheet" href="/node_modules/noty/lib/noty.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
@@ -31,6 +32,7 @@
     <script src="/node_modules/angular-strap/dist/angular-strap.tpl.min.js"></script>
     <script src="/node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script> <!-- for no html5 browsers support -->
     <script src="/node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
+    <script src="/node_modules/ui-cropper/compile/minified/ui-cropper.js"></script>
     <script src="/node_modules/ng-img-crop/compile/minified/ng-img-crop.js"></script>
     <script src="/node_modules/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
     <script src="/node_modules/moment/moment.js"></script>
@@ -291,16 +293,23 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="cropArea">
+                            <!-- <div class="cropArea">
                                 <img-crop
                                     image="image.src"
                                     result-image="image.dst"
                                     area-type="square"
                                     result-image-size="320"
                                 ></img-crop>
-                                <!-- <canvas height="350" width="500" image="image.src" image-cropper
-                                    cropped-image="image.dst" crop-height="320" crop-width="320" keep-aspect="true"
-                                    touch-radiue="30" crop-area-bounds="bounds"></canvas> -->
+                            </div> -->
+                            <div class="cropArea">
+                                <ui-cropper
+                                image="image.src"
+                                init-max-area="true"
+                                result-image="image.dst"
+                                result-image-size="{w:320,h:320}"
+                                area-type="square"
+                                cropject="crobject"
+                                ></ui-cropper>
                             </div>
                         </div>
                     </div>
@@ -331,11 +340,33 @@
                             </div>
                         </div>
                         <div class="row">
+                            <!-- area-coords="myAreaCoords" -->
+                            <!-- [result-image-format="{string}"]
+                            [result-image-quality="{number}"]
+                            [aspect-ratio="{number}"] -->
+                            <!-- [area-init-size="{ number|{w:number,h:number} }"] -->
+                            <!-- area-coords="cropArea-banner" -->
+                            <!-- area-min-size="950,323"
+                            area-min-relative-size="950,323"
+                            cropject="bounds"
+                            result-image-size="950,323" -->
+                            <!-- init-max-area="true"
+                                allow-crop-resize-on-corners="true" -->
                             <div class="cropArea-banner">
+                                <ui-cropper
+                                image="image.src"
+                                init-max-area="true"
+                                result-image="image.dst"
+                                result-image-size="{w:950,h:323}"
+                                area-type="rectangle"
+                                cropject="crobject"
+                                ></ui-cropper>
+                            </div>
+                            <!-- <div class="cropArea-banner">
                                 <canvas height="400" width="1000" image-cropper image="image.src"
                                     cropped-image="image.dst" crop-height="323" crop-width="950" keep-aspect="true"
                                     touch-radiue="30" crop-area-bounds="bounds"></canvas>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <br>

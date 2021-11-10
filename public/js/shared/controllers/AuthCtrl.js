@@ -33,9 +33,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function (
         top: 0,
         // bottom: 0
     };
+    $scope.crobject = {};
     $scope.image = {
         src: null,
-        dst: null
+        dst: {}
     };
     $scope.loading = [false, false];
     $scope.planIndex = 0;

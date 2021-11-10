@@ -275,24 +275,14 @@
                         </div>
                         <div class="row">
                             <div class="cropArea">
-                                <img-crop
-                                    image="image.src"
-                                    result-image="image.dst"
-                                    area-type="square"
-                                    result-image-size="320"
-                                ></img-crop>
-                                <!-- <canvas
-                                    height="350"
-                                    width="500"
-                                    image="image.src"
-                                    image-cropper
-                                    cropped-image="image.dst"
-                                    crop-height="320"
-                                    crop-width="320"
-                                    keep-aspect="true"
-                                    touch-radiue="30"
-                                    crop-area-bounds="bounds"
-                                    ></canvas> -->
+                                <ui-cropper
+                                image="image.src"
+                                init-max-area="true"
+                                result-image="image.dst"
+                                result-image-size="{w:320,h:320}"
+                                area-type="square"
+                                cropject="crobject"
+                                ></ui-cropper>
                             </div>
                         </div>
                     </div>
@@ -323,7 +313,7 @@
                         </div>
                         <div class="row">
                             <div class="cropArea-banner">
-                                <canvas
+                                <!-- <canvas
                                     height="400"
                                     width="1000"
                                     image-cropper
@@ -334,7 +324,15 @@
                                     keep-aspect="true"
                                     touch-radiue="30"
                                     crop-area-bounds="bounds"
-                                    ></canvas>
+                                    ></canvas> -->
+                                    <ui-cropper
+                                        image="image.src"
+                                        init-max-area="true"
+                                        result-image="image.dst"
+                                        result-image-size="{w:950,h:323}"
+                                        area-type="rectangle"
+                                        cropject="crobject"
+                                    ></ui-cropper>
                             </div>
                         </div>
                     </div>
