@@ -232,14 +232,14 @@
                     <span id="companyEmail"> {{currentRequest.email}} </span>
                     <br/>
                     <label for="phoneNumber">Mobile Number: </label>
-                    <span id="companyEmail"> {{currentRequest.mobile}} </span>
+                    <span id="phoneNumber"> {{currentRequest.mobile}} </span>
                     <br/>
                     <label for="companyDetails">Company Address: </label>
-                    <span id="companyDetails"> {{currentRequest.address}} </span>
+                    <span id="companyDetails"> {{currentRequest.address}}, {{currentRequest.city}}, {{currentRequest.state}}</span>
                     <br/>
                     <br/>
-                    <label for="regisered">Registered on: </label>
-                    <span id="Registered"> {{currentRequest.createdDate | date: 'medium'}} </span>
+                    <label for="registered">Registered on: </label>
+                    <span id="registered"> {{currentRequest.createdDate | date: 'medium'}} </span>
                     <br/>
                     <div ng-if="isPending()">
                         <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(currentRequest, 'accepted')">Approve</button>
@@ -247,8 +247,8 @@
                         <button class="btn btn-default" data-dismiss="modal">Cancel</button>
                     </div>
                     <div ng-if="isRejected()">
-                        <label for="companyDetails">Reason: </label>
-                        <span id="companyDetails"> {{currentRequest.extra.reason}} </span>
+                        <label>Reason: </label>
+                        <span> {{currentRequest.extra.reason}} </span>
                         <br/>
                         <button class="btn btn-warning" data-dismiss="modal" data-toggle="modal" data-target="#reviewStatus" ng-click="selectMerch(currentRequest, 'pending')">Revert To Pending</button>
                         <button class="btn btn-default" data-dismiss="modal">Cancel</button>
