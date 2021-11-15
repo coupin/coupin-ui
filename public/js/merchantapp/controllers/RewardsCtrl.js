@@ -220,6 +220,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         $scope.loading = true;
         RewardsService.create(reward).then(function (result) {
             $scope.loading = false;
+            $scope.newReward = result.data;
             if ($scope.files.length > 0) {
                 $scope.upload(result.data._id, function () {
                     UtilService.showSuccess('Success', 'Reward Created Successfully. An admin will review it in the next 24hours or less.');
@@ -237,7 +238,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
         }).catch(function (err) {
             $scope.loading = false;
-            UtilService.showError(errTitle, errMsg);
+            UtilService.showError(errTitle, err);
         })
     };
 
