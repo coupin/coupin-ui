@@ -65,7 +65,6 @@ angular.module('RewardDetailAnalyticsCtrl', []).controller('RewardDetailAnalytic
 
     AnalyticsService.singleRewardPdf($scope.id)
     .then(function (res) {
-      console.log(res)
       UtilService.showInfo('Hey!', 'Your pdf is being generated, download will start when it is ready');
 
       var interval = setInterval(function () {
