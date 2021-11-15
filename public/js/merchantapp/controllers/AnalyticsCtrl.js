@@ -135,7 +135,6 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
 
     AnalyticsService.getExcel($scope.start, $scope.end)
     .then(function (res) {
-      console.log(res.data);
       UtilService.showSuccess('Hey!', 'Your file is being downloaded');
       window.open(window.URL.createObjectURL(res.data));
       disableDownload = false;

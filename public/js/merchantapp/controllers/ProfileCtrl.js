@@ -50,7 +50,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     }
 
     $scope.accountDetails = $scope.user.merchantInfo.accountDetails;
-    console.log($scope.accountDetails, '$scope.accountDetails');
     $scope.accountDetails.bank = {
         name: $scope.user.merchantInfo.accountDetails.bankName,
         code: $scope.user.merchantInfo.accountDetails.bankCode,

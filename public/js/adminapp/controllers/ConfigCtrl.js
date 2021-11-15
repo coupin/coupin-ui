@@ -14,7 +14,6 @@ angular.module('ConfigCtrl', []).controller('ConfigController', function(
 
   ConfigService.getConfig()
     .then(function (res) {
-      console.log(res.data)
       $scope.trialData = {
         trialStatus: res.data.trialPeriod ? res.data.trialPeriod.enabled : false,
         trialEndDate: res.data.trialPeriod ? res.data.trialPeriod.endDate : '',
