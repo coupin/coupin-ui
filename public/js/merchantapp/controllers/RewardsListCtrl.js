@@ -162,14 +162,15 @@ angular.module('RewardsListCtrl', []).controller('RewardsListController', functi
    */
   $scope.goToReward = function(id) {
     if (id === undefined) {
-    //   const _id = $location.search().id;
-      RewardsService.getReward(_id).then(function (result) {
+      //   const _id = $location.search().id;
+      RewardsService.getReward(_id)
+        .then(function (result) {
           if (result.status === 200) {
-              $scope.reward = result.data;
+            $scope.reward = result.data;
           } else {
             UtilService.showError('errTitle', 'errMsg');
           }
-      }).catch();
+        }).catch();
     } else {
         $state.go('dashboard.reward-add-edit', { id: id }, {});
     }
