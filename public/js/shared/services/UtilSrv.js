@@ -144,7 +144,7 @@ angular.module('UtilSrv', []).service('UtilService', [
       var text;
 
       if (!service.isDefined(msg)) {
-        text = 'An error occured and error message is not well formatted.';
+        text = 'An error occurred and error message is not well formatted.';
       } else if (typeof msg === 'object') {
         text = msg.message || msg.error;
       } else {

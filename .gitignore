@@ -4,4 +4,4 @@ public/libs
 .env
 *.DS_Store
 config.json
-.env
+.idea/
