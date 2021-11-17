@@ -56,26 +56,29 @@ function (
             controller: 'AnalyticsController',
             resolve: {
                 shouldAccess: function (StorageService, $q, RewardsService) {
+                    // TODO: Put Back Once We Sort out analytics
                     var deferred = $q.defer();
-                    var user = StorageService.getUser();
-                    var billing = user.merchantInfo.billing;
+                    // Remove this line once sorted
+                    return deferred.resolve(false)
+                    // var user = StorageService.getUser();
+                    // var billing = user.merchantInfo.billing;
 
-                    if (billing.plan === 'payAsYouGo') {
-                        RewardsService.getMerchRewards({ status: 'active' })
-                            .then(function (result) {
-                                var rewards = result.data;
-                                if (rewards.length > 0) {
-                                    deferred.resolve(true);
-                                } else {
-                                    deferred.resolve(false);
-                                }
-                            })
-                    } else {
-                        var hasExpired = (user.merchantInfo.billing.history[0] && moment(new Date()).isAfter(user.merchantInfo.billing.history[0].expiration)) || false;
-                        deferred.resolve(!hasExpired);
-                    }
+                    // if (billing.plan === 'payAsYouGo') {
+                    //     RewardsService.getMerchRewards({ status: 'active' })
+                    //         .then(function (result) {
+                    //             var rewards = result.data;
+                    //             if (rewards.length > 0) {
+                    //                 deferred.resolve(true);
+                    //             } else {
+                    //                 deferred.resolve(false);
+                    //             }
+                    //         })
+                    // } else {
+                    //     var hasExpired = (user.merchantInfo.billing.history[0] && moment(new Date()).isAfter(user.merchantInfo.billing.history[0].expiration)) || false;
+                    //     deferred.resolve(!hasExpired);
+                    // }
 
-                    return deferred.promise;
+                    // return deferred.promise;
                 }
             }
         }).state('dashboard.reward-analytics', {
