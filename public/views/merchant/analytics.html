@@ -83,6 +83,17 @@
                 Redeemed Coupins
               </h5>
             </div>
+            <div class="card info">
+              <h4 ng-if="!loadingStats">
+                {{stats.delivered}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </h4>
+              <h5>
+                Delivered Coupins
+              </h5>
+            </div>
         </div>
         <div class="reward-list" style="margin-top: 30px;">
           <p>Click specific promotions / rewards to get better insights</p>
