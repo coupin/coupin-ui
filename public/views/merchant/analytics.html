@@ -1,9 +1,14 @@
 <div id="analytics-page">
   <div class="analytics-frontdrop" ng-if="!shouldAccess">
-    <p class="frontdrop-header">Get Access With A Paid Subscription</p>
+    <p class="frontdrop-header">Coming Soon</p>
+    <p class="frontdrop-body">
+      We're preparing your currated reports to help you make more informed decisions about your products.
+    </p>
+    <!-- TODO: Put Back Once We Sort out analytics -->
+    <!-- <p class="frontdrop-header">Get Access With A Paid Subscription</p>
     <p class="frontdrop-body">
       You do not have an active subscription or reward active at the moment.
-    </p>
+    </p> -->
   </div>
   <section class="section-containers" ng-class="{'blur': !shouldAccess}">
     <div class="row">
@@ -76,6 +81,17 @@
               </h4>
               <h5>
                 Redeemed Coupins
+              </h5>
+            </div>
+            <div class="card info">
+              <h4 ng-if="!loadingStats">
+                {{stats.delivered}}
+              </h4>
+              <h4 ng-if="loadingStats">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </h4>
+              <h5>
+                Delivered Coupins
               </h5>
             </div>
         </div>
