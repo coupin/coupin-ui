@@ -23,6 +23,19 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
           //         headers: authHeader
           //     });
           // },
+          getAllMerchRewards: function (query) {
+              var url = `${baseV1Url}/rewards?limit=${query.limit}&page=${query.page}`;
+              if (UtilService.isDefined(query.search)) {
+                  url += `&query=${query.search}`;
+              }
+              
+              return $http({
+                  method: 'GET',
+                  url: url,
+                  headers: getAuthHeader(),
+                  data: query
+              });
+          },
           getMerchRewards: function (id, query) {
               var url = baseV1Url + '/merchant/' + id + '/rewards';
               if (UtilService.isDefined(query)) {
