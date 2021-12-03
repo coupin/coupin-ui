@@ -1,6 +1,6 @@
 <div class="form-page">
     <h4 class="clickable" ng-click="navigateToList()"><i class="fa fa-angle-double-left"></i> Go Back</h4>
-    <h3 class="text-center">Add New Merchant</h3>
+    <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">{{ isEdit() ? 'Edit' : 'Add' }} New Merchant</h3>
     <div class="row" ng-if="loading">
         <div class="col-sm-12 text-center">
             <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
@@ -33,6 +33,26 @@
                     required>
             </div>
             <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
+        </div>
+        <div class="mb-8 bg-gray-800 p-4 rounded-md">
+            <label class="text-white">Account Details:</label>
+            <div class="flex flex-row text-gray-200 flex-wrap" ng-if="accountDetails">
+                <div class="w-1/2 md:w-1/5">
+                    <span class="font-bold block text-xl">Account Name</span>
+                    <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
+                </div>
+                <div class="w-1/2 md:w-1/5">
+                    <span class="font-bold block text-xl">Bank Name</span>
+                    <span class="text-xl block">{{ accountDetails.bankName }}</span>
+                </div>
+                <div class="w-1/2 md:w-1/5">
+                    <span class="font-bold block text-xl">Account No.</span>
+                    <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
+                </div>
+            </div>
+            <p class="text-gray-200" ng-if="!accountDetails">
+                Merchant is yet to add bank details.
+            </p>
         </div>
         <div class="form-group">
             <label for="rating">Rating:</label>

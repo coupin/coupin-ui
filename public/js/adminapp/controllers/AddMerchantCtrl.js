@@ -25,6 +25,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         src: null,
         dst: null
     };
+    $scope.accountDetails = null;
     $scope.loading = false;
     $scope.proceeding = false;
     $scope.uploading = false;
@@ -33,6 +34,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         $scope.loading = true;
         MerchantService.retrieve(merchantId).then(function(response) {
             var merchant = response.data;
+            console.log('merchant.accountDetails ==> ', merchant.accountDetails)
             isEdit = true;
             $scope.formData = {
                 companyName: merchant.merchantInfo.companyName,
@@ -47,6 +49,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 categories: merchant.merchantInfo.categories || [],
                 rating: merchant.merchantInfo.rating
             };
+            $scope.accountDetails = merchant.accountDetails;
             $scope.preview = merchant.merchantInfo.logo ? merchant.merchantInfo.logo.url : '';
             $scope.loading = false;
         }).catch(function(err) {
