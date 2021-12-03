@@ -71,14 +71,14 @@
         <div class="w-10/12 pt-16 mx-auto">
             <div class="mb-16">
                 <form>
-                    <div class="relative ">
-                        <i class="fas fa-search absolute text-3xl p-5"></i>
+                    <div class="relative">
                         <input
-                            class="block w-full bg-white py-4 px-3 pl-16 border rounded"
-                            ng-model="selectedMerch"
-                            id="merchant"
-                            name="merchant"
+                        class="block w-full bg-white py-4 px-3 pl-16 border rounded"
+                        ng-model="query"
+                        id="merchant"
+                        name="merchant"
                         />
+                        <i class="fas fa-search absolute right-0 top-0 text-3xl rounded-full bg-gray-200 hover:bg-gray-300 p-3 m-2 cursor-pointer" ng-click="loadMerchants()"></i>
                     </div>
                 </form>
             </div>

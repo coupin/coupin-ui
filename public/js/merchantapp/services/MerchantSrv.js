@@ -45,13 +45,13 @@ function (
                 headers: getAuthHeader()
             });
         },
-        getAllMerchants : function (page) {
-            return $http.get(baseV1Url + '/merchant?page=' + page, {
+        getAllMerchants : function (page, query) {
+            return $http.get(`${baseV1Url}/merchant?page=${page}&search=${query}`, {
                 headers: getAuthHeader()
             });
         },
-        getAllMerchantsCount : function (page) {
-            return $http.get(baseV1Url + '/merchant/count', {
+        getAllMerchantsCount : function (query) {
+            return $http.get(`${baseV1Url}/merchant/count?search=${query}`, {
                 headers: getAuthHeader()
             });
         },

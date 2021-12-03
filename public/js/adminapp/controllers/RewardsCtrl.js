@@ -51,7 +51,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   };
 
   $scope.parseStatus = function(status, date) {
-    var inStatus = moment(new Date()).isAfter(date) ? 'InActive' : 'Active';
+    var inStatus = Date.now > (new Date(date)) ? 'InActive' : 'Active';
     return status === 'active' ? inStatus : status;
   };
 
@@ -90,14 +90,15 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
       query['status'] = $scope.selectedStatus;
     }
 
-    AdminRewardsService.getMerchRewards($scope.selectedMerch._id, query).then(function (result) {
+    const selectedId = !!$scope.selectedMerch ? $scope.selectedMerch._id : 0;
+    AdminRewardsService.getMerchRewards(selectedId, query).then(function (result) {
       $scope.loading = false;
       $scope.rewards = result.data;
     }).catch(function (err) {
         $scope.loading = false;
     });
 
-    AdminRewardsService.getMerchRewardsCount($scope.selectedMerch._id, query).then(function (result) {
+    AdminRewardsService.getMerchRewardsCount(!!$scope.selectedMerch ? $scope.selectedMerch._id : '0', query).then(function (result) {
       $scope.rewardsCount = result.data.count;
       $scope.maxPage = Math.ceil($scope.rewardsCount / 10);
     });
@@ -105,5 +106,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
 
   $scope.resetPage = function() {
     $scope.page = 0;
+    $scope.loadRewards();
   };
 }]);

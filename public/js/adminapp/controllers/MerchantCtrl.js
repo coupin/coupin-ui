@@ -11,6 +11,7 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     $scope.maxPage = 0;
     $scope.loading = false;
     $scope.merchants = [];
+    $scope.query = '';
 
     $scope.addMerch = function() {
         $state.go('portal.add-merchs', {
@@ -32,7 +33,7 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
 
     $scope.loadMerchants = function() {
         $scope.loading = true;
-        MerchantService.getAllMerchants($scope.page)
+        MerchantService.getAllMerchants($scope.page, $scope.query)
         .then(function (res) {
             $scope.merchants = res.data;
             $timeout(function() {
@@ -44,7 +45,7 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
             UtilService.showError('Error', err.data.message);
         });
 
-        MerchantService.getAllMerchantsCount()
+        MerchantService.getAllMerchantsCount($scope.query)
         .then(function (res) {
             $scope.merchantsCount = res.data.count;
             $scope.maxPage = Math.ceil($scope.merchantsCount / 10);
