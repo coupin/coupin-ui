@@ -15,12 +15,12 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         top: 0,
         bottom: 0
     };
-    $scope.filter = {
-        fromDate: null,
+    $scope.filters = {
+        endDate: null,
         merchantId: merchantId,
         shortCode: null,
+        startDate: null,
         status: null,
-        toDate: null,
         limit: 10,
         page: 0
     };
@@ -171,7 +171,9 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
 
     $scope.getMerchantBookings = function() {
         $scope.loadingBooking = true;
-        BookingsService.getBookings($scope.filter).then(function(response) {
+        $scope.bookings = [];
+
+        BookingsService.getBookings($scope.filters).then(function(response) {
             $scope.bookings = response.data;
             $scope.loadingBooking = false;
         }, function(err) {
@@ -181,6 +183,11 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 UtilService.showError(err.data.message);
         });
     };
+
+    $scope.getDiscountPercent = function(price) {
+        return price.new && price.old ?
+            ( (( price.new - price.old ) / price.new) * 100) : '--';
+    }
 
     /**
      * Returns true when editing a merchant
@@ -209,6 +216,10 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
      */
     $scope.navigateToList = function() {
         $state.go('portal.view-merchs', {});
+    };
+
+    $scope.selectBooking = function(booking) {
+        $scope.selectedBooking = booking;
     };
 
     /**

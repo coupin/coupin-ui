@@ -189,6 +189,10 @@ td::first-letter {
     color: #00ace6;
 }
 
+.h-34p {
+    height: 34px;
+}
+
 .dashboard-request>div>div>a {
     color: white;
     transition-duration: 200ms;
@@ -265,6 +269,10 @@ td::first-letter {
     height: 200px;
     width: 200px;
 }
+
+.modal-body {
+    overflow: auto;
+}  
 
 /* .banner-box:hover,
 .banner-box-small:hover,
