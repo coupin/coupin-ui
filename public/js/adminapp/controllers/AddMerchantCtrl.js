@@ -3,6 +3,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
   $state,
   merchantId,
   Upload,
+  BookingsService,
   MerchantService,
   UtilService
 ) {
@@ -13,6 +14,15 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         right: 0,
         top: 0,
         bottom: 0
+    };
+    $scope.filter = {
+        fromDate: null,
+        merchantId: merchantId,
+        shortCode: null,
+        status: null,
+        toDate: null,
+        limit: 10,
+        page: 0
     };
     $scope.formData = {
         categories: [],
@@ -25,16 +35,17 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         src: null,
         dst: null
     };
+    $scope.tab = 'details';
     $scope.accountDetails = null;
     $scope.loading = false;
     $scope.proceeding = false;
     $scope.uploading = false;
+    $scope.bookings = [];
 
     if (UtilService.isDefined(merchantId)) {
         $scope.loading = true;
         MerchantService.retrieve(merchantId).then(function(response) {
             var merchant = response.data;
-            console.log('merchant.accountDetails ==> ', merchant.accountDetails)
             isEdit = true;
             $scope.formData = {
                 companyName: merchant.merchantInfo.companyName,
@@ -52,8 +63,8 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
             $scope.accountDetails = merchant.accountDetails;
             $scope.preview = merchant.merchantInfo.logo ? merchant.merchantInfo.logo.url : '';
             $scope.loading = false;
+            $scope.getMerchantBookings();
         }).catch(function(err) {
-            console.log(err);
             $scope.loading = false;
             UtilService.showError(err.data.message);
         });
@@ -158,6 +169,19 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         }
     };
 
+    $scope.getMerchantBookings = function() {
+        $scope.loadingBooking = true;
+        BookingsService.getBookings($scope.filter).then(function(response) {
+            $scope.bookings = response.data;
+            $scope.loadingBooking = false;
+        }, function(err) {
+            $scope.loadingBooking = false;
+
+            if (err.status != 404)
+                UtilService.showError(err.data.message);
+        });
+    };
+
     /**
      * Returns true when editing a merchant
      * and false otherwise
@@ -177,6 +201,8 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
     $scope.isSelected = function(category) {
         return $scope.formData.categories.indexOf(category) > -1;
     };
+
+    // $scope.loadBookings() = function() {};
 
     /**
      * Go back to list of merchants

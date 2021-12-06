@@ -1,230 +1,347 @@
-<div class="form-page">
-    <h4 class="clickable" ng-click="navigateToList()"><i class="fa fa-angle-double-left"></i> Go Back</h4>
-    <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">{{ isEdit() ? 'Edit' : 'Add' }} New Merchant</h3>
-    <div class="row" ng-if="loading">
-        <div class="col-sm-12 text-center">
-            <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+<div>
+    <header class="page-top-header">
+        <!-- Request Counter -->
+        <div class="w-10/12 pt-10 mx-auto">
+            <h4 class="clickable" ng-click="navigateToList()"><i class="fa fa-angle-double-left"></i> Go Back</h4>
+            <div class="flex pb-16 justify-between">
+                <div class="title">
+                    <h2 class="text-5xl capitalize" ng-if="loading">Loading...</h2>
+                    <h2 class="text-5xl capitalize" ng-if="!loading">{{ isEdit() ? formData.companyName : 'New Merchant' }}</h2>
+                </div>
+                <div class="actions"></div>
+            </div>
+            <div class="tabs flex flex-col sm:flex-row" role="tablist">
+                <a 
+                    role="tab"
+                    data-toggle="tab"
+                    aria-controls="merch"
+                    href="#details"
+                    class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                    ng-click="tab = 'details'"
+                    ng-class="{ 'active': tab === 'details' }"
+                >
+                    Merchant Details
+                    {{ tab }}
+                </a>
+                <a 
+                    role="tab"
+                    data-toggle="tab"
+                    aria-controls="bookings"
+                    href="#bookings"
+                    class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                    ng-click="getMerchantBookings(); tab = 'bookings'"
+                    ng-class="{ 'active': tab === 'bookings' }"
+                    aria-disabled="true"
+                >
+                    Merchant Bookings
+                </a>
+            </div>
+        </div>
+        <!-- End Request Counter -->
+    </header>
+    <div class="content">
+        <div class="w-full pt-16 mx-auto">
+            <div class="tab-content">
+                <!-- Merchant Detail Content -->
+                <div class="row tab-pane fade in active" id="details" role="tabpanel" aria-labelledby="details">
+                    <div class="form-page">
+                        <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">{{ isEdit() ? 'Edit' : 'Add' }} New Merchant</h3>
+                        <div class="row" ng-if="loading">
+                            <div class="col-sm-12 text-center">
+                                <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
+                            </div>
+                        </div>
+                        <form name="merchantForm" ng-submit="proceed()" ng-if="!loading">
+                            <div class="mb-2">
+                                <!-- <h4 class="text-center">Cropped Image</h4> -->
+                                <div class="crop-area-modal">
+                                    <img ng-src="{{preview}}" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <!-- <label for="end">Select Merchant Logo</label><br/> -->
+                                <div class="btn btn-success" ng-disabled="proceeding || uploading" data-toggle="modal" data-target="#croppingModal">Change/Upload Logo</div>
+                                <small id="endHelp" class="form-text text-muted">Logo the user will see.</small>
+                            </div>
+                            <div class="btn btn-danger clickable" ng-disabled="proceeding" ng-if="isEdit()">Change Password <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></div>
+                            <div class="form-group">
+                                <label for="companyName">Business Name:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-building"></i></div>
+                                    <input type="text"
+                                        name="companyName"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.companyName)}"
+                                        id="companyName"
+                                        aria-describedby="nameHelp"
+                                        placeholder="e.g. Chisco's Burgers"
+                                        ng-model="formData.companyName"
+                                        required>
+                                </div>
+                                <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
+                            </div>
+                            <div class="mb-8 bg-gray-800 p-4 rounded-md">
+                                <label class="text-white">Account Details:</label>
+                                <div class="flex flex-row text-gray-200 flex-wrap" ng-if="accountDetails.accountNumber">
+                                    <div class="w-1/2 md:w-1/5">
+                                        <span class="font-bold block text-xl">Account Name</span>
+                                        <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
+                                    </div>
+                                    <div class="w-1/2 md:w-1/5">
+                                        <span class="font-bold block text-xl">Bank Name</span>
+                                        <span class="text-xl block">{{ accountDetails.bankName }}</span>
+                                    </div>
+                                    <div class="w-1/2 md:w-1/5">
+                                        <span class="font-bold block text-xl">Account No.</span>
+                                        <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
+                                    </div>
+                                </div>
+                                <p class="text-gray-200" ng-if="!accountDetails.accountNumber">
+                                    Merchant is yet to add bank details.
+                                </p>
+                            </div>
+                            <div class="form-group">
+                                <label for="rating">Rating:</label>
+                                <input id="rating"
+                                    name="rating"
+                                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.rating)}"
+                                    type="number"
+                                    ng-min="1"
+                                    ng-max="5"
+                                    placeholder="Rate here..."
+                                    ng-model="formData.rating.value"
+                                    required></textarea>
+                                <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-at"></i></div>
+                                    <input type="email"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.email)}"
+                                        id="email"
+                                        name="email"
+                                        aria-describedby="emailHelp"
+                                        placeholder="example@example.com"
+                                        ng-model="formData.email"
+                                        required>
+                                </div>
+                                <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobileNumber">Mobile Number:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-phone"></i></div>
+                                    <input type="tel"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.mobileNumber)}"
+                                        id="mobileNumber"
+                                        name="mobileNumber"
+                                        aria-describedby="mobileNumberHelp"
+                                        placeholder="e.g. 08056748930"
+                                        maxlength="11"
+                                        ng-model="formData.mobileNumber"
+                                        required>
+                                </div>
+                                <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="descr">Description of Business:</label>
+                                <textarea
+                                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.descr)}"
+                                    id="descr"
+                                    name="descr"
+                                    maxlength="80"
+                                    placeholder="My company is into..."
+                                    ng-model="formData.companyDetails"
+                                    required></textarea>
+                                <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Categories:</label>
+                                <br>
+                                <div class="btn-group" role="group" aria-label="Categories">
+                                    <button type="button" id="entertainment" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('entertainment')}" ng-click="toggleCategory('entertainment')">Entertainment</button>
+                                    <button type="button" id="foodndrink" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('foodndrink')}" ng-click="toggleCategory('foodndrink')">Food n'Drinks</button>
+                                    <button type="button" id="technology" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('technology')}" ng-click="toggleCategory('technology')">Technology</button>
+                                    <button type="button" id="groceries" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('groceries')}" ng-click="toggleCategory('groceries')">Groceries</button>
+                                    <button type="button" id="healthnbeauty" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('healthnbeauty')}" ng-click="toggleCategory('healthnbeauty')">Health n'Beauty</button>
+                                    <button type="button" id="shopping" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('shopping')}" ng-click="toggleCategory('shopping')">Shopping</button>
+                                    <button type="button" id="tickets" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('tickets')}" ng-click="toggleCategory('tickets')">Tickets</button>
+                                    <button type="button" id="travel" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('travel')}" ng-click="toggleCategory('travel')">Travel</button>
+                                </div>
+                                <br>
+                                <small id="categoryHelp" class="form-text text-muted">Select Categories the business falls under</small>
+                            </div>
+                            <div class="form-group" ng-if="!isEdit()">
+                                <label for="password">Password:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-key"></i></div>
+                                    <input
+                                        type="password"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.password)}"
+                                        id="password"
+                                        name="password"
+                                        aria-describedby="passwordHelp"
+                                        placeholder="Please put in password"
+                                        ng-model="formData.password"
+                                        required>
+                                </div>
+                                <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
+                            </div>
+                            <div class="form-group" ng-if="!isEdit()">
+                                <label for="password2">Confirm Password:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-key"></i></div>
+                                    <input
+                                        type="password"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.password2)}"
+                                        id="password2"
+                                        name="password2"
+                                        aria-describedby="password2lHelp"
+                                        placeholder="Confirm Password.."
+                                        ng-model="formData.password2"
+                                        required>
+                                </div>
+                                <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-home"></i></div>
+                                    <input
+                                        type="text"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.address)}"
+                                        id="address"
+                                        name="address"
+                                        minlength="10"
+                                        maxlength="80"
+                                        aria-describedby="addressHelp"
+                                        placeholder="e.g. 2 bank road, ikoyi"
+                                        ng-model="formData.address"
+                                        required>
+                                </div>
+                                <small id="addressHelp" class="form-text text-muted">Street address with area</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="city">City:</label>
+                                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                                    <input
+                                        type="text"
+                                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.city)}"
+                                        id="city"
+                                        name="city"
+                                        minlength="3"
+                                        maxlength="15"
+                                        aria-describedby="cityHelp"
+                                        placeholder="e.g. Benin"
+                                        ng-model="formData.city" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-6">
+                                    <label for="latitude">Latitude:</label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                                        <input
+                                            type="number"
+                                            ng-class="{'form-control': true, 'error-input': isError(merchantForm.latitude)}"
+                                            id="latitude"
+                                            name="latitude"
+                                            placeholder="e.g. 6.342345"
+                                            step="any"
+                                            ng-model="formData.latitude" required>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="longitude">Longitude:</label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
+                                        <input
+                                            type="number"
+                                            ng-class="{'form-control': true, 'error-input': isError(merchantForm.longitude)}"
+                                            id="longitude"
+                                            name="longitude"
+                                            placeholder="e.g. 3.433345"
+                                            step="any"
+                                            ng-model="formData.longitude" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button ng-if="!isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Submit Form <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
+                            <button ng-if="isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Update Details <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Bookings Content -->
+                <div class="row tab-pane fade" id="bookings" role="tabpanel" aria-labelledby="bookings">
+                    <div class="w-10/12 pt-16 mx-auto">
+                        <div class="mb-16">
+                            <form>
+                                <div class="relative">
+                                    <input
+                                    class="block w-full bg-white py-4 px-3 pl-16 border rounded"
+                                    ng-model="query"
+                                    id="booking"
+                                    name="booking"
+                                    />
+                                    <i class="fas fa-search absolute right-0 top-0 text-3xl rounded-full bg-gray-200 hover:bg-gray-300 p-3 m-2 cursor-pointer" ng-click="getMerchantBookings()"></i>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="flex justify-around mt-6" ng-if="loadingBooking">
+                            <div class="loader"></div>
+                        </div>
+                        <div ng-if="!loadingBooking" style="max-height: 700px; overflow-y: scroll;" class="shadow border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Customer</th>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">shortCode</th>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">createdAt</th>
+                                        <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr ng-repeat="(index, booking) in bookings">
+                                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{(filter.page * 10) + (index + 1)}}</td>
+                                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{booking.userId.name}}</td>
+                                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{booking.shortCode}}</td>
+                                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{booking.status}}</td>
+                                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{booking.createdAt | date: 'shortDate' }}</td>
+                                        <td class="px-10 py-6">
+                                            <button
+                                                class="m-2 h-10 w-10 overflow-hidden bg-green-400 rounded-full"
+                                                data-toggle="tooltip"
+                                                title="See Rewards"
+                                            >
+                                                <i class="fa fa-gifts"></i>
+                                            </button>
+                    
+                                            <button
+                                                class="m-2 h-10 w-10 overflow-hidden bg-green-400 rounded-full"
+                                                data-toggle="tooltip"
+                                                title="View Transactions"
+                                            >
+                                                <i class="fas fa-receipt icon"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="bookings.length === 0">
+                                        <td colspan="7">
+                                            <p class="px-10 py-6 whitespace-no-wrap text-2xl text-center">No bookings under this merchant.</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <form name="merchantForm" ng-submit="proceed()" ng-if="!loading">
-        <div>
-            <h4 class="text-center">Cropped Image</h4>
-            <div class="crop-area-modal">
-                <img ng-src="{{preview}}" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="end">Select Merchant Logo</label><br/>
-            <div class="btn btn-success" ng-disabled="proceeding || uploading" data-toggle="modal" data-target="#croppingModal">Select Files</div>
-            <small id="endHelp" class="form-text text-muted">Logo the user will see.</small>
-        </div>
-        <div class="btn btn-danger clickable" ng-disabled="proceeding" ng-if="isEdit()">Change Password <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></div>
-        <div class="form-group">
-            <label for="companyName">Business Name:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-building"></i></div>
-                <input type="text"
-                    name="companyName"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.companyName)}"
-                    id="companyName"
-                    aria-describedby="nameHelp"
-                    placeholder="e.g. Chisco's Burgers"
-                    ng-model="formData.companyName"
-                    required>
-            </div>
-            <small id="nameHelp" class="form-text text-muted">The business/brand name that is publicly known to all.</small>
-        </div>
-        <div class="mb-8 bg-gray-800 p-4 rounded-md">
-            <label class="text-white">Account Details:</label>
-            <div class="flex flex-row text-gray-200 flex-wrap" ng-if="accountDetails">
-                <div class="w-1/2 md:w-1/5">
-                    <span class="font-bold block text-xl">Account Name</span>
-                    <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
-                </div>
-                <div class="w-1/2 md:w-1/5">
-                    <span class="font-bold block text-xl">Bank Name</span>
-                    <span class="text-xl block">{{ accountDetails.bankName }}</span>
-                </div>
-                <div class="w-1/2 md:w-1/5">
-                    <span class="font-bold block text-xl">Account No.</span>
-                    <span class="text-xl block">{{ accountDetails.accountNumber }}</span>
-                </div>
-            </div>
-            <p class="text-gray-200" ng-if="!accountDetails">
-                Merchant is yet to add bank details.
-            </p>
-        </div>
-        <div class="form-group">
-            <label for="rating">Rating:</label>
-            <input id="rating"
-                name="rating"
-                ng-class="{'form-control': true, 'error-input': isError(merchantForm.rating)}"
-                type="number"
-                ng-min="1"
-                ng-max="5"
-                placeholder="Rate here..."
-                ng-model="formData.rating.value"
-                required></textarea>
-            <small id="descrHelp" class="form-text text-muted">Anything between 1 - 5</small>
-        </div>
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-at"></i></div>
-                <input type="email"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.email)}"
-                    id="email"
-                    name="email"
-                    aria-describedby="emailHelp"
-                    placeholder="example@example.com"
-                    ng-model="formData.email"
-                    required>
-            </div>
-            <small id="emailHelp" class="form-text text-muted">Email used to contact the company.</small>
-        </div>
-        <div class="form-group">
-            <label for="mobileNumber">Mobile Number:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-phone"></i></div>
-                <input type="tel"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.mobileNumber)}"
-                    id="mobileNumber"
-                    name="mobileNumber"
-                    aria-describedby="mobileNumberHelp"
-                    placeholder="e.g. 08056748930"
-                    maxlength="11"
-                    ng-model="formData.mobileNumber"
-                    required>
-            </div>
-            <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
-        </div>
-        <div class="form-group">
-            <label for="descr">Description of Business:</label>
-            <textarea
-                ng-class="{'form-control': true, 'error-input': isError(merchantForm.descr)}"
-                id="descr"
-                name="descr"
-                maxlength="80"
-                placeholder="My company is into..."
-                ng-model="formData.companyDetails"
-                required></textarea>
-            <small id="descrHelp" class="form-text text-muted">Describe business in 80 words or less</small>
-        </div>
-        <div class="form-group">
-            <label for="category">Categories:</label>
-            <br>
-            <div class="btn-group" role="group" aria-label="Categories">
-                <button type="button" id="entertainment" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('entertainment')}" ng-click="toggleCategory('entertainment')">Entertainment</button>
-                <button type="button" id="foodndrink" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('foodndrink')}" ng-click="toggleCategory('foodndrink')">Food n'Drinks</button>
-                <button type="button" id="technology" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('technology')}" ng-click="toggleCategory('technology')">Technology</button>
-                <button type="button" id="groceries" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('groceries')}" ng-click="toggleCategory('groceries')">Groceries</button>
-                <button type="button" id="healthnbeauty" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('healthnbeauty')}" ng-click="toggleCategory('healthnbeauty')">Health n'Beauty</button>
-                <button type="button" id="shopping" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('shopping')}" ng-click="toggleCategory('shopping')">Shopping</button>
-                <button type="button" id="tickets" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('tickets')}" ng-click="toggleCategory('tickets')">Tickets</button>
-                <button type="button" id="travel" ng-class="{'btn btn-default': true, 'btn-primary': isSelected('travel')}" ng-click="toggleCategory('travel')">Travel</button>
-            </div>
-            <br>
-            <small id="categoryHelp" class="form-text text-muted">Select Categories the business falls under</small>
-        </div>
-        <div class="form-group" ng-if="!isEdit()">
-            <label for="password">Password:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                <input
-                    type="password"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.password)}"
-                    id="password"
-                    name="password"
-                    aria-describedby="passwordHelp"
-                    placeholder="Please put in password"
-                    ng-model="formData.password"
-                    required>
-            </div>
-            <small id="passwordHelp" class="form-text text-muted">This is the password linked with your email for login.</small>
-        </div>
-        <div class="form-group" ng-if="!isEdit()">
-            <label for="password2">Confirm Password:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-key"></i></div>
-                <input
-                    type="password"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.password2)}"
-                    id="password2"
-                    name="password2"
-                    aria-describedby="password2lHelp"
-                    placeholder="Confirm Password.."
-                    ng-model="formData.password2"
-                    required>
-            </div>
-            <small id="password2Help" class="form-text text-muted">Please confirm your password.</small>
-        </div>
-        <div class="form-group">
-            <label for="address">Address:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-home"></i></div>
-                <input
-                    type="text"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.address)}"
-                    id="address"
-                    name="address"
-                    minlength="10"
-                    maxlength="80"
-                    aria-describedby="addressHelp"
-                    placeholder="e.g. 2 bank road, ikoyi"
-                    ng-model="formData.address"
-                    required>
-            </div>
-            <small id="addressHelp" class="form-text text-muted">Street address with area</small>
-        </div>
-        <div class="form-group">
-            <label for="city">City:</label>
-            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                <input
-                    type="text"
-                    ng-class="{'form-control': true, 'error-input': isError(merchantForm.city)}"
-                    id="city"
-                    name="city"
-                    minlength="3"
-                    maxlength="15"
-                    aria-describedby="cityHelp"
-                    placeholder="e.g. Benin"
-                    ng-model="formData.city" required>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-sm-6">
-                <label for="latitude">Latitude:</label>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                    <input
-                        type="number"
-                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.latitude)}"
-                        id="latitude"
-                        name="latitude"
-                        placeholder="e.g. 6.342345"
-                        step="any"
-                        ng-model="formData.latitude" required>
-                </div>
-            </div>
-            <div class="form-group col-sm-6">
-                <label for="longitude">Longitude:</label>
-                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon"><i class="fas fa-map-marker"></i></div>
-                    <input
-                        type="number"
-                        ng-class="{'form-control': true, 'error-input': isError(merchantForm.longitude)}"
-                        id="longitude"
-                        name="longitude"
-                        placeholder="e.g. 3.433345"
-                        step="any"
-                        ng-model="formData.longitude" required>
-                </div>
-            </div>
-        </div>
-        <button ng-if="!isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Submit Form <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
-        <button ng-if="isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Update Details <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
-    </form>
 </div>
 <!-- Croppig Modal -->
 <div class="modal fade" id="croppingModal">
