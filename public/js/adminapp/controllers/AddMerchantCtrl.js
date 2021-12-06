@@ -3,6 +3,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
   $state,
   merchantId,
   Upload,
+  BookingsService,
   MerchantService,
   UtilService
 ) {
@@ -13,6 +14,15 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         right: 0,
         top: 0,
         bottom: 0
+    };
+    $scope.filters = {
+        endDate: null,
+        merchantId: merchantId,
+        shortCode: null,
+        startDate: null,
+        status: null,
+        limit: 10,
+        page: 0
     };
     $scope.formData = {
         categories: [],
@@ -25,9 +35,12 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         src: null,
         dst: null
     };
+    $scope.tab = 'details';
+    $scope.accountDetails = null;
     $scope.loading = false;
     $scope.proceeding = false;
     $scope.uploading = false;
+    $scope.bookings = [];
 
     if (UtilService.isDefined(merchantId)) {
         $scope.loading = true;
@@ -47,10 +60,11 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 categories: merchant.merchantInfo.categories || [],
                 rating: merchant.merchantInfo.rating
             };
+            $scope.accountDetails = merchant.accountDetails;
             $scope.preview = merchant.merchantInfo.logo ? merchant.merchantInfo.logo.url : '';
             $scope.loading = false;
+            $scope.getMerchantBookings();
         }).catch(function(err) {
-            console.log(err);
             $scope.loading = false;
             UtilService.showError(err.data.message);
         });
@@ -155,6 +169,26 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         }
     };
 
+    $scope.getMerchantBookings = function() {
+        $scope.loadingBooking = true;
+        $scope.bookings = [];
+
+        BookingsService.getBookings($scope.filters).then(function(response) {
+            $scope.bookings = response.data;
+            $scope.loadingBooking = false;
+        }, function(err) {
+            $scope.loadingBooking = false;
+
+            if (err.status != 404)
+                UtilService.showError(err.data.message);
+        });
+    };
+
+    $scope.getDiscountPercent = function(price) {
+        return price.new && price.old ?
+            ( (( price.new - price.old ) / price.new) * 100) : '--';
+    }
+
     /**
      * Returns true when editing a merchant
      * and false otherwise
@@ -175,11 +209,17 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         return $scope.formData.categories.indexOf(category) > -1;
     };
 
+    // $scope.loadBookings() = function() {};
+
     /**
      * Go back to list of merchants
      */
     $scope.navigateToList = function() {
         $state.go('portal.view-merchs', {});
+    };
+
+    $scope.selectBooking = function(booking) {
+        $scope.selectedBooking = booking;
     };
 
     /**

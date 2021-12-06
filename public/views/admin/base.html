@@ -50,6 +50,12 @@
                     <p class="show-expanded ml-4">Config</p>
                 </div>
             </a>
+            <a href="#" ng-click="logout()" ui-sref=".config" class="block my-6 side-nav-menu-item hover:no-underline" ui-sref-active="active">
+                <div class="flex items-center pl-6 py-4 text-gray-600 mx-3 rounded">
+                    <i class="fas fa-sign-out-alt text-4x3"></i>
+                    <p class="show-expanded ml-4">Sign Out</p>
+                </div>
+            </a>
         </div>
     </div>
     <div class="main-content h-full relative">
@@ -60,6 +66,7 @@
                     <div
                         class="rounded-full h-16 w-16 bg-gray-400 cursor-pointer"
                         ng-click="toggleMenu()">
+                        <i class="fas fa-user-circle fa-icon-4"></i>
                     </div>
                     <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" ng-show="isMenuOpen">
                         <div class="rounded-md bg-white shadow-xs">

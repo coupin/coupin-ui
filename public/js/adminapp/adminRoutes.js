@@ -101,6 +101,11 @@ function(
       url: '/home',
       templateUrl: 'views/admin/viewRequests.html',
       controller: 'RequestController'
+    })
+    .state('portal.default', {
+      url: '',
+      templateUrl: 'views/admin/viewRequests.html',
+      controller: 'RequestController'
     });
 
   $locationProvider.html5Mode(true);
