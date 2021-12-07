@@ -210,6 +210,10 @@ angular.module('AuthCtrl', []).controller('AuthController', function (
         }
     };
 
+    $scope.backToSignIn = function() {
+        $window.location.href = '/auth';
+    }
+
     function setUserInfo(data, setExpiration) {
         if (setExpiration && data.user.merchantInfo.billing.history[0] && data.user.merchantInfo.billing.history[0].plan !== 'payAsYouGo') {
             var expirationDate = data.user.merchantInfo.billing.history[0].expiration;
