@@ -8,9 +8,9 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
   var availableIndex = [0, 1, 2, 3, 4];
   $scope.bounds = {
     left: 0,
-    right: 0,
+    // right: 0,
     top: 0,
-    bottom: 0
+    // bottom: 0
   };
   $scope.featured = {
     first: null,
@@ -31,6 +31,7 @@ angular.module('FeaturedCtrl', []).controller('FeaturedController', function(
   $scope.progress = 0;
   $scope.totalSlides = 0;
   $scope.uploadingBanner = false;
+  $scope.crobject = {};
 
   AdminService.retrieveHotList().then(function(response) {
     var data = response.data;
