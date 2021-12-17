@@ -25,9 +25,9 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
 
     $scope.bounds = {
         left: 0,
-        right: 0,
+        // right: 0,
         top: 0,
-        bottom: 0
+        // bottom: 0
     };
 
     var logo = $scope.user.merchantInfo.logo && $scope.user.merchantInfo.logo.url ? $scope.user.merchantInfo.logo.url : '../img/logo.jpg';

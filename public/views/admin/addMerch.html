@@ -402,12 +402,12 @@
                     <br>
                     <div class="row">
                         <div class="crop-area-modal center-img">
-                            <img-crop
+                            <!-- <img-crop
                                 image="image.src"
                                 result-image="image.dst"
                                 area-type="square"
                                 result-image-size="320"
-                            ></img-crop>
+                            ></img-crop> -->
                             <!-- <canvas
                                 height="200"
                                 width="200"
@@ -420,6 +420,14 @@
                                 touch-radiue="30"
                                 crop-area-bounds="bounds"
                                 ></canvas> -->
+                            <ui-cropper
+                                image="image.src"
+                                init-max-area="true"
+                                result-image="image.dst"
+                                result-image-size="{w:320,h:320}"
+                                area-type="square"
+                                cropject="crobject"
+                                ></ui-cropper>
                         </div>
                     </div>
                 </div>
