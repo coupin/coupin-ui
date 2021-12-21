@@ -34,7 +34,7 @@ angular.module('coupinApp', [
   $httpProvider.interceptors.push(function ($state, $window, $q) {
     return {
       responseError: function (res) {
-        if (res.status === 401 && res.data === 'TokenExpired') {
+        if (res.status === 401 && res.data.message === 'TokenExpired') {
           localStorage.removeItem('ctk');
           localStorage.removeItem('hasExpired');
           localStorage.removeItem('isMerchant');
