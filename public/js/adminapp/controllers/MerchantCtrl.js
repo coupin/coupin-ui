@@ -74,8 +74,12 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     };
 
     $scope.updateVisibility = function(id, action) {
+        const merchants = [...$scope.merchants] 
+        const idxOfSelectedMerch = merchants.findIndex(merchant => merchant._id === $scope.selectedMerch._id);
+        merchants[idxOfSelectedMerch].isActive = !merchants[idxOfSelectedMerch].isActive; 
+        
+        $scope.merchants = merchants;
         MerchantService.updateMerchantVisibility(id, action)
-        $scope.loadMerchants();
     }
 
     const handleFileSelect = function (evt) {
