@@ -75,7 +75,7 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
 
     $scope.updateVisibility = function(id, action) {
         MerchantService.updateMerchantVisibility(id, action)
-        .then(res => console.log(res))
+        $scope.loadMerchants();
     }
 
     const handleFileSelect = function (evt) {

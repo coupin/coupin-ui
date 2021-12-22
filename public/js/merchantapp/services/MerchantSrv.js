@@ -87,9 +87,12 @@ function (
             });
         },
         updateMerchantVisibility: function(id, action) {
-            return $http.post(baseV1Url + '/merchant/' + id + '/' + action, {
+            const url = baseV1Url + '/merchant/' + id + '/' + action
+            return $http({
+                method: 'POST',
+                url: url,
                 headers: getAuthHeader()
-            });
+            })
         }
     }
 }]);
