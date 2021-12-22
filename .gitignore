@@ -5,3 +5,4 @@ public/libs
 *.DS_Store
 config.json
 .idea/
+.TODO.txt

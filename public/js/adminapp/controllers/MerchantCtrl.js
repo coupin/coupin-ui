@@ -12,6 +12,8 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     $scope.loading = false;
     $scope.merchants = [];
     $scope.query = '';
+    $scope.selectedMerch;
+    $scope.selectedMerchAction;
 
     $scope.addMerch = function() {
         $state.go('portal.add-merchs', {
@@ -67,8 +69,14 @@ angular.module('MerchantCtrl', []).controller('MerchantController', function(
     };
 
     $scope.toggleStatus = function(id) {
-
+        $scope.selectedMerch = $scope.merchants.find(merchant => merchant._id === id);
+        $scope.selectedMerchAction  = $scope.selectedMerch.isActive ? 'deactivate' : 'activate'
     };
+
+    $scope.updateVisibility = function(id, action) {
+        MerchantService.updateMerchantVisibility(id, action)
+        .then(res => console.log(res))
+    }
 
     const handleFileSelect = function (evt) {
         let file = evt.currentTarget.files[0];
