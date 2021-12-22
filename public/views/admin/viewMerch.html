@@ -181,10 +181,10 @@
                     <h3>Please confirm your action</h3>
                 </div>
                 <div class="modal-body modal-space-text">
-                    <h1 class="mb-12">
-                        Are you sure you want to {{ selectedMerchAction }} {{ selectedMerch.merchantInfo.companyName }}?
+                    <h1 class="mb-12 text-center">
+                        Are you sure you want to {{ selectedMerchAction + ' ' + selectedMerch.merchantInfo.companyName }}?
                     </h1>
-                     <div class="button mt-6">
+                     <div class="modal-footer">
                         <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" ng-click="updateVisibility(selectedMerch._id, selectedMerchAction)">Yes</button>
                         <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal">No</button>
                      </div>
