@@ -85,6 +85,14 @@ function (
             return retrieve(id).then(({ data }) => {
                 StorageService.setUser(data);
             });
+        },
+        updateMerchantVisibility: function(id, action) {
+            const url = baseV1Url + '/merchant/' + id + '/' + action
+            return $http({
+                method: 'POST',
+                url: url,
+                headers: getAuthHeader()
+            })
         }
     }
 }]);
