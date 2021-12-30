@@ -42,28 +42,28 @@ function (
     },
 
     getRewardGenderDistribution: function (rewardId) {
-      var url = '/analytics/reward/' + rewardId +'/gender-distribution';
+      var url = '/analytics/rewards/' + rewardId +'/gender-distribution';
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });
     },
 
     getSingleReward: function (rewardId) {
-      var url = '/analytics/reward/' + rewardId;
+      var url = '/analytics/rewards/' + rewardId + '/statistics';
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });
     },
 
     getRewardAgeDistribution: function (rewardId) {
-      var url = '/analytics/reward/' + rewardId +'/age-distribution';
+      var url = '/analytics/rewards/' + rewardId +'/age-distribution';
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });
     },
 
     getGeneratedRedeemedCoupin: function (rewardId) {
-      var url = '/analytics/reward/' + rewardId +'/generated-redeemed-coupin';
+      var url = '/analytics/rewards/' + rewardId +'/generated-redeemed-coupin';
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });

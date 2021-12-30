@@ -475,6 +475,9 @@ option {
 }
 
 .overview-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -490,10 +493,11 @@ option {
 .quick-info {
   width: 250px;
   display: inline-block;
+  margin-bottom: 15px;
 }
 
-.quick-info:not(:first-child) {
-  margin-left: 30px;
+.quick-info:not(:last-child) {
+  margin-right: 15px;
 }
 
 .quick-info h4 {
@@ -1107,8 +1111,9 @@ form .row {
 }
 
 #analytics-page .overview-container .info{
-  width: 260px;
+  width: 250px;
   flex: 0 0 31%;
+  margin-bottom: 5px;
 }
 
 #analytics-page .overview-container .info h4 {
