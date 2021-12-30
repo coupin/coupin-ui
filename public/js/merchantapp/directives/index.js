@@ -142,90 +142,56 @@ angular.module('coupinApp').directive('showMore', function () {
         var options = {
           chart: {
             height: 350,
-            type: 'bar',
+            width: 350,
+            type: 'pie',
             background: '#313237',
-            toolbar: {
-              show: false
-            }
+            foreColor: '#FFFFFF'
           },
+          labels: [
+            'Male',
+            'Female',
+            'Unspecified',
+          ],
           plotOptions: {
-            bar: {
-              horizontal: true,
+            pie: {
               dataLabels: {
-                position: 'top',
+                offset: -10
               },
-              barHeight: '70%',
             }
           },
-          colors: ['#08AEEA', '#15A580', '#E7745A'],
-          series: [{
-            name: 'Female',
-            data: [47, 55]
-          }, {
-            name: 'Male',
-            data: [53, 45]
-          }],
-          xaxis: {
-            categories: ['Generated', 'Redeemed'],
-            labels: {
-              show: false,
-              style: {
-                colors: '#fff',
-                fontSize: '9px',
-                fontFamily: 'Nunito Sans',
-                cssClass: 'linechart-yaxis-label'
-              },
-            },
-            axisTicks: { show: false, },
-            axisBorder: {
-              show: true,
-              borderType: 'solid',
-              color: 'rgba(231, 233, 237, 0.65)',
-            },
-          },
-          yaxis: {
-            labels: {
-              show: true,
-              style: {
-                colors: '#fff',
-                fontSize: '11px',
-                fontFamily: 'Nunito Sans',
-                cssClass: 'linechart-yaxis-label'
-              },
-            },
-            axisBorder: {
-              show: true,
-              borderType: 'solid',
-              color: 'rgba(231, 233, 237, 0.65)',
-            },
-          },
-          legend: {
-            show: true,
-            offsetY: 10,
-            height: 24,
-            fontFamily: 'Nunito Sans',
-            fontSize: '12px',
-            position: 'bottom',
-            labels: {
-              colors: ['#FFFFFF'],
-            },
-            markers: {
-              radius: 12,
-              width: 12,
-              height: 12,
-            },
-          },
+          colors: ['#002B24', '#034d44', '#077368'],
           dataLabels: {
             enabled: true,
-            formatter: function (val, opts) {
-              return val > 0 ? val + '%' : '';
+            textAnchor: 'middle'
+          },
+          expandOnClick: true,
+          series: [],
+          stroke: {
+            show: true,
+            curve: 'straight',
+            lineCap: 'butt',
+            colors: '#FFFFFF',
+            width: .3,
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                fontFamily: 'Nunito Sans',
+                fontSize: '12px',
+                height: 24,
+                labels: {
+                  colors: ['#FFFFFF'],
+                },
+                offsetY: 10,
+                position: 'bottom',
+                show: true
+              }
             },
-            offsetX: -20,
-          },
-          grid: {
-            xaxis: { lines: { show: false, } },
-            yaxis: { lines: { show: false, } },
-          },
+          }],
           tooltip: {
             enabled: true,
             theme: 'dark',
@@ -258,95 +224,131 @@ angular.module('coupinApp').directive('showMore', function () {
       // IIFE for age column chart
       // IIFE for age column chart
       (function () {
+        // var options = {
+        //   chart: {
+        //     height: 350,
+        //     type: 'bar',
+        //     background: '#313237',
+        //     stacked: true,
+        //     toolbar: {
+        //       show: false
+        //     }
+        //   },
+        //   plotOptions: {
+        //     bar: {
+        //       horizontal: false,
+        //       dataLabels: {
+        //         position: 'top',
+        //       },
+        //       columnWidth: '55%',
+        //     }
+        //   },
+        //   colors: ['#08AEEA', '#15A580'],
+        //   series: [{
+        //     name: 'Redeemed',
+        //     data: [5, 15, 25, 40, 15]
+        //   }, {
+        //     name: 'Generated',
+        //     data: [15, 36, 24, 17, 8]
+        //   }],
+        //   xaxis: {
+        //     categories: ['45+', '35 - 45', '25 - 35', '15 - 25', 'Below 15'],
+        //     labels: {
+        //       show: true,
+        //       style: {
+        //         colors: '#fff',
+        //         fontSize: '9px',
+        //         fontFamily: 'Nunito Sans',
+        //         cssClass: 'linechart-yaxis-label'
+        //       },
+        //     },
+        //     axisTicks: { show: false, },
+        //     axisBorder: {
+        //       show: true,
+        //       borderType: 'solid',
+        //       color: 'rgba(231, 233, 237, 0.65)',
+        //     },
+        //   },
+        //   yaxis: {
+        //     labels: {
+        //       show: true,
+        //       style: {
+        //         colors: '#fff',
+        //         fontSize: '11px',
+        //         fontFamily: 'Nunito Sans',
+        //         cssClass: 'linechart-yaxis-label'
+        //       },
+        //     },
+        //     axisBorder: {
+        //       show: true,
+        //       borderType: 'solid',
+        //       color: 'rgba(231, 233, 237, 0.65)',
+        //     },
+        //   },
+        //   legend: {
+        //     show: true,
+        //     offsetY: 10,
+        //     height: 24,
+        //     fontFamily: 'Nunito Sans',
+        //     fontSize: '12px',
+        //     position: 'bottom',
+        //     labels: {
+        //       colors: ['#FFFFFF'],
+        //     },
+        //     markers: {
+        //       radius: 12,
+        //       width: 12,
+        //       height: 12,
+        //     },
+        //   },
+        //   dataLabels: {
+        //     enabled: false,
+        //   },
+        //   grid: {
+        //     xaxis: { lines: { show: false, } },
+        //     yaxis: { lines: { show: false, } },
+        //   },
+        //   tooltip: {
+        //     enabled: true,
+        //     theme: 'dark',
+        //   }
+        // }
+
         var options = {
           chart: {
             height: 350,
             type: 'bar',
             background: '#313237',
-            stacked: true,
-            toolbar: {
-              show: false
-            }
+            foreColor: '#FFFFFF'
+          },
+          series: [{
+            name: 'age-distribution',
+            data: []
+          }],
+          colors: ['#077368'],
+          dataLabels: {
+            enabled: false
           },
           plotOptions: {
             bar: {
-              horizontal: false,
-              dataLabels: {
-                position: 'top',
-              },
-              columnWidth: '55%',
+              horizontal: false
             }
           },
-          colors: ['#08AEEA', '#15A580'],
-          series: [{
-            name: 'Redeemed',
-            data: [5, 15, 25, 40, 15]
-          }, {
-            name: 'Generated',
-            data: [15, 36, 24, 17, 8]
-          }],
           xaxis: {
-            categories: ['45+', '35 - 45', '25 - 35', '15 - 25', 'Below 15'],
-            labels: {
-              show: true,
-              style: {
-                colors: '#fff',
-                fontSize: '9px',
-                fontFamily: 'Nunito Sans',
-                cssClass: 'linechart-yaxis-label'
-              },
-            },
-            axisTicks: { show: false, },
-            axisBorder: {
-              show: true,
-              borderType: 'solid',
-              color: 'rgba(231, 233, 237, 0.65)',
-            },
-          },
-          yaxis: {
-            labels: {
-              show: true,
-              style: {
-                colors: '#fff',
-                fontSize: '11px',
-                fontFamily: 'Nunito Sans',
-                cssClass: 'linechart-yaxis-label'
-              },
-            },
-            axisBorder: {
-              show: true,
-              borderType: 'solid',
-              color: 'rgba(231, 233, 237, 0.65)',
-            },
-          },
-          legend: {
-            show: true,
-            offsetY: 10,
-            height: 24,
-            fontFamily: 'Nunito Sans',
-            fontSize: '12px',
-            position: 'bottom',
-            labels: {
-              colors: ['#FFFFFF'],
-            },
-            markers: {
-              radius: 12,
-              width: 12,
-              height: 12,
-            },
-          },
-          dataLabels: {
-            enabled: false,
-          },
-          grid: {
-            xaxis: { lines: { show: false, } },
-            yaxis: { lines: { show: false, } },
+            categories: [
+              'Below 15',
+              '15 - 24',
+              '25 - 34',
+              '35 - 44',
+              '45+',
+              'Unspecified'
+            ]
           },
           tooltip: {
             enabled: true,
             theme: 'dark',
           }
-        }
+        };
 
         scope.barChart = new ApexCharts(
           document.querySelector("#age-distribution"),
@@ -358,7 +360,10 @@ angular.module('coupinApp').directive('showMore', function () {
 
       // update the barchart values
       scope.$watch('data', function (val) {
-        scope.barChart.updateSeries(val);
+        console.log('val ==> ', val)
+        scope.barChart.updateSeries([{
+          data: val
+        }])
       });
     }
   }

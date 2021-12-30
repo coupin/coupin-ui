@@ -64,13 +64,15 @@
         <div class="col-md-6" style="padding-left: 0;">
           <div class="card">
               <p class="section-headers" style="margin-bottom: 20px;">Gender Distribution</p>
-              <cp-reward-analytics-gender-distribution data="genderDistributionData"></cp-reward-analytics-gender-distribution>
+              <cp-reward-analytics-gender-distribution ng-if="!hideGenderDistribution" data="genderDistributionData"></cp-reward-analytics-gender-distribution>
+              <p ng-if="hideGenderDistribution" class="w-full px-8 py-20 text-center">We are yet to get gender data for this reward.</p>
           </div>
         </div>
         <div class="col-md-6" style="padding-right: 0;">
           <div class="card">
               <p class="section-headers" style="margin-bottom: 20px;">Age Distribution</p>
-              <cp-reward-analytics-age-distribution data="ageDistributionData"></cp-reward-analytics-age-distribution>
+              <cp-reward-analytics-age-distribution ng-if="!hideAgeDistribution" data="ageDistributionData"></cp-reward-analytics-age-distribution>
+              <p ng-if="hideAgeDistribution" class="w-full px-8 py-20 text-center">We are yet to get age data for this reward.</p>
           </div>
         </div>
       </div>
