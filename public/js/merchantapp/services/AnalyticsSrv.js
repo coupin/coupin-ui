@@ -62,14 +62,21 @@ function (
       });
     },
 
-    getGeneratedRedeemedCoupin: function (rewardId) {
-      var url = '/analytics/rewards/' + rewardId +'/generated-redeemed-coupin';
+    getRewardDeliveryDistribution: function (rewardId, startDate, endDate) {
+      var url = '/analytics/rewards/' + rewardId +'/delivery-distribution?startDate=' + startDate + '&endDate=' + endDate;
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });
     },
+
+    // getGeneratedRedeemedCoupin: function (rewardId) {
+    //   var url = '/analytics/rewards/' + rewardId +'/generated-redeemed-coupin';
+    //   return $http.get(baseV1Url + url, {
+    //     headers: getAuthHeader()
+    //   });
+    // },
     allRewardPdf: function (start, end) {
-      return $http.get(baseV1Url + '/analytics/pdf/all-rewards?start=' + start + '&end=' + end, {
+      return $http.get(baseV1Url + '/analytics/rewards/reports/pdf?start=' + start + '&end=' + end, {
         headers: getAuthHeader(),
       })
     },
@@ -84,7 +91,7 @@ function (
       });
     },
     getExcel: function (start, end) {
-      return $http.get(baseV1Url + '/analytics/excel/all-rewards?start=' + start + '&end=' + end, {
+      return $http.get(baseV1Url + '/analytics/rewards/reports/xlsx?start=' + start + '&end=' + end, {
         headers: getAuthHeader(),
         responseType: 'blob'
       });
