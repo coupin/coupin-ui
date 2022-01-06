@@ -141,8 +141,9 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             $scope.loading = false;
             UtilService.showSuccess('Success', $scope.currentReward.name + " has been " + $scope.status.value + " and email has been sent");
 
+
             $scope.totalRewards = $scope.totalRewards.filter(function(reward) {
-                return reward.id !== $scope.currentReward.id;
+                return reward._id !== $scope.currentReward._id;
             });
         }).catch(function(err) {
             $scope.loading = false;

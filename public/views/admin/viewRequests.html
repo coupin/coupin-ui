@@ -158,28 +158,28 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead>
                                 <tr>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Description</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Starts</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Ends</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Created</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Is Active</th>
-                                    <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Description</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Starts</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Ends</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Created</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Is Active</th>
+                                    <th class="sticky top-0 px-2 py-6 bg-gray-100"></th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <tr ng-repeat="(index, reward) in totalRewards">
-                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{index+1}}</t>
-                                    <td class="capitalize px-10 py-6 whitespace-no-wrap text-2xl">{{reward.name}}</td>
-                                    <td class="capitalize px-10 py-6 whitespace-no-wrap text-2xl">{{reward.description}}</td>
-                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.startDate | date:'longDate'}}</td>
-                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.endDate | date:'longDate'}}</td>
-                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.createdDate | date:'longDate'}}</td>
-                                    <td class="capitalize">{{reward.status}}</td>
-                                    <td>{{reward.isActive ? 'Yes' : 'No'}}</td>
-                                    <td class="clickable px-10 py-6 whitespace-no-wrap text-2xl">
+                                    <td class="px-2 py-6 whitespace-no-wrap text-xl">{{index+1}}</t>
+                                    <td class="capitalize px-2 py-6 whitespace-no-wrap text-xl max-w-xs truncate">{{reward.name}}</td>
+                                    <td class="capitalize px-2 py-6 whitespace-no-wrap text-xl max-w-xs truncate">{{reward.description}}</td>
+                                    <td class="px-2 py-6 whitespace-no-wrap text-xl">{{reward.startDate | date:'longDate'}}</td>
+                                    <td class="px-2 py-6 whitespace-no-wrap text-xl">{{reward.endDate | date:'longDate'}}</td>
+                                    <td class="px-2 py-6 whitespace-no-wrap text-xl">{{reward.createdDate | date:'longDate'}}</td>
+                                    <td class="px-2 capitalize text-xl">{{reward.status === 'isPending' ? 'Pending' : reward.status }}</td>
+                                    <td class="px-2 text-xl">{{reward.isActive ? 'Yes' : 'No'}}</td>
+                                    <td class="clickable px-10 py-6 whitespace-no-wrap text-xl">
                                         <button
                                             class="m-2"
                                             data-toggle="modal"

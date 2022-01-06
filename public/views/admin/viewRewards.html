@@ -78,17 +78,17 @@
                         <td>
                             <button 
                                 class="m-2"
-                                data-toggle="tooltip"
-                                title="Activate/Deactivate Merchant"
-                                ng-click="toggleStatus(merchant._id)"
+                                data-toggle="modal"
+                                data-target="#modifyRewardStatus"
+                                title="Activate/Deactivate Reward"
+                                ng-click="showModal(reward._id)"
                             >
-                                <i ng-class="{'fas fa-eye-slash icon': merchant.isActive, 'fas fa-eye icon': !merchant.isActive}"></i>
+                                <i ng-class="reward.isActive ? 'fas fa-eye-slash icon' : 'fas fa-eye icon'"></i>
                             </button>
                             <button 
                                 class="m-2"
                                 data-toggle="tooltip"
                                 title="Archive"
-                                ng-click="toggleStatus(merchant._id)"
                             >
                                 <i class="fa fa-archive"></i>
                             </button>
@@ -144,4 +144,26 @@
             </table>
         </div>
     </div>
+
+
+    <!-- Modal beginning -->
+    <div class="modal fade" id="modifyRewardStatus" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>Please confirm your action</h3>
+                </div>
+                <div class="modal-body modal-space-text">
+                    <h1 class="text-center">
+                        Are you sure you want to {{ selectedReward.action + ' ' + selectedReward.name }}?
+                    </h1>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" ng-click="updateVisibility(selectedReward.id, selectedReward.status)">Yes</button>
+                    <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal">No</button>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal ending -->
 </div>
