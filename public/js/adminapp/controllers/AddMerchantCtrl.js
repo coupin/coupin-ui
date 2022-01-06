@@ -8,6 +8,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
   UtilService
 ) {
     var isEdit = false;
+    var noMoreBookings = false;
     var upload = false;
     $scope.bounds = {
         left: 0,
@@ -170,6 +171,8 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
     };
 
     $scope.getMerchantBookings = function() {
+        if ($scope.filters.page === 0) noMoreBookings = false;
+
         $scope.loadingBooking = true;
         $scope.bookings = [];
 
@@ -179,9 +182,29 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
         }, function(err) {
             $scope.loadingBooking = false;
 
-            if (err.status != 404)
+            if (err.status != 404) {
+                noMoreBookings = true;
                 UtilService.showError(err.data.message);
+            }
         });
+    };
+
+    $scope.disableNext = function() {
+        return $scope.bookings.length < $scope.filters.limit || noMoreBookings;
+    };
+
+    $scope.nextPage = function() {
+        if (!$scope.disableNext()) {
+            $scope.filters.page += 1;
+            $scope.getMerchantBookings();
+        }
+    };
+
+    $scope.previousPage = function() {
+        if ($scope.filters.page > 0) {
+            $scope.filters.page -= 1;
+            $scope.getMerchantBookings();
+        }
     };
 
     $scope.getDiscountPercent = function(price) {

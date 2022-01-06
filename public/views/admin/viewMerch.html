@@ -89,22 +89,22 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Address</th>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Email Date</th>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
-                            <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Address</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Email Date</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100"></th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr ng-repeat="(index, merchant) in merchants">
-                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{(page * 10) + (index + 1)}}</td>
-                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{merchant.merchantInfo.companyName}}</td>
-                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
-                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{merchant.email}}</td>
-                            <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
-                            <td>
+                        <tr ng-repeat="(index, merchant) in merchants" class="cursor-pointer hover:bg-gray-300" ng-click="editMerch(merchant._id)">
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{(page * 10) + (index + 1)}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.merchantInfo.companyName}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.email}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
+                            <td class="text-xl">
                                 <button
                                     class="m-2"
                                     data-toggle="tooltip"
