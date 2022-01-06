@@ -61,6 +61,16 @@ angular.module('AdminRewardsSrv', ['ngSessionStorage']).factory('AdminRewardsSer
                   headers: getAuthHeader(),
                   data: query
               });
+          },
+          toggleRewardStatus: function(id, status) {
+              var url = baseV1Url + '/rewards/status' + '/' + id;
+
+              return $http({
+                method: 'PUT',
+                url: url,
+                headers: getAuthHeader(),
+                data: JSON.stringify({ status })
+              })
           }
       }
   }
