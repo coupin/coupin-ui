@@ -38,38 +38,50 @@
             </span>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-4">
           <div class="col-md-4 col-sm-12" style="padding-left: 0;">
             <span class="reward-info">
-              <p>Generated Coupin</p>
+              <p>Total Generated Coupin</p>
               <p class="capitalize">{{reward.generatedCoupin}}</p>
             </span>
           </div>
-          <div class="col-md-4 col-sm-12" style="padding-left: 0;">
+          <!-- <div class="col-md-4 col-sm-12" style="padding-left: 0;">
             <span class="reward-info">
               <p>Redeemed Coupin</p>
               <p class="capitalize">{{reward.redeemedCoupin}}</p>
             </span>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
     <div class="row" style="margin-top: 30px">
-      <div class="col-sm-12 card">
-          <p class="section-headers" style="margin-bottom: 20px;">Generated Coupin vs Redeemed Coupin</p>
-          <cp-reward-analytics-generated-vs-redeemed-coupins data="generatedVsRedeemed" reward="reward"></cp-reward-analytics-generated-vs-redeemed-coupins>
+      <div class="col-md-6 px-1 md:px-2 mb-10 md:mb-0 md:pl-0">
+        <div class="card-analytics p-2 md:p-6">
+          <p class="section-headers" style="margin-bottom: 20px;">Redeemed Coupins</p>
+          <cp-radar-chart redeemed-value="radarSeriesValue"></cp-radar-chart>
+        </div>
+      </div>
+      <div class="col-md-6 px-1 md:px-2 md:pr-0">
+        <div class="card-analytics p-2 md:p-6">
+          <p class="section-headers" style="margin-bottom: 20px;">Delivery vs Pickup</p>
+          <cp-reward-analytics-delivery-distribution ng-if="!hideDeliveryDistribution" data="deliveryDistributionData"></cp-reward-analytics-delivery-distribution>
+          <p ng-if="hideDeliveryDistribution" class="w-full px-8 py-20 text-center">We are yet to get delivery data for this reward.</p>
+          <!-- <cp-reward-analytics-generated-vs-redeemed-coupins data="generatedVsRedeemed" reward="reward"></cp-reward-analytics-generated-vs-redeemed-coupins> -->
+        </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 30px;">
-        <div class="col-md-6" style="padding-left: 0;">
-          <div class="card">
+
+    <!-- Bottom Stats -->
+    <div class="row mt-20">
+        <div class="col-md-6 col-sm-12 px-1 md:px-2 mb-10 md:mb-0 md:pl-0">
+          <div class="card-analytics p-2 md:p-6">
               <p class="section-headers" style="margin-bottom: 20px;">Gender Distribution</p>
               <cp-reward-analytics-gender-distribution ng-if="!hideGenderDistribution" data="genderDistributionData"></cp-reward-analytics-gender-distribution>
               <p ng-if="hideGenderDistribution" class="w-full px-8 py-20 text-center">We are yet to get gender data for this reward.</p>
           </div>
         </div>
-        <div class="col-md-6" style="padding-right: 0;">
-          <div class="card">
+        <div class="col-md-6 col-sm-12 px-1 md:px-2 md:pr-0">
+          <div class="card-analytics p-2 md:p-6">
               <p class="section-headers" style="margin-bottom: 20px;">Age Distribution</p>
               <cp-reward-analytics-age-distribution ng-if="!hideAgeDistribution" data="ageDistributionData"></cp-reward-analytics-age-distribution>
               <p ng-if="hideAgeDistribution" class="w-full px-8 py-20 text-center">We are yet to get age data for this reward.</p>

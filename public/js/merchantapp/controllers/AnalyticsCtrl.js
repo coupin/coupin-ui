@@ -1,4 +1,5 @@
 angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
+  $location,
   $scope,
   $state,
   AnalyticsService,
@@ -11,14 +12,18 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     generated: 0,
     redeemed: 0,
   };
-  $scope.shouldAccess = shouldAccess;
+  // TODO: Uncomment
+  // $scope.shouldAccess = shouldAccess;
+  const query = $location.search();
+  $scope.shouldAccess = query && query.beta === 'true';
+  $scope.loadingIndividualRewardstats = true;
   var disableDownload = false;
 
-  if (shouldAccess) {
+  // TODO: Uncomment
+  if ($scope.shouldAccess) {
     $scope.loadingRewards = true;
     $scope.loadingStats = true;
     $scope.radarSeriesValue = [0];
-    getOverallCoupinStat();
 
     $scope.picker = new Lightpick({
       field: document.getElementById('datepicker'),
@@ -65,6 +70,8 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       .then(function (res) {
         $scope.loadingStats = false;
         $scope.stats = res.data;
+        var value = (($scope.stats.redeemed / $scope.stats.generated) || 0) * 100;
+        $scope.radarSeriesValue = [parseFloat(value.toFixed(2))];
       });
   }
 
@@ -72,29 +79,40 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     AnalyticsService.getRewards(start, end, page)
     .then(function (res) {
       $scope.loadingRewards = false;
-      $scope.rewards = res.data.rewards.map(function (reward) {
+      const { data } = res.data;
+      const rewardBaseStatsCalls = [];
+
+      $scope.rewards = data.rewards.map(function (reward) {
+        rewardBaseStatsCalls.push(AnalyticsService.getSingleReward(reward.id));
         return {
-          _id: reward._id,
-          name: reward.reward.name,
-          start: moment(reward.reward.startDate).format('ll'),
-          expires: moment(reward.reward.endDate).format('ll'),
+          id: reward.id,
+          name: reward.name,
+          start: moment(reward.startDate).format('ll'),
+          expires: moment(reward.endDate).format('ll'),
           coupins: {
-            generated: reward.generatedCoupin,
-            redeemed: reward.redeemedCoupin,
+            generated: 0,
+            redeemed: 0,
           }
         }
+      });
+
+      Promise.all(rewardBaseStatsCalls).then(function(results) {
+        sortRewardsStatistics(results.map(function(result) {
+          return result.data;
+        }));
       });
     });
   }
 
-  function getOverallCoupinStat() {
-    AnalyticsService.getOverallCoupinStat()
-    .then(function (res) {
-      var data = res.data;
-      var value = ((data.redeemed / data.generated) || 0) * 100;
-      $scope.radarSeriesValue = [parseFloat(value.toFixed(2))];
+  function sortRewardsStatistics(stats) {
+    stats.forEach(function(stat, index) {
+      $scope.rewards[index].coupins = {
+        generated: stat.data.totalGenerated,
+        redeemed: stat.data.totalRedeemed
+      }
     });
-  }
+    $scope.loadingIndividualRewardstats = false;
+  };
 
   $scope.getPdf = function () {
     if (disableDownload) {
@@ -144,4 +162,5 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       disableDownload = false;
     });
   }
+  
 });
