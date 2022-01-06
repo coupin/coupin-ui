@@ -224,96 +224,6 @@ angular.module('coupinApp').directive('showMore', function () {
       // IIFE for age column chart
       // IIFE for age column chart
       (function () {
-        // var options = {
-        //   chart: {
-        //     height: 350,
-        //     type: 'bar',
-        //     background: '#313237',
-        //     stacked: true,
-        //     toolbar: {
-        //       show: false
-        //     }
-        //   },
-        //   plotOptions: {
-        //     bar: {
-        //       horizontal: false,
-        //       dataLabels: {
-        //         position: 'top',
-        //       },
-        //       columnWidth: '55%',
-        //     }
-        //   },
-        //   colors: ['#08AEEA', '#15A580'],
-        //   series: [{
-        //     name: 'Redeemed',
-        //     data: [5, 15, 25, 40, 15]
-        //   }, {
-        //     name: 'Generated',
-        //     data: [15, 36, 24, 17, 8]
-        //   }],
-        //   xaxis: {
-        //     categories: ['45+', '35 - 45', '25 - 35', '15 - 25', 'Below 15'],
-        //     labels: {
-        //       show: true,
-        //       style: {
-        //         colors: '#fff',
-        //         fontSize: '9px',
-        //         fontFamily: 'Nunito Sans',
-        //         cssClass: 'linechart-yaxis-label'
-        //       },
-        //     },
-        //     axisTicks: { show: false, },
-        //     axisBorder: {
-        //       show: true,
-        //       borderType: 'solid',
-        //       color: 'rgba(231, 233, 237, 0.65)',
-        //     },
-        //   },
-        //   yaxis: {
-        //     labels: {
-        //       show: true,
-        //       style: {
-        //         colors: '#fff',
-        //         fontSize: '11px',
-        //         fontFamily: 'Nunito Sans',
-        //         cssClass: 'linechart-yaxis-label'
-        //       },
-        //     },
-        //     axisBorder: {
-        //       show: true,
-        //       borderType: 'solid',
-        //       color: 'rgba(231, 233, 237, 0.65)',
-        //     },
-        //   },
-        //   legend: {
-        //     show: true,
-        //     offsetY: 10,
-        //     height: 24,
-        //     fontFamily: 'Nunito Sans',
-        //     fontSize: '12px',
-        //     position: 'bottom',
-        //     labels: {
-        //       colors: ['#FFFFFF'],
-        //     },
-        //     markers: {
-        //       radius: 12,
-        //       width: 12,
-        //       height: 12,
-        //     },
-        //   },
-        //   dataLabels: {
-        //     enabled: false,
-        //   },
-        //   grid: {
-        //     xaxis: { lines: { show: false, } },
-        //     yaxis: { lines: { show: false, } },
-        //   },
-        //   tooltip: {
-        //     enabled: true,
-        //     theme: 'dark',
-        //   }
-        // }
-
         var options = {
           chart: {
             height: 350,
@@ -515,6 +425,89 @@ angular.module('coupinApp').directive('showMore', function () {
       // update the barchart values
       scope.$watch('data', function (val) {
         scope.lineChart.updateSeries(val);
+      });
+    }
+  }
+}).directive('cpRewardAnalyticsDeliveryDistribution', function () {
+  return {
+    restrict: 'E',
+    template: '<div id="delivery-distribution"></div>',
+    scope: {
+      data: '=',
+    },
+    link: function (scope, elem, attr) {
+      scope.barChart;
+      // IIFE for delivery barchart
+      (function () {
+        var options = {
+          chart: {
+            height: 350,
+            width: 350,
+            type: 'pie',
+            background: '#313237',
+            foreColor: '#FFFFFF'
+          },
+          labels: [
+            'Delivery',
+            'Pick Up'
+          ],
+          plotOptions: {
+            pie: {
+              dataLabels: {
+                offset: -10
+              },
+            }
+          },
+          colors: ['#002B24', '#034d44'],
+          dataLabels: {
+            enabled: true,
+            textAnchor: 'middle'
+          },
+          expandOnClick: true,
+          series: [],
+          stroke: {
+            show: true,
+            curve: 'straight',
+            lineCap: 'butt',
+            colors: '#FFFFFF',
+            width: .3,
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 300
+              },
+              legend: {
+                fontFamily: 'Nunito Sans',
+                fontSize: '12px',
+                height: 24,
+                labels: {
+                  colors: ['#FFFFFF'],
+                },
+                offsetY: 10,
+                position: 'bottom',
+                show: true
+              }
+            },
+          }],
+          tooltip: {
+            enabled: true,
+            theme: 'dark',
+          }
+        }
+
+        scope.barChart = new ApexCharts(
+          document.querySelector("#delivery-distribution"),
+          options
+        );
+
+        scope.barChart.render();
+      })();
+
+      // update the barchart values
+      scope.$watch('data', function (val) {
+        scope.barChart.updateSeries(val);
       });
     }
   }
