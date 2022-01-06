@@ -108,13 +108,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount._id)" ng-if="!loadingRewards">
+                <tr ng-repeat="(index, discount) in rewards" ng-click="goToReward(discount.id)" ng-if="!loadingRewards">
                     <td scope="row" class="hidden-xs hidden-sm">{{ index + 1 }}</td>
                     <td class="icon">{{ discount.name }}</td>
                     <td class="icon">{{ discount.start }}</td>
                     <td class="icon">{{ discount.expires }}</td>
                     <td>
-                      <cp-line-indicator coupins="discount.coupins" class="{{discount._id}}-coupin-indicator"></cp-line-indicator>
+                      <span ng-if="loadingIndividualRewardstats">Loading stats...</span>
+                      <cp-line-indicator ng-if="!loadingIndividualRewardstats" coupins="discount.coupins" class="{{discount._id}}-coupin-indicator"></cp-line-indicator>
                     </td>
                 </tr>
                 <tr ng-if="loadingRewards" class="loading-row">
