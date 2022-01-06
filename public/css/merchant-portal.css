@@ -432,6 +432,13 @@ option {
   transition: all 0.3s;
 }
 
+.card-analytics {
+  border-radius: 5px;
+  background: #313237;
+  /* box-shadow: 0px 1px 4px rgba(21, 165, 128, 0.23); */
+  transition: all 0.3s;
+}
+
 #merchant-confirmation .plan .card {
   background: #252525;
 }
@@ -996,6 +1003,9 @@ form .row {
   .info:not(:first-child),
   .quick-info:not(:first-child) {
     margin-left: 10px;
+  }
+  .section-headers, .section-headers *:not(button) {
+    font-size: 13px;
   }
 }
 
