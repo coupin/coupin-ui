@@ -13,6 +13,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
 ) {
   $scope.page = 0;
   $scope.maxPage = 0;
+  $scope.selectedReward = {
+    name: '',
+    action: ''
+  }
 
   $scope.loading = false;
   $scope.merchants = [{
@@ -108,4 +112,23 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
     $scope.page = 0;
     $scope.loadRewards();
   };
+
+  $scope.showModal = function (id) {
+    const reward = $scope.rewards.find(reward => reward._id === id);
+
+    $scope.selectedReward.id = reward._id;
+    $scope.selectedReward.name = reward.name;
+    $scope.selectedReward.action = reward.isActive ? 'deactivate' : 'activate'
+    $scope.selectedReward.status = reward.status === 'inactive' ? 'active' : 'inactive'
+  }
+
+  $scope.updateVisibility = function(id, status) {
+    var newRewards = [...$scope.rewards];
+    var selectedRewardIdx = newRewards.findIndex(reward => reward._id === id);
+    newRewards[selectedRewardIdx].isActive = !newRewards[selectedRewardIdx].isActive;
+    newRewards[selectedRewardIdx].status = newRewards[selectedRewardIdx].status === 'active' ? 'inactive' : 'active';
+
+    $scope.rewards = newRewards;
+    AdminRewardsService.toggleRewardStatus(id, status);
+  }
 }]);
