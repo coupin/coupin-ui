@@ -113,22 +113,36 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
     $scope.loadRewards();
   };
 
-  $scope.showModal = function (id) {
+  $scope.showModal = function (id, method) {
     const reward = $scope.rewards.find(reward => reward._id === id);
+    $scope.method = method
+
+    if (method === 'put') {
+      $scope.selectedReward.action = reward.isActive ? 'deactivate' : 'activate'
+      $scope.selectedReward.status = reward.status === 'inactive' ? 'active' : 'inactive'
+    } else {
+      $scope.selectedReward.action = 'delete'
+    }
 
     $scope.selectedReward.id = reward._id;
     $scope.selectedReward.name = reward.name;
-    $scope.selectedReward.action = reward.isActive ? 'deactivate' : 'activate'
-    $scope.selectedReward.status = reward.status === 'inactive' ? 'active' : 'inactive'
   }
 
-  $scope.updateVisibility = function(id, status) {
+  $scope.updateVisibility = function(id, status, method) {
     var newRewards = [...$scope.rewards];
-    var selectedRewardIdx = newRewards.findIndex(reward => reward._id === id);
-    newRewards[selectedRewardIdx].isActive = !newRewards[selectedRewardIdx].isActive;
-    newRewards[selectedRewardIdx].status = newRewards[selectedRewardIdx].status === 'active' ? 'inactive' : 'active';
 
-    $scope.rewards = newRewards;
-    AdminRewardsService.toggleRewardStatus(id, status);
+    if (method === 'put') {
+      var selectedRewardIdx = newRewards.findIndex(reward => reward._id === id);
+      newRewards[selectedRewardIdx].isActive = !newRewards[selectedRewardIdx].isActive;
+      newRewards[selectedRewardIdx].status = newRewards[selectedRewardIdx].status === 'active' ? 'inactive' : 'active';
+  
+      $scope.rewards = newRewards;
+      AdminRewardsService.toggleRewardStatus(id, status);
+    } else {
+      $scope.rewards = newRewards.filter(reward => reward._id !== id)
+  
+      AdminRewardsService.deleteReward(id);
+    }
+
   }
 }]);
