@@ -81,13 +81,15 @@
                                 data-toggle="modal"
                                 data-target="#modifyRewardStatus"
                                 title="Activate/Deactivate Reward"
-                                ng-click="showModal(reward._id)"
+                                ng-click="showModal(reward._id, 'put')"
                             >
                                 <i ng-class="reward.isActive ? 'fas fa-eye-slash icon' : 'fas fa-eye icon'"></i>
                             </button>
                             <button 
                                 class="m-2"
-                                data-toggle="tooltip"
+                                data-toggle="modal"
+                                data-target="#modifyRewardStatus"
+                                ng-click="showModal(reward._id, 'delete')"
                                 title="Archive"
                             >
                                 <i class="fa fa-archive"></i>
@@ -159,7 +161,7 @@
                     </h1>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" ng-click="updateVisibility(selectedReward.id, selectedReward.status)">Yes</button>
+                    <button class="btn btn-success" data-dismiss="modal" data-toggle="modal" ng-click="updateVisibility(selectedReward.id, selectedReward.status, method)">Yes</button>
                     <button class="btn btn-danger" data-dismiss="modal" data-toggle="modal">No</button>
                  </div>
             </div>

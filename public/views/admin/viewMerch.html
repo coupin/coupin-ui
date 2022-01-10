@@ -98,12 +98,12 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr ng-repeat="(index, merchant) in merchants" class="cursor-pointer hover:bg-gray-300" ng-click="editMerch(merchant._id)">
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{(page * 10) + (index + 1)}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.merchantInfo.companyName}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.email}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl">{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
+                        <tr ng-repeat="(index, merchant) in merchants" class="cursor-pointer hover:bg-gray-300">
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{(page * 10) + (index + 1)}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.merchantInfo.companyName}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.email}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
                             <td class="text-xl">
                                 <button
                                     class="m-2"
