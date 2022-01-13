@@ -19,7 +19,7 @@ function (
     getStats: function (start, end) {
       var url = '/analytics/get-stats';
       if (start & end) {
-        url += '?start=' + start + '&end=' + end; 
+        url += '?startDate=' + start + '&endDate=' + end; 
       }
 
       return $http.get(baseV1Url + url, {
@@ -28,7 +28,7 @@ function (
     },
 
     getRewards: function (start, end, page) {
-      var url = '/analytics/rewards?start=' + start + '&end=' + end + '&page=' + page;
+      var url = '/analytics/rewards?startDate=' + start + '&endDate=' + end + '&page=' + page;
       return $http.get(baseV1Url + url, {
         headers: getAuthHeader()
       });
@@ -91,7 +91,7 @@ function (
       });
     },
     getExcel: function (start, end) {
-      return $http.get(baseV1Url + '/analytics/rewards/reports/xlsx?start=' + start + '&end=' + end, {
+      return $http.get(baseV1Url + '/analytics/rewards/reports/xlsx?startDate=' + start + '&endDate=' + end, {
         headers: getAuthHeader(),
         responseType: 'blob'
       });

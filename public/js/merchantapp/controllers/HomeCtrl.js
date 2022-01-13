@@ -24,6 +24,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   $scope.updating = false;
   $scope.use = [];
 
+  const endDate = new Date();
+  const startDate = moment(endDate).subtract(30, 'day');
+
   /**
    * Toggle all rewards
    * @param {*} select 
@@ -131,7 +134,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     toggleAll(newValue);
   });
 
-  AnalyticsService.getStats()
+  AnalyticsService.getStats(startDate, endDate)
     .then(function (res) {
       $scope.loadingStats = false;
       $scope.stats = res.data;
