@@ -18,7 +18,7 @@ function (
   return {
     getStats: function (start, end) {
       var url = '/analytics/get-stats';
-      if (start & end) {
+      if (start && end) {
         url += '?startDate=' + start + '&endDate=' + end; 
       }
 

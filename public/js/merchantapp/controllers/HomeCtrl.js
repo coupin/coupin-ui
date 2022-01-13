@@ -134,7 +134,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     toggleAll(newValue);
   });
 
-  AnalyticsService.getStats(startDate, endDate)
+  console.log('startDate ==> ', startDate.toISOString());
+  console.log('endDate ==> ', endDate.toISOString());
+  AnalyticsService.getStats(startDate.toISOString(), endDate.toISOString())
     .then(function (res) {
       $scope.loadingStats = false;
       $scope.stats = res.data;
