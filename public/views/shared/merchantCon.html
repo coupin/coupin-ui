@@ -307,6 +307,8 @@
                                 image="image.src"
                                 init-max-area="true"
                                 result-image="image.dst"
+                                area-type="rectangle"
+                                aspect-ratio="1"
                                 result-image-size="{w:320,h:320}"
                                 area-type="square"
                                 cropject="crobject"
@@ -315,7 +317,7 @@
                         </div>
                     </div>
                     <div ng-if="!isLogo">
-                        <h4>Images Must all be cropped to a 950x323 square.</h4>
+                        <h4>Images Must all be cropped to a 950x535 square.</h4>
                         <!-- <small><b>Note:</b>Image will appear to viewers as cropped.</small>
                         <input class="form-control" type="file" accept="image/*" img-cropper-fileread
                             image="image.src" /> -->
@@ -358,7 +360,9 @@
                                 image="image.src"
                                 init-max-area="true"
                                 result-image="image.dst"
-                                result-image-size="{w:950,h:323}"
+                                area-type="rectangle"
+                                aspect-ratio="1.7"
+                                result-image-size="{w:950,h:535}"
                                 area-type="rectangle"
                                 cropject="crobject"
                                 ></ui-cropper>

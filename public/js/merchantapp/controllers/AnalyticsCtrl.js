@@ -47,9 +47,11 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
       $scope.picker.setDateRange(moment().subtract(30, 'day'), moment());
     }
 
+    const startDate = (new Date($scope.start)).toISOString();
+    const endDate = (new Date($scope.end)).toISOString();
 
-    getRewards($scope.start, $scope.end, $scope.page)
-    getStats($scope.start, $scope.end)
+    getRewards(startDate, endDate, $scope.page)
+    getStats(startDate, endDate)
   }
 
   $scope.goToReward = function (rewardId) {
@@ -60,13 +62,15 @@ angular.module('AnalyticsCtrl', []).controller('AnalyticsController', function (
     if ($scope.start && $scope.end) {
       $scope.loadingRewards = true;
       $scope.loadingStats = true;
-      getRewards($scope.start, $scope.end, $scope.page)
-      getStats($scope.start, $scope.end)
+      const startDate = (new Date($scope.start)).toISOString();
+      const endDate = (new Date($scope.end)).toISOString();
+      getRewards(startDate, endDate, $scope.page)
+      getStats(startDate, endDate)
     }
   }
 
   function getStats(start, end) {
-    AnalyticsService.getStats($scope.start, $scope.end)
+    AnalyticsService.getStats(start, end)
       .then(function (res) {
         $scope.loadingStats = false;
         $scope.stats = res.data;
