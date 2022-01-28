@@ -47,6 +47,11 @@ function(
                 headers: getAuthHeader()
             });
         },
+        sendGeneralNotification: function(data) {
+            return $http.post(baseV1Url + '/notifications', data, {
+                headers: getAuthHeader()
+            });
+        },
         setHotList: function(data) {
             return $http.post(baseV1Url + '/admin/hotlist', data, {
                 headers: getAuthHeader()
