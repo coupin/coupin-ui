@@ -1,5 +1,6 @@
 angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope,
+    AdminService,
     MerchantService,
     RequestService,
     RewardsService,
@@ -12,6 +13,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         lat: 0,
         long: 0
     };
+    $scope.notification = {};
     $scope.status = {
         display: 'decline',
         reason: '',
@@ -21,6 +23,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
 
     // loading value
     $scope.loading = false;
+    $scope.sending = false;
 
     // Requests
     $scope.totalReq = [];
@@ -123,6 +126,19 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         //     rating: merchant.merchantInfo.rating.value
         // };
         return $scope.group === 'rejected';
+    };
+
+    $scope.sendGeneralNotification = function() {
+        $scope.sending = true;
+        AdminService.sendGeneralNotification($scope.notification).then(function(res) {
+            $scope.sending = false;
+            UtilService.showSuccess('Success', res.data.message);
+
+            $scope.notification = {};
+        }).catch(function(err) {
+            $scope.sending = false;
+            UtilService.showError('Sending Failed', err.data);
+        });
     };
 
     $scope.sendReview = function() {
