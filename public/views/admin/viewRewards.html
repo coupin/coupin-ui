@@ -75,8 +75,8 @@
                         <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.merchantID.merchantInfo.companyName}}</td>
                         <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.startDate | date: 'longDate'}}</td>
                         <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.endDate | date: 'longDate'}}</td>
+                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ reward.customerBearsCost ? 'Yes' : 'No' }}</td>
                         <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ parseStatus(reward.status, reward.endDate) }}</td>
-                        <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ reward.customerBearsCost }}</td>
                         <td>
                             <button 
                                 class="m-2"
