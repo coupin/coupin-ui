@@ -209,7 +209,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
 
     $scope.getDiscountPercent = function(price) {
         return price.new && price.old ?
-            ( (( price.new - price.old ) / price.new) * 100) : '--';
+            ( (( price.old - price.new ) / price.old) * 100) : '--';
     }
 
     /**
