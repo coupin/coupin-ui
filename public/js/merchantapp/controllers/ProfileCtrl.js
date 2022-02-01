@@ -21,6 +21,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
         long: $scope.user.merchantInfo.location[0],
         lat: $scope.user.merchantInfo.location[1]
     };
+    $scope.processing = false;
 
 
     $scope.bounds = {
@@ -57,11 +58,19 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
 
     BankService.getBanks()
         .then(({ data }) => {
-            $scope.banks = data.banks.map(function (bank) {
-                return {
-                    name: bank.name,
-                    code: bank.code,
-                };
+            $scope.banks = data.banks.sort((a, b) => {
+                const nameA = a.name.toUpperCase()
+                const nameB = b.name.toUpperCase();
+
+                if (nameA < nameB) {
+                    return -1;
+                }
+
+                if (nameA > nameB) {
+                    return 1;
+                }
+
+                return 0;
             });
         });
 
@@ -394,12 +403,13 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
 
     $scope.onAccountDetailsChange = function() {
         $scope.hideAccountName = true;
-        $scope.enableAccountConfirmationButton = true;
+        $scope.enableAccountConfirmationButton = !!$scope.accountDetails.accountNumber && $scope.accountDetails.accountNumber.length > 9 && !!$scope.accountDetails.bank.name;
     }
 
     $scope.confirmAccountDetails = function() {
-        $scope.enableAccountConfirmationButton = false;
+        $scope.enableAccountUpdateButton = true;
         $scope.accountConfirmationError = '';
+        $scope.processing = true;
 
         const { accountNumber, bank } = $scope.accountDetails;
         const payload = {
@@ -425,28 +435,33 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
                 $scope.hideAccountName = false;
 
                 UtilService.showSuccess('Success', 'Account details have been confirmed');
+                $scope.processing = false;
             }).catch((error) => {
                 $scope.confirmAccountLoading = false;
                 $scope.enableAccountConfirmationButton = true;
                 $scope.accountConfirmationError = error.data.message;
-                UtilService.showError('Error', error.data.message);
+                UtilService.showError('Error', 'Could not confirm your account details. Please check the details and try again.');
+                $scope.processing = false;
             });        
     };
 
     $scope.saveMerchantAccountDetails = function () {
         $scope.savingAccountLoading = true;
+        $scope.processing = true;
         MerchantService
             .saveAccountDetails($scope.accountDetails)
             .then(() => {
                 $scope.savingAccountLoading = false;
                 UtilService.showSuccess('Success', 'Account details have been stored');
                 MerchantService.refreshUser($scope.user.id);
+                $scope.processing = false;
 
                 // location.reload();
             }).catch((error) => {
                 $scope.savingAccountLoading = false;
                 $scope.accountSavingError = error.data.message;
                 UtilService.showError('Error', error.data.message);
+                $scope.processing = false;
             })
     };
 });

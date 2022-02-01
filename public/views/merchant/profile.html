@@ -191,7 +191,6 @@
                                 </select>
                                 <div class="input-group-addon icons-input"><i class="fas fa-university"></i></div>
                             </div>
-
                         </div>
                     </div>
                     <div class="row">
@@ -212,21 +211,20 @@
                     </div>
                     <div class="row user-profile-action">
                         <button
-                            class="btn btn-primary btn-lg"
-                            ng-if="enableAccountUpdateButton && !enableAccountConfirmationButton"
-                            type="button"
-                            ng-click="saveMerchantAccountDetails()"
-                        >
-                            Update Account Information <i class="fas fa-spin fa-spinner" ng-show="savingAccountLoading"></i>
-                        </button>
-                        <button
-                            class="btn btn-primary btn-lg"
-                            ng-if="!(enableAccountUpdateButton && !enableAccountConfirmationButton)"
-                            ng-disabled="!enableAccountConfirmationButton"
+                            class="btn btn-outline-primary btn-lg mr-2"
+                            ng-disabled="!enableAccountConfirmationButton || processing"
                             type="button"
                             ng-click="confirmAccountDetails()"
                         >
-                            Confirm Account Details <i class="fas fa-spin fa-spinner" ng-show="confirmAccountLoading"></i>
+                            Verify Account Details <i class="fas fa-spin fa-spinner" ng-show="confirmAccountLoading"></i>
+                        </button>
+                        <button
+                            class="btn btn-primary btn-lg"
+                            ng-disabled="!enableAccountUpdateButton || processing"
+                            type="button"
+                            ng-click="saveMerchantAccountDetails()"
+                        >
+                            Save Account Information <i class="fas fa-spin fa-spinner" ng-show="savingAccountLoading"></i>
                         </button>
                     </div>
                 <!-- </form> -->
@@ -315,18 +313,6 @@
                         </div>
                         <div class="row">
                             <div class="cropArea-banner">
-                                <!-- <canvas
-                                    height="400"
-                                    width="1000"
-                                    image-cropper
-                                    image="image.src"
-                                    cropped-image="image.dst"
-                                    crop-height="323"
-                                    crop-width="950"
-                                    keep-aspect="true"
-                                    touch-radiue="30"
-                                    crop-area-bounds="bounds"
-                                    ></canvas> -->
                                     <ui-cropper
                                         image="image.src"
                                         init-max-area="true"
