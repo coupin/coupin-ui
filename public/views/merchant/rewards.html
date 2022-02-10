@@ -20,7 +20,7 @@
                     View existing reward
                 </span>
             </p>
-            <i class="fas fa-info-circle" ng-if="newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i>
+            <!-- <i class="fas fa-info-circle" ng-if="newReward.status === 'expired'" bs-tooltip data-title="Expired rewards can only be viewed and not edited"></i> -->
         </div>
         <div ng-if="showReviews()" style="padding: 20px 30px; border-left: solid #F49A40 5px; margin-bottom: 25px; margin-left: 15px;">
             <i style="display: inline-block; color: #F49A40; margin-right: 25px; vertical-align: top;" class="fas fa-exclamation-circle fa-5x"></i>
@@ -186,7 +186,7 @@
                     <div class="row" ng-if="!payRewardIsActive()">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="startDate">Please pick a start date: </label><br/>
+                                <label for="startDate">Start Date: </label><br/>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input
                                         bs-datepicker 
@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="endDate">Please select number of days: </label><br/>
+                                <label for="endDate">Number of Days: </label><br/>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input
                                         id="noOfDate"
@@ -242,6 +242,9 @@
                                         <i class="fas fa-exclamation-circle"></i>
                                     </b>
                                 </small>
+                            </div>
+                            <div ng-if="newReward.status === 'expired'" class="btn btn-success" data-toggle="modal" data-target="#dateModal">
+                                Extend Reward Date
                             </div>
                         </div>
                     </div>
@@ -493,11 +496,11 @@
         </div>
     </div>
 
-    <!-- account informstion modal -->
+    <!-- account information modal -->
     <div class="modal fade" id="accountInfoModal">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-heaer text-center">
+                <div class="modal-header text-center">
                     <h3>Please enter your bank details</h3>
                 </div>
 
@@ -597,4 +600,75 @@
             </div>
         </div>
     </div>
+
+
+        <!-- date extension modal -->
+        <form class="modal fade" id="dateModal" name="dateModal" novalidate>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3>Please select the number of days you would like to extend this reward</h3>
+                    </div>
+    
+                    <div class="modal-body"> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                
+                            </div>
+                        </div>   
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="accountNumber">
+                                        Number of days to extend reward:
+                                    </label>
+                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                        <input
+                                        name="extensionDays"
+                                        class="form-control"
+                                        ng-class="{
+                                            'has-error': newReward.startDate && 
+                                                        dateModal.extensionDays.$dirty &&
+                                                        (dateModal.extensionDays.$error.required || dateModal.extensionDays.$error.max)
+                                        }"
+                                        type="number" 
+                                        ng-model="extendedReward.days" 
+                                        ng-change="setExtensionDate(extendedReward.days)" 
+                                        min="1" 
+                                        max="30"
+                                        ng-required="true">
+                                        <div class="input-group-addon icons-input"><i class="fas fa-calendar"></i></div>
+                                    </div>
+                                    <p>Maximum extension period is 30 days</p>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            
+                                        </div>
+                                    </div>
+                                    <p>The reward will expire on {{extendedReward.endDate | date: 'longDate'}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="modal-footer">
+                        <button
+                        class="btn btn-secondary btn-sm"
+                        data-dismiss="modal"
+                        >
+                        Cancel
+                        </button>
+                        <button
+                            class="btn btn-primary btn-sm"
+                            ng-disabled="newReward.startDate && 
+                            dateModal.extensionDays.$dirty &&
+                            (dateModal.extensionDays.$error.required || dateModal.extensionDays.$error.max)"
+                            ng-click="extendRewardEndDate()"
+                        >
+                            Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
 </div>
