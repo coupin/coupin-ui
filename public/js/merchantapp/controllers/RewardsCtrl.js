@@ -53,7 +53,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     $scope.photos = [];
     $scope.deletePhotos = [];
     $scope.newReward = {
-        status: 'draft',
+        status: 'draft'
     };
     $scope.update = false;
     $scope.loading = false;
@@ -153,7 +153,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             return ((oldPrice - newPrice) / oldPrice) * 100;
         } else if (newPrice) {
             $scope.commission = $scope.newReward.price.new * 0.03;
-            // console.log('Initial Commission ==> ', $scope.commission)
             if ($scope.commission < 200) {
                 $scope.commission = 200;
             } else if ($scope.commission > 3500) {
@@ -417,7 +416,7 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.payRewardIsActive = function () {
-        return $scope.newReward.status === 'review' && plan === 'payAsYouGo';
+        return $scope.newReward.status !== 'isPending' && plan === 'payAsYouGo';
     };
 
     /**
@@ -461,13 +460,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
        RewardsService.reactivate(id, details).then(function (result) {
             $scope.newReward = result.data.reward;
             $scope.newReward.endDate = new Date($scope.newReward.endDate);
-            $scope.newReward.startDate = new Date($scope.newReward.startDate);
-            setSelectedDayOption ();
-            $scope.newReward.categories.forEach(function (category) {
-                $scope.categories[category] = true;
-            });
-            $scope.newReward.pictures = 'pictures' in $scope.newReward ? $scope.newReward.pictures : [];
-            $scope.photos = $scope.newReward.pictures;
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
             $scope.amount = getTotal($scope.noOfDays);
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');

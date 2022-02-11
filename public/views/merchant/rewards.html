@@ -186,7 +186,7 @@
                     <div class="row" ng-if="!payRewardIsActive()">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="startDate">Start Date: </label><br/>
+                                <label for="startDate">Please pick a start date: </label><br/>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input
                                         bs-datepicker 
@@ -208,7 +208,7 @@
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="endDate">Number of Days: </label><br/>
+                                <label for="endDate">Please select number of days: </label><br/>
                                 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                     <input
                                         id="noOfDate"
@@ -242,9 +242,6 @@
                                         <i class="fas fa-exclamation-circle"></i>
                                     </b>
                                 </small>
-                            </div>
-                            <div ng-if="newReward.status === 'expired'" class="btn btn-success" data-toggle="modal" data-target="#dateModal">
-                                Extend Reward Date
                             </div>
                         </div>
                     </div>
@@ -418,6 +415,9 @@
                         <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="createReward(newReward)" ng-if="displayCreateButton()">Create Reward</button>
                         <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="updateReward(newReward)" ng-if="displayUpdateButton()">Update Reward</button>
                         <button class="btn btn-primary btn-lg" ng-disabled="loading || uploading || isFormError(form)" ng-click="makePayment(newReward)" ng-if="displayPayAndUpdateButton()">Pay and Update Reward</button>
+                    </div>
+                    <div class="row user-profile-action"  ng-if="newReward.status === 'expired'">
+                        <button class="btn btn-primary btn-lg" ng-loading="loading || uploading || isFormError(form)" data-toggle="modal" data-target="#dateModal">Extend Reward</button>
                     </div>
                 </div>
             </div>
@@ -611,11 +611,6 @@
                     </div>
     
                     <div class="modal-body"> 
-                        <div class="row">
-                            <div class="col-md-12">
-                                
-                            </div>
-                        </div>   
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
