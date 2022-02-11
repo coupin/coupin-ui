@@ -39,6 +39,10 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
         dst: null
     };
     $scope.maxDays = 30;
+    $scope.extendedReward = {
+        days: 0,
+        endDate: 0
+    };
 
     var cutOffTime = moment().startOf('day').add(23, 'hours').add(30, 'minutes'); // set the date to today 5pm
     if (moment().isBefore(cutOffTime)) {
@@ -99,6 +103,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
             $scope.amount = getTotal($scope.noOfDays);
             $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
+
+            $scope.extendedReward.endDate = $scope.newReward.endDate;
         }).catch(function (error) {
             UtilService.showError(errTitle, error.data);
         });
@@ -147,7 +153,6 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
             return ((oldPrice - newPrice) / oldPrice) * 100;
         } else if (newPrice) {
             $scope.commission = $scope.newReward.price.new * 0.03;
-            console.log('Initial Commission ==> ', $scope.commission)
             if ($scope.commission < 200) {
                 $scope.commission = 200;
             } else if ($scope.commission > 3500) {
@@ -436,6 +441,39 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
 
         $scope.amount = getTotal(days);
     };
+
+    $scope.setExtensionDate = function(days) {
+        if(!days) {
+            $scope.extendedReward.endDate = moment($scope.newReward.startDate).add($scope.noOfDays, 'day').toDate();
+        } else {
+            $scope.extendedReward.endDate = moment($scope.newReward.startDate).add($scope.noOfDays + days, 'day').toDate();
+            $scope.extendedReward.days = days;
+        } 
+    }
+
+    $scope.extendRewardEndDate = function() {
+        const details = {
+            endDate: $scope.extendedReward.endDate
+        }
+
+       $scope.loading = true;
+       RewardsService.reactivate(id, details).then(function (result) {
+            $scope.newReward = result.data.reward;
+            $scope.newReward.endDate = new Date($scope.newReward.endDate);
+            $scope.noOfDays = moment($scope.newReward.endDate).diff(moment($scope.newReward.startDate), 'days');
+            $scope.amount = getTotal($scope.noOfDays);
+            $scope.maxDays = expires.diff(new Date($scope.newReward.startDate), 'days');
+
+            $scope.extendedReward.endDate = $scope.newReward.endDate;
+            $('#dateModal').modal('hide');
+            $scope.loading = false;
+            UtilService.showSuccess('Success', 'Reward Updated Successfully');
+       }).catch(function (error) {
+            $('#dateModal').modal('hide');
+            $scope.loading = false;
+            UtilService.showError(errTitle, error.data);
+        });
+    }
 
     $scope.showReviews = function () {
         return $scope.newReward.review && $scope.newReward.review.length > 0 && $scope.newReward.status === 'review';

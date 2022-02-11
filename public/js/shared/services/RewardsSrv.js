@@ -52,6 +52,11 @@ angular.module('RewardsSrv', ['ngSessionStorage']).factory('RewardsService', [
                 return $http.post(baseV1Url + '/rewards/status/' + id, details, {
                     headers: getAuthHeader()
                 });
+            },
+            reactivate: function(id, details) {
+                return $http.post(baseV1Url + '/rewards/' + id + '/reactivate', details, {
+                    headers: getAuthHeader()
+                });
             }
         }
     }

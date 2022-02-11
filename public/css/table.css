@@ -60,7 +60,6 @@ table.table tr td.action i {
   margin-right: 13px;
   padding: 5px;
   color: #a4a4a4;
-  visibility: hidden;
 }
 
 table.table tr:hover td.action i {
