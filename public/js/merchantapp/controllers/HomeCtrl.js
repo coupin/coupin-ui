@@ -23,6 +23,39 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   };
   $scope.updating = false;
   $scope.use = [];
+  $scope.selectedReward = {};
+  $scope.mockRewards = [
+    {
+        id: {
+        name: 'Arinze reward',
+        description: 'Something Just Like This',
+        endDate: '2022-03-07T23:00:00.000Z',
+        },
+        status: 'used',
+        quantity: 2,
+        _id: 1
+    },
+    {
+        id: {
+        name: 'James reward',
+        description: 'Closer',
+        endDate: '2022-06-07T23:00:00.000Z',
+        },
+        status: 'expired',
+        quantity: 3,
+        _id: 3
+    },
+    {
+        id: {
+        name: 'Josiah reward',
+        description: 'Something Just Like That',
+        endDate: '2022-03-06T23:00:00.000Z',
+        },
+        status: 'used',
+        quantity: 4,
+        _id: 4
+    }
+]
 
   const endDate = new Date();
   const startDate = moment(endDate).subtract(30, 'day');
@@ -54,7 +87,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   $scope.redeem = function() {
     $scope.updating = true;
 
-    CoupinService.redeem($scope.booking._id, $scope.use)
+    CoupinService.redeem($scope.booking._id, $scope.rewards)
     .then(function(response) {
       const data = response.data.rewardId;
 
@@ -104,8 +137,42 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     return $scope.rewards.length > 0 && !$scope.loading;
   };
 
-  $scope.disableButton = function() {
-    return $scope.use.length === 0;
+  $scope.disableButton = {
+    cancelAll: function() {
+      return $scope.booking.status !== 'awaiting_payment' && $scope.booking.status !== 'paid'
+    },
+    redeemAll: function() {
+      return $scope.rewards.some(reward => reward.status === 'pending')
+    }
+  }
+
+  $scope.setSelectedReward = function(reward) {
+    $scope.selectedReward = {
+      id: reward._id,
+      name: reward.id.name,
+      status: reward.status
+    }
+  }
+
+  /**
+   * Cancel Booking Code
+   * @param {String} pin 
+   */
+
+  $scope.cancel = function(id) {
+    $scope.updating = true;
+
+    CoupinService.cancel(id).then(function(response) {
+      $scope.updating = false;
+      $scope.booking = response.data;
+      $scope.rewards = response.data.rewardId;
+      $('#confirmationModal').modal('hide');
+      UtilService.showSuccess('Success', `${selectedReward.name} booking order has successfully been cancelled`)
+    }).catch(function(err) {
+      $('#confirmationModal').modal('hide');
+      $scope.updating = false;
+      UtilService.showError('Uh Oh', 'Looks like something went wrong, please try again later')
+    })
   }
 
   /**
@@ -134,8 +201,6 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     toggleAll(newValue);
   });
 
-  console.log('startDate ==> ', startDate.toISOString());
-  console.log('endDate ==> ', endDate.toISOString());
   AnalyticsService.getStats(startDate.toISOString(), endDate.toISOString())
     .then(function (res) {
       $scope.loadingStats = false;
