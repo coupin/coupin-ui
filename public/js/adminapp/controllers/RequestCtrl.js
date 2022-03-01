@@ -254,22 +254,25 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         }
         
         CoupinService.redeem(id, rewards).then(function(response) {
+            $('#confirmationAllModal').modal('hide');
+            $('#confirmationModal').modal('hide');
+
             $scope.requestLoading = false;
             $scope.booking = response.data;
             $scope.rewards = response.data.rewardId;
             
-            $('#confirmationModal').modal('hide');
-            $('#confirmationAllModal').modal('hide');
+            
+            
             UtilService.showSuccess('Success', 'Rewards have been successfully updated');            
         }).catch(function(err) {
             $scope.requestLoading = false;
-            $('#confirmationModal').modal('hide');
-            $('#confirmationAllModal').modal('hide');
             UtilService.showError('Uh Oh', '');
         });
     }
 
     $scope.cancel = function(id) {
+        $('#confirmationModal').modal('hide');
+        $('#confirmationAllModal').modal('hide');
         $scope.requestLoading = true;
         let rewards = $scope.rewards;
 
@@ -281,15 +284,9 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             $scope.requestLoading = false;
             $scope.booking = response.data;
             $scope.rewards = response.data.rewardId;
-
-
-            $('#confirmationModal').modal('hide');
-            $('#confirmationAllModal').modal('hide');
             UtilService.showSuccess('Success', 'Rewards have been successfully updated');
         }).catch(function(err) {
             $scope.requestLoading = false;
-            $('#confirmationModal').modal('hide');
-            $('#confirmationAllModal').modal('hide');
             UtilService.showError('Uh Oh', '');
         });
 
