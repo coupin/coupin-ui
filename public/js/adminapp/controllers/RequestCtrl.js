@@ -250,7 +250,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         $scope.requestLoading = true;
         let rewards = $scope.rewards;
         if(id) {
-           rewards = [ $scope.rewards.find(reward => reward._id === id) ];
+           rewards = $scope.rewards.filter(reward => reward._id === id);
         }
         
         CoupinService.redeem(id, rewards).then(function(response) {
@@ -277,7 +277,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
         let rewards = $scope.rewards;
 
         if(id) {
-           rewards = [ $scope.rewards.find(reward => reward._id === id) ]
+           rewards = $scope.rewards.filter(reward => reward._id === id)
         }
 
         CoupinService.cancel($scope.booking.id, rewards).then(function(response) {
