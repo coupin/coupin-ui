@@ -214,7 +214,7 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     // VERIFICATIONS 
 
     $scope.cannotCancelAll = function() {
-        return $scope.rewards.some(reward => reward.status !== 'awaiting_payment' && reward.status !== 'paid');
+        return $scope.booking.status !== 'awaiting_payment' && $scope.booking.status !== 'paid';
     };
     $scope.cannotRedeemAll = function() {
         return $scope.rewards.some(reward => reward.status === 'pending')
