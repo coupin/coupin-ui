@@ -21,7 +21,6 @@
             </div>
         </div>
     </div> -->
-    <header class="page-top-header">
         <!-- Request Counter -->
         <div class="w-10/12 pt-20 mx-auto">
             <div class="flex pb-16 justify-between">
@@ -63,6 +62,17 @@
                     ng-class="{ 'active': tab === 'notifications' }"
                 >
                     Send General Notifications
+                </a>
+                <a 
+                    role="tab"
+                    data-toggle="tab"
+                    aria-controls="#verifications"
+                    class="tab text-gray-600 py-4 mr-8 font-medium relative"
+                    href="#verifications"
+                    ng-click="tab = 'verifications'"
+                    ng-class="{ 'active': tab === 'verifications' }"
+                >   
+                    Verify Coupin
                 </a>
             </div>
         </div>
@@ -259,9 +269,155 @@
                         </div>
                     </div>
                 </div>
+                <!-- Verification Check -->
+                <div class="row tab-pane fade" id="verifications" role="tabpanel" aria-labelledby="verifications">
+                    <form ng-submit="">
+                        <div class="form-group w-full">
+                            <input type="text" class="coupin-search w-1/2 py-4 px-3 border rounded focus:outline-none" placeholder="Type in code to be verified.." ng-model="pin" />
+                            <button class="add-admin-button py-4 px-6 text-white focus:outline-none disabled:cursor-not-allowed" type="submit" ng-click="verify(pin)" ng-disabled="loading">
+                              Verify
+                              <i class="fas fa-search" ng-if="!loading"></i>
+                              <i class="fas fa-spin fa-spinner" ng-if="loading"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex justify-around mt-16" ng-if="requestLoading">
+                        <div class="loader"></div>
+                    </div>
+                    <!-- ng-if="empty" -->
+                    <div class="row rounded text-center w-1/2 bg-gray-600" ng-if="empty">
+                        <div class="card empty">
+                          <h2 class="p-16 text-gray-200">
+                            <i class="fas fa-exclamation-triangle text-yellow-500"></i>
+                            This Coupon does not exist or has been used.
+                          </h2>
+                        </div>
+                    </div>
+                    <div class="min-w-full rounded bg-gray-600 p-6 mb-10" ng-if="rewards.length > 0 && !loading && !empty && requestLoading">
+                        <div class="row mb-12">
+                            <p class="text-4xl text-gray-200">Customer Details</p>
+                            <p class="text-gray-400">Ask for verification of the following:</p>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-1">
+                                <span>
+                                    <p class="text-2xl text-gray-400">Name:</p>
+                                    <p class="text-4xl text-gray-200">{{ booking.userId.name }}</p>
+                                </span>
+                            </div>
+                            <div class="flex-1">
+                                <span>
+                                    <p class="text-2xl text-gray-400">Email:</p>
+                                    <p class="text-4xl text-gray-200">{{ booking.userId.email }}</p>
+                                </span>
+                            </div>
+                            <div class="flex-1">
+                                <span>
+                                    <p class="text-2xl text-gray-400">Mobile Number:</p>
+                                    <p class="text-4xl text-gray-200">{{ booking.userId.mobileNumber }}</p>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="max-height: 700px; overflow-y: scroll;" class="shadow border-b border-gray-200 sm:rounded-lg mb-10" ng-if="rewards.length > 0 && !loading && !empty && !requestLoading">
+                        <div class="button-all float-right mb-10">
+                            <button class="btn btn-default focus:outline-none" data-target="#confirmationAllModal" data-toggle="modal" ng-disabled="cannotCancelAll()" ng-click="cancel()">Cancel All</button>
+                            <button class="btn btn-success focus:outline-none" data-target="#confirmationAllModal" data-toggle="modal" ng-disabled="cannotRedeemAll()" ng-click="redeem()">Redeem All</button>
+                        </div>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Description</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Expires on</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Expired</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Action</th>
+                                    <th class="sticky top-0 px-10 py-6 bg-gray-100"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr ng-repeat="(index, reward) in rewards">
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ index + 1 }}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.id.name}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.id.description}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{reward.endDate | date: 'longDate'}}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ reward.status }}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl">{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
+                                    <td class="px-10 py-6 whitespace-no-wrap text-2xl cursor-pointer">
+                                        <button
+                                            class="m-2 focus:outline-none" 
+                                            data-toggle="modal"
+                                            data-target="#confirmationModal"
+                                            ng-if="reward.status === 'pending'"
+                                            ng-click="setSelectedReward(reward._id)"
+                                        >
+                                            <i class="fas fa-times" data-title="Cancel Reward" bs-tooltip></i>
+                                        </button>
+                                        <button
+                                            class="m-2 focus:outline-none" 
+                                            data-toggle="modal"
+                                            data-target="#confirmationModal"
+                                            ng-if="reward.status !== 'pending'"
+                                            ng-click="setSelectedReward(reward._id)"
+                                        >
+                                            <i class="fas fa-handshake" data-title="Redeem Reward" bs-tooltip></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr ng-if="rewards.length === 0">
+                                    <td colspan="7">
+                                        <p class="p-10 text-center">No rewards found.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h3>please confirm your action</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to {{ selectedReward.status === 'pending' ? 'cancel' : 'redeem' }} {{ selectedReward.name }}'s booking</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-if="selectedReward.status === 'pending'" ng-click="cancel(selectedReward.id)">Confirm</button>
+                    <button class="btn btn-success" ng-if="selectedReward.status !== 'pending'" ng-click="redeem(selectedReward.id)">Confirm</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Booking Confirmation Modal -->
+
+    <!-- Booking Confirmation All Modal -->
+        <div class="modal fade" id="confirmationAllModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h3>please confirm your action</h3>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Are you sure you want to {{ cannotCancelAll() ? 'redeem' : 'cancel' }} all bookings</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" ng-if="cannotcancelAll()" ng-click="redeem()">Confirm</button>
+                        <button class="btn btn-success" ng-if="cannotRedeemAll()" ng-click="cancel()">Confirm</button>
+                        <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- End of Booking Confirmation All Modal -->
 
     <!-- Selected Merchant Modal -->
     <div class="modal fade" id="selectedMerch" role="dialog">

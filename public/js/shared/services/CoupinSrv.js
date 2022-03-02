@@ -16,8 +16,15 @@ angular.module('CoupinSrv', []).factory('CoupinService', [
   }
 
   return {
+<<<<<<< HEAD
     cancel: function(id) {
       return $http.post(baseV1Url + "/coupin/" + id + "/cancel", {
+=======
+    cancel: function(id, rewards) {
+      return $http.post(baseV1Url + "/coupin/" + id + "/cancel", {
+        rewards: rewards
+      }, {
+>>>>>>> develop
         headers: getAuthHeader()
       });
     },

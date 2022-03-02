@@ -1,10 +1,11 @@
 angular.module('RequestCtrl', []).controller('RequestController', function(
     $scope,
     AdminService,
+    CoupinService,
     MerchantService,
     RequestService,
     RewardsService,
-    UtilService
+    UtilService,
 ){
     $scope.requests = [];
     $scope.currentRequest = {};
@@ -28,6 +29,15 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     // Requests
     $scope.totalReq = [];
     $scope.totalRewards = [];
+
+    // Coupin 
+    $scope.pin = '';
+    $scope.empty = false;
+    $scope.booking = {};
+    $scope.rewards = [];
+    $scope.selectedReward = {};
+    $scope.requestLoading = false;
+
 
     $scope.getDay = function(index) {
         switch(index) {
@@ -199,4 +209,86 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
             UtilService.showError('Activation Failed', err.data);
         });
     };
+
+
+    // VERIFICATIONS 
+
+    $scope.cannotCancelAll = function() {
+        return $scope.rewards.some(reward => reward.status !== 'awaiting_payment' && reward.status !== 'paid');
+    };
+    $scope.cannotRedeemAll = function() {
+        return $scope.rewards.some(reward => reward.status === 'pending')
+    };
+
+    $scope.setSelectedReward = function(id) {
+      const reward = $scope.rewards.find(booking => booking._id === id);
+      $scope.selectedReward.id = reward._id;
+      $scope.selectedReward.name = reward.id.name;
+      $scope.selectedReward.status = reward.id.status;
+    }
+
+    $scope.verify = function(pin) {
+      if(!pin) return;
+      $scope.loading = true;
+      $scope.empty = false;
+
+      CoupinService.verify(pin).then(function(response) {
+        $scope.loading = false;
+        $scope.booking = response.data;
+        $scope.rewards = response.data.rewardId;
+      }).catch(function(err) {
+          $scope.loading = false;
+        if (err.status === 404) {
+          $scope.empty = true;
+        } else {
+            UtilService.showError('Uh Oh', '');
+        }
+      });
+    }
+
+    $scope.redeem = function(id) {
+        $scope.requestLoading = true;
+        let rewards = $scope.rewards;
+        if(id) {
+           rewards = $scope.rewards.filter(reward => reward._id === id);
+        }
+        
+        CoupinService.redeem(id, rewards).then(function(response) {
+            $('#confirmationAllModal').modal('hide');
+            $('#confirmationModal').modal('hide');
+
+            $scope.requestLoading = false;
+            $scope.booking = response.data;
+            $scope.rewards = response.data.rewardId;
+            
+            
+            
+            UtilService.showSuccess('Success', 'Rewards have been successfully updated');            
+        }).catch(function(err) {
+            $scope.requestLoading = false;
+            UtilService.showError('Uh Oh', '');
+        });
+    }
+
+    $scope.cancel = function(id) {
+        $('#confirmationModal').modal('hide');
+        $('#confirmationAllModal').modal('hide');
+        $scope.requestLoading = true;
+        let rewards = $scope.rewards;
+
+        if(id) {
+           rewards = $scope.rewards.filter(reward => reward._id === id)
+        }
+
+        CoupinService.cancel($scope.booking.id, rewards).then(function(response) {
+            $scope.requestLoading = false;
+            $scope.booking = response.data;
+            $scope.rewards = response.data.rewardId;
+            UtilService.showSuccess('Success', 'Rewards have been successfully updated');
+        }).catch(function(err) {
+            $scope.requestLoading = false;
+            UtilService.showError('Uh Oh', '');
+        });
+
+    }
 });
