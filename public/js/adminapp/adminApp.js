@@ -16,6 +16,7 @@ angular.module('adminApp', [
   'AddRewardCtrl',
   'FeaturedCtrl',
   'ConfigCtrl',
+  'CoupinSrv',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',
