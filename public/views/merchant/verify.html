@@ -109,10 +109,9 @@
        <h4>Redeem: {{use.length + ' rewards'}}</h4>
        <!-- <label><input type="checkbox" ng-model="select.all"> Select All</label> -->
        <div>
-         <!-- TODO: wire up logic for cancel all -->
-        <button class="btn btn-success cancel-button" ng-disabled="disableButton.cancelAll()">
+        <button class="btn btn-success cancel-button" ng-disabled="cannotCancelAll()" data-toggle="modal"  data-target="#confirmationAllModal">
           Cancel All</button>
-        <button class="btn btn-primary redeeem-button" ng-disabled="disableButton.redeemAll()" ng-click="redeem()">
+        <button class="btn btn-primary redeeem-button" ng-disabled="cannotRedeemAll()" data-toggle="modal" data-target="#confirmationAllModal">
           Redeem All</button>
        </div>
       </div>
@@ -146,8 +145,7 @@
             <td class="capitalize">{{ reward.status }}</td>
             <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
             <td ng-if="reward.status === 'pending'"><i class="fas fa-times" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
-            <!-- TODO: wire up logic for single redeem -->
-            <td ng-if="reward.status !== 'pending'"><i class="fas fa-receipt" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
+            <td ng-if="reward.status !== 'pending'"><i class="fas fa-handshake" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
             <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
           </tr>
         </tbody>
@@ -176,7 +174,55 @@
               </button>
               <button
                   class="btn btn-primary btn-sm"
-                  ng-click="cancel(booking._id)"
+                  ng-if="selectedReward.status !== 'pending'"
+                  ng-click="redeem(selectedReward.id)"
+              >
+                  Yes
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="selectedReward.status === 'pending'"
+                  ng-click="cancel(selectedReward.id)"
+              >
+                  Yes
+              </button>
+          </div>
+      </div>
+    </div>
+  </form>
+
+
+  <form class="modal fade" id="confirmationAllModal" name="confirmationAllModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+              <h3>Please confirm your choice</h3>
+          </div>
+
+          <div class="modal-body"> 
+              <p class="text-center">
+                Are you sure you want to {{ cannotCancelAll() ? 'redeem' : 'cancel' }} all bookings
+              </p>
+          </div>
+
+          <div class="modal-footer">
+              <button
+              class="btn btn-secondary btn-sm"
+              data-dismiss="modal"
+              >
+              No
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="cannotCancelAll()"
+                  ng-click="redeem()"
+              >
+                  Yes
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="cannotRedeemAll()"
+                  ng-click="cancel()"
               >
                   Yes
               </button>
