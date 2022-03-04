@@ -1,4 +1,7 @@
 <div id="verify">
+  <div class="loading text-center" ng-if="updating">
+    <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Submiting</span>
+  </div>
   <section class="reward-overview section-containers">
     <p class="section-headers">Overview of the last 30 days</p>
 
@@ -102,10 +105,16 @@
       </div>
     </div>
     <div ng-if="showTable() && !empty" class="redeem-section">
-      <h4 style="display:inline-block">Redeem: {{use.length + ' rewards'}}</h4>
-      <!-- <label><input type="checkbox" ng-model="select.all"> Select All</label> -->
-      <button class="btn btn-success redeeem-button" ng-disabled="disableButton()" ng-click="redeem()">
-        Redeem Selected</button>
+      <div class="flex-spaced">
+       <h4>Redeem: {{use.length + ' rewards'}}</h4>
+       <!-- <label><input type="checkbox" ng-model="select.all"> Select All</label> -->
+       <div>
+        <button class="btn btn-success cancel-button" ng-disabled="cannotCancelAll()" data-toggle="modal"  data-target="#confirmationAllModal">
+          Cancel All</button>
+        <button class="btn btn-primary redeeem-button" ng-disabled="cannotRedeemAll()" data-toggle="modal" data-target="#confirmationAllModal">
+          Redeem All</button>
+       </div>
+      </div>
     </div>
 
     <!--show on medium size screens and above-->
@@ -117,32 +126,110 @@
             <th>S/N</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Quantity</th>
             <th>Expires On</th>
             <th>Status</th>
             <th>Expired</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}"
-            ng-class="{'selected': isRewardSelected(index)}" ng-click="toggleReward(index, reward.status)">
+          <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}">
             <td scope="row" class="hidden-xs hidden-sm">
-              <span ng-if="!isRewardSelected(index)">{{ index + 1 }}</span>
-              <span ng-if="isRewardSelected(index)">
-                <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox"
-                  ng-checked="isRewardSelected(index)">
-              </span>
+              <span>{{ index + 1 }}</span>
             </td>
             <td class="icon">{{ reward.id.name }}</td>
             <td class="icon break-word" show-more>{{ reward.id.description }}</td>
+            <td class="icon">{{ reward.quantity }}</td>
             <td class="icon">{{ reward.id.endDate | date: 'longDate' }}</td>
             <td class="capitalize">{{ reward.status }}</td>
             <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
+            <td ng-if="reward.status === 'pending'"><i class="fas fa-times" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
+            <td ng-if="reward.status !== 'pending'"><i class="fas fa-handshake" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
             <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
           </tr>
         </tbody>
       </table>
-      <small><b>Note:</b> Select rewards to redeem by simply clicking on them to select/deselect</small>
     </div>
+
+  <form class="modal fade" id="confirmationModal" name="confirmationModal" novalidate>
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+              <h3>Please confirm your choice</h3>
+          </div>
+
+          <div class="modal-body"> 
+              <p class="text-center">
+                Are you sure you want to {{ selectedReward.status === 'pending' ? 'cancel' : 'redeem' }} {{ selectedReward.name }}'s order
+              </p>
+          </div>
+
+          <div class="modal-footer">
+              <button
+              class="btn btn-secondary btn-sm"
+              data-dismiss="modal"
+              >
+              No
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="selectedReward.status !== 'pending'"
+                  ng-click="redeem(selectedReward.id)"
+              >
+                  Yes
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="selectedReward.status === 'pending'"
+                  ng-click="cancel(selectedReward.id)"
+              >
+                  Yes
+              </button>
+          </div>
+      </div>
+    </div>
+  </form>
+
+
+  <form class="modal fade" id="confirmationAllModal" name="confirmationAllModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header text-center">
+              <h3>Please confirm your choice</h3>
+          </div>
+
+          <div class="modal-body"> 
+              <p class="text-center">
+                Are you sure you want to {{ cannotCancelAll() ? 'redeem' : 'cancel' }} all bookings
+              </p>
+          </div>
+
+          <div class="modal-footer">
+              <button
+              class="btn btn-secondary btn-sm"
+              data-dismiss="modal"
+              >
+              No
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="cannotCancelAll()"
+                  ng-click="redeem()"
+              >
+                  Yes
+              </button>
+              <button
+                  class="btn btn-primary btn-sm"
+                  ng-if="cannotRedeemAll()"
+                  ng-click="cancel()"
+              >
+                  Yes
+              </button>
+          </div>
+      </div>
+    </div>
+  </form>
 
     <!--show on small size screens and below-->
     <!-- <div ng-if="showTable() && !empty" class="hidden-md hidden-lg">
