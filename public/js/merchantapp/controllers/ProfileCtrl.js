@@ -97,7 +97,7 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
      * @param {*} user 
      */
     $scope.copyLink = function() {
-        const url = new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referrerCode}`;
+        const url = new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referralCode}`;
         navigator.clipboard.writeText(url)
         $scope.isCopiedToClipboard = true;
         $timeout(() => {
@@ -106,9 +106,9 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     }
 
     $scope.share = {
-        text: "Jump onboard and get great deals sold!",
+        text: "Jump onboard and get your great deals sold!",
         title: "Coupin - Get the best deals and rewards near you",
-        url: new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referrerCode}`,
+        url: new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referralCode}`,
         facebook: function() {
             let url = 'http://www.facebook.com/sharer.php?s=100';
             url += '&p[title]=' + encodeURIComponent(this.title);
