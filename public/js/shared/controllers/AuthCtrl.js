@@ -660,4 +660,11 @@ angular.module('AuthCtrl', []).controller('AuthController', function (
 
         return true;
     }
+
+    $scope.populateReferrerCode = function() {
+        const code = $location.search().referralCode
+        if(code) {
+            $scope.formData.referrerCode = code;
+        }
+    }
 });

@@ -230,6 +230,36 @@
                 <!-- </form> -->
             </div>
         </section>
+        <section class="row profile-form-section">
+                <div class="col-md-2">
+                    <p>Share</p>
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="form-group col-md-8">
+                            <label for="referral-code">Referral Code: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="text" class="form-control" id="refferal-code" aria-describedby="refferalCodeHelp"  ng-model="user.referrerCode" disabled/>
+                                <div class="input-group-addon icons-input"><i class="fas fa-percentage"></i></div>
+                            </div>
+                            <button class="btn btn-primary" ng-click="copyLink()" ng-disabled="isCopiedToClipboard">
+                                {{ isCopiedToClipboard ? 'Copied to clipboard ' : 'Share' }}
+                                <i class="fas fa-check" ng-if="isCopiedToClipboard"></i>
+                            </button>
+                        </div>
+                        <div class="form-group col-md-6 col-sm-12">
+                            <h1>OR</h1>
+                            <br>
+                            <label for="social-media">Social Media: </label>
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <i class="profile-share-icon fab fa-twitter" ng-click="share.twitter()"></i>
+                                <i class="profile-share-icon fab fa-facebook" ng-click="share.facebook()"></i>
+                                <i class="profile-share-icon fab fa-whatsapp" ng-click="share.whatsapp()"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </section>
     </div>
     
     <!-- Crop Modal -->
