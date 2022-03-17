@@ -1,6 +1,8 @@
 angular.module('ProfileCtrl', []).controller('ProfileController', function (
     $scope,
     $q,
+    $location,
+    $timeout,
     $window,
     StorageService,
     MerchantService,
@@ -22,6 +24,8 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
         lat: $scope.user.merchantInfo.location[1]
     };
     $scope.processing = false;
+    $scope.user.referrerCode = 'BNXNBN';
+    $scope.isCopiedToClipboard = false;
 
 
     $scope.bounds = {
@@ -88,6 +92,47 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
     $scope.logoStyle = {
         "background-image": "url(\"" + logo + "\")"
     };
+
+    /**
+     * Share user details
+     * @param {*} user 
+     */
+    $scope.copyLink = function() {
+        const url = new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referrerCode}`;
+        navigator.clipboard.writeText(url)
+        $scope.isCopiedToClipboard = true;
+        $timeout(() => {
+            $scope.isCopiedToClipboard = false;
+        }, 3000);
+    }
+
+    $scope.share = {
+        text: "Jump onboard and get great deals sold!",
+        title: "Coupin - Get the best deals and rewards near you",
+        url: new $window.URL($location.absUrl()).origin + `/merchant?referralCode=${$scope.user.referrerCode}`,
+        facebook: function() {
+            let url = 'http://www.facebook.com/sharer.php?s=100';
+            url += '&p[title]=' + encodeURIComponent(this.title);
+            url += '&p[summary]=' + encodeURIComponent(this.text);
+            url += '&p[url]=' + encodeURIComponent(this.url);
+            this.popup(url);
+        },
+        twitter: function() {
+            let url = 'http://twitter.com/share?';
+            url += 'text=' + encodeURIComponent(this.text);
+            url += '&url=' + encodeURIComponent(this.url);
+            url += '&counturl=' + encodeURIComponent(this.url);
+            this.popup(url);
+        },
+        whatsapp() {
+            let url = 'http://web.whatsapp.com/send?'
+            url += 'text=' + encodeURIComponent(`${this.text} \n  \n ${this.url}`);
+            this.popup(url)
+        },
+        popup: function(url) {
+            $window.open(url,'','toolbar=0,status=0,width=626, height=436');
+        }
+    }
 
     /**
      * Validate User details
