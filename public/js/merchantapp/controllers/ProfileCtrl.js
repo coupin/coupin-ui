@@ -24,7 +24,6 @@ angular.module('ProfileCtrl', []).controller('ProfileController', function (
         lat: $scope.user.merchantInfo.location[1]
     };
     $scope.processing = false;
-    $scope.user.referrerCode = 'BNXNBN';
     $scope.isCopiedToClipboard = false;
 
 
