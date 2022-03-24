@@ -640,7 +640,7 @@
                                             
                                         </div>
                                     </div>
-                                    <p>The reward will expire on {{extendedReward.endDate | date: 'longDate'}} </p>
+                                    <p ng-if="extendedReward.days > 0">The reward will expire on {{extendedReward.endDate | date: 'longDate'}} </p>
                                 </div>
                             </div>
                         </div>
