@@ -73,10 +73,10 @@ function(
         }
       }
     })
-    .state('portal.view-users', {
-      url: '/users',
-      templateUrl: 'views/admin/viewUsers.html',
-      controller: 'UserController'
+    .state('portal.view-customers', {
+      url: '/customers',
+      templateUrl: 'views/admin/viewCustomers.html',
+      controller: 'CustomerController'
     })
     .state('portal.featured', {
       url: '/featured',

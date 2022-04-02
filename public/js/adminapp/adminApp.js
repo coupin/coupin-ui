@@ -33,8 +33,8 @@ angular.module('adminApp', [
   'ConfigSrv',
   'StorageSrv',
   'UtilSrv',
-  'UserSrv',
-  'UserCtrl'
+  'CustomerCtrl',
+  'CustomerSrv'
 ]).config(function ($httpProvider) {
   $httpProvider.interceptors.push(function ($state, $window, $q) {
     return {

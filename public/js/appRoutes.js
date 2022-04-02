@@ -26,6 +26,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
             templateUrl: 'views/viewRequests.html',
             controller: 'RequestController'
         })
+        .when('/viewCustomers', {
+            templateUrl: 'views/viewCustomers.html',
+            controller: 'AdminCustomerController'
+        })
         .otherwise({
             templateUrl: 'views/home.html',
             controller: 'MainController'

@@ -1,4 +1,4 @@
-angular.module('UserSrv', []).factory('UserService', [
+angular.module('CustomerSrv', []).factory('CustomerService', [
     'ENV_VARS',
     '$http',
     'StorageService',
@@ -16,13 +16,11 @@ function (
     }
 
     return {
-        retrieve: function (id = '') {
-            return $http.get(baseV1Url + '/customer/' + id, {
+        getAll: function (page) {
+            // search param?
+            return $http.get(`${baseV1Url}/customers?page=${page}`, {
                 headers: getAuthHeader()
             }) 
-        },
-        test: function() {
-            console.log('hello')
         }
     }
 }]);
