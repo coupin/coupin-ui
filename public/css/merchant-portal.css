@@ -933,7 +933,9 @@ form .row {
   }
 
   #verification-page .coupin-search {
-    width: 216px;
+    /* width: 216px; */
+    width: 90%;
+    margin: 1rem auto;
   }
 
   #verify .redeem-section .redeem-button {
@@ -1389,4 +1391,17 @@ form .row {
   font-size: 13px;
   color: #94989E;
   font-weight: 600;
+}
+
+
+/* Responsive styling */
+@media(max-width: 480px) {
+  .info:not(:first-child),
+  .quick-info:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .quick-info {
+    width: 95%;
+  }
 }
