@@ -34,6 +34,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.0.tgz#4b95f2327bacd1ef8f08d8ceda193039c5d7f52e"
   integrity sha512-8MLkBIYQMuhRBQzGN9875bYsOhPnf/0rgXGo66S2FemHkhbn9qtsz9ywV1iCG+vbjigE4WUNVvw37Dx+L0qsPg==
 
+"@types/offscreencanvas@^2019.6.4":
+  version "2019.6.4"
+  resolved "https://registry.yarnpkg.com/@types/offscreencanvas/-/offscreencanvas-2019.6.4.tgz#64f6d120b53925028299c744fcdd32d2cd525963"
+  integrity sha512-u8SAgdZ8ROtkTF+mfZGOscl0or6BSj9A4g37e6nvxDc+YB/oDut0wHkK2PBBiC2bNR8TS0CPV+1gAk4fNisr1Q==
+
 "@uirouter/core@6.0.7":
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/@uirouter/core/-/core-6.0.7.tgz#a66743dceb13a56d8908474ff891d63e5d5a2b01"
@@ -3503,6 +3508,13 @@ q@1.5.1, q@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+qr-scanner@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/qr-scanner/-/qr-scanner-1.4.1.tgz#31a1bf7f9927f0eb1e3c0909fe66fec97a3b3701"
+  integrity sha512-xiR90NONHTfTwaFgW/ihlqjGMIZg6ExHDOvGQRba1TvV+WVw7GoDArIOt21e+RO+9WiO4AJJq+mwc5f4BnGH3w==
+  dependencies:
+    "@types/offscreencanvas" "^2019.6.4"
 
 qs@0.6.6:
   version "0.6.6"
