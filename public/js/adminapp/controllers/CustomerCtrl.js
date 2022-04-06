@@ -7,7 +7,7 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
     UtilService
 ) {
     $scope.customers = [];
-    // $scope.customersCount =
+    $scope.total = 0;
     $scope.page = 1;
     $scope.query = ''
     $scope.maxPage = 0;
@@ -20,7 +20,9 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
         CustomerService.getAll($scope.page)
             .then(function (res) {
                 $scope.loading = false
-                $scope.customers = res.data;
+                $scope.customers = res.data.data.customers;
+                $scope.total = res.data.data.total;
+                $scope.maxPage = Math.ceil($scope.total / 15);
             })
             .catch(function (err) {
                 $scope.loading = false
@@ -29,8 +31,10 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
     }
 
     $scope.nextPage = function () {
-        $scope.page += 1;
-        $scope.loadCustomers();
+        if ($scope.page < ($scope.maxPage - 1)) {
+            $scope.page += 1;
+            $scope.loadCustomers();
+        }
     };
 
     $scope.previousPage = function () {

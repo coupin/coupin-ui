@@ -34,7 +34,8 @@ angular.module('adminApp', [
   'StorageSrv',
   'UtilSrv',
   'CustomerCtrl',
-  'CustomerSrv'
+  'CustomerSrv',
+  'AddCustomerCtrl'
 ]).config(function ($httpProvider) {
   $httpProvider.interceptors.push(function ($state, $window, $q) {
     return {
