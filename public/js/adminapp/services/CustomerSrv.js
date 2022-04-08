@@ -21,6 +21,17 @@ function (
             return $http.get(`${baseV1Url}/customers?page=${page}`, {
                 headers: getAuthHeader()
             }) 
+        },
+        getOne: function (customerId) {
+            return $http.get(`${baseV1Url}/customers/${customerId}`, {
+                headers: getAuthHeader()
+            })
+        },
+        update: function (id, data) {
+            return $http.put(`${baseV1Url}/customer/${id}`, {
+                headers: getAuthHeader(),
+                data: JSON.stringify(data)
+            })
         }
     }
 }]);

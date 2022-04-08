@@ -2,40 +2,55 @@ angular.module('AddCustomerCtrl', []).controller('AddCustomerController', functi
     $scope,
     $state,
     customerId,
+    CustomerService,
     UtilService
 ) {
-    // test customer 
-    const customer = {
-        name: 'Arinze Obi',
-        email: 'me@arinzeobi.com',
-        mobileNumber: '09087654653',
-        address: 'Olufemi Adeniyi Crescent',
-        ageRange: '15 - 25',
-        sex: 'male',
-        picture: 'https://githubcontent.com/images/arinze19/1.jpg',
-        city: 'Gbagada',
-        locations: ['6.556276', '3.3805357'],
-        bookings: '',
-        referralsCount: 36,
-        referrer: {
-            name: 'Akintunde Ayomide'
-        },
-        picture: {
-            id: 1,
-            url: 'https://avatars.githubusercontent.com/u/41495197'
-        },
-        referralCode: 'BNXN',
-        accountDetails: {
-            accountName: 'Arinze Obi Josiah',
-            accountNumber: 2091638865,
-            bankName: 'United Bank Africa'
-        }
-    }
     let isEdit = false;
-
     $scope.loading = false;
-    $scope.preview = customer.picture.url ? customer.picture.url : '';
-    $scope.isEdit = function() {
+    $scope.proceeding = false;
+    $scope.formData = {}
+
+    if (UtilService.isDefined(customerId)) {
+        $scope.loading = true;
+        isEdit = true;
+        CustomerService.getOne(customerId)
+            .then(function (response) {
+                const { customer } = response.data.data
+                $scope.formData = { ...customer }
+                $scope.loading = false;
+            })
+            .catch(function (error) {
+                const message = error.data.message || 'Sorry, something went wrong. Please try again later'
+                UtilService.showError(message)
+                $scope.loading = false;
+            })
+    }
+
+    $scope.proceed = function () {
+        if (isEdit) {
+            $scope.updateCustomer($scope.formData.id, $scope.formData);
+        } 
+        // TODO: Add create customer 
+        // else {
+        //     createCustomer($scope.formData);
+        // }
+    };
+
+    $scope.updateCustomer = function (id) {
+        $scope.proceeding = true;
+        CustomerService.update(id, $scope.formData)
+            .then(function (response) {
+                UtilService.showError('Success', 'Customer updated successfully')
+                $scope.proceeding = false;
+            })
+            .catch(function (error) {
+                const message = error.data.message || 'Sorry, something went wrong please try again later'
+                UtilService.showError('Error', message)
+                $scope.proceeding = false;
+            })
+    }
+
+    $scope.isEdit = function () {
         return isEdit
     }
 
@@ -43,25 +58,8 @@ angular.module('AddCustomerCtrl', []).controller('AddCustomerController', functi
         $state.go('portal.view-customers', {});
     };
 
-    $scope.customer = {}
-    $scope.formData = {}
-
-
-    const api = new Promise((res) => res(customer))
-    const call = () => setTimeout(() => {
-        api.then(customer => {
-            $scope.customer = customer
-            $scope.loading = false
-            $scope.formData = { ...customer }
-
-            $scope.$digest()
-        })
-
-    }, 3000)
-
-    if (UtilService.isDefined(customerId)) {
-        $scope.loading = true;
-        isEdit = true; 
-        call()
-    }
+    $scope.isError = function (element) {
+        if (!element) return;
+        return UtilService.isError(element);
+    };
 });
