@@ -12,7 +12,7 @@ angular.module('AddCustomerCtrl', []).controller('AddCustomerController', functi
 
     if (UtilService.isDefined(customerId)) {
         $scope.loading = true;
-        isEdit = true;
+        // isEdit = true;
         CustomerService.getOne(customerId)
             .then(function (response) {
                 const { customer } = response.data.data
@@ -29,11 +29,7 @@ angular.module('AddCustomerCtrl', []).controller('AddCustomerController', functi
     $scope.proceed = function () {
         if (isEdit) {
             $scope.updateCustomer($scope.formData.id, $scope.formData);
-        } 
-        // TODO: Add create customer 
-        // else {
-        //     createCustomer($scope.formData);
-        // }
+        }
     };
 
     $scope.updateCustomer = function (id) {

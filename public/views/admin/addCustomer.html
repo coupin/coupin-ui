@@ -6,7 +6,8 @@
             <div class="flex pb-16 justify-between">
                 <div class="title">
                     <h2 class="text-5xl capitalize" ng-if="loading">Loading...</h2>
-                    <h2 class="text-5xl capitalize" ng-if="!loading">{{ isEdit() ? formData.name : 'New Customer' }}</h2>
+                    <h2 class="text-5xl capitalize" ng-if="!loading">{{ formData.name }}</h2>
+                    <!-- <h2 class="text-5xl capitalize" ng-if="!loading">{{ isEdit() ? formData.name : 'New Customer' }}</h2> -->
                 </div>
                 <div class="actions"></div>
             </div>
@@ -19,13 +20,14 @@
                 <!-- Customer Detail Content -->
                 <div class="row" id="details" aria-labelledby="details">
                     <div class="form-page">
-                        <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">{{ isEdit() ? 'Edit' : 'Add New' }} Customer</h3>
+                        <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">Customer</h3>
+                        <!-- <h3 class="text-center text-3xl font-bold py-4" ng-if="!loading">{{ isEdit() ? 'Edit' : 'Add New' }} Customer</h3> -->
                         <div class="row" ng-if="loading">
                             <div class="col-sm-12 text-center">
                                 <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
                             </div>
                         </div>
-                        <form name="customerForm" ng-submit="proceed()" ng-if="!loading">
+                        <form name="customerForm" ng-if="!loading">
                             <div class="btn btn-danger clickable" ng-disabled="proceeding" ng-if="isEdit()">Change Password <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></div>
                             <div class="flex justify-between flex-wrap my-8">
                                 <div class="form-group sm:w-5/12 w-full">
@@ -39,6 +41,7 @@
                                             placeholder="e.g. John Doe"
                                             ng-model="formData.name"
                                             ng-class="{'form-control': true, 'error-input': isError(customerForm.name)}"
+                                            ng-disabled="!isEdit()"
                                             required>
                                     </div>
                                     <small id="nameHelp" class="form-text text-muted">The customer's name that is publicly known to all.</small>
@@ -54,6 +57,7 @@
                                             aria-describedby="emailHelp"
                                             placeholder="e.g. johndoe@example.com"
                                             ng-model="formData.email"
+                                            ng-disabled="!isEdit()"
                                             required>
                                     </div>
                                     <small id="emailHelp" class="form-text text-muted">The customer's email.</small>
@@ -69,6 +73,7 @@
                                             aria-describedby="mobileNumberHelp"
                                             placeholder="e.g. 09090909090"
                                             ng-model="formData.mobileNumber"
+                                            ng-disabled="!isEdit()"
                                             required>
                                     </div>
                                     <small id="mobileNumberHelp" class="form-text text-muted">The customer's mobile number.</small>
@@ -84,6 +89,7 @@
                                             aria-describedby="addressHelp"
                                             placeholder="e.g. 3 Catholic Mission Street, Victoria Island"
                                             ng-model="formData.address"
+                                            ng-disabled="!isEdit()"
                                             required>
                                     </div>
                                     <small id="cityHelp" class="form-text text-muted">The customer's residence address.</small>
@@ -99,6 +105,7 @@
                                             aria-describedby="cityHelp"
                                             placeholder="e.g. Lagos"
                                             ng-model="formData.city"
+                                            ng-disabled="!isEdit()"
                                             required>
                                     </div>
                                     <small id="cityHelp" class="form-text text-muted">The customer's city of residence.</small>
@@ -107,7 +114,7 @@
                                     <label for="ageRange">Age Range:</label>
                                     <div class="input-group mb-2 mr-sm-2 mb-sm-0">
                                         <div class="input-group-addon"><i class="fas fa-user-friends"></i></div>
-                                        <select name="ageRange" id="ageRange" class="form-control outline-none" ng-model="formData.ageRange">
+                                        <select name="ageRange" id="ageRange" class="form-control outline-none" ng-model="formData.ageRange" ng-disabled="!isEdit()">
                                             <option value="under 15"> Under 15 </option>
                                             <option value="15 - 25"> 15 - 25 </option>
                                             <option value="25 - 35"> 25 - 35 </option>
@@ -150,7 +157,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <button ng-if="isEdit()" class="btn btn-primary" ng-disabled="proceeding || isError(merchantForm)">Update Details <i class="fas fa-circle-o-notch fa-spin" ng-if="proceeding"></i></button>
                         </form>
                     </div>
                 </div>
