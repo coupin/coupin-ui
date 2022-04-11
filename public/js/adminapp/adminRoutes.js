@@ -73,6 +73,21 @@ function(
         }
       }
     })
+    .state('portal.view-customers', {
+      url: '/customers',
+      templateUrl: 'views/admin/viewCustomers.html',
+      controller: 'CustomerController'
+    })
+    .state('portal.add-customer', {
+      url: '/customers/add/:id',
+      templateUrl: 'views/admin/addCustomer.html',
+      controller: 'AddCustomerController',
+      resolve: {
+        customerId: function($stateParams) {
+          return $stateParams.id;
+        }
+      }
+    })
     .state('portal.featured', {
       url: '/featured',
       templateUrl: 'views/admin/hotFeatured.html',
