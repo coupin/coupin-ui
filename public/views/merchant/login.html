@@ -1,4 +1,4 @@
-<div class="merchant-auth">
+<div class="merchant-auth" ng-init="populateReferrerCode()">
   <div class="auth-container">
     <div style="margin: 30px;" class="auth-logo-container">
         <a href="https://coupinapp.com"><img src="img/logo@2x-fs8-minified.png" alt="logo" style="height: 60px; width: 45px;"></a>
@@ -116,6 +116,14 @@
                         <div class="input-group-addon icons-input"><i class="fas fa-phone"></i></div>
                     </div>
                     <small id="mobileNumberHelp" class="form-text text-muted">Mobile Number used to contact the company.</small>
+                </div>
+                <div class="form-group">
+                    <label for="referralCode">Referral Code:</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <input type="text" class="form-control" id="referralCode" aria-describedby="referralCodeHelp" placeholder="W04TR8 (Optional)" ng-model="formData.referrerCode">
+                        <div class="input-group-addon icons-input"><i class="fas fa-percent"></i></div>
+                    </div>
+                    <small id="referralCodeHelp" class="form-text text-muted">Input referral code used to recieve discounts</small>
                 </div>
                 <div class="form-group">
                     <label for="agreeTermsAndCondition">

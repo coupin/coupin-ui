@@ -443,12 +443,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', function (
     };
 
     $scope.setExtensionDate = function(days) {
-        if(!days) {
-            $scope.extendedReward.endDate = moment($scope.newReward.startDate).add($scope.noOfDays, 'day').toDate();
-        } else {
-            $scope.extendedReward.endDate = moment($scope.newReward.startDate).add($scope.noOfDays + days, 'day').toDate();
-            $scope.extendedReward.days = days;
-        } 
+        $scope.extendedReward.endDate = moment().add(days, 'day').toDate();
+        $scope.extendedReward.days = days;
     }
 
     $scope.extendRewardEndDate = function() {

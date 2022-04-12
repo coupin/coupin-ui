@@ -580,4 +580,10 @@ td::first-letter {
     /* color: #bbb; */
 }
 
+.flex-spaced {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 /* end of style for admin config page */

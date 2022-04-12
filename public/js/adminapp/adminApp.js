@@ -16,6 +16,7 @@ angular.module('adminApp', [
   'AddRewardCtrl',
   'FeaturedCtrl',
   'ConfigCtrl',
+  'CoupinSrv',
   'MerchantCtrl',
   'RequestCtrl',
   'SuperAdminCtrl',
@@ -31,7 +32,10 @@ angular.module('adminApp', [
   'RequestSrv',
   'ConfigSrv',
   'StorageSrv',
-  'UtilSrv'
+  'UtilSrv',
+  'CustomerCtrl',
+  'CustomerSrv',
+  'AddCustomerCtrl'
 ]).config(function ($httpProvider) {
   $httpProvider.interceptors.push(function ($state, $window, $q) {
     return {

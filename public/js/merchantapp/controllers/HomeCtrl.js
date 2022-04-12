@@ -23,6 +23,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   };
   $scope.updating = false;
   $scope.use = [];
+  $scope.pin = ''
+  $scope.selectedReward = {};
+  $scope.scannerIsActive = false
 
   const endDate = new Date();
   const startDate = moment(endDate).subtract(30, 'day');
@@ -54,21 +57,26 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   $scope.redeem = function() {
     $scope.updating = true;
 
-    CoupinService.redeem($scope.booking._id, $scope.use)
-    .then(function(response) {
-      const data = response.data.rewardId;
+    let rewards = $scope.rewards;
+    
+    if(id) {
+       rewards = $scope.rewards.filter(reward => reward._id === id);
+    }
 
+    CoupinService.redeem($scope.booking._id, rewards).then(function(response) {
       $scope.updating = false;
-      $scope.rewards.forEach(function(object, index) {
-        object.status = data[index].status;
-        object.usedOn = data[index].usedOn;
-      });
-      toggleAll(false);
+      $scope.booking = response.data;
+      $scope.rewards = response.data.rewardId;
+
+      $('#confirmationModal').modal('hide');
+      $('#confirmationAllModal').modal('hide');
       UtilService.showSuccess('Success!', 'Rewards were successfully redeemed!');
     }).catch(function(err) {
-      console.log(err);
       $scope.updating = false;
       UtilService.showError('Uh Oh', 'Failed to redeem. Please check you network and try again.');
+
+      $('#confirmationModal').modal('hide');
+      $('#confirmationAllModal').modal('hide');
     });
   };
 
@@ -104,8 +112,51 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     return $scope.rewards.length > 0 && !$scope.loading;
   };
 
-  $scope.disableButton = function() {
-    return $scope.use.length === 0;
+  $scope.cannotCancelAll = function() {
+    return $scope.booking.status !== 'awaiting_payment' && $scope.booking.status !== 'paid'
+  };
+
+  $scope.cannotRedeemAll = function() {
+    return $scope.rewards.some(reward => reward.status === 'pending')
+  }
+
+  $scope.setSelectedReward = function(reward) {
+    $scope.selectedReward = {
+      id: reward._id,
+      name: reward.id.name,
+      status: reward.status
+    }
+  }
+
+  /**
+   * Cancel Booking Code
+   * @param {String} pin 
+   */
+
+  $scope.cancel = function(id) {
+    $scope.updating = true;
+
+    let rewards = $scope.rewards;
+
+    if(id) {
+      rewards = $scope.rewards.filter(reward => reward._id === id);
+    }
+    
+    CoupinService.redeem($scope.booking._id, rewards).then(function(response) {
+      $scope.updating = false;
+      $scope.booking = response.data;
+      $scope.rewards = response.data.rewardId;
+
+      UtilService.showSuccess('Success', 'Rewards have been successfully updated'); 
+      $('#confirmationModal').modal('hide');
+      $('#confirmationAllModal').modal('hide');           
+    }).catch(function(err) {
+      $scope.updating = false;
+      UtilService.showError('Uh Oh', '');
+
+      $('#confirmationModal').modal('hide');
+      $('#confirmationAllModal').modal('hide');
+    });
   }
 
   /**
@@ -130,12 +181,26 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
     });
   };
 
+  let scanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+
+  function onScanSuccess(decodedText) {
+    $scope.pin = decodedText;
+
+    $scope.scannerIsActive = !$scope.scannerIsActive;
+    scanner.clear();
+
+    $scope.$digest()
+  } 
+
+  $scope.toggleReader = function() {
+    $scope.scannerIsActive = !$scope.scannerIsActive;
+    scanner.render(onScanSuccess)
+  }
+
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);
   });
 
-  console.log('startDate ==> ', startDate.toISOString());
-  console.log('endDate ==> ', endDate.toISOString());
   AnalyticsService.getStats(startDate.toISOString(), endDate.toISOString())
     .then(function (res) {
       $scope.loadingStats = false;

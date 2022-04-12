@@ -542,6 +542,15 @@ option {
   margin-bottom: 30px;
 }
 
+.profile-share-icon {
+  background-color: rgb(218, 136, 53);
+  color: white;
+  border-radius: 50%;
+  padding: 1rem;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
 .location-button-container {
   display: flex;
   justify-content: center;
@@ -902,6 +911,38 @@ form .row {
   height: 35px;
 }
 
+.scanner-backdrop {
+  position: fixed;
+  margin-top: 5rem;
+  padding: 3rem;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  transition: 0.3s all ease-in-out;
+  opacity: 0;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+}
+
+.scanner-drop .fa-times {
+  color: pointer;
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+}
+
+.qr-active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.qr-reader {
+  max-width: 600px;
+  margin: auto;
+}
+
 /*** custom naira icon ***/
 .cu-naira::before {
  content: '\20A6'
@@ -924,7 +965,9 @@ form .row {
   }
 
   #verification-page .coupin-search {
-    width: 216px;
+    /* width: 216px; */
+    width: 90%;
+    margin: 1rem auto;
   }
 
   #verify .redeem-section .redeem-button {
@@ -1380,4 +1423,17 @@ form .row {
   font-size: 13px;
   color: #94989E;
   font-weight: 600;
+}
+
+
+/* Responsive styling */
+@media(max-width: 480px) {
+  .info:not(:first-child),
+  .quick-info:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .quick-info {
+    width: 95%;
+  }
 }
