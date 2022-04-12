@@ -913,11 +913,12 @@ form .row {
 
 .scanner-backdrop {
   position: fixed;
-  margin-top: 5rem;
+  padding-top: 5rem;
   padding: 3rem;
   z-index: 99;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
+  transform: translate(50%, 50%);
   background-color: black;
   transition: 0.3s all ease-in-out;
   opacity: 0;
@@ -941,6 +942,14 @@ form .row {
 .qr-reader {
   max-width: 600px;
   margin: auto;
+}
+
+@media(max-width: 768px) {
+  .scanner-backdrop {
+    width: 100%;
+    height: 100%;
+    transform: none;
+  }
 }
 
 /*** custom naira icon ***/
