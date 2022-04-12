@@ -31,6 +31,7 @@
     "gulp": "^4.0.2",
     "gulp-cli": "^2.0.1",
     "gulp-ng-config": "^1.5.0",
+    "html5-qrcode": "^2.2.1",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.0.1",
     "lightpick": "^1.6.2",
