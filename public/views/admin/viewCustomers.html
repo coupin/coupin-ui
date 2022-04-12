@@ -1,68 +1,17 @@
-<!-- <div class="inline-body" ng-init="loadMerchants()">
-    <div class="jumbotron jumbotron-box padding-5-all">
-        <form>
-            <div class="form-group">
-                <input class="form-control" type="text" placeholder="Search..." />
-            </div>
-            <button class="btn btn-default" ng-click="addMerch()"><i class="fas fa-plus"></i> Add Merchant</button>
-        </form>
-    </div>
-    <div class="jumbotron jumbotron-box padding-10-all">
-        <div class="row" ng-if="loading">
-            <div class="col-sm-12 text-center">
-                <i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>
-            </div>
-        </div>
-        <table class="table table-striped" ng-if="!loading">
-            <thead>
-                <th>S/N</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Email</th>
-                <th>Status</th>
-            </thead>
-            <tbody>
-                <tr ng-repeat="(index, merchant) in merchants">
-                    <td>{{index + 1}}</td>
-                    <td>{{merchant.merchantInfo.companyName}}</td>
-                    <td>{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
-                    <td>{{merchant.email}}</td>
-                    <td>{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
-                    <td><div class="clickable" data-toggle="tooltip" title="Edit Merchant" ng-click="editMerch(merchant._id)"><i class="fa fa-pencil-alt"></i></div></td>
-                    <td><div class="clickable" data-toggle="tooltip" title="Activate/Deactivate Merchant" ng-click="toggleStatus(merchant._id)"><i ng-class="merchant.isActive ? 'fas fa-eye-slash icon' : 'fas fa-eye icon'"></i></div></td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-sm-5 clickable" ng-click="previousPage()">
-                <span class="right">
-                    <i class="fa fa-angle-double-left"></i> Back
-                </span>
-            </div>
-            <div class="col-sm-2 text-center">
-                <span>{{ getPageCount() }}</span>
-            </div>
-            <div class="col-sm-5 clickable" ng-click="nextPage()">
-                Next <i class="fa fa-angle-double-right"></i>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<div ng-init="loadMerchants()">
+<div ng-init="loadCustomers()">
     <header class="page-top-header">
         <div class="w-10/12 pt-20 mx-auto">
             <div class="flex pb-16 justify-between">
                 <div class="title">
-                    <h2 class="text-5xl">Merchants</h2>
+                    <h2 class="text-5xl">Customers</h2>
                 </div>
                 <div class="actions">
-                    <a
+                    <!-- <a
                         class="rounded-md px-8 py-4 action-primary-button text-white hover:text-white hover:no-underline cursor-pointer"
                         ng-click="addMerch()"
                     >
-                        <i class="fas fa-user-plus"></i> add merchant
-                    </a>
+                        <i class="fas fa-customer-plus"></i> add merchant
+                    </a> -->
                 </div>
             </div>
         </div>
@@ -74,14 +23,14 @@
                     <div class="w-5/6">
                         <input
                         class="block w-full bg-white py-4 px-3 pl-16 border focus:outline-none rounded"
-                        placeholder="Search Merchants"
+                        placeholder="Search Customers"
                         ng-model="query"
-                        id="merchant"
-                        name="merchant"
+                        id="customer"
+                        name="customer"
                         />
                     </div>
                     <div class="actions">
-                        <button type="submit" class="relative text-white action-primary-button cursor-pointer px-8 py-4 rounded" ng-click="loadMerchants()">
+                        <button type="submit" class="relative text-white action-primary-button cursor-pointer px-8 py-4 rounded" ng-click="loadCustomers()">
                             Search
                             <i class="fas fa-search"></i>
                         </button>
@@ -97,58 +46,38 @@
                         <tr>
                             <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">S/N</th>
                             <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Name</th>
-                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Address</th>
                             <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Email</th>
-                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Status</th>
-                            <th class="sticky top-0 px-2 py-6 bg-gray-100"></th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">City</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Active Status</th>
+                            <th class="sticky top-0 px-2 py-6 bg-gray-100 text-xl uppercase text-left leading-4 font-medium text-gray-500 tracking-wider">Referall Code</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <tr ng-repeat="(index, merchant) in merchants" class="cursor-pointer hover:bg-gray-300">
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{(page * 10) + (index + 1)}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.merchantInfo.companyName}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.merchantInfo.address + ', ' + merchant.merchantInfo.city}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.email}}</td>
-                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editMerch(merchant._id)">{{merchant.isActive ? 'Visible' : 'Hidden'}}</td>
-                            <td class="text-xl">
-                                <button
-                                    class="m-2"
-                                    data-toggle="tooltip"
-                                    title="Edit Merchant"
-                                    ng-click="editMerch(merchant._id)"
-                                >
-                                    <i class="fa fa-pencil-alt" data-title="Edit Merchant" bs-tooltip></i>
-                                </button>
-        
-                                <button
-                                    class="m-2"
-                                    data-toggle="modal"
-                                    data-target="#modifyMerchant"
-                                    title="Activate/Deactivate Merchant"
-                                    ng-click="toggleStatus(merchant._id)"
-                                >
-                                    <i ng-class="merchant.isActive ? 'fas fa-eye-slash icon' : 'fas fa-eye icon'" data-title="Disable/Enable Merchant" bs-tooltip></i>
-                                </button>
-        
-                            </td>
+                        <tr ng-repeat="(index, customer) in customers" class="cursor-pointer hover:bg-gray-300">
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{ (page * 15) - (14 - index) }}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{customer.name}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{customer.email}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{customer.city}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{customer.isActive ? 'Active' : 'Inactive'}}</td>
+                            <td class="px-2 py-6 whitespace-no-wrap text-xl" ng-click="editCustomer(customer._id)">{{customer.referallCode}}</td>
                         </tr>
-                        <tr ng-if="merchants.length > 0">
+                        <tr ng-if="customers.length > 0">
                             <td class="px-10 py-6 whitespace-no-wrap text-2xl" colspan="7">
                                 <div class="sm:flex-1 sm:flex sm:items-center sm:justify-between">
                                     <div>
                                         <p class="leading-5 text-gray-700">
                                           Showing
-                                          <span class="">{{ (page * 10) + 1}}</span>
+                                          <span class="">{{ (page * 15) - 14 }}</span>
                                           to
-                                          <span class="">{{ (page * 10) + merchants.length }}</span>
+                                          <span class="">{{ (page * 15) }}</span>
                                           of
-                                          <span class="">{{merchantsCount}}</span>
+                                          <span class="">{{ total }}</span>
                                           results
                                         </p>
                                     </div>
                                     <div>
                                         <button
-                                            ng-disabled="page < 1"
+                                            ng-disabled="page < 2"
                                             ng-click="previousPage()"
                                             class="relative inline-flex items-center px-4 py-4 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
                                             aria-label="Previous"
