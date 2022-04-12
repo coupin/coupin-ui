@@ -2,6 +2,10 @@
   <div class="loading text-center" ng-if="updating">
     <i class="fas fa-circle-notch fa-spin fa-2x"></i><span> Submiting</span>
   </div>
+  <div ng-class="{'scanner-backdrop': true, 'qr-active': scannerIsActive}">
+    <i class="fas fa-times" ng-click="toggleReader()"></i>
+    <div id="qr-reader"></div>
+  </div>
   <section class="reward-overview section-containers">
     <p class="section-headers">Overview of the last 30 days</p>
 
@@ -66,11 +70,9 @@
               <i class="fas fa-search" ng-if="!loading"></i>
               <i class="fas fa-spin fa-spinner" ng-if="loading"></i>
             </button>
-            <!-- TODO: ADD SCAN QR ON CLICK -->
-            <button class="btn btn-success" ng-disabled="loading">
+            <button class="btn btn-success" ng-disabled="loading" ng-click="toggleReader()">
               Scan QR Code
               <i class="fas fa-qrcode" ng-if="!loading"></i>
-              <i class="fas fa-spin fa-spinner" ng-if="loading"></i>
             </button>
           </div>
         </form>

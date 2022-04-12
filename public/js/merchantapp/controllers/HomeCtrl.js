@@ -23,7 +23,9 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   };
   $scope.updating = false;
   $scope.use = [];
+  $scope.pin = ''
   $scope.selectedReward = {};
+  $scope.scannerIsActive = false
 
   const endDate = new Date();
   const startDate = moment(endDate).subtract(30, 'day');
@@ -178,6 +180,22 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
       }
     });
   };
+
+  let scanner = new Html5QrcodeScanner("qr-reader", { fps: 10, qrbox: 250 });
+
+  function onScanSuccess(decodedText) {
+    $scope.pin = decodedText;
+
+    $scope.scannerIsActive = !$scope.scannerIsActive;
+    scanner.clear();
+
+    $scope.$digest()
+  } 
+
+  $scope.toggleReader = function() {
+    $scope.scannerIsActive = !$scope.scannerIsActive;
+    scanner.render(onScanSuccess)
+  }
 
   $scope.$watch('select.all', function(newValue) {
     toggleAll(newValue);

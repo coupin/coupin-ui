@@ -31,6 +31,7 @@
     "gulp": "^4.0.2",
     "gulp-cli": "^2.0.1",
     "gulp-ng-config": "^1.5.0",
+    "html5-qrcode": "^2.2.1",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.0.1",
     "lightpick": "^1.6.2",
@@ -46,7 +47,6 @@
     "nodemailer": "^6.4.16",
     "nodemon": "^1.19.4",
     "noty": "^3.2.0-beta-deprecated",
-    "qr-scanner": "^1.4.1",
     "randomatic": ">=3.0.0",
     "ui-cropper": "^1.0.9"
   },
