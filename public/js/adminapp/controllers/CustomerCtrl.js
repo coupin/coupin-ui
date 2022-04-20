@@ -55,11 +55,12 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
         CustomerService.downloadReport()
         .then(function(response) {
             $scope.processing = false;
-            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+            const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = window.URL.createObjectURL(blob);
 
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'coupin_customer_report.xlsx';
+            link.download = `coupin_customer_report_${(new Date()).toLocaleDateString()}.xlsx`;
             link.dispatchEvent(
                 new MouseEvent('click', {
                     bubbles: true,
