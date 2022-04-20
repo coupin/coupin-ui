@@ -19,8 +19,8 @@
     <div class="content">
         <div class="w-10/12 pt-16 mx-auto">
             <div class="mb-16">
-                <form class="flex justify-between">
-                    <div class="w-5/6">
+                <div class="flex justify-between">
+                    <div class="w-2/3">
                         <input
                         class="block w-full bg-white py-4 px-3 pl-16 border focus:outline-none rounded"
                         placeholder="Search Customers"
@@ -30,12 +30,17 @@
                         />
                     </div>
                     <div class="actions">
-                        <button type="submit" class="relative text-white action-primary-button cursor-pointer px-8 py-4 rounded" ng-click="loadCustomers()">
+                        <button class="relative text-white action-primary-button cursor-pointer px-8 py-4 rounded" ng-click="loadCustomers()">
                             Search
                             <i class="fas fa-search"></i>
                         </button>
+                        <button class="relative text-white action-primary-button cursor-pointer px-8 py-4 rounded" ng-disabled="processing" ng-click="downloadReport()">
+                            Download Report
+                            <i ng-if="!processing" class="fas fa-file-download"></i>
+                            <i ng-if="processing" class="fas fa-spinner fa-spin"></i>
+                        </button>
                     </div>
-                </form>
+                </div>
             </div>
             <div class="flex justify-around mt-6" ng-if="loading">
                 <div class="loader"></div>
@@ -105,11 +110,6 @@
                     </tbody>
                 </table>
             </div>
-            <button class="btn btn-primary my-8" ng-if="!loading" ng-disabled="processing" ng-click="downloadReport()">
-                Download Report 
-                <i ng-if="!processing" class="fas fa-file-download"></i>
-                <i ng-if="processing" class="fas fa-spinner fa-spin"></i>
-            </button>
         </div>
     </div>
 
