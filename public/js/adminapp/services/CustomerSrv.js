@@ -32,6 +32,14 @@ function (
                 headers: getAuthHeader(),
                 data: JSON.stringify(data)
             })
+        },
+        downloadReport: function() {
+            const header = getAuthHeader()
+            header['responseType'] = 'blob'
+
+            return $http.get(`${baseV1Url}/customers/reports/xlsx`, {
+                headers: header
+            })
         }
     }
 }]);

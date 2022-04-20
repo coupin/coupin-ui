@@ -13,6 +13,7 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
     $scope.maxPage = 0;
     $scope.query = '';
     $scope.loading = false;
+    $scope.processing = false;
 
     $scope.loadCustomers = function () {
         $scope.loading = true;
@@ -46,6 +47,32 @@ angular.module('CustomerCtrl', []).controller('CustomerController', function (
 
     $scope.editCustomer = function(id) {
         $state.go('portal.add-customer', { id })
+    }
+
+    $scope.downloadReport = function() {
+        $scope.processing = true;
+
+        CustomerService.downloadReport()
+        .then(function(response) {
+            $scope.processing = false;
+            const url = window.URL.createObjectURL(new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'coupin_customer_report.xlsx';
+            link.dispatchEvent(
+                new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                })
+            )
+        })
+        .catch(function() {
+            const message = 'Sorry, something went wrong'
+            $scope.processing = false
+            UtilService.showError('Error', message);
+        })
     }
 });
 
