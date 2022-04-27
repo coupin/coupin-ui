@@ -61,7 +61,7 @@ angular.module('AddMerchantCtrl', []).controller('AddMerchantController', functi
                 categories: merchant.merchantInfo.categories || [],
                 rating: merchant.merchantInfo.rating
             };
-            $scope.accountDetails = merchant.accountDetails;
+            $scope.accountDetails = merchant.merchantInfo.accountDetails;
             $scope.preview = merchant.merchantInfo.logo ? merchant.merchantInfo.logo.url : '';
             $scope.loading = false;
             $scope.getMerchantBookings();
