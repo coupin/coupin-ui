@@ -138,13 +138,16 @@
             <th>Expires On</th>
             <th>Status</th>
             <th>Expired</th>
-            <th>Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}">
-            <td scope="row" class="hidden-xs hidden-sm">
-              <span>{{ index + 1 }}</span>
+          <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}" ng-class="{'selected': isRewardSelected(index)}" ng-click="toggleReward(index, reward.status)">
+            <td scope="row" class="hidden-xs hidden-sm">    
+              <span ng-if="isRewardSelected(index)">
+                <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox"
+                  ng-checked="isRewardSelected(index)">
+              </span>
+              <span ng-if="!isRewardSelected(index)">{{ index + 1 }}</span>
             </td>
             <td class="icon">{{ reward.id.name }}</td>
             <td class="icon break-word" show-more>{{ reward.id.description }}</td>
@@ -152,12 +155,14 @@
             <td class="icon">{{ reward.id.endDate | date: 'longDate' }}</td>
             <td class="capitalize">{{ reward.status }}</td>
             <td>{{ expired(reward.id.endDate) ? 'Yes' : 'No' }}</td>
-            <td ng-if="reward.status === 'pending'"><i class="fas fa-times" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
-            <td ng-if="reward.status !== 'pending'"><i class="fas fa-handshake" data-target="#confirmationModal" data-toggle="modal" ng-click="setSelectedReward(reward)"></i></td>
             <!-- <td><button class="btn btn-xs btn-success" ng-if="!hasUsed(index)" ng-click="redeem(reward.id._id, index)" ng-disabled="updating">Redeem</button></td> -->
           </tr>
         </tbody>
       </table>
+      <div class="mt-8 flex justify-between">
+        <small><b>Note:</b> Select rewards to redeem by simply clicking on them to select/deselect</small>
+        <button class="btn btn-success" ng-disabled="cannotRedeemOne()" data-toggle="modal" data-target="#confirmationModal">Redeem</button>
+      </div>
     </div>
 
   <form class="modal fade" id="confirmationModal" name="confirmationModal" novalidate>
@@ -169,7 +174,7 @@
 
           <div class="modal-body"> 
               <p class="text-center">
-                Are you sure you want to {{ selectedReward.status === 'pending' ? 'cancel' : 'redeem' }} {{ selectedReward.name }}'s order
+                Are you sure you want to redeem these rewards
               </p>
           </div>
 
@@ -182,8 +187,7 @@
               </button>
               <button
                   class="btn btn-primary btn-sm"
-                  ng-if="selectedReward.status !== 'pending'"
-                  ng-click="redeem(selectedReward.id)"
+                  ng-click="redeem()"
               >
                   Yes
               </button>
