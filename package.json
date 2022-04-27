@@ -37,7 +37,7 @@
     "lightpick": "^1.6.2",
     "lodash": "^4.17.21",
     "method-override": "~2.3.10",
-    "moment": ">=2.19.3",
+    "moment": ">=2.29.2",
     "mongoose": "^5.7.5",
     "mongoose-seed": "^0.3.2",
     "morgan": "^1.9.1",
