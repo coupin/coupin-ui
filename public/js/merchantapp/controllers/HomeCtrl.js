@@ -23,8 +23,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
   };
   $scope.updating = false;
   $scope.use = [];
-  $scope.pin = ''
-  $scope.selectedReward = {};
+  $scope.pin = '';
   $scope.scannerIsActive = false
 
   const endDate = new Date();
@@ -56,11 +55,13 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
 
   $scope.redeem = function() {
     $scope.updating = true;
-
-    let rewards = $scope.rewards;
-    
-    if(id) {
-       rewards = $scope.rewards.filter(reward => reward._id === id);
+    let rewards = [];
+    for(let i = 0; i < $scope.rewards.length; i++) {
+      for(let j = 0; j < $scope.use.length; j++) {
+        if(i === $scope.use[j]) {
+          rewards.push($scope.rewards[i])
+        }
+      }
     }
 
     CoupinService.redeem($scope.booking._id, rewards).then(function(response) {
@@ -87,21 +88,16 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
    */
   $scope.toggleReward = function(index, status) {
     const location = $scope.use.indexOf(index);
-    // var toggle = false;
 
     if(location > -1) {
-      toggle = true;
       $scope.use.splice(location, 1);
     } else if (location === -1 && status === 'pending') {
-      toggle = true;
       $scope.use.push(index);
     } else if (status === 'expired') {
       UtilService.showError('Uh Oh', 'Sorry the reward has expired');
     }
 
-    // if (toggle) {
-    //   $('#reward-'+index).toggleClass('selected');
-    // }
+    $scope.rewards = [ ...$scope.rewards ]
   };
 
   $scope.isRewardSelected = function (index) {
@@ -118,6 +114,10 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
 
   $scope.cannotRedeemAll = function() {
     return $scope.rewards.some(reward => reward.status === 'pending')
+  }
+
+  $scope.cannotRedeemOne = function() {
+    return $scope.use.length < 1
   }
 
   $scope.setSelectedReward = function(reward) {
@@ -164,6 +164,7 @@ angular.module('HomeCtrl', []).controller('HomeController', function(
    * @param {String} pin 
    */
   $scope.verify = function(pin) {
+    if (!pin) return;
     $scope.loading = true;
     $scope.empty = false;
 
