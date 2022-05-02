@@ -142,8 +142,8 @@
         </thead>
         <tbody>
           <tr ng-repeat="(index, reward) in rewards" ng-attr-id="{{'reward-' + index}}" ng-class="{'selected': isRewardSelected(index)}" ng-click="toggleReward(index, reward.status)">
-            <td scope="row" class="hidden-xs hidden-sm">    
-              <span ng-if="isRewardSelected(index)">
+            <td scope="row">    
+              <span class="checkbox-container" ng-if="isRewardSelected(index)">
                 <input type="checkbox" name="{{'reward-' + index}}" id="{{'reward-' + index}}-checkbox"
                   ng-checked="isRewardSelected(index)">
               </span>
