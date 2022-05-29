@@ -16,8 +16,8 @@ angular.module('RequestSrv', []).factory('RequestService', [
   }
 
   return {
-    getRequests: function(status) {
-      return $http.get(baseV1Url + '/merchant/status/' + status, {
+    getRequests: function(status, page, limit) {
+      return $http.get(baseV1Url + '/merchant/status/' + status + '?page=' + page + '&limit=' + limit, {
           headers: getAuthHeader()
       });
     },
