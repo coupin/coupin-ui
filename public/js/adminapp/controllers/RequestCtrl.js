@@ -29,6 +29,10 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     // Requests
     $scope.totalReq = [];
     $scope.totalRewards = [];
+    $scope.page = 1;
+    $scope.limit = 10;
+    $scope.maxPage = 0;
+    $scope.totalMerchantsCount = 0;
 
     // Coupin 
     $scope.pin = '';
@@ -59,10 +63,17 @@ angular.module('RequestCtrl', []).controller('RequestController', function(
     };
 
     $scope.getRequests = function(status, page) {
+        if(status) {
+            $scope.group = status;
+        }
+
+        $scope.page = page;
         $scope.loading = true;
-        $scope.group = status;
-        RequestService.getRequests(status).then(function(response) {
-            $scope.totalReq = response.data;
+
+        RequestService.getRequests($scope.group, page, $scope.limit).then(function(response) {
+            $scope.totalReq = response.data.data;
+            $scope.totalMerchantsCount = response.data.pagination.totalMerchants;
+            $scope.maxPage = response.data.pagination.totalPages;
             $scope.loading = false;
         }).catch(function(err) {
             $scope.loading = false;
