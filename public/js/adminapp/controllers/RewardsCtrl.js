@@ -102,6 +102,8 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
         $scope.loading = false;
     });
 
+    $scope.merchants = customSort($scope.merchants)
+
     AdminRewardsService.getMerchRewardsCount(!!$scope.selectedMerch ? $scope.selectedMerch._id : '0', query).then(function (result) {
       $scope.rewardsCount = result.data.count;
       $scope.maxPage = Math.ceil($scope.rewardsCount / 10);
@@ -143,6 +145,30 @@ angular.module('RewardsCtrl', []).controller('RewardsController', [
   
       AdminRewardsService.deleteReward(id);
     }
+  }
 
+  const customSort = (merchants) => {
+    // Ensure All option comes first to ease user experiecne 
+    const allIndex = merchants.findIndex(reward => reward.merchantInfo.companyName === 'All')
+    const allOption = merchants[allIndex]
+    // splice All option from merchants array to prevent duplication
+    merchants.splice(allIndex, 1);
+
+    // sort alphabetically
+    merchants.sort((a, b) => {
+      const nameA = a.merchantInfo.companyName.toLowerCase();
+      const nameB = b.merchantInfo.companyName.toLowerCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+    
+      return 0;
+    })
+
+
+    return [ allOption, ...merchants ]
   }
 }]);
